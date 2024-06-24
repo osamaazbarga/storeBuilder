@@ -1,7 +1,62 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+//import { authGuard } from './guards/auth.guard';
+import { NotFoundComponent } from './shared/components/errors/not-found/not-found.component';
+import { HomeComponent as dashboardPrivateComponents } from './private/components/dashboard/home/home.component';
+import { AdminHomeComponent as dashboardAdminComponents} from './private/components/admin/dashboard/home/home.component';
 
-const routes: Routes = [];
+import { ViewComponent as publicComponents } from './public/components/view/view.component';
+import { AuthorizationGuard } from './shared/guards/authorization.guard';
+import { AdminGuard } from './shared/guards/admin.guard';
+import { AdminViewComponent } from './private/components/admin/admin-view/admin-view.component';
+
+
+
+
+const routes: Routes = [
+  // {
+  //   path:'',
+  //   component:HomeComponent
+  // },
+  {
+    path:'dashboard',
+    canActivate:[AuthorizationGuard],
+    runGuardsAndResolvers:'always',
+    component:dashboardPrivateComponents,
+    loadChildren:()=>import('./private/private.module').then(m=>m.PrivateModule)
+  },
+  {
+    path:'admin',
+    runGuardsAndResolvers:'always',
+    canActivate:[AdminGuard],
+    component:AdminViewComponent,
+    loadChildren:()=>import('./private/components/admin/admin.module').then(m=>m.AdminModule)
+  },
+  {
+    path:'',
+    component:publicComponents,
+    loadChildren:()=>import('./public/public.module').then(m=>m.PublicModule)
+  },
+  {
+    path:'not-found',
+    component:NotFoundComponent
+  },
+
+  {
+    path:'**',
+    component:NotFoundComponent,
+    pathMatch:'full'
+  }
+
+  // {
+  //   path:'register',
+  //   component:RegisterComponent
+  // },
+  // {
+  //   path:'user/edit/:id',
+  //   component:EditUserComponent
+  // }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
