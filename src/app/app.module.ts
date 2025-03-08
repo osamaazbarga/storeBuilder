@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,15 +10,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { SharedModule } from './shared/shared.module';
+import { MaterialModule } from './shared/material.module';
+import { ButtonModule } from 'primeng/button';
+import { PrimeNgCompnentsModule } from './shared/prime-ng-compnents.module';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-   
   ],
   imports: [
+    ButtonModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -26,7 +30,9 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
-    SharedModule
+    SharedModule,
+    MaterialModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

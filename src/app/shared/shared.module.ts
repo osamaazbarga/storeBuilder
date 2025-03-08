@@ -8,8 +8,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { NotificaionComponent } from './components/modals/notificaion/notificaion.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
-
-
+import { ButtonModule } from 'primeng/button';
+import { ImportsPrimeNgModule } from './importsPrimeNg.module';
+import { PrimeNgCompnentsModule } from './prime-ng-compnents.module';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -17,20 +20,24 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
     NotFoundComponent,
     ValidationMessagesComponent,
     NotificaionComponent,
-    UserHasRoleDirective
+    UserHasRoleDirective,
+
+    
   ],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ModalModule.forRoot(),
+    MatGridListModule,
+    ModalModule.forRoot()
   ],
   exports:[
     RouterModule,
     ReactiveFormsModule,
     HttpClientModule,
     ValidationMessagesComponent,
+    ImportsPrimeNgModule
 
   ]
 })

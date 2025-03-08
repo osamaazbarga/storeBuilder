@@ -56,6 +56,8 @@ export class UsersService {
     return this.http.get<User>(`${environment.appUrl}/${this.url}/refresh-user-token`,{headers}).pipe(
       map((user:User)=>{
         if(user){
+          console.log(user);
+          
           this.setUser(user)
         }
       })

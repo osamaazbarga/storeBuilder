@@ -9,6 +9,8 @@ import { ViewComponent as publicComponents } from './public/components/view/view
 import { AuthorizationGuard } from './shared/guards/authorization.guard';
 import { AdminGuard } from './shared/guards/admin.guard';
 import { AdminViewComponent } from './private/components/admin/admin-view/admin-view.component';
+import { StoreInfoComponent } from './private/components/storeInformation/store-info/store-info.component';
+import { StoreComponent } from './private/components/store/store/store.component';
 
 
 
@@ -33,9 +35,21 @@ const routes: Routes = [
     loadChildren:()=>import('./private/components/admin/admin.module').then(m=>m.AdminModule)
   },
   {
+    path:'store-info',
+    runGuardsAndResolvers:'always',
+    canActivate:[AuthorizationGuard],
+    component:StoreInfoComponent,
+    loadChildren:()=>import('./private/components/storeInformation/store-info.module').then(m=>m.StoreInfoModule)
+  },
+  {
     path:'',
     component:publicComponents,
     loadChildren:()=>import('./public/public.module').then(m=>m.PublicModule)
+  },
+  {
+    path:':link',
+    component:StoreComponent,
+    loadChildren:()=>import('./private/components/store/store.module').then(m=>m.StoreModule)
   },
   {
     path:'not-found',

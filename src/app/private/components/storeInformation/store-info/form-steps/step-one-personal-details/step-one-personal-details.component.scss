@@ -1,0 +1,157 @@
+@use "/src/variables";
+
+label {
+  @include variables.body-secondary-s;
+}
+
+input {
+  @include variables.body-primary-xs;
+  display: inline-block;
+  width: 100%;
+  height: 2.5rem;
+  border-radius: 0.25rem;
+  border: 0.063rem solid variables.$delicate-lilac-crystal;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0 0.5rem 1rem;
+  color: variables.$bright-manatee !important;
+}
+
+input:focus,
+input:valid {
+  color: variables.$sub-nautical;
+}
+
+.input-details {
+  @include variables.flexSpaceBetween(row);
+  width: 18.437rem;
+}
+
+.error-alert {
+  color: variables.$strawberry-red;
+  text-align: right;
+  font-size: 0.875rem;
+  line-height: 1rem;
+}
+
+@media (min-width: 37.5em) {
+  label {
+    @include variables.body-primary-m;
+    margin-bottom: 0.5rem;
+  }
+
+  input {
+    height: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .input-details {
+    width: 28.125rem;
+  }
+
+  .error-alert {
+    font-weight: 700;
+  }
+}
+
+
+
+mat-card {
+  position: absolute;
+  top: -5rem;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  background-color: variables.$bright-white !important;
+  width: 21.5rem;
+  height: fit-content;
+  padding: 2rem 1.5rem;
+  @include variables.flexSpaceBetween(column);
+  justify-content: space-evenly;
+  box-shadow: 0 1.5rem 2.5rem -1.25rem rgba(0, 0, 0, 0.0951141);
+  border-radius: 0.625rem !important;
+  text-align: left;
+}
+
+.mat-mdc-card-content:last-child {
+  padding-bottom: 0 !important;
+}
+
+.mat-mdc-card-header,
+.mat-mdc-card-content {
+  padding: 0 !important;
+}
+
+
+
+mat-card-title {
+  @include variables.heading-m;
+  margin-bottom: 0.56rem !important;
+}
+
+mat-card-subtitle {
+  @include variables.body-primary-l;
+  margin-bottom: 1rem !important;
+}
+
+
+
+.alert-danger {
+  display: contents;
+}
+
+
+
+mat-card-content>input:hover,
+a:hover,
+mat-toggle:hover,
+mat-checkbox:hover,
+button:hover {
+  cursor: pointer;
+}
+
+@media (min-width: 37.5em) {
+  .container {
+    @include variables.flexCenter(column);
+    width: 100%;
+    height: 100%;
+  }
+
+  mat-card,
+  mat-card-title,
+  mat-card-subtitle,
+  mat-card-content,
+  mat-card-content input,
+  mat-card-content label .mat-mdc-card-content,
+  form,
+  .column {
+    width: 28.125rem;
+  }
+
+  mat-card {
+    position: relative;
+    top: 0rem;
+    padding: 0;
+    box-shadow: none;
+    align-items: flex-start;
+  }
+
+  mat-card-title {
+    font-size: 2rem;
+    line-height: 2.3rem;
+  }
+
+  mat-card-subtitle {
+    margin-bottom: 2.3rem;
+  }
+
+  .mat-mdc-card-content {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+
+
+  .btn {
+    height: 3rem;
+    width: 7.7rem;
+  }
+}

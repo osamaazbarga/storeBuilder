@@ -1,0 +1,242 @@
+@use "/src/variables";
+
+
+span {
+  display: contents;
+  color: variables.$shady-neon-blue;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25rem;
+  letter-spacing: 0;
+
+}
+mat-card-content{
+  height: 16rem;
+  @include variables.flexSpaceBetween(column);
+}
+
+table {
+  height: fit-content;
+  margin: 2rem auto 1.5rem auto;
+  padding: 1rem;
+  width: 18.4rem;
+  background-color: variables.$wash-me;
+  border-radius: .5rem;
+}
+
+mat-divider {
+  color: variables.$bright-manatee;
+  height: 0.125rem;
+  width: 100%;
+  border-radius: 0;
+  opacity: .2;
+
+}
+
+.mat-card-content {
+  height: fit-content;
+}
+
+th {
+  @include variables.flexCenter(column);
+  height: 3rem;
+  width: 100%;
+}
+
+tr {
+  @include variables.flexSpaceBetween(row);
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+}
+
+.type {
+  @include variables.flexSpaceBetween(column);
+  align-items: flex-start;
+  height: 2.438rem;
+  @include variables.body-primary-xs;
+  letter-spacing: 0;
+  color: variables.$sub-nautical;
+
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  color: variables.$bright-manatee;
+  text-decoration-line: underline;
+  @include variables.body-primary-s;
+  letter-spacing: 0;
+  padding-left: 0;
+}
+
+.btn-change:hover {
+  color: variables.$shady-neon-blue;
+}
+
+.cost {
+  @include variables.heading-m;
+  font-size: 0.875rem;
+}
+
+.service,
+.service_cost {
+  margin-top: 0.75rem;
+  color: variables.$bright-manatee;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  letter-spacing: 0;
+}
+
+.service_cost {
+  color: variables.$sub-nautical;
+}
+
+.total {
+  width: 100%;
+  padding: 0 1.5rem;
+  @include variables.flexSpaceBetween(row);
+  color: variables.$bright-manatee;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+
+}
+
+.total .cost {
+  color: variables.$shady-neon-blue;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+
+@media (min-width: 37.5em) {
+
+  table {
+    width: 28.125rem;
+  }
+
+  th {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .type {
+    height: auto;
+  }
+
+  button {
+    margin-top: .5rem;
+    padding-left: 0;
+  }
+
+  tr {
+    padding-bottom: 0;
+  }
+
+}
+
+
+
+
+mat-card {
+  position: absolute;
+  top: -5rem;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  background-color: variables.$bright-white !important;
+  width: 21.5rem;
+  height: fit-content;
+  padding: 2rem 1.5rem;
+  @include variables.flexSpaceBetween(column);
+  justify-content: space-evenly;
+  box-shadow: 0 1.5rem 2.5rem -1.25rem rgba(0, 0, 0, 0.0951141);
+  border-radius: 0.625rem !important;
+  text-align: left;
+}
+
+.mat-mdc-card-content:last-child {
+  padding-bottom: 0 !important;
+}
+
+.mat-mdc-card-header,
+.mat-mdc-card-content {
+  padding: 0 !important;
+}
+
+
+
+mat-card-title {
+  @include variables.heading-m;
+  margin-bottom: 0.56rem !important;
+}
+
+mat-card-subtitle {
+  @include variables.body-primary-l;
+  margin-bottom: 1rem !important;
+}
+
+
+
+.alert-danger {
+  display: contents;
+}
+
+
+
+mat-card-content>input:hover,
+a:hover,
+mat-toggle:hover,
+mat-checkbox:hover,
+button:hover {
+  cursor: pointer;
+}
+
+@media (min-width: 37.5em) {
+  .container {
+    @include variables.flexCenter(column);
+    width: 100%;
+    height: 100%;
+  }
+
+  mat-card,
+  mat-card-title,
+  mat-card-subtitle,
+  mat-card-content,
+  mat-card-content input,
+  mat-card-content label .mat-mdc-card-content,
+  form,
+  .column {
+    width: 28.125rem;
+  }
+
+  mat-card {
+    position: relative;
+    top: 0rem;
+    padding: 0;
+    box-shadow: none;
+    align-items: flex-start;
+  }
+
+  mat-card-title {
+    font-size: 2rem;
+    line-height: 2.3rem;
+  }
+
+  mat-card-subtitle {
+    margin-bottom: 2.3rem;
+  }
+
+  .mat-mdc-card-content {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+
+
+  .btn {
+    height: 3rem;
+    width: 7.7rem;
+  }
+}
