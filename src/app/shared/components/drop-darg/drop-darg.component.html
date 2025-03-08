@@ -1,0 +1,14 @@
+<div [ngClass]="image ? 'drop-zone-no-dashed' : 'drop-zone'"
+     appDragDrop 
+     (fileDropped)="onFilesDropped($event)" 
+     (click)="!image && fileInput.click()" 
+     [class.disabled]="disabled">
+
+  <mat-icon *ngIf="!image" class="cloud_upload">cloud_upload</mat-icon>
+  <p *ngIf="!image">Drag & Drop Image or <span class="browse-text">Browse</span> here</p>
+  
+  <img *ngIf="image" [src]="image" alt="Uploaded Image" class="uploaded-image">
+
+</div>
+
+<input #fileInput type="file" (change)="onFilesSelected($event)" accept="image/*" hidden>

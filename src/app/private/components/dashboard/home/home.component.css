@@ -3,7 +3,7 @@
   grid-template-columns:  16.66% auto;
   height: 100vh; */
   display: grid;
-  grid-template-columns:  16.66% auto;
+  grid-template-columns:  9.66% 90%;
   height: 100vh;
 }
 
@@ -18,3 +18,14 @@
   
   /* Add more styles as needed */
 }
+
+
+
+.container { margin: 30px; }
+/* @media only screen and (max-width: 767px) { .container { max-width: 100%; } }
+@media only screen and (min-width: 768px) { .container { max-width: 740px; } }
+@media only screen and (min-width: 992px) { .container { max-width: 980px; } }
+@media only screen and (min-width: 1200px) { .container { max-width: 1140px; } }
+@media only screen and (min-width: 1400px) { .container { max-width: 1320px; } } */
+
+

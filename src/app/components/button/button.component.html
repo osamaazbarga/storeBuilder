@@ -1,0 +1,14 @@
+<div>
+    <p-button *ngIf="kind=='button'" [label]="label" [icon]="icon"  />
+    <p-splitButton  #ap *ngIf="kind=='splitButton'"
+    [icon]="icon"
+    [label]="label" 
+    [model]="items" 
+    severity="success"
+    (onClick)="click(ap, $event)">
+ 
+    </p-splitButton>
+</div>
+
+<!-- (onClick)="save('info')" 
+    [model]="items" -->

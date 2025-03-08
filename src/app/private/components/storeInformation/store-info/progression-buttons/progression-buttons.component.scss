@@ -1,0 +1,74 @@
+@use '/src/variables';
+
+:host {
+  @include variables.flexCenter(column);
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: variables.$bright-white;
+  height: 100px;
+}
+
+.container {
+  width: 100%;
+  // height: 72px;
+  width: 21.5rem;
+  @include variables.flexSpaceBetween(row);
+  padding: 0;
+
+}
+
+
+.btn-next,
+.btn-confirm {
+  //margin: 1rem 0 1rem auto;
+  margin-right: auto;
+}
+
+.btn-confirm {
+  //background-color: variables.$shady-neon-blue;
+}
+
+.btn {
+  display: inline-block;
+  min-height: 2.5rem;
+  min-width: 6rem;
+  background-color: variables.$sub-nautical;
+  color: variables.$bright-white;
+  @include variables.body-primary-xs();
+  border: none;
+  border-radius: .25rem;
+}
+
+
+.btn-next:disabled, .btn-confirm:disabled{
+  background-color: variables.$lavender-blue-shadow;
+}
+
+@media (min-width: 37.5em) {
+  :host {
+    width: 28.125em;
+    position: relative;
+
+  }
+
+  .container {
+    width: 100%;
+    padding: 0;
+  }
+
+  .btn-next,
+  .btn-confirm {
+    //margin: 0 0 0 auto;
+  }
+
+  .error{
+    font-size: large;
+    color: red;
+    font-weight: 600;
+  }
+}
+
+
+
+

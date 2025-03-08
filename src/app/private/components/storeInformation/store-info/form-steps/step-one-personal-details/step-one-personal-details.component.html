@@ -1,0 +1,55 @@
+<ng-container [formGroup]="stepForm">
+  <mat-card class="step-one" style="text-align: right">
+    <mat-card-header>
+      <mat-card-title-group class="title">
+        <mat-card-title style="text-align: right" role="heading"
+                        aria-level="1">معلومات المتجر</mat-card-title>
+        <mat-card-subtitle role="heading"
+                           aria-level="2"
+                           role="heading"
+                           aria-level="2">ادخل اسم المتجر والمعلومات الخاصه بمتجرك</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content class="form-controls">
+      <!-- name input -->
+      <div class="input-details">
+        <label for="storeName">اسم المتجر</label>
+        <label for="error"
+               id="error"
+               *ngIf="this.stepForm.controls['storeName'].invalid && this.stepForm.controls['storeName'].touched"
+               class="error-alert">Store Name is required</label>
+      </div>
+      <input type="text"
+             matInput
+             id="storeName"
+             formControlName="storeName"
+             placeholder="ادخل اسم متجرك" />
+      <!-- email input -->
+      <div class="input-details">
+        <label for="storeLink">رابط المتجر</label>
+        <label for="error"
+               *ngIf="this.stepForm.controls['storeLink'].invalid && this.stepForm.controls['storeLink'].touched"
+               class="error-alert">Store Link is required</label>
+      </div>
+      <input type="text"
+             name="storeLink"
+             id="storeLink"
+             placeholder="store-link"
+             formControlName="storeLink"
+             required>
+      <!-- phone number input -->
+      <!-- <div class="input-details">
+        <label for="phone">Phone Number</label>
+        <label for="error"
+               *ngIf="this.stepForm.controls['phone'].invalid && this.stepForm.controls['phone'].touched"
+               class="error-alert">Phone number is required</label>
+      </div> -->
+      <!-- <input type="text"
+             name="phone"
+             id="phone"
+             placeholder="e.g. +1 234 567 890"
+             formControlName="phone"
+             required> -->
+    </mat-card-content>
+  </mat-card>
+</ng-container>

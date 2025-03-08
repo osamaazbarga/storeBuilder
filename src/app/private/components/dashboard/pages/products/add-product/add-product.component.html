@@ -1,0 +1,142 @@
+<div class="container">
+    <h2>Add New Product</h2>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" autocomplete="off">
+       <div>
+        <input type="text" placeholder="Title" formControlName="title" class="form-control" 
+        [class.is-invalid]="productForm.get('title')?.errors">
+        <label for="title">Title</label>
+        <span class="text-danger" *ngIf="productForm.get('title')?.hasError('required')">
+            Title is required
+        </span>
+       </div>
+       <div>
+        <input type="text" placeholder="Description" formControlName="description" class="form-control" 
+        [class.is-invalid]="productForm.get('description')?.errors">
+        <label for="description">Description</label>
+        <span class="text-danger" *ngIf="productForm.get('description')?.hasError('required')">
+            Description is required
+        </span>
+       </div>
+       <div>
+        <input type="number" placeholder="Price" formControlName="price" class="form-control" 
+        [class.is-invalid]="productForm.get('price')?.errors">
+        <label for="price">Price</label>
+        <span class="text-danger" *ngIf="productForm.get('price')?.hasError('required')">
+            Price is required
+        </span>
+       </div>
+       <div>
+        <input type="text" placeholder="Picture Url" formControlName="pictureUrl" class="form-control" 
+        [class.is-invalid]="productForm.get('pictureUrl')?.errors">
+        <label for="pictureUrl">Picture Url</label>
+        <span class="text-danger" *ngIf="productForm.get('pictureUrl')?.hasError('required')">
+            PictureUrl is required
+        </span>
+       </div>
+       <div>
+        <input type="number" placeholder="Quantity" formControlName="quantity" class="form-control" 
+        [class.is-invalid]="productForm.get('quantity')?.errors">
+        <label for="quantity">Quantity</label>
+        <span class="text-danger" *ngIf="productForm.get('quantity')?.hasError('required')">
+            Quantity is required
+        </span>
+       </div>
+
+       <div class="uploadPic">
+        <div *ngFor="let progressInfo of progressInfos" class="mb-2">
+            <span>{{ progressInfo.fileName }}</span>
+            <div class="progress">
+              <div
+                class="progress-bar progress-bar-info progress-bar-striped"
+                role="progressbar"
+                attr.aria-valuenow="{{ progressInfo.value }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [ngStyle]="{ width: progressInfo.value + '%' }"
+              >
+                {{ progressInfo.value }}%
+              </div>
+            </div>
+          </div>
+        <div class="row">
+            <div class="col-8">
+              <label class="btn btn-default p-0">
+                <input type="file" accept="image/*" multiple (change)="selectFiles($event)" />
+              </label>
+            </div>
+          
+            <div class="col-4">
+              <button
+                class="btn btn-success btn-sm"
+                
+                (click)="uploadFiles()"
+              >
+                Upload
+              </button>
+            </div>
+          </div>
+
+
+          <div>
+            <img *ngFor='let preview of previews' [src]="preview" class="preview">
+          </div>
+          
+          <div *ngIf="messageUpload.length" class="alert alert-secondary my-3" role="alert">
+            <ul *ngFor="let msg of messageUpload; let i = index">
+              <li>{{ msg }}</li>
+            </ul>
+          </div>
+          
+          <div class="card mt-3">
+            <div class="card-header">List of Images</div>
+            <ul
+              class="list-group list-group-flush"
+              *ngFor="let image of imageInfos | async"
+            >
+              <li class="list-group-item">
+                <p><a href="{{ image.url }}">{{ image.name }}</a></p>
+                <img src="{{ image.url }}" alt="{{ image.name }}" height="80px" />
+              </li>
+            </ul>
+          </div>
+
+
+
+          <mat-grid-list gutterSize="10px" cols="3" rowHeight="2:2">
+            <mat-grid-tile *ngFor="let img of images; let i = index">
+              <app-drop-darg 
+                [image]="img.src"
+                [disabled]="img.src !== null" 
+                [isCoverImage]="coverImageIndex == i" 
+                (imageUploaded)="onImageUploaded($event)" 
+                (imageRemoved)="onImageRemoved(i)" >
+              </app-drop-darg>
+              <button class="starBtn" mat-mini-fab color="primary" *ngIf="img.src&&i !== coverImageIndex" (click)="setCover(i)">
+                <mat-icon>star_border</mat-icon>
+              </button>
+              <button class="starBtn" mat-mini-fab color="primary" *ngIf="img.src&&i === coverImageIndex" (click)="deleteCover(i)">
+                <mat-icon class="goldStar">star</mat-icon>
+              </button>
+              
+              <mat-grid-tile-footer *ngIf="img.src">
+                <div *ngIf="img.src && i === coverImageIndex">Cover</div>
+                <button class="delete-button" (click)="onImageRemoved(i)"><mat-icon>delete</mat-icon></button>
+              </mat-grid-tile-footer>
+            </mat-grid-tile>
+          </mat-grid-list>
+          
+
+          
+          <!-- <mat-grid-list cols="3" rowHeight="2:2">
+            <mat-grid-tile><app-drop-darg (imageUploaded)="onImageUploaded($event)"></app-drop-darg></mat-grid-tile>
+            <mat-grid-tile><app-drop-darg (imageUploaded)="onImageUploaded($event)"></app-drop-darg></mat-grid-tile>
+            <mat-grid-tile><app-drop-darg (imageUploaded)="onImageUploaded($event)"></app-drop-darg></mat-grid-tile>
+            <mat-grid-tile><app-drop-darg (imageUploaded)="onImageUploaded($event)"></app-drop-darg></mat-grid-tile>
+            <mat-grid-tile><app-drop-darg (imageUploaded)="onImageUploaded($event)"></app-drop-darg></mat-grid-tile>
+            <mat-grid-tile><app-drop-darg (imageUploaded)="onImageUploaded($event)"></app-drop-darg></mat-grid-tile>
+
+          </mat-grid-list> -->
+       </div>
+       <button type="submit">Add Product</button>
+    </form>
+ </div>

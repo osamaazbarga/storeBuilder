@@ -1,0 +1,71 @@
+mat-grid-tile {
+    background: #e7e7e7;
+    
+}
+
+@media (max-width: 600px) {
+    .responsive-grid {
+      grid-template-columns: repeat(1, 1fr);
+      row-gap: 10px;
+    }
+  }
+  
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .responsive-grid {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 15px;
+    }
+  }
+  
+  @media (min-width: 1025px) {
+    .responsive-grid {
+      grid-template-columns: repeat(3, 1fr);
+      row-gap: 20px;
+    }
+  }
+
+
+  .starBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background:none;
+    border: none;
+  }
+
+  .goldStar{
+    color: #FFD700;
+  }
+  .cover-label {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 5px;
+    font-size: 12px;
+    border-radius: 3px;
+  }
+
+  &.cover {
+    border: 3px solid #ff9800;
+  }
+
+  .delete-button {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: red;
+  }
+  
+  .delete-button mat-icon {
+    font-size: 24px;
+  }
+  
+  .delete-button:hover {
+    opacity: 0.7;
+  }

@@ -1,0 +1,48 @@
+::ng-deep  .p-button .p-button-icon-left {
+    /* margin-right: 0.5rem; */
+    margin-left: 0.5rem;
+}
+a {
+
+    text-decoration: none;
+  
+ 
+  }
+
+::ng-deep  .p-tieredmenu{
+    /* left: -40px !important; */
+    a {
+
+        text-decoration: none !important;
+      
+        /* &:hover {
+          
+        } */
+    }
+    li:hover{
+        width: 200px;
+    }
+     .p-menuitem-content .p-menuitem-link .p-menuitem-icon {
+        
+        margin-left: 0.5rem;
+    }
+    
+    .ng-trigger-overlayAnimation {
+        background: #ffffff;
+        border: 0 none;
+
+/*         
+        background-color: red !important;
+        z-index: 1002;
+    transform-origin: center top;
+    top: 50px; */
+    left: -40px!important;
+    
+
+    }
+
+}
+
+::ng-deep .p-tieredmenusub{
+    
+}
