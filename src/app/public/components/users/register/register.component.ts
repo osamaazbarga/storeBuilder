@@ -103,8 +103,8 @@ export class RegisterComponent implements OnInit {
     this.registerForm=this.formBuilder.group({
       email:new FormControl('',[Validators.required,Validators.pattern('^([0-9a-zA-Z]+[-._+&amp;])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$')]),
       firstname:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(15)]),
-      lastname:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(15)]),
-      merchant:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(60)]),
+      // lastname:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(15)]),
+      // merchant:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(60)]),
       phone:new FormControl('',[Validators.required,Validators.pattern(/^\+?\d{10,15}$/)]),
       password:new FormControl('',[Validators.required,Validators.minLength(6),Validators.maxLength(15)]),
       passwordConfirm:new FormControl('',[Validators.required,Validators.minLength(6),Validators.maxLength(15)])

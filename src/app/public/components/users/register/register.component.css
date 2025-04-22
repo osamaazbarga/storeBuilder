@@ -31,3 +31,7 @@ mat-form-field{
     display: flex;
     justify-content: flex-end;
 }
+
+.btn-sign{
+    background: -webkit-linear-gradient(right, #a445b2, #fa4299);
+  }

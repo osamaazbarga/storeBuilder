@@ -27,57 +27,32 @@
             <a [routerLink]="['/login']">Go TO Login</a>
         </div> -->
 
-        <div class="col-12 col-lg-5">
+        <div class="col-12">
             <main class="form-signin">
-                <mat-card-title>Register</mat-card-title>
+
                 <!-- <mat-card-content> -->
                     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" autocomplete="off">
-                        <div class="form-floating mb-3">
-                            <input type="text" placeholder="Merchant" formControlName="merchant" class="form-control" 
-                            [class.is-invalid]="submitted &&registerForm.get('merchant')?.errors">
-                            <label for="merchant">Merchant</label>
-                            <span class="text-danger" *ngIf=" submitted && registerForm.get('merchant')?.hasError('required')">
-                                Merchant is required
-                            </span>
-                            <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
-                            <mat-error *ngIf="email.touched&&email.hasError('email')">Email must be valid</mat-error> -->
-
-                        </div>
-                       
-                        <div class="form-floating mb-3">
-                            <input type="text" placeholder="FirstName" formControlName="firstname" class="form-control" 
+                        <label for="firstname">{{ 'FULLNAME' | translate }}</label>
+                        <div class="">
+                            <input type="text" placeholder="{{ 'ENTERFULLNAME' | translate }}" formControlName="firstname" class="form-control" 
                             [class.is-invalid]="submitted &&registerForm.get('firstname')?.errors">
-                            <label for="firstname">First Name</label>
-                            <span class="text-danger" *ngIf=" submitted && registerForm.get('firstname')?.hasError('required')">
+                            
+                            <span class="text-danger" *ngIf=" registerForm.get('firstname')?.hasError('required')">
                                 First Name is required
                             </span>
                             <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
                             <mat-error *ngIf="email.touched&&email.hasError('email')">Email must be valid</mat-error> -->
 
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" placeholder="LastName" formControlName="lastname" class="form-control" 
-                            [class.is-invalid]="submitted &&registerForm.get('lastname')?.errors">
-                            <label for="lastname">First Name</label>
-                            <span class="text-danger" *ngIf=" submitted && registerForm.get('lastname')?.hasError('required')">
-                                First Name is required
-                            </span>
-                            <!-- <span class="text-danger" *ngIf=" submitted && registerForm.get('lastname')?.hasError('pattern')">
-                                Invalid First Name
-                            </span> -->
-                            <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
-                            <mat-error *ngIf="email.touched&&email.hasError('email')">Email must be valid</mat-error> -->
 
-                        </div>
-
-                        <div class="form-floating mb-3">
-                            <input type="email" placeholder="Email" formControlName="email" class="form-control" 
+                        <div class="">
+                            <label for="email">{{ 'EMAIL' | translate }}</label>
+                            <input type="email" placeholder="{{ 'ENTEREMAIL' | translate }}" formControlName="email" class="form-control" 
                             [class.is-invalid]="submitted &&registerForm.get('email')?.errors">
-                            <label for="email">Email</label>
                             <span class="text-danger" *ngIf=" submitted && registerForm.get('email')?.hasError('required')">
                                 Email is required
                             </span>
-                            <span class="text-danger" *ngIf=" submitted && registerForm.get('email')?.hasError('pattern')">
+                            <span class="text-danger" *ngIf=" registerForm.get('email')?.hasError('pattern')">
                                 Invalid email address
                             </span>
                             <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
@@ -85,37 +60,37 @@
 
                         </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="text" placeholder="Phone" formControlName="phone" class="form-control" 
+                        <div class="">
+                            <label for="phone">{{ 'PHONE' | translate }}</label>
+                            <input type="text" placeholder="{{ 'ENTERPHONE' | translate }}" formControlName="phone" class="form-control" 
                             [class.is-invalid]="submitted &&registerForm.get('phone')?.errors">
-                            <label for="phone">Phone Number</label>
-                            <span class="text-danger" *ngIf=" submitted && registerForm.get('phone')?.hasError('required')">
+                            <span class="text-danger" *ngIf=" registerForm.get('phone')?.hasError('required')">
                                 Phone Number is required
                             </span>
                             <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
                             <mat-error *ngIf="email.touched&&email.hasError('email')">Email must be valid</mat-error> -->
 
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" placeholder="Password" formControlName="password" class="form-control"
+                        <div class="">
+                            <label for="password">{{ 'PASSWORD' | translate }}</label>
+                            <input type="password" placeholder="{{ 'ENTERPASSWORD' | translate }}" formControlName="password" class="form-control"
                             [class.is-invalid]="submitted &&registerForm.get('password')?.errors">
-                            <label for="password">Password</label>
                             <!-- <mat-error *ngIf="password.touched&&password.hasError('required')">Password is required</mat-error> -->
-                            <span class="text-danger" *ngIf=" submitted && registerForm.get('password')?.hasError('required')">
+                            <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('required')">
                                 Password is required
                             </span>
                             <span class="text-danger" *ngIf=" submitted && registerForm.get('password')?.hasError('minLength')&&registerForm.get('password')?.hasError('maxLength')">
                                 password must be at least 6 ,and maximum 15 characters
                             </span>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" placeholder="Password Confirm" formControlName="passwordConfirm" class="form-control"
+                        <div class="">
+                            <label for="passwordConfirm">{{ 'CONFIRMPASSWORD' | translate }}</label>
+                            <input type="password" placeholder="{{ 'ENTERCONFIRMPASSWORD' | translate }}" formControlName="passwordConfirm" class="form-control"
                             [class.is-invalid]="submitted &&registerForm.get('passwordConfirm')?.errors">
-                            <label for="passwordConfirm">Password Confirm</label>
-                            <span class="text-danger" *ngIf=" submitted && registerForm.get('passwordConfirm')?.hasError('required')">
+                            <span class="text-danger" *ngIf=" registerForm.get('passwordConfirm')?.hasError('required')">
                                 Password Confirm is required
                             </span>
-                            <span class="text-danger" *ngIf=" submitted && registerForm.get('passwordConfirm')?.hasError('minlength')&&registerForm.get('passwordConfirm')?.hasError('maxlength')">
+                            <span class="text-danger" *ngIf=" registerForm.get('passwordConfirm')?.hasError('minlength')&&registerForm.get('passwordConfirm')?.hasError('maxlength')">
                                 password must be at least 6 ,and maximum 15 characters
                             </span>
                         </div>
@@ -124,12 +99,14 @@
 
                         </app-validation-messages>
                     </div>
-                        <mat-error *ngIf="passwordConfirm.touched&&registerForm.hasError('passwordNotMatching')">Password not matching</mat-error>
+                        <!-- <mat-error *ngIf="passwordConfirm.touched&&registerForm.hasError('passwordNotMatching')">Password not matching</mat-error> -->
                         <div class="d-grid mt-4 px-1">
-                            <button class="btn btn-lg btn-info" type="submit" >
-                                Register
+                            <button class="btn btn-lg btn-sign" type="submit">
+                                {{ 'SIGNUP' | translate }}
                             </button>
+
                         </div>
+                        
                     </form>
                     <div class="row d-flex justify-content-center mt-3">
                         <div class="col-4">

@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit{
   }
   ngOnInit():void{
     this.initializeForm();
+    
     this.initializeGoogleButton();
   }
   ngAfterViewInit(){

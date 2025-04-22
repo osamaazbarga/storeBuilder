@@ -1,0 +1,41 @@
+<div class="auth-container">
+  <div class="register-login-col">
+    <div class="register-login-container">
+      <div class="auth-tabs">
+
+        <div class="border">
+        <button [class.active]="activeTab === 'login'" class="slide" (click)="activeTab = 'login'">{{ 'LOGIN' | translate }}</button>
+        <button [class.active]="activeTab === 'register'" class="slide" (click)="activeTab = 'register'">{{ 'SIGNUP' | translate }}</button>
+      </div>
+   </div>
+    
+      <div class="auth-content">
+        <form *ngIf="activeTab === 'login'" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <!-- <input formControlName="email" type="email" placeholder="{{ 'EMAIL' | translate }}" />
+          <input formControlName="password" type="password" placeholder="كلمة المرور" />
+          <button type="submit">تسجيل الدخول</button> -->
+          <app-login></app-login>
+        </form>
+    
+        <form *ngIf="activeTab === 'register'" [formGroup]="registerForm" (ngSubmit)="onRegister()">
+          <!-- <input formControlName="name" type="text" placeholder="الاسم الكامل" />
+          <input formControlName="email" type="email" placeholder="البريد الإلكتروني" />
+          <input formControlName="password" type="password" placeholder="كلمة المرور" />
+          <input formControlName="confirmPassword" type="password" placeholder="تأكيد كلمة المرور" />
+          <button type="submit">إنشاء حساب</button> -->
+          <app-register></app-register>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="free-col">
+    <div class="free-container">
+      <app-language-selector></app-language-selector>
+    </div>
+  </div>
+
+  
+</div>
+
+
