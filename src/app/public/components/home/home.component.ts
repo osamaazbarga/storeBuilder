@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TblUser } from 'src/app/models/TblUser';
+import { StoreService } from 'src/app/services/store.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -12,12 +13,19 @@ export class HomeComponent {
 
   users:TblUser[]=[]
   userToEdit?:TblUser
+  isStoreView = false;
 
-  constructor(private userServies:UsersService){
+  constructor(private userServies:UsersService,private storeService:StoreService){
   }
   ngOnInit():void{
 
+    const hostname = window.location.hostname; // test12.localtest.me
+    const parts = hostname.split('.');
 
+    // If subdomain is present and not "www" or "localhost"
+    if (parts.length > 2 && parts[0] !== 'www' && parts[0] !== 'localhost') {
+      this.isStoreView = true;
+    }
     // this.superEcommereServies.getSuperEcommeres().subscribe((result:SuperEcommere[])=>{
     //   this.heroes=result
     // });
