@@ -13,6 +13,7 @@ import { ImportsPrimeNgModule } from './importsPrimeNg.module';
 import { PrimeNgCompnentsModule } from './prime-ng-compnents.module';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
+import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
     ValidationMessagesComponent,
     NotificaionComponent,
     UserHasRoleDirective,
+    LanguageSelectorComponent
 
     
   ],
@@ -37,7 +39,8 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
     HttpClientModule,
     ValidationMessagesComponent,
-    ImportsPrimeNgModule
+    ImportsPrimeNgModule,
+    LanguageSelectorComponent,
 
   ]
 })
