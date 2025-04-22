@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule,HttpBackend } from '@angular/common/http';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,10 +12,23 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './shared/material.module';
 import { ButtonModule } from 'primeng/button';
-import { PrimeNgCompnentsModule } from './shared/prime-ng-compnents.module';
 import {MatGridListModule} from '@angular/material/grid-list';
 
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageService } from './services/language.service';
+import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
 
+
+
+export function HttpLoaderFactory(http: HttpBackend) {
+  
+  return new MultiTranslateHttpLoader(http, [
+     { prefix: './assets/i18n/', suffix: '/nav.json' },
+    { prefix: './assets/i18n/', suffix: '/auth.json' },
+  ]);
+  
+}
 
 @NgModule({
   declarations: [
@@ -32,9 +45,21 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatSnackBarModule,
     SharedModule,
     MaterialModule,
-    MatGridListModule
+    
+    MatGridListModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpBackend]
+      }
+    }),
+
+  
   ],
-  providers: [],
+  providers: [LanguageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

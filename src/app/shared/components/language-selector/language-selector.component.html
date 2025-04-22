@@ -1,0 +1,10 @@
+<div class="dropdown">
+     <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+        <!-- <span>{{ getFlag(currentLang) }}</span> -->
+         {{ getLabel(currentLang) }} </button>
+          <ul class="dropdown-menu"> <li *ngFor="let lang of languages">
+             <button class="dropdown-item" (click)="changeLanguage(lang.code)">
+                 <!-- <span>{{ lang.flag }}</span> -->
+                  {{ lang.label }} </button>
+                 </li> </ul> 
+    </div>
