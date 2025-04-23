@@ -14,6 +14,10 @@ export class AuthComponent {
   registerForm: FormGroup;
 
   constructor(private fb: FormBuilder,private languageService: LanguageService) {
+    if(window.location.pathname.includes("register")){
+      this.activeTab='register'
+    }
+    
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
