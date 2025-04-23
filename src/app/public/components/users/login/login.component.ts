@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit{
     })
   }
   loginUser(loginData:any){
-    this.submitted=true;
+    this.submitted=false;
     this.errorMessages=[]
     // this.usersService
     //   .createUser(User).pipe(first() ,tap(()=>this.router.navigate(['/login'])))
@@ -81,6 +81,7 @@ export class LoginComponent implements OnInit{
         // this.router.navigateByUrl('/login')
       },
       error:error=>{
+        this.submitted=true;
         if(error.error.errors){
           this.errorMessages=error.error.errors
         }
@@ -93,8 +94,13 @@ export class LoginComponent implements OnInit{
   }
 
   onSubmit() {
+    this.submitted=false;
     if(this.loginForm.valid){
+      this.submitted=false;
       this.loginUser(this.loginForm.value)
+    }
+    else{
+      this.submitted=true;
     }
     this.loading = true;  
   }

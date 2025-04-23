@@ -10,7 +10,7 @@
                     <input formControlName="userName" type="text" placeholder="{{ 'ENTEREMAIL' | translate }}" class="form-control"
                     [class.is-invalid]="submitted &&loginForm.get('userName')?.errors">
                     <span class="text-danger" *ngIf=" submitted && loginForm.get('userName')?.hasError('required')">
-                        Email is required
+                        {{ 'errorMessage.EMAILREQ' | translate }}
                     </span>
                 </div>
                 <label for="password">{{ 'PASSWORD' | translate }}</label>
@@ -18,16 +18,16 @@
                     <input formControlName="password" type="password" placeholder="{{ 'ENTERPASSWORD' | translate }}" class="form-control"
                     [class.is-invalid]="submitted &&loginForm.get('password')?.errors">
                     <span class="text-danger" *ngIf=" submitted && loginForm.get('password')?.hasError('required')">
-                        Password is required
+                        {{ 'errorMessage.PASSWORDREQ' | translate }}
                     </span>
                 </div>
                 <div class="form-floating" *ngIf="errorMessages.length>0">
                     <app-validation-messages [errorMessages]="errorMessages">
 
                     </app-validation-messages>
-                    <a class="btn btn-link" (click)="resendEmailConfirmationLink()" *ngIf="errorMessages[0].includes('Please confirm your email')">
+                    <!-- <a class="btn btn-link" (click)="resendEmailConfirmationLink()" *ngIf="errorMessages[0]?.includes('Please confirm your email')">
                         Click here to resend email confirmation link in case you didn't receive it 
-                    </a>
+                    </a> -->
                 </div>
 
                 <div class="d-grid mt-4 px-1">
@@ -44,7 +44,7 @@
                 <div class="col-4">
                     <hr>
                 </div>
-                <div class="col-4 text-center">Or login using</div>
+                <div class="col-4 text-center">{{ 'USING' | translate }}</div>
                 <div class="col-4">
                     <hr>
                 </div>

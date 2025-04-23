@@ -32,14 +32,30 @@
 
                 <!-- <mat-card-content> -->
                     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" autocomplete="off">
-                        <label for="firstname">{{ 'FULLNAME' | translate }}</label>
+                        <label for="fullname">{{ 'FULLNAME' | translate }}</label>
                         <div class="">
-                            <input type="text" placeholder="{{ 'ENTERFULLNAME' | translate }}" formControlName="firstname" class="form-control" 
-                            [class.is-invalid]="submitted &&registerForm.get('firstname')?.errors">
+                            <input type="text" placeholder="{{ 'ENTERFULLNAME' | translate }}" formControlName="fullname" class="form-control" 
+                            [class.is-invalid]="submitted &&registerForm.get('fullname')?.errors">
                             
-                            <span class="text-danger" *ngIf=" registerForm.get('firstname')?.hasError('required')">
-                                First Name is required
+                            <span class="text-danger" *ngIf="submitted && registerForm.get('fullname')?.hasError('required')">
+                                {{ 'errorMessage.FULLNAMEREQ' | translate }}
                             </span>
+                            <ng-container *ngIf="registerForm.get('fullname')?.touched">
+                                <span class="text-danger" *ngIf="registerForm.get('fullname')?.hasError('pattern'); else minlengthErr">
+                                    {{ 'errorMessage.NOTCONTAINNUMANDSSYMBOLS' | translate }}
+                                </span>
+                                <ng-template #minlengthErr>
+                                  <span class="text-danger" *ngIf="registerForm.get('fullname')?.hasError('minlength'); else maxlengthErr">
+                                    {{ 'errorMessage.FULLNAMELESS3LETTERS' | translate }}
+                                  </span>
+                                </ng-template>
+                                <ng-template #maxlengthErr>
+                                  <span class="text-danger" *ngIf="registerForm.get('fullname')?.hasError('maxlength')">
+                                    more than 50
+                                  </span>
+                                </ng-template>
+                              </ng-container>
+                            
                             <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
                             <mat-error *ngIf="email.touched&&email.hasError('email')">Email must be valid</mat-error> -->
 
@@ -50,10 +66,10 @@
                             <input type="email" placeholder="{{ 'ENTEREMAIL' | translate }}" formControlName="email" class="form-control" 
                             [class.is-invalid]="submitted &&registerForm.get('email')?.errors">
                             <span class="text-danger" *ngIf=" submitted && registerForm.get('email')?.hasError('required')">
-                                Email is required
+                                {{ 'errorMessage.EMAILREQ' | translate }}
                             </span>
-                            <span class="text-danger" *ngIf=" registerForm.get('email')?.hasError('pattern')">
-                                Invalid email address
+                            <span class="text-danger" *ngIf="registerForm.get('email')?.touched&&registerForm.get('email')?.hasError('pattern')">
+                                {{ 'errorMessage.INVALIDEMAIL' | translate }}
                             </span>
                             <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
                             <mat-error *ngIf="email.touched&&email.hasError('email')">Email must be valid</mat-error> -->
@@ -64,8 +80,11 @@
                             <label for="phone">{{ 'PHONE' | translate }}</label>
                             <input type="text" placeholder="{{ 'ENTERPHONE' | translate }}" formControlName="phone" class="form-control" 
                             [class.is-invalid]="submitted &&registerForm.get('phone')?.errors">
-                            <span class="text-danger" *ngIf=" registerForm.get('phone')?.hasError('required')">
-                                Phone Number is required
+                            <span class="text-danger" *ngIf="submitted && registerForm.get('phone')?.hasError('required')">
+                                {{ 'errorMessage.PHONENUMREQ' | translate }}
+                            </span>
+                            <span class="text-danger" *ngIf="registerForm.get('phone')?.touched&&registerForm.get('phone')?.hasError('pattern')">
+                                {{ 'errorMessage.INVALIDPHONE' | translate }}
                             </span>
                             <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
                             <mat-error *ngIf="email.touched&&email.hasError('email')">Email must be valid</mat-error> -->
@@ -76,23 +95,38 @@
                             <input type="password" placeholder="{{ 'ENTERPASSWORD' | translate }}" formControlName="password" class="form-control"
                             [class.is-invalid]="submitted &&registerForm.get('password')?.errors">
                             <!-- <mat-error *ngIf="password.touched&&password.hasError('required')">Password is required</mat-error> -->
-                            <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('required')">
-                                Password is required
+                            <span class="text-danger" *ngIf="submitted && registerForm.get('password')?.hasError('required')">
+                                {{ 'errorMessage.PASSWORDREQ' | translate }}
                             </span>
-                            <span class="text-danger" *ngIf=" submitted && registerForm.get('password')?.hasError('minLength')&&registerForm.get('password')?.hasError('maxLength')">
-                                password must be at least 6 ,and maximum 15 characters
+                            <span class="text-danger" *ngIf="registerForm.get('password')?.touched && (registerForm.get('password')?.hasError('minlength') || registerForm.get('password')?.hasError('maxlength'))">
+                                {{ 'errorMessage.PASSWORDMORE8' | translate }}
                             </span>
                         </div>
                         <div class="">
                             <label for="passwordConfirm">{{ 'CONFIRMPASSWORD' | translate }}</label>
                             <input type="password" placeholder="{{ 'ENTERCONFIRMPASSWORD' | translate }}" formControlName="passwordConfirm" class="form-control"
                             [class.is-invalid]="submitted &&registerForm.get('passwordConfirm')?.errors">
-                            <span class="text-danger" *ngIf=" registerForm.get('passwordConfirm')?.hasError('required')">
-                                Password Confirm is required
+                            <span class="text-danger" *ngIf="submitted && registerForm.get('passwordConfirm')?.hasError('required')">
+                                {{ 'errorMessage.CONFIRMPASSWORDREQ' | translate }}
                             </span>
-                            <span class="text-danger" *ngIf=" registerForm.get('passwordConfirm')?.hasError('minlength')&&registerForm.get('passwordConfirm')?.hasError('maxlength')">
-                                password must be at least 6 ,and maximum 15 characters
-                            </span>
+                            <ng-container *ngIf="registerForm.get('passwordConfirm')?.touched">
+                                <span class="text-danger" *ngIf="(registerForm.get('passwordConfirm')?.value != registerForm.get('password')?.value); else minlengthErr">
+                                    {{ 'errorMessage.PASSWORDNOTEQUAL' | translate }}
+                                </span>
+                                <ng-template #minlengthErr>
+                                  <span class="text-danger" *ngIf="registerForm.get('passwordConfirm')?.hasError('minlength'); else maxlengthErr">
+                                    less than 3
+                                    {{ 'errorMessage.PASSWORDMORE8' | translate }}
+                                  </span>
+                                </ng-template>
+                                <ng-template #maxlengthErr>
+                                  <span class="text-danger" *ngIf="registerForm.get('passwordConfirm')?.hasError('maxlength')">
+                                    more than 50
+                                  </span>
+                                </ng-template>
+                              </ng-container>
+                            
+                            
                         </div>
                        <div class="form-floating" *ngIf="errorMessages.length>0">
                         <app-validation-messages [errorMessages]="errorMessages">
@@ -112,7 +146,7 @@
                         <div class="col-4">
                             <hr>
                         </div>
-                        <div class="col-4 text-center">Or signup using</div>
+                        <div class="col-4 text-center">{{ 'USING' | translate }}</div>
                         <div class="col-4">
                             <hr>
                         </div>

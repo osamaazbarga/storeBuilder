@@ -102,12 +102,12 @@ export class RegisterComponent implements OnInit {
   initializeForm():void{
     this.registerForm=this.formBuilder.group({
       email:new FormControl('',[Validators.required,Validators.pattern('^([0-9a-zA-Z]+[-._+&amp;])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$')]),
-      firstname:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(15)]),
+      fullname:new FormControl('',[Validators.required,Validators.pattern(/^[\p{L} ]+$/u),Validators.minLength(3)]),
       // lastname:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(15)]),
       // merchant:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(60)]),
       phone:new FormControl('',[Validators.required,Validators.pattern(/^\+?\d{10,15}$/)]),
-      password:new FormControl('',[Validators.required,Validators.minLength(6),Validators.maxLength(15)]),
-      passwordConfirm:new FormControl('',[Validators.required,Validators.minLength(6),Validators.maxLength(15)])
+      password:new FormControl('',[Validators.required,Validators.minLength(8)]),
+      passwordConfirm:new FormControl('',[Validators.required,Validators.minLength(8)])
     })
   }
 
@@ -133,11 +133,13 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.submitted=false
 
     if(this.registerForm.valid){
       this.createUser(this.registerForm.value)
     }
+    else
+    this.submitted=true
 
 
    
