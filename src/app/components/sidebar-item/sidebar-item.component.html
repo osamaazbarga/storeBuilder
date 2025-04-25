@@ -1,0 +1,14 @@
+<li class="nav-item">
+  <a
+    *ngIf="!item.kind"
+    class="nav-link-new"
+    [routerLink]="item.route"
+    routerLinkActive="active bg-gradient-dark text-white rounded-3"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <i class="material-symbols-rounded opacity-5">{{ item.icon }}</i>
+    <span class="nav-link-text ms-1">{{ item.labelKey|translate }}</span>
+  </a>
+  <h6 *ngIf="item.kind" class=" nav-link-new ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">{{ item.labelKey|translate }}</h6>
+  
+</li>

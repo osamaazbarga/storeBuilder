@@ -19,6 +19,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MaterialModule } from '../shared/material.module';
 import { DropDargComponent } from '../shared/components/drop-darg/drop-darg.component';
 import { DragDropDirective } from '../shared/directives/drag-drop.directive';
+import { SidebarItemComponent } from '../components/sidebar-item/sidebar-item.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { DragDropDirective } from '../shared/directives/drag-drop.directive';
     ProductsComponent,
     AddProductComponent,
     DropDargComponent,
-    DragDropDirective
+    DragDropDirective,
+    SidebarItemComponent
 
   
     
@@ -43,6 +46,7 @@ import { DragDropDirective } from '../shared/directives/drag-drop.directive';
     PrimeNgCompnentsModule,
     MatGridListModule,
     MaterialModule,
+    TranslateModule
     
   ]
 })

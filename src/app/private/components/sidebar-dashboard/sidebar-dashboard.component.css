@@ -4981,6 +4981,8 @@ fieldset:disabled .btn {
   display: flex;
   flex-direction: column;
   padding-left: 0;
+  padding-right: 0;
+
   margin-bottom: 0;
   list-style: none;
 }
@@ -24991,7 +24993,7 @@ hr.horizontal.gray-light {
 }
 
 .navbar-vertical.navbar-expand-xs.fixed-start {
-  left: 0;
+  /* left: 0; */
 }
 
 .navbar-vertical.navbar-expand-xs.fixed-end {
