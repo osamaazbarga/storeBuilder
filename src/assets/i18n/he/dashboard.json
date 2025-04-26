@@ -1,0 +1,27 @@
+{
+    "MERCHANT":{
+        "DASHBOARD":"ראשי",
+        "PRODUCTS":"מוצרים",
+        "ORDERS":"הזמנות",
+        "CUDTOMERS":"לקוחות",
+        "REPORTS":"דוחות",
+        "QUESTIONSANDEVALUATIONS":"שאלות והערכות",
+        "MARKETINGTOOLS":"כלים שיווקיים",
+        "SALESCHANNELS":"ערוצי מכירה",
+        "LOCALY":"מקומי",
+        "SUPPORTINGTOOLS":"כלים תומכים",
+        "MERCHANTSERVICES":"שירותי סוחר",
+        "SETTINGS":"הגדרות",
+        "STOREPLAN":"תוכנית חנות",
+        "STORESETTINGS":"הגדרות החנות",
+        "WALLETANDBILLING":"ארנק וחיוב",
+        "STOREAPPEARANCE":"מראה החנות",
+        "THEMESTORE":"חנות נושא",
+        "NEWSTOREDESIGN":"עיצוב חנות חדשה",
+        "APPSTORE":"חנות אפליקציות",
+        "INSTALLEDAPPS":"אפליקציות מותקנות",
+        "VISITAPPSTORE":"חנות אפליקציות"
+
+
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "MERCHANT":{
+        "DASHBOARD":"Dashboard",
+        "PRODUCTS":"Products",
+        "ORDERS":"Orders",
+        "CUDTOMERS":"Customers",
+        "REPORTS":"Reports",
+        "QUESTIONSANDEVALUATIONS":"Questions and Evaluations",
+        "MARKETINGTOOLS":"Marketing tools",
+        "SALESCHANNELS":"Sales channels",
+        "LOCALY":"Localy",
+        "SUPPORTINGTOOLS":"Supporting tools",
+        "MERCHANTSERVICES":"Merchant Services",
+        "SETTINGS":"Settings",
+        "STOREPLAN":"Store plan",
+        "STORESETTINGS":"Store Settings",
+        "WALLETANDBILLING":"Wallet & Billing",
+        "STOREAPPEARANCE":"Store Appearance",
+        "THEMESTORE":"Theme Store",
+        "NEWSTOREDESIGN":"New Store Design",
+        "APPSTORE":"App Store",
+        "INSTALLEDAPPS":"Installed Apps",
+        "VISITAPPSTORE":"App Store"
+
+
+    }
+}
+

@@ -1,0 +1,27 @@
+{
+    "MERCHANT":{
+        "DASHBOARD":"الرئيسية",
+        "PRODUCTS":"المنتجات",
+        "ORDERS":"الطلبات",
+        "CUDTOMERS":"العملاء",
+        "REPORTS":"التقارير",
+        "QUESTIONSANDEVALUATIONS":"الأسئلة والتقييمات",
+        "MARKETINGTOOLS":"الأدوات التسويقية",
+        "SALESCHANNELS":"قنوات البيع",
+        "LOCALY":"محلي",
+        "SUPPORTINGTOOLS":"أدوات مساندة",
+        "MERCHANTSERVICES":"خدمات التاجر",
+        "SETTINGS":"الاعدادات",
+        "STOREPLAN":"باقة المتجر",
+        "STORESETTINGS":"إعدادات المتجر",
+        "WALLETANDBILLING":"المحفظة والفواتير",
+        "STOREAPPEARANCE":"مظهر المتجر",
+        "THEMESTORE":"متجر الثيمات",
+        "NEWSTOREDESIGN":"تصميم المتجر",
+        "APPSTORE":"متجر التطبيقات",
+        "INSTALLEDAPPS":"التطبيقات المثبتة",
+        "VISITAPPSTORE":"متجر التطبيقات"
+
+
+    }
+}
