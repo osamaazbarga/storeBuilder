@@ -26,6 +26,8 @@ export function HttpLoaderFactory(http: HttpBackend) {
   return new MultiTranslateHttpLoader(http, [
      { prefix: './assets/i18n/', suffix: '/nav.json' },
     { prefix: './assets/i18n/', suffix: '/auth.json' },
+    { prefix: './assets/i18n/', suffix: '/dashboard.json' },
+
   ]);
   
 }

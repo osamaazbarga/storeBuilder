@@ -33,7 +33,9 @@
               "node_modules/primeng/resources/primeng.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" 
+            ]
           },
           "configurations": {
             "production": {
@@ -71,10 +73,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+           
+            "ssl": true,
+            "sslKey": "./ssl/localtest.me+1-key.pem",
+            "sslCert": "./ssl/localtest.me+1.pem",
+            "host": "localtest.me",
             "port": 4200,
-            "sslCert": "localhost.crt",
-             "sslKey": "localhost.key",
-            "ssl": true
+            "allowedHosts": [".localtest.me"]
+            
           },
           "configurations": {
             "production": {

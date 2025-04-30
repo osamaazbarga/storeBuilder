@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="!isStoreView; else dynamicView">
     <app-navbar></app-navbar>
         <div class="container mt-5" style="min-height: 500px;">
             <router-outlet></router-outlet>
@@ -7,14 +7,14 @@
 <app-footer></app-footer>
 </ng-container>
 
-<!-- <ng-template #dynamicView>
-    <ng-container *ngIf="isStoreView; else loginPage">
+<ng-template #dynamicView>
+    <ng-container *ngIf="isStoreView">
       <app-store></app-store>
     </ng-container>
 
-    <ng-template #loginPage>
+    <!-- <ng-template #loginPage>
         <router-outlet></router-outlet>
-      </ng-template>
-    </ng-template> -->
+      </ng-template> -->
+    </ng-template>
 
 

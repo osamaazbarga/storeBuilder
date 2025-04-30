@@ -9,5 +9,6 @@ export class StoreAddEdit{
    logo? :string;
    description? :string;
    userId? :string;
-   user? :User
+   user? :User;
+   subdomain?:string;
 }

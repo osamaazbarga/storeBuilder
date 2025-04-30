@@ -7,11 +7,18 @@ import { SendEmailComponent } from './components/users/send-email/send-email.com
 import { ResetPasswordComponent } from './components/users/reset-password/reset-password.component';
 import { RegisterWithThirdPartyComponent } from './components/users/register-with-third-party/register-with-third-party.component';
 import { HomeComponent } from './components/home/home.component';
+import { StoreComponent } from '../private/components/store/store/store.component';
 
 const routes: Routes = [
   {
     path:'',
     component:HomeComponent
+  },
+
+  {
+    path:'store-view',
+    component:StoreComponent,
+    //loadChildren:()=>import('./private/components/store/store.module').then(m=>m.StoreModule)
   },
   
   {

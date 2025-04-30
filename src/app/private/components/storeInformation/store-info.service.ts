@@ -78,6 +78,8 @@ export class StoreInfoService {
     this.storeAddEdit!.description=this.stepForm.value.personalDetails.storeLink
     this.storeAddEdit!.logo=this.stepForm.value.personalDetails.storeLink
     this.storeAddEdit!.userId=this.stepForm.value.personalDetails.storeLink
+    this.storeAddEdit!.subdomain=this.stepForm.value.personalDetails.storeLink
+
 
 
     
