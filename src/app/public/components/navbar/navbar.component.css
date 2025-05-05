@@ -1,6 +1,19 @@
 a{
     text-decoration: none;
-    color: currentColor;
+    color: black;
+}
+
+.scrolled a,.hovered a{
+  
+    text-decoration: none;
+    color: white;
+  
+}
+.hovered a:hover{
+  
+  text-decoration: none;
+  color: black;
+
 }
 
 a:hover{
@@ -11,6 +24,7 @@ header{
     width: 100vw;
     height: 80px;
     background-color: rgba(255, 196, 33,0.5);
+    background-color: #e74c3c;
     position: fixed;
     top: 0;
     backdrop-filter: blur(6px);
@@ -28,15 +42,18 @@ header {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     background-color: transparent;
     backdrop-filter: blur(6px);
+    /* background-color: #e74c3c; */
   }
 
 .scrolled {
     background-color: rgba(255, 196, 33,0.5);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #e74c3c;
   }
 .hovered {
     background-color: rgba(255, 196, 33,0.5);
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    background-color: #e74c3c;
   }
 header .nav-content{
     display: flex;
@@ -44,6 +61,7 @@ header .nav-content{
     align-items: center;
     margin: auto;
     justify-content: space-evenly;
+    height: 80px;
     /* flex-grow: 3 !important; */
 
 }
@@ -53,12 +71,13 @@ header .menu-and-logo,header .buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 50px;
+    /* gap: 50px; */
     
 }
 
 header .menu-and-logo {
-    gap: 50px;
+    /* gap: 50px; */
+    height: 80px;
     
 }
 header .container-fluid{
@@ -70,8 +89,8 @@ header .container-fluid{
 }
 
 header .navb-logo img{
-    width: 140px;
-    height: 66px;
+    /* width: 140px; */
+    /* height: 66px; */
 }
 
 header .navb-items,header .navb-buttons {
@@ -102,8 +121,11 @@ header .item:hover{
     justify-content: center;
     align-items: center;
     --tw-bg-opacity: 1;
-    height: 117%;
+    height: 100%;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    
+
+    
 
 }
 
@@ -121,13 +143,29 @@ header .item-button a{
     border-radius: 15px;
 }
 
+.hovered .item-button a{
+  border: 1px solid white;
+}
+.scrolled .item-button a{
+  border: 1px solid white;
+}
+
+/* .hovered .item-button a:hover{
+  background-color: black;
+}
+.scrolled .item-button a:hover{
+  background-color: black;
+} */
+
 header .item-button .btn-with-color{
-    background-color: lightslategrey;
+    background-color: white;
+    color: #e74c3c;
     
 }
 
 header .item-button .btn-without-color:hover{
-    background-color: lightslategrey;
+  background-color: white;
+  color: #e74c3c;
     
 }
 

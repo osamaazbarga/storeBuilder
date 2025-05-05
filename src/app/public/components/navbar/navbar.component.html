@@ -1,13 +1,21 @@
-
-
-<header [class.scrolled]="isScrolled"
+<!-- [class.scrolled]="isScrolled"
 (mouseenter)="isHovered = true"
 (mouseleave)="isHovered = false"
-[class.hovered]="isHovered && !isScrolled">
+[class.hovered]="isHovered && !isScrolled" -->
+
+<header 
+[class.scrolled]="isScrolled"
+    (mouseenter)="isHovered = true"
+    (mouseleave)="isHovered = false"
+    [class.hovered]="isHovered && !isScrolled"
+>
     <div class="nav-content">
         <div class="menu-and-logo">
-            <div class="navb-logo">
-                <img src="./assets/images/logo.png" class="me-3" width="100" height="100" alt="Logo">
+            <div  class="navb-logo">
+                <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                    <img *ngIf="isScrolled || isHovered" src="./assets/images/whiteLogo.png" class="me-3" height="80" alt="Logo">
+                    <img *ngIf="!isScrolled && !isHovered" src="./assets/images/redLogoHovered.png" class="me-3" height="80" alt="Logo">
+                </a>
             </div>
            
 
