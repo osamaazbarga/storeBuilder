@@ -15,6 +15,9 @@ import { ViewComponent } from './components/view/view.component';
 import {  TranslateModule } from '@ngx-translate/core';
 
 import { StoreComponent } from '../private/components/store/store/store.component';
+import { FooterNavComponent } from './components/home-parts/footer-nav/footer-nav.component';
+import { StartNowComponent } from './components/home-parts/start-now/start-now.component';
+import { PrimeNgCompnentsModule } from "../shared/prime-ng-compnents.module";
 
 
 
@@ -25,7 +28,9 @@ import { StoreComponent } from '../private/components/store/store/store.componen
     NavbarComponent,
     FooterComponent,
     ViewComponent,
-    StoreComponent
+    StoreComponent,
+    FooterNavComponent,
+    StartNowComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +40,8 @@ import { StoreComponent } from '../private/components/store/store/store.componen
     MatButtonModule,
     MatInputModule,
     SharedModule,
-    TranslateModule
-  ],
+    TranslateModule,
+    PrimeNgCompnentsModule
+],
 })
 export class PublicModule { }

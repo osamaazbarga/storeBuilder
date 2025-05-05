@@ -14,6 +14,7 @@ import { PrimeNgCompnentsModule } from './prime-ng-compnents.module';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
+import { ButtonLinkComponent } from '../components/button-link/button-link.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
     ValidationMessagesComponent,
     NotificaionComponent,
     UserHasRoleDirective,
-    LanguageSelectorComponent
+    LanguageSelectorComponent,
+    ButtonLinkComponent
 
     
   ],
@@ -41,6 +43,7 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
     ValidationMessagesComponent,
     ImportsPrimeNgModule,
     LanguageSelectorComponent,
+    ButtonLinkComponent
 
   ]
 })

@@ -13,8 +13,8 @@
         <div class="menu-and-logo">
             <div  class="navb-logo">
                 <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-                    <img *ngIf="isScrolled || isHovered" src="./assets/images/whiteLogo.png" class="me-3" height="80" alt="Logo">
-                    <img *ngIf="!isScrolled && !isHovered" src="./assets/images/redLogoHovered.png" class="me-3" height="80" alt="Logo">
+                    <img *ngIf="isScrolled || isHovered" src="./assets/images/whiteLogo.png" class="me-3" height="60" alt="Logo">
+                    <img *ngIf="!isScrolled && !isHovered" src="./assets/images/redLogoHovered.png" class="me-3" height="60" alt="Logo">
                 </a>
             </div>
            
@@ -119,14 +119,10 @@
                 <div class="item-button">
                     <app-language-selector></app-language-selector>
                 </div>
+                <app-button-link width="160" height="40" devClass="item-button" linkClass="btn-without-color" routerLink="/auth/login" label="{{ 'LOGIN' | translate }}"></app-button-link>
+              
+                <app-button-link width="180" height="40" devClass="item-button" linkClass="btn-with-color" routerLink="/auth/register" label="{{ 'CREATEYOURSTORE' | translate }}"></app-button-link>
                 
-                <div class="item-button">
-                    <a class="btn-without-color" routerLink="/auth/login" [class.scrolled]="isScrolled || isHovered" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">{{ 'LOGIN' | translate }}</a>
-                </div>
-
-                <div class="item-button">
-                    <a class="btn-with-color" routerLink="/auth/register" [class.scrolled]="isScrolled || isHovered" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">{{ 'CREATEYOURSTORE' | translate }}</a>
-                </div>
         </div>
         </div>
     </div>
