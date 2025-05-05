@@ -13,18 +13,22 @@ body {
   height: 100vh;
   /* width: 100%; */
   /* background: url("../../../../assets/images/login-hero-bg.jpg"), #000; */
-  background: linear-gradient(200deg, #71b7e6, #9b59b6);
+  /* background: linear-gradient(200deg, #71b7e6, #9b59b6);
+  background: linear-gradient(200deg, white, #e74c3c); */
+
   /* position: absolute;
   background-position: center;
   background-size: cover; */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  /* padding: 10px; */
   
 }
 .free-container{
+  height: 100vh;
  /* background: black; */
+ 
 }
 
 .auth-container {
@@ -93,6 +97,18 @@ button {
   align-items: center;
 }
 
+.navb-logo{
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  padding: 10px;
+
+  
+
+  
+}
+
 
 
 
@@ -126,6 +142,7 @@ html,body{
   width: 100%;
   place-items: center;
   background: -webkit-linear-gradient(left, #a445b2, #fa4299);
+
 }
 ::selection{
   background: #fa4299;
