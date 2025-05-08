@@ -1,0 +1,18 @@
+.fluid{
+    background-color: #e74c3c;
+    /* width: 100vw; */
+    height: 700px;
+    
+}
+.container{
+    display: flex;
+    justify-content: space-around;
+    background-color: #e74c3c;
+}
+
+.right-side{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}

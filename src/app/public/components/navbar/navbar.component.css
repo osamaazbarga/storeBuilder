@@ -1,13 +1,15 @@
 a{
     text-decoration: none;
-    color: black;
+    /* color: black; */
+    color: white;
     transition: background-color 1s ease, box-shadow 1s ease;
 }
 
 .scrolled a,.hovered a{
   
     text-decoration: none;
-    color: white;
+    /* color: white; */
+    color: black;
     transition: background-color 1s ease, box-shadow 1s ease;
   
 }
@@ -35,18 +37,19 @@ header {
     z-index: 1000;
     background-color: transparent;
     backdrop-filter: blur(6px);
-    /* background-color: #e74c3c; */
+    background-color: #e74c3c;
   }
 
 .scrolled {
-    background-color: rgba(255, 196, 33,0.5);
+    background-color:rgba(255, 255, 255, 0.5);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    background-color: #e74c3c;
+    
   }
 .hovered {
-    background-color: rgba(255, 196, 33,0.5);
+    /* background-color: rgba(255, 196, 33,0.5); */
+    background-color:rgba(255, 255, 255, 0.5);
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    background-color: #e74c3c;
+    
   }
 header .nav-content{
     display: flex;
@@ -102,7 +105,8 @@ header .item:hover{
     align-items: center;
     --tw-bg-opacity: 1;
     height: 100%;
-    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    /* background-color: rgb(255 255 255 / var(--tw-bg-opacity)); */
+    background-color: rgb(231 76 60 / var(--tw-bg-opacity));
     
 
     

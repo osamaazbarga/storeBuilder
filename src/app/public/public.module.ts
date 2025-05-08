@@ -18,6 +18,7 @@ import { StoreComponent } from '../private/components/store/store/store.componen
 import { FooterNavComponent } from './components/home-parts/footer-nav/footer-nav.component';
 import { StartNowComponent } from './components/home-parts/start-now/start-now.component';
 import { PrimeNgCompnentsModule } from "../shared/prime-ng-compnents.module";
+import { FirstHomePartComponent } from './components/home-parts/first-home-part/first-home-part.component';
 
 
 
@@ -30,7 +31,8 @@ import { PrimeNgCompnentsModule } from "../shared/prime-ng-compnents.module";
     ViewComponent,
     StoreComponent,
     FooterNavComponent,
-    StartNowComponent
+    StartNowComponent,
+    FirstHomePartComponent
   ],
   imports: [
     CommonModule,
