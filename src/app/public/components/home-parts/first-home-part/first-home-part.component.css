@@ -1,6 +1,5 @@
 .fluid{
     background-color: #e74c3c;
-    /* width: 100vw; */
     height: 700px;
     
 }
@@ -15,4 +14,5 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    color: white;
 }
