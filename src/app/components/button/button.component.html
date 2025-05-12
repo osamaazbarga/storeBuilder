@@ -1,13 +1,11 @@
-<div>
-    <p-button *ngIf="kind=='button'" [label]="label" [icon]="icon"  />
-    <p-splitButton  #ap *ngIf="kind=='splitButton'"
-    [icon]="icon"
-    [label]="label" 
-    [model]="items" 
-    severity="success"
-    (onClick)="click(ap, $event)">
- 
-    </p-splitButton>
+<div class="dropdown rtl">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    {{label}}
+  </button>
+  <ul  class="dropdown-menu dropdown-menu-lg-end dropdown-menu-right">
+
+    <li *ngFor="let item of items" ><a class="dropdown-item" href="#">{{item.label}}</a></li>
+  </ul>
 </div>
 
 <!-- (onClick)="save('info')" 

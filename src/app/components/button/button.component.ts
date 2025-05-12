@@ -19,5 +19,8 @@ export class ButtonComponent {
       }, 0);
       }
     
-    
+    constructor(){
+      console.log(this.items);
+      
+    }
 }
