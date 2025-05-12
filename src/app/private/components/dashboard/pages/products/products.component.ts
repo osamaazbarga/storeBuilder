@@ -10,6 +10,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 })
 export class ProductsComponent {
   items: MenuItem[]=[];
+  fakeArray = new Array(12);
   constructor(private messageService: MessageService,private router:Router) {
     this.items = [
         {
