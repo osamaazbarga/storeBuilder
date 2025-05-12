@@ -22,7 +22,7 @@ export class AuthorizationGuard {
         }
         else{
           this.sharedService.showNotification(false,"restricted Area","Leave immediately!");
-          this.router.navigate(['/login'],{queryParams:{returnUrl:state.url}})
+          this.router.navigate(['/auth/login'],{queryParams:{returnUrl:state.url}})
           return false;
         }
       })
