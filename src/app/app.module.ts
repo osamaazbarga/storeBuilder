@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClient, HttpClientModule,HttpBackend } from '@angular/common/http';
+import { HttpClient, HttpBackend, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,37 +33,27 @@ export function HttpLoaderFactory(http: HttpBackend) {
   
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    ButtonModule,
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MatSnackBarModule,
-    SharedModule,
-    MaterialModule,
-    
-    MatGridListModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpBackend]
-      }
-    }),
-    NgbModule,
-
-  
-  ],
-  providers: [LanguageService],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+    ],
+    bootstrap: [AppComponent], imports: [ButtonModule,
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatSnackBarModule,
+        SharedModule,
+        MaterialModule,
+        MatGridListModule,
+        TranslateModule.forRoot({
+            defaultLanguage: 'en',
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpBackend]
+            }
+        }),
+        NgbModule], providers: [LanguageService, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
