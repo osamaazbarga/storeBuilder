@@ -84,10 +84,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "SuperEcommere:build:production"
+              "buildTarget": "SuperEcommere:build:production"
             },
             "development": {
-              "browserTarget": "SuperEcommere:build:development"
+              "buildTarget": "SuperEcommere:build:development"
             }
            
           },
@@ -96,7 +96,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "SuperEcommere:build"
+            "buildTarget": "SuperEcommere:build"
           }
         },
         "test": {
