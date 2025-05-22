@@ -18,6 +18,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from './services/language.service';
 import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -58,6 +59,7 @@ export function HttpLoaderFactory(http: HttpBackend) {
         deps: [HttpBackend]
       }
     }),
+    NgbModule,
 
   
   ],
