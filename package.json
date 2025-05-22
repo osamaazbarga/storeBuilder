@@ -11,12 +11,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.13",
-    "@angular/cdk": "^16.2.12",
+    "@angular/cdk": "^17.3.10",
     "@angular/common": "^18.2.13",
     "@angular/compiler": "^18.2.13",
     "@angular/core": "^18.2.13",
     "@angular/forms": "^18.2.13",
-    "@angular/material": "^16.2.12",
+    "@angular/material": "^17.3.10",
     "@angular/platform-browser": "^18.2.13",
     "@angular/platform-browser-dynamic": "^18.2.13",
     "@angular/router": "^18.2.13",
@@ -35,7 +35,7 @@
     "primeng": "^16.9.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "^0.14.10"
+    "zone.js": "^0.15.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.19",
