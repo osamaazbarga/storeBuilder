@@ -1,6 +1,7 @@
 import { Component,AfterViewInit, OnChanges, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService, SelectItemGroup } from 'primeng/api';
+import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/services/language.service';
 
 
@@ -21,16 +22,36 @@ export class ProductsComponent implements OnInit{
   fakeArray = new Array(12);
   currentLang?:string
 
+     selectedCity: City | undefined;
+
   groupedCities!: SelectItemGroup[];
-  cities!: City[];
+  cities: City[] = [
+        { name: 'New York', code: 'NY' },
+        { name: 'Rome', code: 'RM' },
+        { name: 'London', code: 'LDN' },
+        { name: 'Istanbul', code: 'IST' },
+        { name: 'Paris', code: 'PRS' },
+    ];
+  
 
     selectedCities!: City[];
 
   dropdownList:any = [];
   selectedItems:any = [];
   dropdownSettings:any = {};
-  ngOnInit() {
+  langSub!: Subscription;
 
+  ngOnDestroy() {
+    if (this.langSub) this.langSub.unsubscribe();
+  }
+  ngOnInit() {
+    this.currentLang = this.languageService.getCurrentLang();
+
+    // Subscribe to language changes
+    this.langSub = this.languageService.lang$.subscribe(lang => {
+      this.currentLang = lang;
+      // Angular will update bindings automatically
+    });
     this.cities = [
   {name: 'New York', code: 'NY'},
             {name: 'Rome', code: 'RM'},
@@ -38,27 +59,7 @@ export class ProductsComponent implements OnInit{
             {name: 'Istanbul', code: 'IST'},
             {name: 'Paris', code: 'PRS'}
         ];
-    this.dropdownList = [
-      { item_id: 1, item_text: 'اسامه' },
-      { item_id: 2, item_text: 'يبيبس' },
-      { item_id: 3, item_text: 'بسسبس' },
-      { item_id: 4, item_text: 'بسبس' },
-      { item_id: 5, item_text: 'لسلسل' }
-    ];
-    this.selectedItems = [
-      { item_id: 3, item_text: 'ضضض' },
-      { item_id: 4, item_text: 'صصصص' }
-    ];
-    this.dropdownSettings = {
     
-      singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 2,
-      allowSearchFilter: true
-    };
   }
   onItemSelect(item: any) {
     console.log(item);

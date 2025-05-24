@@ -5,6 +5,7 @@ default_md = sha256
 x509_extensions = v3_req
 distinguished_name = dn
 
+
 [dn]
 C = IS
 ST = Israel
@@ -19,3 +20,5 @@ subjectAltName = @alt_names
 
 [alt_names]
 DNS.1 = localhost
+DNS.2 = *.localtest.me
+DNS.3 = localtest.me

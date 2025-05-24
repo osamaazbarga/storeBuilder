@@ -7,3 +7,16 @@
     padding: 0;
     background-position:0%;
 }
+
+::ng-deep .p-multiselect-filter-container .p-inputtext{
+    width: 100% !important;
+}
+
+.buttonGroup .buttonElement{
+    min-width:50%; 
+}
+
+.buttonGroup .buttonElement ::ng-deep p-button button{
+    background: none;
+    border: none;
+}
