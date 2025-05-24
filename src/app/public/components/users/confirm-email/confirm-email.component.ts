@@ -7,9 +7,10 @@ import { UsersService } from 'src/app/services/users.service';
 import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
-  selector: 'app-confirm-email',
-  templateUrl: './confirm-email.component.html',
-  styleUrls: ['./confirm-email.component.css']
+    selector: 'app-confirm-email',
+    templateUrl: './confirm-email.component.html',
+    styleUrls: ['./confirm-email.component.css'],
+    standalone: false
 })
 export class ConfirmEmailComponent implements OnInit{
   success: boolean=true;

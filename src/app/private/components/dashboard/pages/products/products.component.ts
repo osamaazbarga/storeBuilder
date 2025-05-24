@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 
 @Component({
-  selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css'],
-  providers: [MessageService]
+    selector: 'app-products',
+    templateUrl: './products.component.html',
+    styleUrls: ['./products.component.css'],
+    providers: [MessageService],
+    standalone: false
 })
 export class ProductsComponent {
   items: MenuItem[]=[];

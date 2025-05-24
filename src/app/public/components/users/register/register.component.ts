@@ -15,9 +15,10 @@ import { DOCUMENT } from '@angular/common';
 
 declare const FB:any;
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css'],
+    standalone: false
 })
 export class RegisterComponent implements OnInit {
   @ViewChild('googleButton',{static:true}) 

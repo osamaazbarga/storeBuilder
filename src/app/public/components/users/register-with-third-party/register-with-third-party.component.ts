@@ -7,9 +7,10 @@ import { User } from 'src/app/models/account/user';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-register-with-third-party',
-  templateUrl: './register-with-third-party.component.html',
-  styleUrls: ['./register-with-third-party.component.css']
+    selector: 'app-register-with-third-party',
+    templateUrl: './register-with-third-party.component.html',
+    styleUrls: ['./register-with-third-party.component.css'],
+    standalone: false
 })
 export class RegisterWithThirdPartyComponent implements OnInit{
   submitted:boolean=false;

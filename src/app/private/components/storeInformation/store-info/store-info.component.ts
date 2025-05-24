@@ -8,10 +8,10 @@ import { StoreInfoService } from '../store-info.service';
 // import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
-  selector: 'app-store-info',
-  templateUrl: './store-info.component.html',
-  styleUrls: ['./store-info.component.scss'],
-
+    selector: 'app-store-info',
+    templateUrl: './store-info.component.html',
+    styleUrls: ['./store-info.component.scss'],
+    standalone: false
 })
 export class StoreInfoComponent implements OnInit{
   stepForm!: FormGroup;

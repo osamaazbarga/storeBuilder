@@ -7,9 +7,10 @@ import { ProductsService } from 'src/app/services/products.service';
 import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
-  selector: 'app-add-product',
-  templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.css']
+    selector: 'app-add-product',
+    templateUrl: './add-product.component.html',
+    styleUrls: ['./add-product.component.css'],
+    standalone: false
 })
 export class AddProductComponent implements OnInit {
   productForm:FormGroup=new FormGroup({});

@@ -4,9 +4,10 @@ import { StoreInfoService } from '../../store-info.service';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
-  selector: 'app-progression-buttons',
-  templateUrl: './progression-buttons.component.html',
-  styleUrls: ['./progression-buttons.component.scss']
+    selector: 'app-progression-buttons',
+    templateUrl: './progression-buttons.component.html',
+    styleUrls: ['./progression-buttons.component.scss'],
+    standalone: false
 })
 export class ProgressionButtonsComponent implements OnInit {
   stepForm!: FormGroup;

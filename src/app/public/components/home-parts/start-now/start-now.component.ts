@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-start-now',
-  templateUrl: './start-now.component.html',
-  styleUrls: ['./start-now.component.css']
+    selector: 'app-start-now',
+    templateUrl: './start-now.component.html',
+    styleUrls: ['./start-now.component.css'],
+    standalone: false
 })
 export class StartNowComponent {
 

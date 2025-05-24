@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-drop-darg',
-  templateUrl: './drop-darg.component.html',
-  styleUrls: ['./drop-darg.component.css']
+    selector: 'app-drop-darg',
+    templateUrl: './drop-darg.component.html',
+    styleUrls: ['./drop-darg.component.css'],
+    standalone: false
 })
 export class DropDargComponent {
   @Input() image!: string | null;

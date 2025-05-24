@@ -6,9 +6,10 @@ import { AdminService } from '../admin.service';
 import { MemberAddEdit } from 'src/app/models/admin/memberAddEdit';
 
 @Component({
-  selector: 'app-add-edit-member',
-  templateUrl: './add-edit-member.component.html',
-  styleUrls: ['./add-edit-member.component.css']
+    selector: 'app-add-edit-member',
+    templateUrl: './add-edit-member.component.html',
+    styleUrls: ['./add-edit-member.component.css'],
+    standalone: false
 })
 export class AddEditMemberComponent implements OnInit {
   memberForm:FormGroup=new FormGroup({});

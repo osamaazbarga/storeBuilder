@@ -11,19 +11,16 @@ import { CarouselModule } from 'primeng/carousel';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ChipModule } from 'primeng/chip';
-import { ChipsModule } from 'primeng/chips';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { DataViewModule } from 'primeng/dataview';
-import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { DockModule } from 'primeng/dock';
 import { DragDropModule } from 'primeng/dragdrop';
 import { DropdownModule } from 'primeng/dropdown';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DeferModule } from 'primeng/defer';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -34,7 +31,6 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ImageModule } from 'primeng/image';
 import { KnobModule } from 'primeng/knob';
 import { ListboxModule } from 'primeng/listbox';
@@ -62,10 +58,8 @@ import { ScrollTopModule } from 'primeng/scrolltop';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SidebarModule } from 'primeng/sidebar';
 import { SkeletonModule } from 'primeng/skeleton';
-import { SlideMenuModule } from 'primeng/slidemenu';
 import { SliderModule } from 'primeng/slider';
 import { SpeedDialModule } from 'primeng/speeddial';
-import { SpinnerModule } from 'primeng/spinner';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { SplitterModule } from 'primeng/splitter';
 import { StepsModule } from 'primeng/steps';
@@ -80,11 +74,9 @@ import { ToastModule } from 'primeng/toast';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
-import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
 import { TreeModule } from 'primeng/tree';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { TreeTableModule } from 'primeng/treetable';
-import { AnimateModule } from 'primeng/animate';
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 import { CardModule } from 'primeng/card';
 import { BlockUIModule } from 'primeng/blockui';
@@ -103,7 +95,6 @@ import { NgModule } from '@angular/core';
         AvatarGroupModule,
         AnimateOnScrollModule,
         FormsModule,
-        HttpClientModule,
         ReactiveFormsModule,
         AccordionModule,
         AutoCompleteModule,
@@ -115,13 +106,11 @@ import { NgModule } from '@angular/core';
         CarouselModule,
         CascadeSelectModule,
         CheckboxModule,
-        ChipsModule,
         ChipModule,
         ColorPickerModule,
         ConfirmDialogModule,
         ConfirmPopupModule,
         ContextMenuModule,
-        VirtualScrollerModule,
         DataViewModule,
         DialogModule,
         DividerModule,
@@ -129,7 +118,6 @@ import { NgModule } from '@angular/core';
         DockModule,
         DragDropModule,
         DropdownModule,
-        DynamicDialogModule,
         FieldsetModule,
         FileUploadModule,
         FocusTrapModule,
@@ -138,7 +126,6 @@ import { NgModule } from '@angular/core';
         InputMaskModule,
         InputSwitchModule,
         InputTextModule,
-        InputTextareaModule,
         InputNumberModule,
         ImageModule,
         KnobModule,
@@ -167,10 +154,8 @@ import { NgModule } from '@angular/core';
         ScrollPanelModule,
         ScrollTopModule,
         SkeletonModule,
-        SlideMenuModule,
         SliderModule,
         SpeedDialModule,
-        SpinnerModule,
         SplitterModule,
         SplitButtonModule,
         StepsModule,
@@ -185,11 +170,9 @@ import { NgModule } from '@angular/core';
         ToggleButtonModule,
         ToolbarModule,
         TooltipModule,
-        TriStateCheckboxModule,
         TreeModule,
         TreeSelectModule,
         TreeTableModule,
-        AnimateModule,
         CardModule,
         RippleModule,
         StyleClassModule,
@@ -209,20 +192,17 @@ import { NgModule } from '@angular/core';
         CarouselModule,
         CascadeSelectModule,
         CheckboxModule,
-        ChipsModule,
         ChipModule,
         ColorPickerModule,
         ConfirmDialogModule,
         ConfirmPopupModule,
         ContextMenuModule,
-        VirtualScrollerModule,
         DataViewModule,
         DialogModule,
         DividerModule,
         DockModule,
         DragDropModule,
         DropdownModule,
-        DynamicDialogModule,
         DeferModule,
         FieldsetModule,
         FileUploadModule,
@@ -232,7 +212,6 @@ import { NgModule } from '@angular/core';
         InputMaskModule,
         InputSwitchModule,
         InputTextModule,
-        InputTextareaModule,
         InputNumberModule,
         ImageModule,
         KnobModule,
@@ -261,10 +240,8 @@ import { NgModule } from '@angular/core';
         ScrollPanelModule,
         ScrollTopModule,
         SkeletonModule,
-        SlideMenuModule,
         SliderModule,
         SpeedDialModule,
-        SpinnerModule,
         SplitterModule,
         SplitButtonModule,
         StepsModule,
@@ -279,11 +256,9 @@ import { NgModule } from '@angular/core';
         ToggleButtonModule,
         ToolbarModule,
         TooltipModule,
-        TriStateCheckboxModule,
         TreeModule,
         TreeSelectModule,
         TreeTableModule,
-        AnimateModule,
         CardModule,
         RippleModule,
         StyleClassModule,

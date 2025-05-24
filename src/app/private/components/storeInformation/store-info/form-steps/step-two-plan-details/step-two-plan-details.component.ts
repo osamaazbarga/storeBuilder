@@ -3,16 +3,17 @@ import { FormGroup, FormGroupDirective } from '@angular/forms';
 import { planOptions } from './planDetails.model';
 
 @Component({
-  selector: 'app-step-two-plan-details',
-  templateUrl: './step-two-plan-details.component.html',
-  styleUrls: ['./step-two-plan-details.component.scss']
+    selector: 'app-step-two-plan-details',
+    templateUrl: './step-two-plan-details.component.html',
+    styleUrls: ['./step-two-plan-details.component.scss'],
+    standalone: false
 })
 
 export class StepTwoPlanDetailsComponent implements OnInit {
 
   stepForm!: FormGroup;
-  planType: string = 'arcade' || 'advanced' || 'pro';
-  timeFrame: string = 'monthly' || 'yearly';
+  planType: 'arcade' | 'advanced' | 'pro' = 'arcade';
+  timeFrame: 'monthly' | 'yearly' = 'monthly';
   totalCost: number|undefined = 0;
   checked = false;
   planOptions = planOptions;
@@ -26,7 +27,7 @@ export class StepTwoPlanDetailsComponent implements OnInit {
     this.planType = this.planType || 'arcade';
   }
 
-  public onPlanChange(plan: string) {
+  public onPlanChange(plan: any) {
     this.planType = plan;
   }
 

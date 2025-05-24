@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { StoreInfoService } from '../../store-info.service';
 
 @Component({
-  selector: 'app-step-tracker-icons',
-  templateUrl: './step-tracker-icons.component.html',
-  styleUrls: ['./step-tracker-icons.component.scss']
+    selector: 'app-step-tracker-icons',
+    templateUrl: './step-tracker-icons.component.html',
+    styleUrls: ['./step-tracker-icons.component.scss'],
+    standalone: false
 })
 export class StepTrackerIconsComponent implements OnInit {
 

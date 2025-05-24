@@ -3,14 +3,15 @@ import { FormGroup, FormGroupDirective } from '@angular/forms';
 import { addOnOptions } from './addOnOptions.model';
 
 @Component({
-  selector: 'app-step-three-add-ons',
-  templateUrl: './step-three-add-ons.component.html',
-  styleUrls: ['./step-three-add-ons.component.scss']
+    selector: 'app-step-three-add-ons',
+    templateUrl: './step-three-add-ons.component.html',
+    styleUrls: ['./step-three-add-ons.component.scss'],
+    standalone: false
 })
 export class StepThreeAddOnsComponent implements OnInit {
   stepForm!: FormGroup;
   addOnOptions = addOnOptions;
-  timeFrame: string | any = 'monthly' || 'yearly';
+  timeFrame: 'monthly' | 'yearly' = 'monthly';
   previousCost = this.rootFormGroup.form.controls['planDetails'];
 
 

@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NotificaionComponent } from './components/modals/notificaion/notificaion.component';
-import { ModalModule } from 'ngx-bootstrap/modal';
+// import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
 import { ButtonModule } from 'primeng/button';
 import { ImportsPrimeNgModule } from './importsPrimeNg.module';
@@ -17,10 +17,11 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
 import { ButtonLinkComponent } from '../components/button-link/button-link.component';
 
 
-@NgModule({ declarations: [
+@NgModule({ 
+  declarations: [
         NotFoundComponent,
         ValidationMessagesComponent,
-        NotificaionComponent,
+        // NotificaionComponent,
         UserHasRoleDirective,
         LanguageSelectorComponent,
         ButtonLinkComponent
@@ -28,14 +29,18 @@ import { ButtonLinkComponent } from '../components/button-link/button-link.compo
     exports: [
         RouterModule,
         ReactiveFormsModule,
-        HttpClientModule,
         ValidationMessagesComponent,
         ImportsPrimeNgModule,
         LanguageSelectorComponent,
         ButtonLinkComponent
-    ], imports: [CommonModule,
+    ], 
+    imports: [
+      CommonModule,
         RouterModule,
         ReactiveFormsModule,
         MatGridListModule,
-        ModalModule.forRoot()], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        // ModalModule.forRoot()
+    ], 
+    providers: [provideHttpClient(withInterceptorsFromDi())] 
+  })
 export class SharedModule { }

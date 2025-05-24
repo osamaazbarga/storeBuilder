@@ -7,9 +7,10 @@ import { UsersService } from 'src/app/services/users.service';
 import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
-  selector: 'app-send-email',
-  templateUrl: './send-email.component.html',
-  styleUrls: ['./send-email.component.css']
+    selector: 'app-send-email',
+    templateUrl: './send-email.component.html',
+    styleUrls: ['./send-email.component.css'],
+    standalone: false
 })
 export class SendEmailComponent implements OnInit{
   emailForm:FormGroup=new FormGroup({});

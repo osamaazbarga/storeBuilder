@@ -2,21 +2,25 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AdminService } from '../../admin.service';
 import { SharedService } from 'src/app/shared/shared.service';
 import { MemberView } from 'src/app/models/admin/memberView';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+// import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
-  selector: 'app-admin-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-admin-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
+    standalone: false
 })
 export class AdminHomeComponent implements OnInit{
   members:MemberView[]=[];
   memberToDelete:MemberView|undefined;
-  modalRef?:BsModalRef;
+  // modalRef?:BsModalRef;
+  modalRef?:any;
+  showDeleteDialog: boolean = false;
+
 
   constructor(private adminService:AdminService,
     private sharedService:SharedService,
-    private modalService:BsModalService){}
+    /*private modalService:BsModalService*/){}
   ngOnInit(): void {
     this.adminService.getMembers().subscribe({
       next:members=>this.members=members
@@ -43,7 +47,8 @@ export class AdminHomeComponent implements OnInit{
     let member=this.findMember(id);
     if(member){
       this.memberToDelete=member;
-      this.modalRef=this.modalService.show(template,{class:'modal-sm'});
+      // this.modalRef=this.modalService.show(template,{class:'modal-sm'});
+      this.showDeleteDialog = true;
     }
   }
 

@@ -3,10 +3,11 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { SplitButton } from 'primeng/splitbutton';
 
 @Component({
-  selector: 'app-button',
-  templateUrl: './button.component.html',
-  styleUrls: ['./button.component.css'],
-  providers: [MessageService]
+    selector: 'app-button',
+    templateUrl: './button.component.html',
+    styleUrls: ['./button.component.css'],
+    providers: [MessageService],
+    standalone: false
 })
 export class ButtonComponent {
     @Input() kind:string=""

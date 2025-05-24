@@ -1,4 +1,4 @@
-@use '/src/variables';
+@use "../../../../../../../variables" as variables;
 
 .mat-button-toggle-group {
   @include variables.flexCenter(column);

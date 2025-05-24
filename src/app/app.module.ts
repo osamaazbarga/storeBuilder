@@ -18,7 +18,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from './services/language.service';
 import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 
@@ -36,16 +36,15 @@ export function HttpLoaderFactory(http: HttpBackend) {
 @NgModule({ declarations: [
         AppComponent,
     ],
-    bootstrap: [AppComponent], imports: [ButtonModule,
-        BrowserModule,
+    bootstrap: [AppComponent], 
+    imports: [ButtonModule,
         AppRoutingModule,
         FormsModule,
         ReactiveFormsModule,
         FormsModule,
         BrowserAnimationsModule,
-        MatSnackBarModule,
         SharedModule,
-        MaterialModule,
+        // MaterialModule,
         MatGridListModule,
         TranslateModule.forRoot({
             defaultLanguage: 'en',
@@ -55,5 +54,7 @@ export function HttpLoaderFactory(http: HttpBackend) {
                 deps: [HttpBackend]
             }
         }),
-        NgbModule], providers: [LanguageService, provideHttpClient(withInterceptorsFromDi())] })
+        ], 
+        
+       })
 export class AppModule { }

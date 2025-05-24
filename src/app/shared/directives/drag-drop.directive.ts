@@ -1,7 +1,8 @@
 import { Directive, HostListener, EventEmitter, Output } from '@angular/core';
 
 @Directive({
-  selector: '[appDragDrop]'
+    selector: '[appDragDrop]',
+    standalone: false
 })
 export class DragDropDirective {
   @Output() fileDropped = new EventEmitter<FileList>();

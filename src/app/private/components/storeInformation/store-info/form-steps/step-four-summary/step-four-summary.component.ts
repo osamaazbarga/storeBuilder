@@ -3,9 +3,10 @@ import { FormGroup, FormGroupDirective } from '@angular/forms';
 import { StoreInfoService } from '../../../store-info.service';
 
 @Component({
-  selector: 'app-step-four-summary',
-  templateUrl: './step-four-summary.component.html',
-  styleUrls: ['./step-four-summary.component.scss']
+    selector: 'app-step-four-summary',
+    templateUrl: './step-four-summary.component.html',
+    styleUrls: ['./step-four-summary.component.scss'],
+    standalone: false
 })
 export class StepFourSummaryComponent implements OnInit {
   @Input() stepForm!: FormGroup;

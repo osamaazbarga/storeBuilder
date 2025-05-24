@@ -6,9 +6,10 @@ import { StoreInfoService } from '../../storeInformation/store-info.service';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
-  selector: 'app-store',
-  templateUrl: './store.component.html',
-  styleUrls: ['./store.component.css']
+    selector: 'app-store',
+    templateUrl: './store.component.html',
+    styleUrls: ['./store.component.css'],
+    standalone: false
 })
 export class StoreComponent implements OnInit{
   store: any;

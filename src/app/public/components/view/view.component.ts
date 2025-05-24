@@ -5,9 +5,10 @@ import { StoreService } from 'src/app/services/store.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-view',
-  templateUrl: './view.component.html',
-  styleUrls: ['./view.component.css']
+    selector: 'app-view',
+    templateUrl: './view.component.html',
+    styleUrls: ['./view.component.css'],
+    standalone: false
 })
 export class ViewComponent {
   title = 'SuperEcommere';

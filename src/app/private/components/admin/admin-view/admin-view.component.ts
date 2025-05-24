@@ -3,9 +3,10 @@ import { TblUser } from 'src/app/models/TblUser';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-admin-view',
-  templateUrl: './admin-view.component.html',
-  styleUrls: ['./admin-view.component.css']
+    selector: 'app-admin-view',
+    templateUrl: './admin-view.component.html',
+    styleUrls: ['./admin-view.component.css'],
+    standalone: false
 })
 export class AdminViewComponent {
   title = 'SuperEcommere';

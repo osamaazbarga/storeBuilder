@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
-  selector: 'app-step-one-personal-details',
-  templateUrl: './step-one-personal-details.component.html',
-  styleUrls: ['./step-one-personal-details.component.scss']
+    selector: 'app-step-one-personal-details',
+    templateUrl: './step-one-personal-details.component.html',
+    styleUrls: ['./step-one-personal-details.component.scss'],
+    standalone: false
 })
 
 export class StepOnePersonalDetailsComponent implements OnInit {

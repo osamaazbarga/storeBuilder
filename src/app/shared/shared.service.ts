@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
-import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+// import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { NotificaionComponent } from './components/modals/notificaion/notificaion.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
-  bsModalRef?:BsModalRef;
+  // bsModalRef?:BsModalRef;
+  bsModalRef?:any;
 
-  constructor(private modalService:BsModalService) { }
+  constructor(/*private modalService:BsModalService*/) { }
   showNotification(isSuccess:boolean,title:string,message:string){
-    const initialState:ModalOptions={
-      initialState:{
-        isSuccess,
-        title,
-        message
-      }
-    };
-    this.bsModalRef==this.modalService.show(NotificaionComponent, initialState);
+    // const initialState:ModalOptions={
+    //   initialState:{
+    //     isSuccess,
+    //     title,
+    //     message
+    //   }
+    // };
+    // this.bsModalRef==this.modalService.show(NotificaionComponent, initialState);
   }
 }

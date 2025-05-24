@@ -5,9 +5,10 @@ import { TblUser } from 'src/app/models/TblUser';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-edit-user',
-  templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.css']
+    selector: 'app-edit-user',
+    templateUrl: './edit-user.component.html',
+    styleUrls: ['./edit-user.component.css'],
+    standalone: false
 })
 export class EditUserComponent {
   userDetailes:TblUser=new TblUser()

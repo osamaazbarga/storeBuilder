@@ -4,9 +4,10 @@ import { StoreService } from 'src/app/services/store.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
+    standalone: false
 })
 export class HomeComponent {
   title = 'SuperEcommere';

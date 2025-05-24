@@ -6,9 +6,10 @@ import { StoreService } from 'src/app/services/store.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-sidebar-dashboard',
-  templateUrl: './sidebar-dashboard.component.html',
-  styleUrls: ['./sidebar-dashboard.component.css']
+    selector: 'app-sidebar-dashboard',
+    templateUrl: './sidebar-dashboard.component.html',
+    styleUrls: ['./sidebar-dashboard.component.css'],
+    standalone: false
 })
 export class SidebarDashboardComponent {
   errorMessages:string[]=[]

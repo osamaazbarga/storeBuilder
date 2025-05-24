@@ -4,7 +4,8 @@ import { take } from 'rxjs';
 import { UsersService } from 'src/app/services/users.service';
 
 @Directive({
-  selector: '[appUserHasRole]'
+    selector: '[appUserHasRole]',
+    standalone: false
 })
 export class UserHasRoleDirective {
 

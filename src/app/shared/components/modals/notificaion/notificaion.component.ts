@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+// import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
-  selector: 'app-notificaion',
-  templateUrl: './notificaion.component.html',
-  styleUrls: ['./notificaion.component.css']
+    selector: 'app-notificaion',
+    templateUrl: './notificaion.component.html',
+    styleUrls: ['./notificaion.component.css'],
+    standalone: false
 })
 export class NotificaionComponent {
   isSuccess:boolean=true
   title:string=""
   message:string=""
-  constructor(public bsModalRef:BsModalRef){
+  constructor(/*public bsModalRef:BsModalRef*/){
 
   }
 
