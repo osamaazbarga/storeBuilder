@@ -40,7 +40,8 @@ import { MenubarModule } from 'primeng/menubar';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { MultiSelectModule } from 'primeng/multiselect';
-
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { OrderListModule } from 'primeng/orderlist';
 import { OrganizationChartModule } from 'primeng/organizationchart';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
@@ -176,8 +177,11 @@ import { NgModule } from '@angular/core';
         CardModule,
         RippleModule,
         StyleClassModule,
-        AutoFocusModule
-    ], imports: [AvatarModule,
+        AutoFocusModule,
+        InputGroupModule,
+        InputGroupAddonModule
+    ],
+     imports: [AvatarModule,
         AvatarGroupModule,
         AnimateOnScrollModule,
         FormsModule,
@@ -262,5 +266,9 @@ import { NgModule } from '@angular/core';
         CardModule,
         RippleModule,
         StyleClassModule,
-        AutoFocusModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        AutoFocusModule,
+        InputGroupModule,
+        InputGroupAddonModule
+    
+    ], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class ImportsPrimeNgModule {}
