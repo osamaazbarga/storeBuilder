@@ -18,7 +18,12 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from './services/language.service';
 import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
+// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
+import { ApplicationConfig } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
 
 
@@ -33,28 +38,43 @@ export function HttpLoaderFactory(http: HttpBackend) {
   
 }
 
-@NgModule({ declarations: [
-        AppComponent,
-    ],
-    bootstrap: [AppComponent], 
-    imports: [ButtonModule,
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        SharedModule,
-        // MaterialModule,
-        MatGridListModule,
-        TranslateModule.forRoot({
-            defaultLanguage: 'en',
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpBackend]
+@NgModule({
+  declarations: [
+    AppComponent,
+  ],
+  imports: [
+    ButtonModule,
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    SharedModule,
+    MaterialModule,
+    // NgMultiSelectDropDownModule.forRoot(),
+    MatGridListModule,
+    // HttpClientModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpBackend]
+      }
+    }),
+
+  
+  ],
+  providers: [LanguageService,
+    provideAnimationsAsync(),
+        providePrimeNG({
+            theme: {
+                preset: Aura
             }
-        }),
-        ], 
-        
-       })
+        })
+  ],
+  bootstrap: [AppComponent]
+})
 export class AppModule { }

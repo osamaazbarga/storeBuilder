@@ -21,7 +21,7 @@ import { ButtonLinkComponent } from '../components/button-link/button-link.compo
   declarations: [
         NotFoundComponent,
         ValidationMessagesComponent,
-        // NotificaionComponent,
+        NotificaionComponent,
         UserHasRoleDirective,
         LanguageSelectorComponent,
         ButtonLinkComponent

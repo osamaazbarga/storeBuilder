@@ -1,0 +1,9 @@
+/* ng-multiselect-dropdown{
+    width: 68.6%;
+} */
+
+.form-select{
+    --bs-form-select-bg-img:"";
+    padding: 0;
+    background-position:0%;
+}

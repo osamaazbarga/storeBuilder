@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
   currentLang: string = 'ar';
   supportedLangs = [ { code: 'en', label: 'English', flag: '🇺🇸' }, { code: 'ar', label: 'العربية', flag: '🇸🇦' }, { code: 'he', label: 'עברית', flag: '🇮🇱' }, ];
+  private langSubject = new BehaviorSubject<string>('ar');
+  lang$ = this.langSubject.asObservable();
+
 
 //   constructor(private translate: TranslateService) {
 //     this.setLanguage(this.currentLang);
 //   }
 constructor(private translate: TranslateService) { 
     const savedLang = localStorage.getItem('lang') || 'en'; 
+    this.langSubject = new BehaviorSubject<string>(savedLang);
+    this.lang$ = this.langSubject.asObservable();
     this.translate.addLangs(this.supportedLangs.map(l => l.code)); this.translate.setDefaultLang('en'); 
     this.translate.use(savedLang); 
     document.documentElement.dir = savedLang === 'ar' || savedLang === 'he' ? 'rtl' : 'ltr'; 
@@ -28,6 +34,7 @@ constructor(private translate: TranslateService) {
 
 setLanguage(lang: string) { 
     this.translate.use(lang); 
+    this.langSubject.next(lang);
     localStorage.setItem('lang', lang); 
     document.documentElement.dir = lang === 'ar' || lang === 'he' ? 'rtl' : 'ltr'; 
     document.body.classList.remove('rtl', 'ltr');
@@ -42,7 +49,11 @@ setLanguage(lang: string) {
     }
 }
 
-getCurrentLang() { return this.translate.currentLang; }
+getCurrentLang() { 
+  return this.langSubject.value;
+  return this.translate.currentLang; 
+
+}
 
 getLanguages() { return this.supportedLangs; }
 

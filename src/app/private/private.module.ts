@@ -46,7 +46,7 @@ import { TranslateModule } from '@ngx-translate/core';
     PrimeNgCompnentsModule,
     MatGridListModule,
     MaterialModule,
-    TranslateModule
+    TranslateModule,
     
   ]
 })

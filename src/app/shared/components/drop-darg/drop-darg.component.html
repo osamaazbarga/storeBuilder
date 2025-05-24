@@ -1,4 +1,4 @@
-<div [ngClass]="image ? 'drop-zone-no-dashed' : 'drop-zone'"
+<!-- <div [ngClass]="image ? 'drop-zone-no-dashed' : 'drop-zone'"
      appDragDrop 
      (fileDropped)="onFilesDropped($event)" 
      (click)="!image && fileInput.click()" 
@@ -9,6 +9,6 @@
   
   <img *ngIf="image" [src]="image" alt="Uploaded Image" class="uploaded-image">
 
-</div>
+</div> -->
 
 <input #fileInput type="file" (change)="onFilesSelected($event)" accept="image/*" hidden>

@@ -1,7 +1,30 @@
 
+<!-- <p-multiselect [options]="cities" [(ngModel)]="selectedCities" placeholder="Select Cities" scrollHeight="250px" display="chip" styleClass="w-full md:w-80">
+    <ng-template let-group #group>
+        <div class="flex items-center">
+            <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png" [class]="'mr-2 flag flag-' + group.value" style="width: 20px" />
+            <span>{{ group.label }}</span>
+        </div>
+    </ng-template>
+</p-multiselect> -->
+  
+  
+  <!-- <ng-multiselect-dropdown
+  [placeholder]="'custom placeholder'"
+  [settings]="dropdownSettings"
+  [data]="dropdownList"
+  [(ngModel)]="selectedItems"
+  (onSelect)="onItemSelect($event)"
+  (onSelectAll)="onSelectAll($event)"
+> -->
+<!-- </ng-multiselect-dropdown> -->
+
+
+
+
 <div>
     <!-- <app-button></app-button> -->
-     <app-button kind="splitButton" label="Add Product" [items]="items" icon="pi pi-plus-circle"></app-button>
+     <!-- <app-button kind="splitButton" label="Add Product" [items]="items" icon="pi pi-plus-circle"></app-button> -->
      
     
     <div class="container">
@@ -21,11 +44,47 @@
 </div>
 
 <div class="input-group mb-3">
+  <span class="input-group-text"><i class="material-symbols-rounded">payments</i></span>
+  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+  <span class="input-group-text">.00</span>
+</div>
+
+<div class="input-group mb-3">
+  <span class="input-group-text"><i class="material-symbols-rounded">inventory_2</i></span>
+  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+  <span class="input-group-text">.00</span>
+  <span class="input-group-text">.00</span>
+</div>
+
+<div class="input-group">
+    <!-- the dir  -->
+  <!-- <select class="form-select" [attr.dir]="currentLang === 'ar' ||  currentLang === 'he'? 'rtl' : 'ltr'" id="categorySelect" aria-label="Example select with button addon">
+    <option selected>اختار</option>
+    <option value="1">واحد</option>
+    <option value="2">واحد</option>
+    <option value="3">واحد</option>
+  </select> -->
+
+  <!-- <ng-multiselect-dropdown id="categorySelect" class="form-select"
+  [attr.dir]="currentLang === 'ar' ||  currentLang === 'he'? 'rtl' : 'ltr'"
+  [placeholder]="'custom placeholder'"
+  [settings]="dropdownSettings"
+  [data]="dropdownList"
+  [(ngModel)]="selectedItems"
+  (onSelect)="onItemSelect($event)"
+  (onSelectAll)="onSelectAll($event)"
+> -->
+<!-- </ng-multiselect-dropdown> -->
+  <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">add category</button>
+  
+</div>
+
+<div [attr.dir]="'ltr'"  class="input-group mb-3">
   <input type="text" class="form-control" placeholder="Recipient’s username" aria-label="Recipient’s username" aria-describedby="basic-addon2">
   <span dir="rtl" class="input-group-text" id="basic-addon2">&#64;example.com</span>
 </div>
 
-<div class="mb-3">
+<div [attr.dir]="'ltr'" class="mb-3">
   <label for="basic-url" class="form-label">Your vanity URL</label>
   <div class="input-group">
     <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
@@ -63,4 +122,23 @@
 </div>
 
 
+</div>
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
 </div>
