@@ -19,7 +19,7 @@
           </a>
         </li>
       </ng-container> -->
-      <app-sidebar-item *ngFor="let item of itemList"></app-sidebar-item>
+      <app-sidebar-item *ngFor="let item of itemList" [item]="item"></app-sidebar-item>
     </ul>
   </div>
   <div class="sidenav-footer position-absolute w-100 bottom-0 ">
