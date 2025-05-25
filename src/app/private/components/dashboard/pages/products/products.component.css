@@ -20,3 +20,11 @@
     background: none;
     border: none;
 }
+
+::ng-deep p-inputgroup input{
+    width: 100%;
+}
+
+::ng-deep p-inputgroup .btnPrice{
+    width: 139px;
+}
