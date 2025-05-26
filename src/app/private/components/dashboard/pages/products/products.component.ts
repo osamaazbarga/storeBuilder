@@ -1,4 +1,5 @@
 import { Component,AfterViewInit, OnChanges, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService, SelectItemGroup } from 'primeng/api';
 import { Subscription } from 'rxjs';
@@ -21,6 +22,22 @@ export class ProductsComponent implements OnInit{
   items: MenuItem[]=[];
   fakeArray = new Array(12);
   currentLang?:string
+  categoryVisible: boolean = false;
+  ProductSettingVisible: boolean = false;
+   formGroup!: FormGroup<any>;;
+   isChecked: boolean = false;
+
+   countries: any[] | undefined;
+
+    selectedCountry: string | undefined;
+
+    showCategoryDialog() {
+        this.categoryVisible = true;
+    }
+
+    showProductSettingDialog() {
+        this.ProductSettingVisible = true;
+    }
 
      selectedCity: City | undefined;
 
@@ -45,6 +62,10 @@ export class ProductsComponent implements OnInit{
     if (this.langSub) this.langSub.unsubscribe();
   }
   ngOnInit() {
+
+    this.formGroup = new FormGroup({
+            city: new FormControl<string | null>(null)
+        });
     this.currentLang = this.languageService.getCurrentLang();
 
     // Subscribe to language changes
@@ -52,6 +73,18 @@ export class ProductsComponent implements OnInit{
       this.currentLang = lang;
       // Angular will update bindings automatically
     });
+    this.countries = [
+            { name: 'Australia', code: 'AU' },
+            { name: 'Brazil', code: 'BR' },
+            { name: 'China', code: 'CN' },
+            { name: 'Egypt', code: 'EG' },
+            { name: 'France', code: 'FR' },
+            { name: 'Germany', code: 'DE' },
+            { name: 'India', code: 'IN' },
+            { name: 'Japan', code: 'JP' },
+            { name: 'Spain', code: 'ES' },
+            { name: 'United States', code: 'US' }
+        ];
     this.cities = [
   {name: 'New York', code: 'NY'},
             {name: 'Rome', code: 'RM'},
@@ -66,6 +99,11 @@ export class ProductsComponent implements OnInit{
   }
   onSelectAll(items: any) {
     console.log(items);
+  }
+
+  getIsCheck(){
+    console.log(this.isChecked ? "Checked" : "Unchecked");
+    // return !this.isChecked
   }
 
   private choicesInstance: any;

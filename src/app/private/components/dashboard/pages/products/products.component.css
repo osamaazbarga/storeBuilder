@@ -28,3 +28,26 @@
 ::ng-deep p-inputgroup .btnPrice{
     width: 139px;
 }
+
+::ng-deep .p-dialog-content{
+    overflow-y: visible !important;
+}
+
+.headerColor{
+    background-color: red;
+}
+
+::ng-deep .p-dialog-footer{
+    justify-content: space-between !important;
+}
+
+
+
+::ng-deep .p-tablist-tab-list{
+    justify-content: space-around;
+    border: 1px black;
+}
+
+::ng-deep p-tablist{
+    border: 1px black solid;
+}
