@@ -6,7 +6,13 @@ import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/services/language.service';
 
 
+
 interface City {
+    name: string,
+    code: string
+}
+
+interface Option {
     name: string,
     code: string
 }
@@ -24,8 +30,10 @@ export class ProductsComponent implements OnInit{
   currentLang?:string
   categoryVisible: boolean = false;
   ProductSettingVisible: boolean = false;
-   formGroup!: FormGroup<any>;;
-   isChecked: boolean = false;
+  formGroup!: FormGroup<any>;
+  isChecked: boolean = false;
+  selectedNeedShip:string | undefined;
+  selectKindWeight:string | undefined;
 
    countries: any[] | undefined;
 
@@ -49,6 +57,8 @@ export class ProductsComponent implements OnInit{
         { name: 'Istanbul', code: 'IST' },
         { name: 'Paris', code: 'PRS' },
     ];
+  needShipOption!:Option[];
+  kindWeightOption!:Option[];
   
 
     selectedCities!: City[];
@@ -86,12 +96,21 @@ export class ProductsComponent implements OnInit{
             { name: 'United States', code: 'US' }
         ];
     this.cities = [
-  {name: 'New York', code: 'NY'},
-            {name: 'Rome', code: 'RM'},
-            {name: 'London', code: 'LDN'},
-            {name: 'Istanbul', code: 'IST'},
-            {name: 'Paris', code: 'PRS'}
+            {name: 'نعم, يتطلب شحن', code: '1'},
+            {name: 'لا يتطلب شحن', code: '0'}
         ];
+    this.needShipOption = [
+          {name: 'نعم, يتطلب شحن', code: '1'},
+          {name: 'لا يتطلب شحن', code: '0'}
+    ];
+
+    this.kindWeightOption = [
+          {name: 'كجم', code: '0'},
+          {name: 'قرام', code: '1'},
+          {name: 'رطل', code: '2'},
+          {name: 'أوقيه', code: '3'}
+    ];
+    
     
   }
   onItemSelect(item: any) {

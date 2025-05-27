@@ -264,13 +264,43 @@
         </p-tablist>
         <p-tabpanels>
             <p-tabpanel value="0">
-                <p class="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim id est laborum.
-                </p>
+                 <div class="flex flex-column items-center mb-4">
+                      <label for="needShipSelect">يتطلب شحن / توصيل ؟</label>
+                      <p-select [options]="needShipOption" [(ngModel)]="selectedNeedShip" [checkmark]="true" optionLabel="name"  placeholder="Select a City" class="w-full md:w-56" />
+                  </div>
+
+                  <div class="flex flex-column items-center mb-4">
+                      <label for="needShipSelect">وزن المنتج</label>
+                      <small id="needShipSelect-help">أدخل الوزن الفعلي للمنتج ليتم معالجته بشكل صحيح من قبل شركة الشحن.</small>
+                  <p-inputgroup>
+                      <p-inputnumber class="KindWeightStyle" inputId="locale-user" [minFractionDigits]="2" />
+                      <p-select [(ngModel)]="selectKindWeight" [options]="kindWeightOption" optionLabel="name" placeholder="وزن" />
+                  </p-inputgroup>
+
+                </div>
+
+                <div class="flex flex-column items-center mb-4">
+                      <label for="productPrice">سعر المنتج</label>
+                      <p-inputnumber inputId="locale-user" [minFractionDigits]="2" />
+                </div>
+
+
+              <div class="d-flex flex-row justify-content-between flex-nowrap">
+                         <!-- flex flex-row flex-wrap -->
+                          <div class="flex flex-column items-center mb-4">
+                            <label for="productPrice">السعر المخفض</label>
+                            <p-inputnumber inputId="locale-user" [minFractionDigits]="2" />
+                          </div>
+
+                          <div class="flex flex-column items-center mb-4">
+                            <label for="productPrice">السعر المخفض</label>
+                            <p-inputnumber inputId="locale-user" [minFractionDigits]="2" />
+                          </div>
+              </div>
+              <p-editor [style]="{ height: '320px' }" />
+
+
+
             </p-tabpanel>
             <p-tabpanel value="1">
                 <p class="m-0">
