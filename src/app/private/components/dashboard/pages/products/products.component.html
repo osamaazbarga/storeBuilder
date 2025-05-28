@@ -19,6 +19,19 @@
 > -->
 <!-- </ng-multiselect-dropdown> -->
 
+<!-- <div style="height: 70vh">
+  <pintura-editor
+    #editorRef
+    [options]="editorOptions"
+    [src]="src"
+    [imageCropAspectRatio]="cropAspectRatio"
+    [locale]="locale"
+    (load)="handleLoad($event)"
+    (process)="handleProcess($event)"
+  ></pintura-editor>
+</div>
+
+<p><img *ngIf="result" [src]="result" alt="" /></p> -->
 
 
 
@@ -32,7 +45,9 @@
   <div class="row row-cols-3"> 
     <div *ngFor="let a of fakeArray; let index = index" class="col">
       <div class="card">
-    <img src="./assets/images/defult-img-store.jpg" class="card-img-top" width="80" alt="...">
+    <div class="mainProductImage">
+    <img src="./assets/images/defult-img-store.jpg" class="card-img-top" width="80" alt="..." (click)="showUpladImages()">
+    </div>
 
   <div class="card-body ltr grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- <h5 class="card-title">Card title</h5>
@@ -158,9 +173,11 @@
   <textarea class="form-control" aria-label="With textarea"></textarea>
 </div> -->
 
-<div class="d-grid gap-2 col-12 mx-auto">
-  <button class="btn btn-primary" type="button">Button</button>
+<div class="d-grid col-12">
+  
 </div>
+
+  <p-button label="Submit" class="btnSave w-100"/>
 
   </div>
         </div>
@@ -327,5 +344,83 @@
     <ng-template #footer>
         <p-button label="حفظ بيانات المنتج" [outlined]="true" severity="secondary" (click)="ProductSettingVisible = false" />
         <p-button label="إلغاء" [text]="true" severity="secondary" (click)="ProductSettingVisible = false" />
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="UploadImagesVisible" [modal]="true" position="top" [style]="{ width: '60rem' }">
+    <ng-template  #header>
+        <div class="d-inline-flex align-items-center justify-content-center gap-2">
+            <span class="font-bold whitespace-nowrap">اضافة تصنيف جديد</span>
+        </div>
+    </ng-template>
+    <!-- <span class="text-surface-500 dark:text-surface-400 block mb-4">Update your information.</span> -->
+    <p-fileupload name="myfile[]" url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="true" accept="image/*" maxFileSize="1000000" (onUpload)="onTemplatedUpload()" (onSelect)="onSelectedFiles($event)">
+        <ng-template #header let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback" let-uploadCallback="uploadCallback">
+            <div class="d-flex flex-wrap justify-content-between align-items-center flex-1 gap-4">
+                <div class="d-flex gap-2">
+                    <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-images" [rounded]="true" [outlined]="true" />
+                    <p-button (onClick)="uploadEvent(uploadCallback)" icon="pi pi-cloud-upload" [rounded]="true" [outlined]="true" severity="success" [disabled]="!files || files.length === 0" />
+                    <p-button (onClick)="clearCallback()" icon="pi pi-times" [rounded]="true" [outlined]="true" severity="danger" [disabled]="!files || files.length === 0" />
+                </div>
+                <!-- <p-progressbar [value]="totalSizePercent" [showValue]="false" class="w-full" styleClass="md:w-20rem h-1 w-full md:ml-auto">
+                    <span class="whitespace-nowrap">{{ totalSize }}B / 1Mb</span>
+                </p-progressbar> -->
+            </div>
+        </ng-template>
+        <ng-template #content let-files let-uploadedFiles="uploadedFiles" let-removeFileCallback="removeFileCallback" let-removeUploadedFileCallback="removeUploadedFileCallback">
+            <div class="d-flex flex-column gap-8 pt-4">
+                <div *ngIf="files?.length > 0">
+                    <h5>Pending11</h5>
+                    <div class="test1 d-flex flex-wrap">
+                        <div *ngFor="let file of files; let i = index" class="h-100 w-50 rounded-3 d-flex flex-column border border-surface align-items-center">
+                            <div>
+                                <img role="presentation" [alt]="file.name" [src]="file.objectURL" class="w-100 border-0 rounded-top"/>
+                            </div>
+                            <div class="d-flex justify-content-between w-100 productPhotoMeta text-dark rounded-bottom">
+                              <div style="margin:auto 0">
+                                <div class="flex items-center gap-2">
+                                  <!-- <p-radiobutton inputId="size_normal" name="size" value="Normal" /> -->
+                                  <label for="size_normal">الصورة الأساسية</label>
+                                  <!-- to contuiue
+                                   https://stackblitz.com/run?file=src%2Fapp%2Fradio-button-reactive-forms-demo.html -->
+                              </div>
+                              </div>
+                              <p-button icon="pi pi-times" (click)="onRemoveTemplatingFile($event, file, removeFileCallback, i)" [outlined]="true" [rounded]="true" severity="danger" />
+                            </div>
+                            <!-- <span class="font-semibold text-ellipsis whitespace-nowrap overflow-hidden">{{ file.name }}</span>
+                            <div>{{ formatSize(file.size) }}</div>
+                            <p-badge value="Pending" severity="warn" />
+                            <p-button icon="pi pi-times" (click)="onRemoveTemplatingFile($event, file, removeFileCallback, i)" [outlined]="true" [rounded]="true" severity="danger" /> -->
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="uploadedFiles?.length > 0">
+                    <h5>Completed</h5>
+                    <div class="d-flex flex-wrap gap-4">
+                        <div *ngFor="let file of uploadedFiles; let i = index" class="card m-0 px-12 d-flex flex-column border border-surface align-items-center gap-4">
+                            <div>
+                                <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="100" height="50" />
+                            </div>
+                            <span class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{ file.name }}</span>
+                            <div>{{ formatSize(file.size) }}</div>
+                            <p-badge value="Completed" class="mt-4" severity="success" />
+                            <p-button icon="pi pi-times" (onClick)="removeUploadedFileCallback(i)" [outlined]="true" [rounded]="true" severity="danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #file></ng-template>
+        <ng-template #empty>
+            <div class="d-flex align-items-center justify-content-center flex-column">
+                <i class="pi pi-cloud-upload !border-2 !rounded-full !p-8 !text-4xl !text-muted-color"></i>
+                <p class="mt-6 mb-0">Drag and drop files to here to upload.</p>
+            </div>
+        </ng-template>
+    </p-fileupload>
+    <ng-template #footer>
+        <p-button label="اضافة تصنيف" [outlined]="true" severity="secondary" (click)="categoryVisible = false" />
+        <p-button label="ألغاء" [text]="true" severity="secondary" (click)="categoryVisible = false" />
+        
     </ng-template>
 </p-dialog>

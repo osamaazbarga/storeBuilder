@@ -1,9 +1,14 @@
-import { Component,AfterViewInit, OnChanges, OnInit } from '@angular/core';
+import { Component,AfterViewInit, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService, SelectItemGroup } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/services/language.service';
+import { getEditorDefaults, PinturaEditorOptions } from '@pqina/pintura';
+import { DomSanitizer } from '@angular/platform-browser';
+import { PinturaEditorComponent } from '@pqina/angular-pintura';
+import { PrimeNG } from 'primeng/config';
+
 
 
 
@@ -25,15 +30,66 @@ interface Option {
     standalone: false
 })
 export class ProductsComponent implements OnInit{
+
+  
   items: MenuItem[]=[];
   fakeArray = new Array(12);
   currentLang?:string
   categoryVisible: boolean = false;
   ProductSettingVisible: boolean = false;
+  UploadImagesVisible: boolean = false;
   formGroup!: FormGroup<any>;
   isChecked: boolean = false;
   selectedNeedShip:string | undefined;
   selectKindWeight:string | undefined;
+  src: string = 'assets/images/image.jpeg';
+  @ViewChild('editorRef') editorRef?: PinturaEditorComponent<any> = undefined;
+  options: any = {
+        // Pass the editor default configuration options
+        ...getEditorDefaults(),
+
+        // This will set a square crop aspect ratio
+        imageCropAspectRatio: 1
+    }
+
+
+  editorOptions = getEditorDefaults() as PinturaEditorOptions;
+
+  result?: string = undefined;
+  cropAspectRatio = 1;
+  locale?: any = { ...getEditorDefaults().locale };
+
+  handleLoad($event: any) {
+    console.log('load', $event);
+
+    console.log('component ref', this.editorRef);
+
+    console.log('editor instance ref', this.editorRef?.editor);
+
+    console.log(
+      'inline editor image state',
+      this.editorRef?.editor?.imageState
+    );
+  }
+
+  handleProcess($event: any) {
+    console.log('process', $event);
+
+    const objectURL = URL.createObjectURL($event.dest);
+    this.result = this.sanitizer.bypassSecurityTrustResourceUrl(
+      objectURL
+    ) as string;
+    console.log( this.result)
+  }
+
+  handleChangeLocale($event: any) {
+    // load german locale
+    import('@pqina/pintura/locale/nl_NL/index.js').then(
+      // ({ default: locale }) => {
+      //   this.locale = locale;
+      // }
+    );
+  }
 
    countries: any[] | undefined;
 
@@ -45,6 +101,9 @@ export class ProductsComponent implements OnInit{
 
     showProductSettingDialog() {
         this.ProductSettingVisible = true;
+    }
+    showUpladImages(){
+        this.UploadImagesVisible = true;
     }
 
      selectedCity: City | undefined;
@@ -130,7 +189,7 @@ export class ProductsComponent implements OnInit{
  
   
 
-  constructor(private messageService: MessageService,private router:Router,public languageService: LanguageService) {
+  constructor(private messageService: MessageService,private router:Router,public languageService: LanguageService,private sanitizer: DomSanitizer,private config: PrimeNG) {
     
     this.items = [
         {
@@ -177,6 +236,63 @@ export class ProductsComponent implements OnInit{
     ];
   }
 
+
+
+
+  files = [];
+
+    totalSize : number = 0;
+
+    totalSizePercent : number = 0;
+
+
+
+    choose(event:Event, callback:any) {
+        callback();
+    }
+
+    onRemoveTemplatingFile(event:any, file:any, removeFileCallback:any, index:any) {
+        removeFileCallback(event, index);
+        this.totalSize -= parseInt(this.formatSize(file.size));
+        this.totalSizePercent = this.totalSize / 10;
+    }
+
+    onClearTemplatingUpload(clear:any) {
+        clear();
+        this.totalSize = 0;
+        this.totalSizePercent = 0;
+    }
+
+    onTemplatedUpload() {
+        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+    }
+
+    onSelectedFiles(event:any) {
+        this.files = event.currentFiles;
+        this.files.forEach((file:any) => {
+            this.totalSize += parseInt(this.formatSize(file.size));
+        });
+        this.totalSizePercent = this.totalSize / 10;
+    }
+
+    uploadEvent(callback:any) {
+        callback();
+    }
+
+    formatSize(bytes:any) {
+        const k = 1024;
+        const dm = 3;
+        const sizes:any = this.config.translation.fileSizeTypes;
+        if (bytes === 0) {
+            return `0 ${sizes[0]}`;
+        }
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        const formattedSize = parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
+
+        return `${formattedSize} ${sizes[i]}`;
+    }
+
   save(severity: string) {
       this.messageService.add({ severity: severity, summary: 'Success', detail: 'Data Saved' });
   }
@@ -189,3 +305,6 @@ export class ProductsComponent implements OnInit{
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Deleted' });
   }
 }
+
+
+
