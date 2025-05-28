@@ -22,6 +22,8 @@ import { DragDropDirective } from '../shared/directives/drag-drop.directive';
 import { SidebarItemComponent } from '../components/sidebar-item/sidebar-item.component';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { AngularPinturaModule } from '@pqina/angular-pintura';
+
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatGridListModule,
     MaterialModule,
     TranslateModule,
+    AngularPinturaModule
     
   ]
 })

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotFoundComponent } from './components/errors/not-found/not-found.component';
 import { ValidationMessagesComponent } from './components/errors/validation-messages/validation-messages.component';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NotificaionComponent } from './components/modals/notificaion/notificaion.component';
@@ -15,6 +15,10 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { ButtonLinkComponent } from '../components/button-link/button-link.component';
+
+import { AngularPinturaModule } from '@pqina/angular-pintura';
+
+
 
 
 @NgModule({ 
@@ -39,6 +43,10 @@ import { ButtonLinkComponent } from '../components/button-link/button-link.compo
         RouterModule,
         ReactiveFormsModule,
         MatGridListModule,
+        RouterLink,
+        RouterOutlet,
+        AngularPinturaModule
+        // FilePondModule,
         // ModalModule.forRoot()
     ], 
     providers: [provideHttpClient(withInterceptorsFromDi())] 

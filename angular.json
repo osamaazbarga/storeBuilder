@@ -26,6 +26,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@pqina/pintura/pintura.css",
                 "src/custom-theme.scss",
                 "node_modules/bootstrap/dist/css/bootstrap.min.css",
 
@@ -115,6 +116,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@pqina/pintura/pintura.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/primeicons/primeicons.css",
               "src/styles.scss"
