@@ -12,9 +12,19 @@
     width: 100% !important;
 }
 
-.buttonGroup .buttonElement{
+::ng-deep .buttonGroup .buttonElement{
     min-width:50%; 
 }
+
+.addCategoryButton{ 
+    /* width:46% ; */
+    white-space: nowrap;
+    padding: 0 10px;
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
+}
+
+
 
 .buttonGroup .buttonElement ::ng-deep p-button button{
     background: none;

@@ -53,12 +53,12 @@
     <p-inputgroup-addon>
         &#64;
     </p-inputgroup-addon>
-    <input pInputText  placeholder="Title" />
+    <input pInputText  placeholder="{{ 'productCard.TITLE' | translate }}" />
     </p-inputgroup>
 
     <p-inputgroup>
         <p-inputgroup-addon><i class="pi pi-money-bill"></i></p-inputgroup-addon>
-        <p-inputnumber placeholder="Price" />
+        <p-inputnumber placeholder="{{ 'productCard.PRICE' | translate }}" />
         <p-inputgroup-addon>.00</p-inputgroup-addon>
     </p-inputgroup>
 
@@ -69,7 +69,7 @@
         </span>
     </p-inputgroup-addon>
     
-    <input type="text" pInputText placeholder="Price" />
+    <input type="text" pInputText placeholder="{{ 'productCard.QUANTITY' | translate }}" />
     <p-inputgroup-addon>
       <span class="material-symbols-rounded">
             notification_important
@@ -88,11 +88,11 @@
 
      <p-inputgroup>
       <p-multiselect [attr.dir]="currentLang === 'ar' ||  currentLang === 'he'? 'rtl' : 'ltr'"
- id="categorySelect" class="form-select"
-  [options]="cities" [(ngModel)]="selectedCities" placeholder="Select Cities" optionLabel="name" display="chip" />
-        <p-inputgroup-addon class="buttonElement">
+        id="categorySelect" class="form-select"
+          [options]="cities" [(ngModel)]="selectedCities" placeholder="{{ 'productCard.CATEGORY' | translate }}" optionLabel="name" display="chip" />
+        <p-inputgroup-addon class="addCategoryButton">
 
-            <p-button severity="secondary" label="Search" (click)="showDialog('category')"/>
+            <p-button severity="secondary" label="{{ 'productCard.ADDCATEGORY' | translate }}" (click)="showDialog('category')"/>
         </p-inputgroup-addon>
         
     </p-inputgroup>
@@ -100,12 +100,12 @@
     <p-inputgroup class="buttonGroup">
     <p-inputgroup-addon class="buttonElement">
 
-            <p-button label="Product Settings" (click)="showDialog('productSetting')" icon="pi pi-sliders-h" severity="secondary" [iconPos]="currentLang === 'ar' ||  currentLang === 'he'? 'right' : 'left'"/>
+            <p-button label="{{ 'productCard.SETTINGS' | translate }}" (click)="showDialog('productSetting')" icon="pi pi-sliders-h" severity="secondary" [iconPos]="currentLang === 'ar' ||  currentLang === 'he'? 'right' : 'left'"/>
         </p-inputgroup-addon>
         <p-inputgroup-addon class="buttonElement">
 
             <!-- <p-button severity="secondary" label="More" data-bs-toggle="modal" data-bs-target="#staticBackdrop"/> -->
-            <p-splitbutton severity="secondary" label="More" [model]="items" />
+            <p-splitbutton severity="secondary" label="{{ 'productCard.MORE' | translate }}" [model]="items" />
 
         </p-inputgroup-addon>
 </p-inputgroup>
@@ -164,11 +164,8 @@
   <textarea class="form-control" aria-label="With textarea"></textarea>
 </div> -->
 
-<div class="d-grid col-12">
-  
-</div>
 
-  <p-button label="Submit" class="btnSave w-100"/>
+  <p-button label="{{ 'productCard.SAVEBUTTON' | translate }}" class="btnSave w-100"/>
 
   </div>
         </div>

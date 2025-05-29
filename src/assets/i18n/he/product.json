@@ -1,0 +1,12 @@
+{
+    "productCard":{
+        "TITLE": "הזן שם מוצר",
+        "PRICE": "מחיר",
+        "QUANTITY": "הזן כמות",
+        "CATEGORY": "בחר קטגוריית מוצר",
+        "SETTINGS": "הגדרות מוצר",
+        "MORE": "עוד",
+        "ADDCATEGORY": "הוסף קטגוריה",
+        "SAVEBUTTON": "שמור"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "productCard":{
+        "TITLE": "أدخل اسم المنتج",
+        "PRICE": "السعر",
+        "QUANTITY": "أدخل الكمية",
+        "CATEGORY": "اختر تصنيف المنتج",
+        "SETTINGS": "إعدادات المنتج",
+        "MORE": "المزيد",
+        "ADDCATEGORY": "أضف تصنيف",
+        "SAVEBUTTON": "حفظ"
+    }
+}
