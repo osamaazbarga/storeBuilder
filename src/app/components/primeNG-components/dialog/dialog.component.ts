@@ -104,12 +104,18 @@ export class DialogComponent {
     ngOnInit() {
 
     this.formGroup = new FormGroup({
-            city: new FormControl<string | null>(null)
+            city: new FormControl(false)
         });
+        this.formGroup.get('city')?.valueChanges.subscribe((value: boolean) => {
+    console.log('Checkbox changed:', value);
+    // You can assign it to a variable like:
+    this.isChecked = value;
+  });
       this.needShipOption = [
           {name: 'نعم, يتطلب شحن', code: '1'},
           {name: 'لا يتطلب شحن', code: '0'}
     ];
+
 
     this.kindWeightOption = [
           {name: 'كجم', code: '0'},

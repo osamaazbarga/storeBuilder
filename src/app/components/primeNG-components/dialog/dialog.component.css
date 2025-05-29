@@ -14,3 +14,11 @@
     background-color: #f2f5f7 !important;
     padding: 10px 11px 13px 10px;
 }
+
+.KindWeightStyle{
+    width: 90%;
+}
+
+::ng-deep .p-dialog-footer{
+    justify-content: space-between !important;
+}
