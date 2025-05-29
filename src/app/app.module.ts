@@ -33,6 +33,8 @@ export function HttpLoaderFactory(http: HttpBackend) {
      { prefix: './assets/i18n/', suffix: '/nav.json' },
     { prefix: './assets/i18n/', suffix: '/auth.json' },
     { prefix: './assets/i18n/', suffix: '/dashboard.json' },
+    { prefix: './assets/i18n/', suffix: '/product.json' },
+
 
   ]);
   
