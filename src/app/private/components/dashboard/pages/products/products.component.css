@@ -30,13 +30,6 @@
 }
 
 
-.headerColor{
-    background-color: red;
-}
-
-::ng-deep .p-dialog-footer{
-    justify-content: space-between !important;
-}
 
 
 
@@ -55,9 +48,7 @@
     justify-content: space-around;
 }
 
-.KindWeightStyle{
-    width: 90%;
-}
+
 
 
 /* .productPhotoMeta{
