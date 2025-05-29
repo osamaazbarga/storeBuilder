@@ -17,11 +17,8 @@
 }
 
 .addCategoryButton{ 
-    /* width:46% ; */
     white-space: nowrap;
-    padding: 0 10px;
-  /* overflow: hidden; */
-  /* text-overflow: ellipsis; */
+    padding: 0 10px !important;
 }
 
 
