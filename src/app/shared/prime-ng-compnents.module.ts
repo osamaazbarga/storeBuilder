@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../components/button/button.component';
 import { ImportsPrimeNgModule } from './importsPrimeNg.module';
 import { DialogComponent } from '../components/primeNG-components/dialog/dialog.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -18,7 +19,8 @@ import { DialogComponent } from '../components/primeNG-components/dialog/dialog.
   ] ,
   imports: [
     CommonModule,
-    ImportsPrimeNgModule
+    ImportsPrimeNgModule,
+    TranslateModule
     //ButtonComponent
   ]
 })

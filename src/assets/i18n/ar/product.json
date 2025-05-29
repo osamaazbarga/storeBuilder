@@ -1,4 +1,5 @@
 {
+    "CANCELBUTTON":"الغاء",
     "productCard":{
         "TITLE": "أدخل اسم المنتج",
         "PRICE": "السعر",
@@ -8,5 +9,13 @@
         "MORE": "المزيد",
         "ADDCATEGORY": "أضف تصنيف",
         "SAVEBUTTON": "حفظ"
-    }
+    },
+    "categoryDialog": {
+        "DIALOGTITLE": "إضافة التصنيف جديدة",
+        "CATEGORYNAME": "اسم التصنيف",
+        "CATEGORYNAMEPALCEHOLDER": "أدخل اسم التصنيف",
+        "SUBCATEGORYRADIO": "إضافة إلى تصنيف رئيسي",
+        "ADDCATEGORY": "إضافة تصنيف",
+        "SUBCATEGORYPLACEHOLDER": "تحديد التصنيف الرئيسي"
+  }
 }

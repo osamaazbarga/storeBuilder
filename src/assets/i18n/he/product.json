@@ -1,4 +1,5 @@
 {
+    "CANCELBUTTON":"ביטול",
     "productCard":{
         "TITLE": "הזן שם מוצר",
         "PRICE": "מחיר",
@@ -8,5 +9,13 @@
         "MORE": "עוד",
         "ADDCATEGORY": "הוסף קטגוריה",
         "SAVEBUTTON": "שמור"
-    }
+    },
+    "categoryDialog": {
+        "DIALOGTITLE": "הוסף קטגוריה חדשה",
+        "CATEGORYNAME": "שם קטגוריה",
+        "CATEGORYNAMEPALCEHOLDER": "הזן שם קטגוריה",
+        "SUBCATEGORYRADIO": "הוסף לקטגוריה ראשית",
+        "ADDCATEGORY": "הוסף קטגוריה",
+        "SUBCATEGORYPLACEHOLDER": "בחר קטגוריה ראשית"
+  }
 }

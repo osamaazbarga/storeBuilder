@@ -1,4 +1,5 @@
 {
+    "CANCELBUTTON":"Cancel",
     "productCard":{
         "TITLE":"Enter product name",
         "PRICE":"Price",
@@ -11,6 +12,14 @@
     },
     "productSettingsDialog":{},
     "uploadImageDialog":{},
-    "categoryDialog":{}
+    "categoryDialog":{
+        "DIALOGTITLE":"Add new category",
+        "CATEGORYNAME":"Category name",
+        "CATEGORYNAMEPALCEHOLDER":"Enter a category name",
+        "SUBCATEGORYRADIO":"Add to main category",
+        "ADDCATEGORY":"Add category",
+        "SUBCATEGORYPLACEHOLDER":"Select the main category"
+
+    }
 
 }
