@@ -10,7 +10,6 @@ import { NotificaionComponent } from './components/modals/notificaion/notificaio
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
 import { ButtonModule } from 'primeng/button';
 import { ImportsPrimeNgModule } from './importsPrimeNg.module';
-import { PrimeNgCompnentsModule } from './prime-ng-compnents.module';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
@@ -37,12 +36,14 @@ import { AngularPinturaModule } from '@pqina/angular-pintura';
         ImportsPrimeNgModule,
         LanguageSelectorComponent,
         ButtonLinkComponent
+        
     ], 
     imports: [
       CommonModule,
         RouterModule,
         ReactiveFormsModule,
         MatGridListModule,
+        ImportsPrimeNgModule,
         RouterLink,
         RouterOutlet,
         AngularPinturaModule

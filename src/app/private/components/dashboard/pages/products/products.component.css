@@ -29,9 +29,6 @@
     width: 139px;
 }
 
-::ng-deep .p-dialog-content{
-    /* overflow-y: visible !important; */
-}
 
 .headerColor{
     background-color: red;
@@ -62,16 +59,11 @@
     width: 90%;
 }
 
-.test1>div{
-    flex: 40% !important; /* or - flex: 0 50% - or - flex-basis: 50% - */
-  /*demo*/
-  box-shadow: 0 0 0 1px black;
-  margin: 10px;
-}
-.productPhotoMeta{
+
+/* .productPhotoMeta{
     background-color: #f2f5f7 !important;
     padding: 10px 11px 13px 10px;
-}
+} */
 .mainProductImage{
     cursor: pointer;
 }

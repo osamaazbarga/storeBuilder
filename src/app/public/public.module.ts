@@ -17,7 +17,6 @@ import {  TranslateModule } from '@ngx-translate/core';
 import { StoreComponent } from '../private/components/store/store/store.component';
 import { FooterNavComponent } from './components/home-parts/footer-nav/footer-nav.component';
 import { StartNowComponent } from './components/home-parts/start-now/start-now.component';
-import { PrimeNgCompnentsModule } from "../shared/prime-ng-compnents.module";
 import { FirstHomePartComponent } from './components/home-parts/first-home-part/first-home-part.component';
 
 
@@ -42,8 +41,7 @@ import { FirstHomePartComponent } from './components/home-parts/first-home-part/
     MatButtonModule,
     MatInputModule,
     SharedModule,
-    TranslateModule,
-    PrimeNgCompnentsModule
+    TranslateModule
 ],
 })
 export class PublicModule { }

@@ -1,0 +1,16 @@
+/* select in category dialog in disable */
+::ng-deep .category .p-dialog-content{
+    overflow-y: visible !important;
+}
+
+
+.viewImages>div{
+    flex: 40% !important; /* or - flex: 0 50% - or - flex-basis: 50% - */
+  /*demo*/
+  margin: 10px;
+}
+
+.productPhotoMeta{
+    background-color: #f2f5f7 !important;
+    padding: 10px 11px 13px 10px;
+}

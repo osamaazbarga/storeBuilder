@@ -35,13 +35,11 @@ export class ProductsComponent implements OnInit{
   items: MenuItem[]=[];
   fakeArray = new Array(12);
   currentLang?:string
-  categoryVisible: boolean = false;
-  ProductSettingVisible: boolean = false;
-  UploadImagesVisible: boolean = false;
-  formGroup!: FormGroup<any>;
-  isChecked: boolean = false;
   selectedNeedShip:string | undefined;
   selectKindWeight:string | undefined;
+  visible: boolean = false;
+
+  dialog!: 'productSetting' | 'uploadImages' | 'category';
   src: string = 'assets/images/image.jpeg';
   @ViewChild('editorRef') editorRef?: PinturaEditorComponent<any> = undefined;
   options: any = {
@@ -58,136 +56,6 @@ export class ProductsComponent implements OnInit{
   result?: string = undefined;
   cropAspectRatio = 1;
   locale?: any = { ...getEditorDefaults().locale };
-
-  handleLoad($event: any) {
-    console.log('load', $event);
-
-    console.log('component ref', this.editorRef);
-
-    console.log('editor instance ref', this.editorRef?.editor);
-
-    console.log(
-      'inline editor image state',
-      this.editorRef?.editor?.imageState
-    );
-  }
-
-  handleProcess($event: any) {
-    console.log('process', $event);
-
-    const objectURL = URL.createObjectURL($event.dest);
-    this.result = this.sanitizer.bypassSecurityTrustResourceUrl(
-      objectURL
-    ) as string;
-    console.log( this.result)
-  }
-
-  handleChangeLocale($event: any) {
-    // load german locale
-    import('@pqina/pintura/locale/nl_NL/index.js').then(
-      // ({ default: locale }) => {
-      //   this.locale = locale;
-      // }
-    );
-  }
-
-   countries: any[] | undefined;
-
-    selectedCountry: string | undefined;
-
-    showCategoryDialog() {
-        this.categoryVisible = true;
-    }
-
-    showProductSettingDialog() {
-        this.ProductSettingVisible = true;
-    }
-    showUpladImages(){
-        this.UploadImagesVisible = true;
-    }
-
-     selectedCity: City | undefined;
-
-  groupedCities!: SelectItemGroup[];
-  cities: City[] = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' },
-    ];
-  needShipOption!:Option[];
-  kindWeightOption!:Option[];
-  
-
-    selectedCities!: City[];
-
-  dropdownList:any = [];
-  selectedItems:any = [];
-  dropdownSettings:any = {};
-  langSub!: Subscription;
-
-  ngOnDestroy() {
-    if (this.langSub) this.langSub.unsubscribe();
-  }
-  ngOnInit() {
-
-    this.formGroup = new FormGroup({
-            city: new FormControl<string | null>(null)
-        });
-    this.currentLang = this.languageService.getCurrentLang();
-
-    // Subscribe to language changes
-    this.langSub = this.languageService.lang$.subscribe(lang => {
-      this.currentLang = lang;
-      // Angular will update bindings automatically
-    });
-    this.countries = [
-            { name: 'Australia', code: 'AU' },
-            { name: 'Brazil', code: 'BR' },
-            { name: 'China', code: 'CN' },
-            { name: 'Egypt', code: 'EG' },
-            { name: 'France', code: 'FR' },
-            { name: 'Germany', code: 'DE' },
-            { name: 'India', code: 'IN' },
-            { name: 'Japan', code: 'JP' },
-            { name: 'Spain', code: 'ES' },
-            { name: 'United States', code: 'US' }
-        ];
-    this.cities = [
-            {name: 'نعم, يتطلب شحن', code: '1'},
-            {name: 'لا يتطلب شحن', code: '0'}
-        ];
-    this.needShipOption = [
-          {name: 'نعم, يتطلب شحن', code: '1'},
-          {name: 'لا يتطلب شحن', code: '0'}
-    ];
-
-    this.kindWeightOption = [
-          {name: 'كجم', code: '0'},
-          {name: 'قرام', code: '1'},
-          {name: 'رطل', code: '2'},
-          {name: 'أوقيه', code: '3'}
-    ];
-    
-    
-  }
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-
-  getIsCheck(){
-    console.log(this.isChecked ? "Checked" : "Unchecked");
-    // return !this.isChecked
-  }
-
-  private choicesInstance: any;
-
- 
-  
 
   constructor(private messageService: MessageService,private router:Router,public languageService: LanguageService,private sanitizer: DomSanitizer,private config: PrimeNG) {
     
@@ -236,62 +104,100 @@ export class ProductsComponent implements OnInit{
     ];
   }
 
+  ngOnInit() {
+
+    this.currentLang = this.languageService.getCurrentLang();
+
+    // Subscribe to language changes
+    this.langSub = this.languageService.lang$.subscribe(lang => {
+      this.currentLang = lang;
+      // Angular will update bindings automatically
+    });
+
+    this.cities = [
+            {name: 'نعم, يتطلب شحن', code: '1'},
+            {name: 'لا يتطلب شحن', code: '0'}
+        ];
+
+    
+    
+  }
+
+  handleLoad($event: any) {
+    console.log('load', $event);
+
+    console.log('component ref', this.editorRef);
+
+    console.log('editor instance ref', this.editorRef?.editor);
+
+    console.log(
+      'inline editor image state',
+      this.editorRef?.editor?.imageState
+    );
+  }
+
+  handleProcess($event: any) {
+    console.log('process', $event);
+
+    const objectURL = URL.createObjectURL($event.dest);
+    this.result = this.sanitizer.bypassSecurityTrustResourceUrl(
+      objectURL
+    ) as string;
+    console.log( this.result)
+  }
+
+  handleChangeLocale($event: any) {
+    // load german locale
+    import('@pqina/pintura/locale/nl_NL/index.js').then(
+      // ({ default: locale }) => {
+      //   this.locale = locale;
+      // }
+    );
+  }
 
 
+    
 
-  files = [];
-
-    totalSize : number = 0;
-
-    totalSizePercent : number = 0;
-
-
-
-    choose(event:Event, callback:any) {
-        callback();
+    showDialog(dialog: 'productSetting' | 'uploadImages' | 'category') {
+        this.dialog = dialog;
+        this.visible = true;
+    }
+    getVisable():boolean{
+      return this.visible
     }
 
-    onRemoveTemplatingFile(event:any, file:any, removeFileCallback:any, index:any) {
-        removeFileCallback(event, index);
-        this.totalSize -= parseInt(this.formatSize(file.size));
-        this.totalSizePercent = this.totalSize / 10;
-    }
+  handleDataFromChild(data: any) { 
+    this.visible =data;
+  }
 
-    onClearTemplatingUpload(clear:any) {
-        clear();
-        this.totalSize = 0;
-        this.totalSizePercent = 0;
-    }
+     selectedCity: City | undefined;
 
-    onTemplatedUpload() {
-        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
-    }
+  cities: City[] = [
+        { name: 'New York', code: 'NY' },
+        { name: 'Rome', code: 'RM' },
+        { name: 'London', code: 'LDN' },
+        { name: 'Istanbul', code: 'IST' },
+        { name: 'Paris', code: 'PRS' },
+    ];
+  
 
-    onSelectedFiles(event:any) {
-        this.files = event.currentFiles;
-        this.files.forEach((file:any) => {
-            this.totalSize += parseInt(this.formatSize(file.size));
-        });
-        this.totalSizePercent = this.totalSize / 10;
-    }
+    selectedCities!: City[];
 
-    uploadEvent(callback:any) {
-        callback();
-    }
 
-    formatSize(bytes:any) {
-        const k = 1024;
-        const dm = 3;
-        const sizes:any = this.config.translation.fileSizeTypes;
-        if (bytes === 0) {
-            return `0 ${sizes[0]}`;
-        }
+  langSub!: Subscription;
 
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        const formattedSize = parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
+  ngOnDestroy() {
+    if (this.langSub) this.langSub.unsubscribe();
+  }
 
-        return `${formattedSize} ${sizes[i]}`;
-    }
+
+
+
+ 
+  
+
+
+
 
   save(severity: string) {
       this.messageService.add({ severity: severity, summary: 'Success', detail: 'Data Saved' });
