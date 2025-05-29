@@ -4,6 +4,7 @@
         "TITLE":"Enter product name",
         "PRICE":"Price",
         "QUANTITY":"Enter the quantity",
+        "OPTIONANDQUANTITY":"Options and quantity",
         "CATEGORY":"Choose a product category",
         "SETTINGS":"Product settings",
         "MORE":"More",

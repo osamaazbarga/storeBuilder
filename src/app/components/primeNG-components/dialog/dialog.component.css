@@ -49,3 +49,8 @@
 }
 
 
+::ng-deep p-dialog input,::ng-deep p-dialog button,::ng-deep p-dialog p-multiselect{
+    font-size: 13px !important;
+}
+
+

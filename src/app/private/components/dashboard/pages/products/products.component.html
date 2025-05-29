@@ -81,8 +81,8 @@
       </span>
     </p-inputgroup-addon>
 
-    <p-inputgroup-addon class="btnPrice">
-      <p-button severity="secondary" label="Search" />
+    <p-inputgroup-addon class="inlineTextButton w-100">
+      <p-button severity="secondary" label="{{ 'productCard.OPTIONANDQUANTITY' | translate }}" />
     </p-inputgroup-addon>
 </p-inputgroup>
 
@@ -90,7 +90,7 @@
       <p-multiselect [attr.dir]="currentLang === 'ar' ||  currentLang === 'he'? 'rtl' : 'ltr'"
         id="categorySelect" class="form-select"
           [options]="cities" [(ngModel)]="selectedCities" placeholder="{{ 'productCard.CATEGORY' | translate }}" optionLabel="name" display="chip" />
-        <p-inputgroup-addon class="addCategoryButton">
+        <p-inputgroup-addon class="inlineTextButton">
 
             <p-button severity="secondary" label="{{ 'productCard.ADDCATEGORY' | translate }}" (click)="showDialog('category')"/>
         </p-inputgroup-addon>

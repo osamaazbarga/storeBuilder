@@ -2,6 +2,10 @@
     width: 68.6%;
 } */
 
+::ng-deep p-inputgroup input,::ng-deep p-inputgroup button,::ng-deep p-inputgroup p-multiselect{
+    font-size: 13px !important;
+}
+
 .form-select{
     --bs-form-select-bg-img:"";
     padding: 0;
@@ -16,10 +20,11 @@
     min-width:50%; 
 }
 
-.addCategoryButton{ 
+.inlineTextButton{ 
     white-space: nowrap;
     padding: 0 10px !important;
 }
+
 
 
 
@@ -32,9 +37,9 @@
     width: 100%;
 }
 
-::ng-deep p-inputgroup .btnPrice{
+/* ::ng-deep p-inputgroup .btnPrice{
     width: 139px;
-}
+} */
 
 
 
