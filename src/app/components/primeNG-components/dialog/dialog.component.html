@@ -1,7 +1,7 @@
 <!-- add category for products-->
-<p-dialog [class]="dialog" *ngIf="dialog=='category'" [(visible)]="visible" [modal]="true" position="top" [style]="{ width: '60rem' }">
+<p-dialog [class]="dialog" *ngIf="dialog=='category'" (onHide)="visable(false)" [(visible)]="visible" [modal]="true" position="top" [style]="{ width: '60rem' }">
     <ng-template  #header>
-        <div class="d-inline-flex align-items-center justify-content-center gap-2">
+        <div class="dialogHeader d-inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold whitespace-nowrap">اضافة تصنيف جديد</span>
         </div>
     </ng-template>
@@ -52,9 +52,9 @@
     </ng-template>
 </p-dialog>
 <!-- product settings -->
-<p-dialog [class]="dialog" *ngIf="dialog=='productSetting'" [(visible)]="visible" [modal]="true" position="top" [style]="{ width: '60rem' }">
+<p-dialog [class]="dialog" *ngIf="dialog=='productSetting'" (onHide)="visable(false)" [(visible)]="visible" [modal]="true" position="top" [style]="{ width: '60rem' }">
     <ng-template #header>
-        <div class="d-inline-flex items-center justify-center gap-2">
+        <div class="dialogHeader d-inline-flex items-center justify-center gap-2">
             <span class="font-bold whitespace-nowrap">Amy Elsner</span>
         </div>
     </ng-template>
@@ -153,9 +153,9 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog  [class]="dialog" *ngIf="dialog=='uploadImages'" [(visible)]="visible" [modal]="true" position="top" [style]="{ width: '60rem' }">
+<p-dialog  [class]="dialog" *ngIf="dialog=='uploadImages'" (onHide)="visable(false)" [(visible)]="visible" [modal]="true" position="top" [style]="{ width: '60rem' }">
     <ng-template  #header>
-        <div class="d-inline-flex align-items-center justify-content-center gap-2">
+        <div class="dialogHeader d-inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold whitespace-nowrap">اضافة تصنيف جديد</span>
         </div>
     </ng-template>

@@ -31,17 +31,6 @@
 
 
 
-
-
-::ng-deep .p-tablist-tab-list{
-    justify-content: space-around;
-    border: 1px black;
-}
-
-::ng-deep p-tablist{
-    border: 1px black solid;
-}
-
 ::ng-deep .ql-picker-label{
     display: flex !important;
     flex-direction: row;

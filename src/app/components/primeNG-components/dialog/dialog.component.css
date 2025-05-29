@@ -22,3 +22,30 @@
 ::ng-deep .p-dialog-footer{
     justify-content: space-between !important;
 }
+::ng-deep .p-dialog-header{
+     background: red;
+    border-radius: 10px 10px 0 0;
+    margin: -1px -1px 0 -1px;
+    padding: 10px !important;
+    margin-bottom: 1rem;
+}
+
+
+::ng-deep .p-tablist-tab-list{
+    justify-content: space-around;
+    border: 1px black;
+}
+
+::ng-deep p-tablist{
+    border: 1px black solid;
+}
+
+::ng-deep .p-tablist-content{
+    margin: -4px;
+}
+
+::ng-deep p-dialog{
+    font-size: 13px;
+}
+
+
