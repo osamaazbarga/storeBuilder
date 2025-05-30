@@ -1,5 +1,6 @@
 {
     "CANCELBUTTON":"Cancel",
+    "OPTIONAL":"Optional",
     "productCard":{
         "TITLE":"Enter product name",
         "PRICE":"Price",
@@ -11,8 +12,19 @@
         "ADDCATEGORY":"Add category",
         "SAVEBUTTON":"Save"
     },
-    "productSettingsDialog":{},
-    "uploadImageDialog":{},
+    "productSettingsDialog":{
+        "PRODUCTDETAILS":"Product details",
+        "CUSTOMFIELDS":"Custom fields",
+        "APPLICATIONFORM":"Application form",
+        "NEEDSHIPPING":"Need shipping?",
+        "PRODUCTWEIGHT":"Product weight",
+        "DETAILSPRODUCTSWEIGHT":"Enter the actual weight of the product to be properly processed by the shipping company.",
+        "PRICE":"Price",
+        "SALEPRICE":"Sale price",
+        "REDUCEDPRICEFINISHDATE":"End of sale",
+        "SAVEPRODUCTBUTTON":"Save product details"
+
+    },
     "categoryDialog":{
         "DIALOGTITLE":"Add new category",
         "CATEGORYNAME":"Category name",
@@ -20,6 +32,12 @@
         "SUBCATEGORYRADIO":"Add to main category",
         "ADDCATEGORY":"Add category",
         "SUBCATEGORYPLACEHOLDER":"Select the main category"
+
+    },
+    "uploadImageDialog":{
+        "PRODUCTIMAGES":"Product images",
+        "DRAGANDDROP":"Drag and drop images here to upload",
+        "MAINIMAGE":"Main Image"
 
     }
 

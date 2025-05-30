@@ -1,5 +1,6 @@
 {
     "CANCELBUTTON":"ביטול",
+    "OPTIONAL":"אופציונלי",
     "productCard":{
         "TITLE": "הזן שם מוצר",
         "PRICE": "מחיר",
@@ -18,5 +19,22 @@
         "SUBCATEGORYRADIO": "הוסף לקטגוריה ראשית",
         "ADDCATEGORY": "הוסף קטגוריה",
         "SUBCATEGORYPLACEHOLDER": "בחר קטגוריה ראשית"
-  }
+    },
+    "productSettingsDialog": {
+        "PRODUCTDETAILS": "פרטי מוצר",
+        "CUSTOMFIELDS": "שדות מותאמים אישית",
+        "APPLICATIONFORM": "טופס בקשה",
+        "NEEDSHIPPING": "צריך משלוח?",
+        "PRODUCTWEIGHT": "משקל המוצר",
+        "DETAILSPRODUCTSWEIGHT":"הזן את המשקל בפועל של המוצר שיעובד כהלכה על ידי חברת השילוח.",
+        "PRICE": "מחיר",
+        "SALEPRICE": "מחיר מבצע",
+        "REDUCEDPRICEFINISHDATE": "סיום המבצע",
+        "SAVEPRODUCTBUTTON": "שמור פרטי מוצר"
+    },
+    "uploadImageDialog": {
+        "PRODUCTIMAGES": "תמונות מוצר",
+        "DRAGANDDROP": "גרור ושחרר תמונות כאן כדי להעלות",
+        "MAINIMAGE":"התמונה הראשית"
+    }
 }

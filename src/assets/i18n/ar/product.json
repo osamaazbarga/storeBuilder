@@ -1,5 +1,6 @@
 {
     "CANCELBUTTON":"الغاء",
+    "OPTIONAL":"اختياري",
     "productCard":{
         "TITLE": "أدخل اسم المنتج",
         "PRICE": "السعر",
@@ -18,5 +19,22 @@
         "SUBCATEGORYRADIO": "إضافة إلى تصنيف رئيسي",
         "ADDCATEGORY": "إضافة تصنيف",
         "SUBCATEGORYPLACEHOLDER": "تحديد التصنيف الرئيسي"
-  }
+    },
+    "productSettingsDialog": {
+        "PRODUCTDETAILS": "تفاصيل المنتج",
+        "CUSTOMFIELDS": "الحقول المخصصة",
+        "APPLICATIONFORM": "نموذج الطلب",
+        "NEEDSHIPPING": "يتطلب شحن/توصيل؟",
+        "PRODUCTWEIGHT": "وزن المنتج",
+        "DETAILSPRODUCTSWEIGHT":"أدخل الوزن الفعلي للمنتج ليتم معالجته بشكل صحيح من قبل شركة الشحن.",
+        "PRICE": "السعر",
+        "SALEPRICE": "السعر المخفض",
+        "REDUCEDPRICEFINISHDATE": "نهاية التخفيض",
+        "SAVEPRODUCTBUTTON": "حفظ تفاصيل المنتج"
+    },
+    "uploadImageDialog": {
+        "PRODUCTIMAGES": "صور المنتج",
+        "DRAGANDDROP": "اسحب وأسقط الصور هنا للتحميل",
+        "MAINIMAGE":"الصورة الأساسية"
+    }
 }

@@ -55,7 +55,7 @@
 <p-dialog [class]="dialog" *ngIf="dialog=='productSetting'" (onHide)="visable(false)" [(visible)]="visible" [modal]="true" position="top" [style]="{ width: '60rem' }">
     <ng-template #header>
         <div class="dialogHeader d-inline-flex items-center justify-center gap-2">
-            <span class="font-bold whitespace-nowrap">Amy Elsner</span>
+            <span class="font-bold whitespace-nowrap">{{ 'productSettingsDialog.PRODUCTDETAILS' | translate }}</span>
         </div>
     </ng-template>
     <p-tabs value="0" scrollable>
@@ -67,20 +67,20 @@
                 <span class="material-symbols-rounded">
                     description
                 </span>
-                <span class="font-bold whitespace-nowrap">بيانات المنتج</span>
+                <span class="font-bold whitespace-nowrap">{{ 'productSettingsDialog.PRODUCTDETAILS' | translate }}</span>
             </p-tab>
             <p-tab value="1" class="flex items-center !gap-2">
                 <span class="material-symbols-rounded">
                     post_add
                 </span>
-                <span class="font-bold whitespace-nowrap">الحقول المخصصة</span>
+                <span class="font-bold whitespace-nowrap">{{ 'productSettingsDialog.CUSTOMFIELDS' | translate }}</span>
             </p-tab>
             <p-tab value="2" class="d-flex items-center !gap-2">
                 <span class="material-symbols-rounded">
                     format_list_bulleted
                 </span>
                 
-                <span class="font-bold whitespace-nowrap">نموذج الطلب</span>
+                <span class="font-bold whitespace-nowrap">{{ 'productSettingsDialog.APPLICATIONFORM' | translate }}</span>
             </p-tab>
             <ng-template #nexticon>
                 <i class="pi pi-plus"></i>
@@ -89,35 +89,35 @@
         <p-tabpanels>
             <p-tabpanel value="0">
                  <div class="flex flex-column items-center mb-4">
-                      <label for="needShipSelect">يتطلب شحن / توصيل ؟</label>
-                      <p-select [options]="needShipOption" [(ngModel)]="selectedNeedShip" [checkmark]="true" optionLabel="name"  placeholder="Select a City" class="w-full md:w-56" />
+                      <label for="needShipSelect">{{ 'productSettingsDialog.NEEDSHIPPING' | translate }}</label>
+                      <p-select inputId="needShipSelect" [options]="needShipOption" [(ngModel)]="selectedNeedShip" [checkmark]="true" optionLabel="name"  placeholder="{{ 'productSettingsDialog.NEEDSHIPPING' | translate }}" class="w-full md:w-56" />
                   </div>
 
                   <div class="flex flex-column items-center mb-4">
-                      <label for="needShipSelect">وزن المنتج</label>
-                      <small id="needShipSelect-help">أدخل الوزن الفعلي للمنتج ليتم معالجته بشكل صحيح من قبل شركة الشحن.</small>
+                      <label for="productWeight">{{ 'productSettingsDialog.PRODUCTWEIGHT' | translate }}</label>
+                      <small id="productWeight-help">{{ 'productSettingsDialog.DETAILSPRODUCTSWEIGHT' | translate }}</small>
                   <p-inputgroup>
-                      <p-inputnumber class="KindWeightStyle" inputId="locale-user" [minFractionDigits]="2" />
-                      <p-select [(ngModel)]="selectKindWeight" [options]="kindWeightOption" optionLabel="name" placeholder="وزن" />
+                      <p-inputnumber placeholder="{{ 'productSettingsDialog.PRODUCTWEIGHT' | translate }}" class="KindWeightStyle" inputId="productWeight" [minFractionDigits]="2" />
+                      <p-select [(ngModel)]="selectKindWeight" [options]="kindWeightOption" optionLabel="name" placeholder="{{ 'productSettingsDialog.PRODUCTWEIGHT' | translate }}" />
                   </p-inputgroup>
 
                 </div>
 
                 <div class="flex flex-column items-center mb-4">
-                      <label for="productPrice">سعر المنتج</label>
-                      <p-inputnumber inputId="locale-user" [minFractionDigits]="2" />
+                      <label for="productPrice">{{ 'productSettingsDialog.PRICE' | translate }}</label>
+                      <p-inputnumber placeholder="{{ 'productSettingsDialog.PRICE' | translate }}" inputId="productPrice" [minFractionDigits]="2" />
                 </div>
 
 
               <div class="d-flex flex-row justify-content-between flex-nowrap">
                           <div class="flex flex-column items-center mb-4">
-                            <label for="productPrice">السعر المخفض</label>
-                            <p-inputnumber inputId="locale-user" [minFractionDigits]="2" />
+                            <label for="salePrice">{{ 'productSettingsDialog.SALEPRICE' | translate }}</label>
+                            <p-inputnumber placeholder="{{ 'productSettingsDialog.SALEPRICE' | translate }}" inputId="salePrice" [minFractionDigits]="2" />
                           </div>
 
                           <div class="flex flex-column items-center mb-4">
-                            <label for="productPrice">السعر المخفض</label>
-                            <p-inputnumber inputId="locale-user" [minFractionDigits]="2" />
+                            <label for="endSalePrice">{{ 'productSettingsDialog.REDUCEDPRICEFINISHDATE' | translate }}</label>
+                            <p-inputnumber placeholder="{{ 'productSettingsDialog.REDUCEDPRICEFINISHDATE' | translate }}" inputId="endSalePrice" [minFractionDigits]="2" />
                           </div>
               </div>
               <p-editor [style]="{ height: '320px' }" />
@@ -148,15 +148,15 @@
 
         
     <ng-template #footer>
-        <p-button label="حفظ بيانات المنتج" [outlined]="true" severity="secondary" (click)="visable(false)" />
-        <p-button label="إلغاء" [text]="true" severity="secondary" (click)="visable(false)" />
+        <p-button label="{{ 'productSettingsDialog.SAVEPRODUCTBUTTON' | translate }}" [outlined]="true" severity="secondary" (click)="visable(false)" />
+        <p-button label="{{ 'CANCELBUTTON' | translate }}" [text]="true" severity="secondary" (click)="visable(false)" />
     </ng-template>
 </p-dialog>
 
 <p-dialog  [class]="dialog" *ngIf="dialog=='uploadImages'" (onHide)="visable(false)" [(visible)]="visible" [modal]="true" position="top" [style]="{ width: '60rem' }">
     <ng-template  #header>
         <div class="dialogHeader d-inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold whitespace-nowrap">اضافة تصنيف جديد</span>
+            <span class="font-bold whitespace-nowrap">{{ 'uploadImageDialog.PRODUCTIMAGES' | translate }}</span>
         </div>
     </ng-template>
     <!-- <span class="text-surface-500 dark:text-surface-400 block mb-4">Update your information.</span> -->
@@ -186,7 +186,7 @@
                               <div style="margin:auto 0">
                                 <div class="flex items-center gap-2">
                                   <!-- <p-radiobutton inputId="size_normal" name="size" value="Normal" /> -->
-                                  <label for="size_normal">الصورة الأساسية</label>
+                                  <label for="size_normal">{{ 'uploadImageDialog.MAINIMAGE' | translate }}</label>
                                   <!-- to contuiue
                                    https://stackblitz.com/run?file=src%2Fapp%2Fradio-button-reactive-forms-demo.html -->
                               </div>
@@ -220,13 +220,13 @@
         <ng-template #empty>
             <div class="d-flex align-items-center justify-content-center flex-column">
                 <i class="pi pi-cloud-upload !border-2 !rounded-full !p-8 !text-4xl !text-muted-color"></i>
-                <p class="mt-6 mb-0">Drag and drop files to here to upload.</p>
+                <p class="mt-6 mb-0">{{ 'uploadImageDialog.DRAGANDDROP' | translate }}</p>
             </div>
         </ng-template>
     </p-fileupload>
     <ng-template #footer>
         <p-button label="اضافة تصنيف" [outlined]="true" severity="secondary" (click)="visable(false)" />
-        <p-button label="ألغاء" [text]="true" severity="secondary" (click)="visable(false)" />
+        <p-button label="{{ 'CANCELBUTTON' | translate }}" [text]="true" severity="secondary" (click)="visable(false)" />
         
     </ng-template>
 </p-dialog>
