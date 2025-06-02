@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StoreAddEdit } from '../models/store/StoreAddEdit';
 
@@ -10,8 +10,18 @@ import { StoreAddEdit } from '../models/store/StoreAddEdit';
 export class StoreService {
 
   private url="Store";
+  private storeDataSubject = new BehaviorSubject<any>(null);
+  storeData$ = this.storeDataSubject.asObservable();
 
   constructor(private http:HttpClient) { }
+
+  setStoreData(data: any) {
+    this.storeDataSubject.next(data);
+  }
+
+  getStoreData() {
+    return this.storeDataSubject.value;
+  }
 
   getStores(){
     this.http.get(`${environment.appUrl}/${this.url}`)

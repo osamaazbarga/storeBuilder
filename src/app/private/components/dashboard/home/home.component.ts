@@ -14,11 +14,14 @@ import { UsersService } from 'src/app/services/users.service';
 export class HomeComponent {
   errorMessages:string[]=[]
   mode:string|undefined;
+  storeData:any=null;
   constructor(private storeService:StoreService,private userService:UsersService,private activatedRoute:ActivatedRoute){
     this.userService.user$.pipe(take(1)).subscribe({
-          next:(user:User|null)=>{
+          next: (user:User|null)=>{
             if(user){
-                this.getStoreByUserId(user.id!)
+              this.getStoreByUserId(user.id!)
+    
+                
             }
             else{
               const mode=this.activatedRoute.snapshot.paramMap.get('mode');
@@ -28,7 +31,7 @@ export class HomeComponent {
               }             
             }
           }
-        })
+    })
   }
 
   getStoreByUserId(userId:string){
@@ -39,8 +42,9 @@ export class HomeComponent {
           next:(res:any)=>{
             console.log(res);
             
-            if(res==true){
-              
+            if(res!=null){
+              this.storeData= res
+              this.storeService.setStoreData(this.storeData);
             } 
             else{
               this.errorMessages.push("no Stores yet");

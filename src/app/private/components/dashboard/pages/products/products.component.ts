@@ -2,12 +2,14 @@ import { Component,AfterViewInit, OnChanges, OnInit, ViewChild } from '@angular/
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService, SelectItemGroup } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/services/language.service';
 import { getEditorDefaults, PinturaEditorOptions } from '@pqina/pintura';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PinturaEditorComponent } from '@pqina/angular-pintura';
 import { PrimeNG } from 'primeng/config';
+import { ProductsService } from 'src/app/services/products.service';
+import { StoreService } from 'src/app/services/store.service';
 
 
 
@@ -34,6 +36,8 @@ export class ProductsComponent implements OnInit{
   
   items: MenuItem[]=[];
   fakeArray = new Array(12);
+  productsData:any;
+  storeData:any=null;
   currentLang?:string
   selectedNeedShip:string | undefined;
   selectKindWeight:string | undefined;
@@ -57,14 +61,26 @@ export class ProductsComponent implements OnInit{
   cropAspectRatio = 1;
   locale?: any = { ...getEditorDefaults().locale };
 
-  constructor(private messageService: MessageService,private router:Router,public languageService: LanguageService,private sanitizer: DomSanitizer,private config: PrimeNG) {
+  constructor(private messageService: MessageService,
+    private productsService:ProductsService,
+    private router:Router,
+    public languageService: LanguageService,
+    private sanitizer: DomSanitizer,
+    private config: PrimeNG,
+    private storeService:StoreService) {
+      this.storeService.storeData$.subscribe(data => {
+      this.storeData = data;
+      // You can now use this.store in your template
+    });
+        //this.getProductDataByStore();
+     
     
     this.items = [
         {
           label: 'منتج جاهز',
           command: () => {
-              //this.update();
-              this.router.navigateByUrl('/dashboard/products/addproduct')
+              this.addCardProduct();
+              //this.router.navigateByUrl('/dashboard/products/addproduct')
           },
         },
         {
@@ -105,8 +121,17 @@ export class ProductsComponent implements OnInit{
   }
 
   ngOnInit() {
+     this.storeService.storeData$
+    .pipe(filter(data => !!data)) // ignore null/undefined
+    .subscribe(data => {
+      this.storeData = data;
+      this.getProductDataByStore();
+    });
+    
 
     this.currentLang = this.languageService.getCurrentLang();
+
+    
 
     // Subscribe to language changes
     this.langSub = this.languageService.lang$.subscribe(lang => {
@@ -120,6 +145,18 @@ export class ProductsComponent implements OnInit{
         ];
 
     
+    
+  }
+
+  getProductDataByStore(){
+    this.productsService.getProductsByStoreId(this.storeData.id).subscribe({
+        next: (res) => {
+          this.productsData=res;
+        },
+        error: (err) => {
+          console.error("Failed to load products", err);
+        }
+});
     
   }
 
@@ -210,6 +247,63 @@ export class ProductsComponent implements OnInit{
   delete() {
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Deleted' });
   }
+  submit(product:any){
+    console.log(this.productsData)
+    this.productsService.updateProduct(product).subscribe({
+          next:(res:any)=>{
+            console.log(res);
+            this.getProductDataByStore()
+            if(res==true){
+              
+            } 
+            else{
+              //this.errorMessages.push("no Stores yet");
+            }     
+            // this.sharedService.showNotification(true,res.value.title,res.value.message);
+            // this.router.navigateByUrl('/login')
+          },
+          error:error=>{
+            if(error.error.errors){
+              //this.errorMessages=error.error.errors
+              
+            }
+            else{
+              //this.errorMessages.push(error.error)
+            }
+            
+          }
+    })
+    
+  }
+  addCardProduct(){
+    
+    this.productsService.createEmptyProdct(this.storeData.id).subscribe({
+          next:(res:any)=>{
+            console.log(res);
+            this.getProductDataByStore()
+            if(res==true){
+              
+            } 
+            else{
+              //this.errorMessages.push("no Stores yet");
+            }     
+            // this.sharedService.showNotification(true,res.value.title,res.value.message);
+            // this.router.navigateByUrl('/login')
+          },
+          error:error=>{
+            if(error.error.errors){
+              //this.errorMessages=error.error.errors
+              
+            }
+            else{
+              //this.errorMessages.push(error.error)
+            }
+            
+          }
+    })
+    
+  }
+
 }
 
 
