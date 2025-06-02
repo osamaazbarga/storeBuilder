@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, ViewChild } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { SplitButton } from 'primeng/splitbutton';
+import { TieredMenu } from 'primeng/tieredmenu';
 
 @Component({
     selector: 'app-button',
@@ -9,7 +10,7 @@ import { SplitButton } from 'primeng/splitbutton';
     providers: [MessageService],
     standalone: false
 })
-export class ButtonComponent {
+export class ButtonComponent{
     @Input() kind:string=""
     @Input() label:string=""
     @Input() items:MenuItem[]=[]
@@ -24,4 +25,5 @@ export class ButtonComponent {
       console.log(this.items);
       
     }
+
 }
