@@ -230,3 +230,58 @@
         
     </ng-template>
 </p-dialog>
+
+<p-dialog  [class]="dialog" *ngIf="dialog=='quantityAndOptions'" (onHide)="visable(false)" [(visible)]="visible" [modal]="true" position="top" [style]="{ width: '60rem' }">
+    <ng-template  #header>
+        <div class="dialogHeader d-inline-flex align-items-center justify-content-center gap-2">
+            <span class="font-bold whitespace-nowrap">{{ 'uploadImageDialog.PRODUCTIMAGES' | translate }}</span>
+        </div>
+    </ng-template>
+    <!-- <span class="text-surface-500 dark:text-surface-400 block mb-4">Update your information.</span> -->
+     
+     <p-toggleswitch ariaLabel="Remember Me" inputId="switch1" [(ngModel)]="checkedEnableOptions" />
+     <label for="switch1">تفعيل خيارات المنتج</label>
+
+     <div *ngIf="checkedEnableOptions">
+        <div *ngFor="let attr of attributes; let i = index" class="mb-4 border p-3 rounded shadow-sm">
+        <div class="flex gap-2 mb-2">
+        <input type="text" pInputText [(ngModel)]="attr.name" class="w-50" placeholder="اسم الخاصية">
+        <p-select 
+            [options]="attributeTypes" 
+            [(ngModel)]="attr.type"
+            class="w-50"
+            optionLabel="label" 
+            optionValue="value"
+            placeholder="نوع الخاصية">
+        </p-select>
+        <!-- <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm" (click)="removeAttribute(i)"></button> -->
+        </div>
+
+        <div *ngFor="let val of attr.values; let j = index" class="d-flex gap-2 mb-2">
+            <input type="text" pInputText [(ngModel)]="attr.values[j].name" class="w-100" placeholder="القيمة">
+            <input *ngIf="attr.type=='color'" type="color" [(ngModel)]="attr.values[j].color" class="attrColor">
+            <div *ngIf="attr.type=='image'" class="uploadImageAttr">
+                <p-fileupload width="100px" (onUpload)="onUpload($event,i,j)" *ngIf="!val.image.length" mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" [auto]="true" chooseLabel="Browse" />
+                <div class="d-flex flex-wrap justify-content-center gap-4">
+                    <div *ngFor="let file of val.image;" class="rounded-border d-flex flex-column  items-center">
+                        <div  class="d-flex justify-content-between imageView">
+                            <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="30" height="30" />
+                            <p-button icon="pi pi-times" size="small" (click)="removeImage(i, j)" [outlined]="true" [rounded]="true" severity="danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="removeValue(i, j)"></button>
+        </div>
+
+        <button pButton label="+ إضافة قيمة" class="p-button-sm" (click)="addValue(i)"></button>
+        </div>
+
+        <button pButton label="+ إضافة خاصية" icon="pi pi-plus" (click)="addAttribute()"></button>
+    </div>
+    <ng-template #footer>
+        <p-button label="اضافة تصنيف" [outlined]="true" severity="secondary" (click)="visable(false)" />
+        <p-button label="{{ 'CANCELBUTTON' | translate }}" [text]="true" severity="secondary" (click)="visable(false)" />
+        
+    </ng-template>
+</p-dialog>

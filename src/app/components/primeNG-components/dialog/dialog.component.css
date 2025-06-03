@@ -3,6 +3,10 @@
     overflow-y: visible !important;
 }
 
+::ng-deep .p-dialog-content{
+    /* overflow-y: visible !important; */
+}
+
 
 .viewImages>div{
     flex: 40% !important; /* or - flex: 0 50% - or - flex-basis: 50% - */
@@ -51,6 +55,19 @@
 
 ::ng-deep p-dialog input,::ng-deep p-dialog button,::ng-deep p-dialog p-multiselect{
     font-size: 13px !important;
+}
+
+.attrColor{
+    border: none;
+    width: 31px;
+    margin: auto;
+}
+
+.uploadImageAttr{
+    min-width: 100px;
+}
+.imageView{
+    width: 80px;
 }
 
 

@@ -6,6 +6,10 @@ interface Option {
     name: string,
     code: string
 }
+interface UploadEvent {
+    originalEvent: Event;
+    files: File[];
+}
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
@@ -40,6 +44,47 @@ export class DialogComponent {
     totalSize : number = 0;
 
     totalSizePercent : number = 0;
+    /*end upload images objects*/
+
+    /*quantity And Options objects*/
+    checkedEnableOptions: boolean = false;
+    attrColor: string = '#6466f1';
+    uploadedFiles: any[] = [];
+    /*end quantity And Options objects*/
+
+
+
+    attributes: any[] = [];
+
+showAttributeDialog = false;
+
+    attributeTypes = [
+        { label: 'نص', value: 'text' },
+        { label: 'اللون', value: 'color' },
+        { label: 'صورة', value: 'image' }
+    ];
+
+addAttribute() {
+  this.attributes.push({
+    name: '',
+    type: 'text',
+    values: []
+  });
+  
+}
+
+removeAttribute(index: number) {
+  this.attributes.splice(index, 1);
+}
+
+addValue(attrIndex: number) {
+  this.attributes[attrIndex].values.push({name:"",color:"#000000",image:[]});
+  console.log(this.attributes);
+}
+
+removeValue(attrIndex: number, valIndex: number) {
+  this.attributes[attrIndex].values.splice(valIndex, 1);
+}
 
 
 
@@ -73,6 +118,21 @@ export class DialogComponent {
 
     uploadEvent(callback:any) {
         callback();
+    }
+
+    onUpload(event:any,attrIndex: number, valIndex: number) {
+        this.uploadedFiles=[]
+        this.attributes[attrIndex].values[valIndex].image=[]
+        for(let file of event.files) {
+            this.uploadedFiles.push(file);
+            this.attributes[attrIndex].values[valIndex].image.push(file);
+        }
+
+        this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+    }
+    removeImage(attrIndex: number, valIndex: number){
+        this.attributes[attrIndex].values[valIndex].image=[];
+        
     }
 
     formatSize(bytes:any) {

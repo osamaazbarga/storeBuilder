@@ -82,7 +82,7 @@
     </p-inputgroup-addon>
 
     <p-inputgroup-addon class="inlineTextButton w-100">
-      <p-button severity="secondary" label="{{ 'productCard.OPTIONANDQUANTITY' | translate }}" />
+      <p-button severity="secondary" (click)="showDialog('quantityAndOptions')" label="{{ 'productCard.OPTIONANDQUANTITY' | translate }}" />
     </p-inputgroup-addon>
 </p-inputgroup>
 

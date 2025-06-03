@@ -43,7 +43,7 @@ export class ProductsComponent implements OnInit{
   selectKindWeight:string | undefined;
   visible: boolean = false;
 
-  dialog!: 'productSetting' | 'uploadImages' | 'category';
+  dialog!: 'productSetting' | 'uploadImages' | 'category' | 'quantityAndOptions';
   src: string = 'assets/images/image.jpeg';
   @ViewChild('editorRef') editorRef?: PinturaEditorComponent<any> = undefined;
   options: any = {
@@ -195,7 +195,7 @@ export class ProductsComponent implements OnInit{
 
     
 
-    showDialog(dialog: 'productSetting' | 'uploadImages' | 'category') {
+    showDialog(dialog: 'productSetting' | 'uploadImages' | 'category' | 'quantityAndOptions') {
         this.dialog = dialog;
         this.visible = true;
     }
