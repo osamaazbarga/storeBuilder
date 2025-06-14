@@ -254,7 +254,7 @@
             optionValue="value"
             placeholder="نوع الخاصية">
         </p-select>
-        <!-- <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm" (click)="removeAttribute(i)"></button> -->
+        <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm" (click)="removeAttribute(i)"></button>
         </div>
 
         <div *ngFor="let val of attr.values; let j = index" class="d-flex gap-2 mb-2">
@@ -278,10 +278,127 @@
         </div>
 
         <button pButton label="+ إضافة خاصية" icon="pi pi-plus" (click)="addAttribute()"></button>
-    </div>
+
+  
+            <div *ngIf="attributes[0]?.values.length>0" class="card d-flex justify-content-center">
+                <p-accordion >
+                     <!-- <div *ngFor="let attr of attributes; let i = index"> -->
+
+                        <div *ngFor="let variant of variantStrings; let j = index">
+                            <p-accordion-panel *ngIf="variant" [value]="j">
+                                <p-accordion-header>
+                                    <ng-template #toggleicon let-active="active">
+                                        @if (active) {
+                                            <i class="pi pi-minus"></i>
+                                        } @else {
+                                            <i class="pi pi-plus"></i>
+                                        }
+                                    </ng-template>
+                                    <span class="d-flex align-items-center gap-2 w-full">
+                                        <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" /> -->
+                                        <span class="font-bold whitespace-nowrap">{{ variant }}</span>
+                                        <!-- <p-badge value="3" class="ml-auto mr-2" /> -->
+                                    </span>
+                                </p-accordion-header>
+                                <p-accordion-content>
+                                    <p-inputgroup class="mb-2">
+                                        <p-inputgroup-addon><i class="pi pi-money-bill"></i></p-inputgroup-addon>
+                                        <p-inputnumber  placeholder="{{ 'productCard.PRICE' | translate }}" />
+                                        <p-inputgroup-addon>.00</p-inputgroup-addon>
+                                    </p-inputgroup>
+
+                                    <div class="flex flex-col md:flex-row gap-4 mb-2">
+                                        <p-inputgroup>
+                                            <p-inputgroup-addon><i class="pi pi-money-bill"></i></p-inputgroup-addon>
+                                            <p-inputnumber  placeholder="{{ 'productCard.PRICE' | translate }}" />
+                                            <p-inputgroup-addon>.00</p-inputgroup-addon>
+                                        </p-inputgroup>
+                                        <p-inputgroup>
+                                            <p-inputgroup-addon><i class="pi pi-money-bill"></i></p-inputgroup-addon>
+                                            <p-inputnumber  placeholder="{{ 'productCard.PRICE' | translate }}" />
+                                            <p-inputgroup-addon>.00</p-inputgroup-addon>
+                                        </p-inputgroup>
+                                      
+                                    </div>
+
+
+
+
+
+                                    <div class="flex flex-col md:flex-row gap-4 mb-2">
+                                    <p-inputgroup>
+                                        <p-inputgroup>
+                                            <p-inputgroup-addon><span class="material-symbols-rounded">
+                                                weight
+                                            </span></p-inputgroup-addon>
+                                            <p-inputnumber  placeholder="{{ 'productSettingsDialog.PRODUCTWEIGHT' | translate }}" />
+                                            <p-inputgroup-addon>kg</p-inputgroup-addon>
+                                        </p-inputgroup>
+                                    </p-inputgroup>
+
+                                     <p-inputgroup>
+                                            <p-inputgroup-addon><span class="material-symbols-rounded">
+                                                barcode
+                                            </span></p-inputgroup-addon>
+                                            <p-inputnumber  placeholder="{{ 'productSettingsDialog.PRODUCTWEIGHT' | translate }}" />
+                                    </p-inputgroup>
+
+                                     <p-inputgroup>
+                                            <p-inputgroup-addon><span class="material-symbols-rounded">
+                                                shoppingmode
+                                            </span></p-inputgroup-addon>
+                                            <p-inputnumber  placeholder="{{ 'productSettingsDialog.PRODUCTWEIGHT' | translate }}" />
+                                    </p-inputgroup>
+
+                                    <p-inputgroup>
+                                            <p-inputgroup-addon>
+                                                <span class="material-symbols-rounded">
+                                                notifications
+                                                </span>
+                                            </p-inputgroup-addon>
+                                            <p-inputnumber  placeholder="{{ 'productSettingsDialog.PRODUCTWEIGHT' | translate }}" />
+                                    </p-inputgroup>
+                                    </div>
+                                </p-accordion-content>
+                            </p-accordion-panel>
+                        </div>
+                    <!-- </div> -->
+                </p-accordion>
+            </div>
+        </div>
+
     <ng-template #footer>
         <p-button label="اضافة تصنيف" [outlined]="true" severity="secondary" (click)="visable(false)" />
         <p-button label="{{ 'CANCELBUTTON' | translate }}" [text]="true" severity="secondary" (click)="visable(false)" />
         
     </ng-template>
+</p-dialog>
+
+<p-dialog   header="إضافة منتج" [(visible)]="display" [modal]="true" [style]="{ width: '50vw' }">
+  <form [formGroup]="productForm" (ngSubmit)="submitProduct()">
+    <div class="mb-3">
+      <label>اسم المنتج</label>
+      <input pInputText formControlName="name" class="w-full" />
+    </div>
+;
+    <div formArrayName="options" *ngFor="let option of options.controls; let i = index" [formGroupName]="i" class="mb-4 p-3 border border-1 rounded-md">
+      <div class="flex justify-between items-center">
+        <label>اسم الخاصية</label>
+        <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm" type="button" (click)="removeOption(i)"></button>
+      </div>
+      <input pInputText formControlName="name" placeholder="مثال: اللون أو المقاس" class="w-full mb-2" />
+
+<div *ngFor="let value of getOptionValues(i).controls; let j = index" [formGroupName]="j" class="mb-2">
+
+        <div class="flex gap-2 mb-1">
+          <input pInputText [formControlName]="j" placeholder="القيمة" class="w-full" />
+          <button pButton icon="pi pi-trash" class="p-button-sm p-button-danger" type="button" (click)="removeValue1(i, j)"></button>
+        </div>
+      </div>
+      <button pButton type="button" label="إضافة قيمة" class="p-button-sm" (click)="addValue1(i)"></button>
+    </div>
+
+    <button pButton type="button" label="إضافة خاصية جديدة" class="mb-3 w-full" (click)="addOption()"></button>
+    <button pButton type="submit" label="حفظ المنتج" class="w-full p-button-success mt-2"></button>
+  </form>
 </p-dialog>

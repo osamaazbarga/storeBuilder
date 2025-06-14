@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup,FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { PrimeNG } from 'primeng/config';
 interface Option {
@@ -63,6 +63,7 @@ showAttributeDialog = false;
         { label: 'اللون', value: 'color' },
         { label: 'صورة', value: 'image' }
     ];
+    variantStrings: string[] | undefined;
 
 addAttribute() {
   this.attributes.push({
@@ -80,6 +81,7 @@ removeAttribute(index: number) {
 addValue(attrIndex: number) {
   this.attributes[attrIndex].values.push({name:"",color:"#000000",image:[]});
   console.log(this.attributes);
+  this.generateAttributeVariants()
 }
 
 removeValue(attrIndex: number, valIndex: number) {
@@ -157,8 +159,12 @@ removeValue(attrIndex: number, valIndex: number) {
       this.visableData.emit(this.visible);
     }
   
-    constructor(private messageService: MessageService,private config: PrimeNG){
+    constructor(private messageService: MessageService,private config: PrimeNG,private fb: FormBuilder){
       this.visible=false
+      this.productForm = this.fb.group({
+      name: ['', Validators.required],
+      options: this.fb.array([]),
+    });
     }
 
     ngOnInit() {
@@ -184,6 +190,94 @@ removeValue(attrIndex: number, valIndex: number) {
           {name: 'أوقيه', code: '3'}
     ];
     }
+
+
+
+
+
+display = false;
+  productForm: FormGroup;
+
+
+
+  get options(): FormArray {
+    return this.productForm.get('options') as FormArray;
+  }
+  getOptionValues(index: number): FormArray {
+  return this.options.at(index).get('values') as FormArray;
+}
+
+  showDialog() {
+    this.display = true;
+  }
+
+  addOption() {
+    const optionGroup = this.fb.group({
+      name: ['', Validators.required],
+      type: ['select'],
+      values: this.fb.array([this.fb.control('', Validators.required)]),
+    });
+
+    this.options.push(optionGroup);
+  }
+
+  removeOption(index: number) {
+    this.options.removeAt(index);
+  }
+
+  addValue1(optionIndex: number) {
+    const values = this.options.at(optionIndex).get('values') as FormArray;
+    values.push(this.fb.control('', Validators.required));
+  }
+
+  removeValue1(optionIndex: number, valueIndex: number) {
+    const values = this.options.at(optionIndex).get('values') as FormArray;
+    values.removeAt(valueIndex);
+  }
+
+  submitProduct() {
+    console.log(this.productForm.value);
+    // أرسل البيانات إلى الـ API عبر HttpClient
+    this.display = false;
+    this.productForm.reset();
+    this.options.clear();
+  }
+
+
+  getAttributeNamesOnly(): string[][] {
+    return this.attributes.map(attr => attr.values.map((v: { name: any; }) => v.name));
+  }
+  generateCombinations(valuesArrays: string[][]): string[][] {
+   if (valuesArrays.length === 0) return [[]];
+
+  const result: string[][] = [];
+
+  const restCombinations = this.generateCombinations(valuesArrays.slice(1));
+
+  for (const value of valuesArrays[0]) {
+    for (const combination of restCombinations) {
+      result.push([value, ...combination]);
+    }
+  }
+
+  return result;
+  }
+
+  generateAttributeVariants() {
+  const valuesOnly = this.getAttributeNamesOnly(); // [['red','yellow'], ['s','m'], ...]
+  const combinations = this.generateCombinations(valuesOnly); // [['red','s'], ['red','m'], ...]
+
+  // تحويل النتائج إلى string مع \
+  this.variantStrings = combinations.map(comb => comb.join('\\'));
+
+  // للعرض أو التخزين
+  console.log(this.variantStrings);
+}
+
+
+
+
+
 
 
 //     @Input() label:string=""
