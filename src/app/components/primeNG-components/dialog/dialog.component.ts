@@ -10,6 +10,23 @@ interface UploadEvent {
     originalEvent: Event;
     files: File[];
 }
+
+interface VariantOption {
+  optionId: number;
+  valueId: number;
+}
+
+interface ProductVariant {
+  sku: string;
+  barcode: string;
+  price: number;
+  costPrice: number;
+  discountPrice: number;
+  quantity: number;
+  weight: number;
+  lowStockAlert: number;
+  options: VariantOption[];
+}
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
@@ -21,10 +38,13 @@ export class DialogComponent {
     @Input() dialog:string="";
     @Output() visableData = new EventEmitter<any>();
     @Input() visible:boolean=false
+    @Input() productId!: number;
 
     /*category object*/
     isChecked: boolean = false;
     formGroup!: FormGroup<any>;
+    variantForm!: FormGroup;
+    optionForm!: FormGroup;
     selectedCountry: string | undefined;
     countries: any[] | undefined;
     /*end category objects*/
@@ -63,7 +83,6 @@ showAttributeDialog = false;
         { label: 'اللون', value: 'color' },
         { label: 'صورة', value: 'image' }
     ];
-    variantStrings: string[] | undefined;
 
 addAttribute() {
   this.attributes.push({
@@ -79,9 +98,10 @@ removeAttribute(index: number) {
 }
 
 addValue(attrIndex: number) {
-  this.attributes[attrIndex].values.push({name:"",color:"#000000",image:[]});
-  console.log(this.attributes);
-  this.generateAttributeVariants()
+//   this.attributes[attrIndex].values.push({name:"",color:"#000000",image:[]});
+//   console.log(this.attributes);
+//   this.generateAttributeVariants()
+
 }
 
 removeValue(attrIndex: number, valIndex: number) {
@@ -122,20 +142,7 @@ removeValue(attrIndex: number, valIndex: number) {
         callback();
     }
 
-    onUpload(event:any,attrIndex: number, valIndex: number) {
-        this.uploadedFiles=[]
-        this.attributes[attrIndex].values[valIndex].image=[]
-        for(let file of event.files) {
-            this.uploadedFiles.push(file);
-            this.attributes[attrIndex].values[valIndex].image.push(file);
-        }
-
-        this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
-    }
-    removeImage(attrIndex: number, valIndex: number){
-        this.attributes[attrIndex].values[valIndex].image=[];
-        
-    }
+    
 
     formatSize(bytes:any) {
         const k = 1024;
@@ -164,7 +171,16 @@ removeValue(attrIndex: number, valIndex: number) {
       this.productForm = this.fb.group({
       name: ['', Validators.required],
       options: this.fb.array([]),
+      
     });
+    this.variantForm = this.fb.group({
+      variants: this.fb.array([]),
+    });
+    this.optionForm = this.fb.group({
+      options: this.fb.array([]),
+    });
+
+
     }
 
     ngOnInit() {
@@ -201,87 +217,218 @@ display = false;
 
 
   get options(): FormArray {
-    return this.productForm.get('options') as FormArray;
+    return this.optionForm.get('options') as FormArray;
   }
-  getOptionValues(index: number): FormArray {
-  return this.options.at(index).get('values') as FormArray;
-}
+
+
+
+//   getOptionValues(index: number): FormArray {
+//   return this.options.at(index).get('values') as FormArray;
+// }
+
+get variants(): FormArray {
+    return this.variantForm.get('variants') as FormArray;
+  }
 
   showDialog() {
     this.display = true;
   }
 
-  addOption() {
-    const optionGroup = this.fb.group({
-      name: ['', Validators.required],
-      type: ['select'],
-      values: this.fb.array([this.fb.control('', Validators.required)]),
+
+
+
+
+  getOptionsValueNamesOnly(): string[][] {
+    const optionsArray = this.optionForm.get('options') as FormArray;
+
+  return optionsArray.controls.map(optionGroup => {
+    const valuesArray = (optionGroup.get('optionsValue') as FormArray);
+    return valuesArray.controls.map(valueGroup => {
+      return valueGroup.get('name')?.value || '';
     });
+  });
 
-    this.options.push(optionGroup);
   }
-
-  removeOption(index: number) {
-    this.options.removeAt(index);
-  }
-
-  addValue1(optionIndex: number) {
-    const values = this.options.at(optionIndex).get('values') as FormArray;
-    values.push(this.fb.control('', Validators.required));
-  }
-
-  removeValue1(optionIndex: number, valueIndex: number) {
-    const values = this.options.at(optionIndex).get('values') as FormArray;
-    values.removeAt(valueIndex);
-  }
-
-  submitProduct() {
-    console.log(this.productForm.value);
-    // أرسل البيانات إلى الـ API عبر HttpClient
-    this.display = false;
-    this.productForm.reset();
-    this.options.clear();
-  }
-
-
-  getAttributeNamesOnly(): string[][] {
-    return this.attributes.map(attr => attr.values.map((v: { name: any; }) => v.name));
-  }
-  generateCombinations(valuesArrays: string[][]): string[][] {
+  generateCombinations1(valuesArrays: string[][]): string[][] {
    if (valuesArrays.length === 0) return [[]];
 
   const result: string[][] = [];
 
-  const restCombinations = this.generateCombinations(valuesArrays.slice(1));
+  const restCombinations = this.generateCombinations1(valuesArrays.slice(1));
 
   for (const value of valuesArrays[0]) {
-    for (const combination of restCombinations) {
-      result.push([value, ...combination]);
+    if (value!=null){
+        for (const combination of restCombinations) {
+            if(combination[0]!='')
+                result.push([value, ...combination]);
+        }
     }
   }
 
   return result;
   }
 
-  generateAttributeVariants() {
-  const valuesOnly = this.getAttributeNamesOnly(); // [['red','yellow'], ['s','m'], ...]
-  const combinations = this.generateCombinations(valuesOnly); // [['red','s'], ['red','m'], ...]
+  
 
-  // تحويل النتائج إلى string مع \
-  this.variantStrings = combinations.map(comb => comb.join('\\'));
+  
+  convertOptionsToAttributes(): any[] {
+    return this.options.controls.map((optionGroup, i) => {
+      const valuesArray = optionGroup.get('optionsValue') as FormArray;
+      return {
+        id: i,
+        name: optionGroup.get('name')?.value,
+        values: valuesArray.controls.map((valGroup, j) => ({
+          id: ((i+1)*10)+j,
+          name: valGroup.get('name')?.value,
+          color: valGroup.get('color')?.value,
+          image: valGroup.get('image')?.value,
+          optionId: i
+        }))
+      };
+    });
+  }
 
-  // للعرض أو التخزين
-  console.log(this.variantStrings);
-}
+  generateVariants() {
+    const attributes = this.convertOptionsToAttributes();
+    const combinations = this.generateCombinations(attributes.map(a => a.values));
+
+    this.variants.clear();
+    for (const combo of combinations) {
+      this.variants.push(this.fb.group({
+        sku: [combo.map(v => v.name).join('-')],
+        variant: [combo.map(v => v.name).join('/')],
+        barcode: [''],
+        price: [0],
+        costPrice: [0],
+        discountPrice: [0],
+        quantity: [0],
+        weight: [0],
+        lowStockAlert: [0],
+        options: this.fb.array(
+          combo.map(val => this.fb.group({
+            productOptionId: [val.optionId],
+            productOptionValueId: [val.id]
+          }))
+        )
+      }));
+    }
+  }
+
+//   generateAttributeVariants() {
+//     const valuesOnly = this.getOptionsValueNamesOnly(); // [['red','yellow'], ['s','m'], ...]
+//     const combinations = this.generateCombinations(valuesOnly); // [['red','s'], ['red','m'], ...]
+//     this.variantStrings = combinations.map(comb => comb.join('/'));
+
+//     const variantFormArray = this.fb.array([]) as FormArray;
+//     for (const variant of this.variantStrings) {
+//       variantFormArray.push(
+//         this.fb.group({
+//           variant: [variant],
+//           price: [null],
+//           costPrice: [null],
+//           discountPrice: [null],
+//           weight: [null],
+//           barcode: [''],
+//           sku: [''],
+//           lowStock: [null]
+//         })
+//       );
+//     }
+
+//     this.variantForm.setControl('variants', variantFormArray);
+//     console.log(this.variantForm);
+
+//   }
+
+
+  generateCombinations(arrays: any[][], depth = 0, current: any[] = []): any[][] {
+    if (depth === arrays.length) return [current];
+    const result: any[][] = [];
+    for (const value of arrays[depth]) {
+        if(value.name!="")
+            result.push(...this.generateCombinations(arrays, depth + 1, [...current, value]));
+    }
+    return result;
+  }
+ 
+
+
+  addOption() {
+    const options = this.optionForm.get('options') as FormArray;
+    options.push(this.fb.group({
+      optionId: [options.length/*, Validators.required*/],
+      productId: [null/*, Validators.required*/],
+      name: [null/*, Validators.required*/],
+      type: ["text"/*, Validators.required*/],
+      optionsValue: this.fb.array([])
+    }));
+  }
+
+  getOptionType(optionIndex: number){
+    const optionsArray = this.optionForm.get('options') as FormArray;
+    const optionGroup = optionsArray.at(optionIndex) as FormGroup;
+    return optionGroup.get('type')?.value || '';
+  }
+
+
+
+  addOptionValue(optionIndex: number) {
+    this.getOptionValues(optionIndex).push(this.fb.group({
+      productOptionValueId:[optionIndex],
+      name: [''],
+      color: ['#000000'],
+      image: [[]]
+    }));
+  }
+
+  onUpload(event:any,attrIndex: number, valIndex: number) {
+    const optionValues = this.getOptionValues(attrIndex);
+    const valueGroup = optionValues.at(valIndex) as FormGroup;
+        this.uploadedFiles=[];
+        this.uploadedFiles = [...event.files];
+        valueGroup.patchValue({ image: this.uploadedFiles });     
+        this.messageService.add({
+            severity: 'info',
+            summary: 'تم رفع الملف',
+            detail: `${this.uploadedFiles.length} ملف/ملفات تم رفعها بنجاح`
+        });
+    }
+
+  getOptionValues(optionIndex: number): FormArray {
+    return this.options.at(optionIndex).get('optionsValue') as FormArray;
+  }
+
+  removeImage(attrIndex: number, valIndex: number){
+     const valueGroup = this.getOptionValues(attrIndex).at(valIndex) as FormGroup;
+    valueGroup.patchValue({ image: [] });
+
+    this.messageService.add({
+        severity: 'warn',
+        summary: 'تم الحذف',
+        detail: 'تم حذف الصورة بنجاح'
+    });
+    }
+
+  removeOptionValue(optionIndex: number, valueIndex: number) {
+    this.getOptionValues(optionIndex).removeAt(valueIndex);
+  }
+
+    removeOption(index: number) {
+    this.options.removeAt(index);
+  }
+  
+
+  submit() {
+    const payload = this.optionForm.value;
+    // call service to send data to backend
+    console.log(payload);
+
+    this.visible=false
+      this.visableData.emit(this.visible);
+  }
 
 
 
 
 
-
-
-//     @Input() label:string=""
-//     @Input() items:MenuItem[]=[]
-//     @Input() icon:string=""
-// 
 }

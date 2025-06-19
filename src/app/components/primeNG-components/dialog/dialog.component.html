@@ -232,6 +232,7 @@
 </p-dialog>
 
 <p-dialog  [class]="dialog" *ngIf="dialog=='quantityAndOptions'" (onHide)="visable(false)" [(visible)]="visible" [modal]="true" position="top" [style]="{ width: '60rem' }">
+    
     <ng-template  #header>
         <div class="dialogHeader d-inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold whitespace-nowrap">{{ 'uploadImageDialog.PRODUCTIMAGES' | translate }}</span>
@@ -239,26 +240,49 @@
     </ng-template>
     <!-- <span class="text-surface-500 dark:text-surface-400 block mb-4">Update your information.</span> -->
      
-     <p-toggleswitch ariaLabel="Remember Me" inputId="switch1" [(ngModel)]="checkedEnableOptions" />
+     <p-toggleswitch  ariaLabel="Remember Me" inputId="switch1" [(ngModel)]="checkedEnableOptions" />
      <label for="switch1">تفعيل خيارات المنتج</label>
-
-     <div *ngIf="checkedEnableOptions">
-        <div *ngFor="let attr of attributes; let i = index" class="mb-4 border p-3 rounded shadow-sm">
+    <form [formGroup]="optionForm">
+     <div formArrayName="options" *ngIf="checkedEnableOptions">
+        <!-- <div *ngFor="let attr of attributes; let i = index" class="mb-4 border p-3 rounded shadow-sm"> -->
+            <div *ngIf="options.controls">
+        <div *ngFor="let option of options.controls; let i = index" [formGroupName]="i" class="mb-4 border p-3 rounded shadow-sm">
         <div class="flex gap-2 mb-2">
-        <input type="text" pInputText [(ngModel)]="attr.name" class="w-50" placeholder="اسم الخاصية">
+        <input type="text" pInputText formControlName="name" class="w-50" placeholder="اسم الخاصية">
         <p-select 
             [options]="attributeTypes" 
-            [(ngModel)]="attr.type"
+            formControlName="type"
             class="w-50"
             optionLabel="label" 
             optionValue="value"
             placeholder="نوع الخاصية">
         </p-select>
-        <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm" (click)="removeAttribute(i)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm" (click)="removeOption(i)"></button>
         </div>
 
-        <div *ngFor="let val of attr.values; let j = index" class="d-flex gap-2 mb-2">
-            <input type="text" pInputText [(ngModel)]="attr.values[j].name" class="w-100" placeholder="القيمة">
+
+        <div formArrayName="optionsValue">
+        <div *ngFor="let val of getOptionValues(i).controls; let j = index" [formGroupName]="j" class="d-flex gap-2 mb-2">
+            <input type="text" pInputText formControlName="name" (keyup)="generateVariants()" class="w-100" placeholder="القيمة">
+            <input *ngIf="getOptionType(i)=='color'" type="color" formControlName="color" class="attrColor">
+            <div *ngIf="getOptionType(i)=='image'" class="uploadImageAttr">
+                <p-fileupload width="100px" (onUpload)="onUpload($event,i,j)" *ngIf="!val.get('image')?.value?.length" mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" [auto]="true" chooseLabel="Browse" />
+                <div class="d-flex flex-wrap justify-content-center gap-4">
+                    <div *ngFor="let file of val.get('image')?.value;" class="rounded-border d-flex flex-column  items-center">
+                        <div  class="d-flex justify-content-between imageView">
+                            <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="30" height="30" />
+                            <p-button icon="pi pi-times" size="small" (click)="removeImage(i, j)" [outlined]="true" [rounded]="true" severity="danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="removeOptionValue(i, j)"></button>
+        </div>
+
+        </div>
+
+        <!-- <div *ngFor="let val of attr.values; let j = index" class="d-flex gap-2 mb-2">
+            <input type="text" pInputText [(ngModel)]="attr.values[j].name" (keyup)="generateAttributeVariants()" class="w-100" placeholder="القيمة">
             <input *ngIf="attr.type=='color'" type="color" [(ngModel)]="attr.values[j].color" class="attrColor">
             <div *ngIf="attr.type=='image'" class="uploadImageAttr">
                 <p-fileupload width="100px" (onUpload)="onUpload($event,i,j)" *ngIf="!val.image.length" mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" [auto]="true" chooseLabel="Browse" />
@@ -272,20 +296,23 @@
                 </div>
             </div>
             <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="removeValue(i, j)"></button>
+        </div> -->
+
+        <button pButton label="+ إضافة قيمة" class="p-button-sm" (click)="addOptionValue(i)"></button>
+        </div>
         </div>
 
-        <button pButton label="+ إضافة قيمة" class="p-button-sm" (click)="addValue(i)"></button>
-        </div>
+        <button pButton label="+ إضافة خاصية" icon="pi pi-plus" (click)="addOption()"></button>
 
-        <button pButton label="+ إضافة خاصية" icon="pi pi-plus" (click)="addAttribute()"></button>
-
-  
-            <div *ngIf="attributes[0]?.values.length>0" class="card d-flex justify-content-center">
+  <form [formGroup]="variantForm" class="w-full">
+    <div formArrayName="variants">
+            <!-- <div *ngIf="options.controls.length>0" class="card d-flex justify-content-center"> -->
                 <p-accordion >
-                     <!-- <div *ngFor="let attr of attributes; let i = index"> -->
 
-                        <div *ngFor="let variant of variantStrings; let j = index">
-                            <p-accordion-panel *ngIf="variant" [value]="j">
+                        <div *ngFor="let variantGroup of variants.controls; let j = index" [formGroupName]="j">
+                            <!-- {{variantGroup.get('variant')?.value}} -->
+                            <p-accordion-panel [value]="j">
+                                <!-- *ngIf="variantGroup.length>0" -->
                                 <p-accordion-header>
                                     <ng-template #toggleicon let-active="active">
                                         @if (active) {
@@ -295,9 +322,7 @@
                                         }
                                     </ng-template>
                                     <span class="d-flex align-items-center gap-2 w-full">
-                                        <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" /> -->
-                                        <span class="font-bold whitespace-nowrap">{{ variant }}</span>
-                                        <!-- <p-badge value="3" class="ml-auto mr-2" /> -->
+                                        <span class="font-bold whitespace-nowrap">{{ variantGroup.get('variant')?.value }}</span>
                                     </span>
                                 </p-accordion-header>
                                 <p-accordion-content>
@@ -310,12 +335,12 @@
                                     <div class="flex flex-col md:flex-row gap-4 mb-2">
                                         <p-inputgroup>
                                             <p-inputgroup-addon><i class="pi pi-money-bill"></i></p-inputgroup-addon>
-                                            <p-inputnumber  placeholder="{{ 'productCard.PRICE' | translate }}" />
+                                            <p-inputnumber  placeholder="سعر التكلفه" />
                                             <p-inputgroup-addon>.00</p-inputgroup-addon>
                                         </p-inputgroup>
                                         <p-inputgroup>
                                             <p-inputgroup-addon><i class="pi pi-money-bill"></i></p-inputgroup-addon>
-                                            <p-inputnumber  placeholder="{{ 'productCard.PRICE' | translate }}" />
+                                            <p-inputnumber  placeholder="السعر المخفض" />
                                             <p-inputgroup-addon>.00</p-inputgroup-addon>
                                         </p-inputgroup>
                                       
@@ -340,14 +365,14 @@
                                             <p-inputgroup-addon><span class="material-symbols-rounded">
                                                 barcode
                                             </span></p-inputgroup-addon>
-                                            <p-inputnumber  placeholder="{{ 'productSettingsDialog.PRODUCTWEIGHT' | translate }}" />
+                                            <p-inputnumber  placeholder="الباركود" />
                                     </p-inputgroup>
 
                                      <p-inputgroup>
                                             <p-inputgroup-addon><span class="material-symbols-rounded">
                                                 shoppingmode
                                             </span></p-inputgroup-addon>
-                                            <p-inputnumber  placeholder="{{ 'productSettingsDialog.PRODUCTWEIGHT' | translate }}" />
+                                            <p-inputnumber  placeholder="SKU" />
                                     </p-inputgroup>
 
                                     <p-inputgroup>
@@ -356,49 +381,25 @@
                                                 notifications
                                                 </span>
                                             </p-inputgroup-addon>
-                                            <p-inputnumber  placeholder="{{ 'productSettingsDialog.PRODUCTWEIGHT' | translate }}" />
+                                            <p-inputnumber  placeholder="اقل كميه للتنبيه" />
                                     </p-inputgroup>
                                     </div>
                                 </p-accordion-content>
                             </p-accordion-panel>
                         </div>
-                    <!-- </div> -->
                 </p-accordion>
             </div>
+    <!-- </div> -->
+            </form>
         </div>
 
+    
+    </form>
     <ng-template #footer>
-        <p-button label="اضافة تصنيف" [outlined]="true" severity="secondary" (click)="visable(false)" />
+        <p-button label="اضافة تصنيف" [outlined]="true" severity="secondary" (click)="submit()" />
         <p-button label="{{ 'CANCELBUTTON' | translate }}" [text]="true" severity="secondary" (click)="visable(false)" />
         
     </ng-template>
 </p-dialog>
 
-<p-dialog   header="إضافة منتج" [(visible)]="display" [modal]="true" [style]="{ width: '50vw' }">
-  <form [formGroup]="productForm" (ngSubmit)="submitProduct()">
-    <div class="mb-3">
-      <label>اسم المنتج</label>
-      <input pInputText formControlName="name" class="w-full" />
-    </div>
-;
-    <div formArrayName="options" *ngFor="let option of options.controls; let i = index" [formGroupName]="i" class="mb-4 p-3 border border-1 rounded-md">
-      <div class="flex justify-between items-center">
-        <label>اسم الخاصية</label>
-        <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm" type="button" (click)="removeOption(i)"></button>
-      </div>
-      <input pInputText formControlName="name" placeholder="مثال: اللون أو المقاس" class="w-full mb-2" />
 
-<div *ngFor="let value of getOptionValues(i).controls; let j = index" [formGroupName]="j" class="mb-2">
-
-        <div class="flex gap-2 mb-1">
-          <input pInputText [formControlName]="j" placeholder="القيمة" class="w-full" />
-          <button pButton icon="pi pi-trash" class="p-button-sm p-button-danger" type="button" (click)="removeValue1(i, j)"></button>
-        </div>
-      </div>
-      <button pButton type="button" label="إضافة قيمة" class="p-button-sm" (click)="addValue1(i)"></button>
-    </div>
-
-    <button pButton type="button" label="إضافة خاصية جديدة" class="mb-3 w-full" (click)="addOption()"></button>
-    <button pButton type="submit" label="حفظ المنتج" class="w-full p-button-success mt-2"></button>
-  </form>
-</p-dialog>
