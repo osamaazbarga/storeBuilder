@@ -45,7 +45,7 @@
     <div *ngFor="let product of this.productsData; let index = index" class="col">
       <div class="card">
     <div class="mainProductImage">
-    <img src="./assets/images/defultImgProduct.jpg" class="card-img-top" width="80" alt="..." (click)="showDialog('uploadImages')">
+    <img src="./assets/images/defultImgProduct.jpg" class="card-img-top" width="80" alt="..." (click)="showDialog('uploadImages',product.id)">
     </div>
 
   <div class="card-body ltr grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -82,7 +82,7 @@
     </p-inputgroup-addon>
 
     <p-inputgroup-addon class="inlineTextButton w-100">
-      <p-button severity="secondary" (click)="showDialog('quantityAndOptions')" label="{{ 'productCard.OPTIONANDQUANTITY' | translate }}" />
+      <p-button severity="secondary" (click)="showDialog('quantityAndOptions',product.id)" label="{{ 'productCard.OPTIONANDQUANTITY' | translate }}" />
     </p-inputgroup-addon>
 </p-inputgroup>
 
@@ -92,7 +92,7 @@
           [options]="cities" [(ngModel)]="selectedCities" placeholder="{{ 'productCard.CATEGORY' | translate }}" optionLabel="name" display="chip" />
         <p-inputgroup-addon class="inlineTextButton">
 
-            <p-button severity="secondary" label="{{ 'productCard.ADDCATEGORY' | translate }}" (click)="showDialog('category')"/>
+            <p-button severity="secondary" label="{{ 'productCard.ADDCATEGORY' | translate }}" (click)="showDialog('category',product.id)"/>
         </p-inputgroup-addon>
         
     </p-inputgroup>
@@ -100,7 +100,7 @@
     <p-inputgroup class="buttonGroup">
     <p-inputgroup-addon class="buttonElement">
 
-            <p-button label="{{ 'productCard.SETTINGS' | translate }}" (click)="showDialog('productSetting')" icon="pi pi-sliders-h" severity="secondary" [iconPos]="currentLang === 'ar' ||  currentLang === 'he'? 'right' : 'left'"/>
+            <p-button label="{{ 'productCard.SETTINGS' | translate }}" (click)="showDialog('productSetting',product.id)" icon="pi pi-sliders-h" severity="secondary" [iconPos]="currentLang === 'ar' ||  currentLang === 'he'? 'right' : 'left'"/>
         </p-inputgroup-addon>
         <p-inputgroup-addon class="buttonElement">
 
@@ -178,4 +178,4 @@
 </div>
 
 
-<app-dialog *ngIf="visible" (visableData)="handleDataFromChild($event)" [visible]="getVisable()" [dialog]="dialog"></app-dialog>
+<app-dialog *ngIf="visible" [productId]="productId" (visableData)="handleDataFromChild($event)" [visible]="getVisable()" [dialog]="dialog"></app-dialog>

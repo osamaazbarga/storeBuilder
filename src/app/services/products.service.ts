@@ -6,6 +6,48 @@ import { Observable } from 'rxjs';
 import { User } from '../models/account/user';
 import { StoreService } from './store.service';
 
+
+export interface ProductVariantOptionDto {
+  productOptionId: number;
+  productOptionValueId: number;
+}
+
+export interface ProductOptionValueDto{
+  productOptionValueId:number;
+  name: string;
+  color:string;
+  imageUrl:string;
+  ProductOptionId:number;
+}
+export interface ProductVariantDto {
+  productId:string;
+  Name:string;
+  Type: string;
+  ProductOptionValue: ProductOptionValueDto[];
+}
+
+export interface ProductOptionDto {
+  productId:string;
+  name:string;
+  type:string;
+  optionId:number;
+  optionValues: ProductOptionValueDto[];
+}
+
+
+
+export interface CreateProductVariantsDto {
+  productId: number;
+  variants: ProductVariantDto[];
+}
+
+export interface CreateProductOptionsDto {
+  productId: number;
+  options: ProductOptionDto;
+  variants: ProductVariantDto[];
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -106,4 +148,23 @@ export class ProductsService {
       })
     
   }
+
+  addProductVariants(dto: CreateProductVariantsDto): Observable<any> {
+    return this.http.post(`${environment.appUrl}/${this.url}/add-product-variants`, dto);
+  }
+
+  addProductVariant(dto: CreateProductVariantsDto): Observable<any> {
+    let productId=dto.productId
+    let variants=dto.variants
+    return this.http.post(`${environment.appUrl}/${this.url}/${productId}/variants`,variants);
+  }
+
+  addProductOption(dto: CreateProductOptionsDto): Observable<any> {
+    let productId=dto.productId
+    let options=dto.options
+    let variants=dto.variants
+    return this.http.post(`${environment.appUrl}/${this.url}/${productId}/add-options`,{options,variants});
+  }
+
+
 }

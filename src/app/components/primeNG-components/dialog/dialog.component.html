@@ -261,16 +261,16 @@
         </div>
 
 
-        <div formArrayName="optionsValue">
+        <div formArrayName="optionValues">
         <div *ngFor="let val of getOptionValues(i).controls; let j = index" [formGroupName]="j" class="d-flex gap-2 mb-2">
             <input type="text" pInputText formControlName="name" (keyup)="generateVariants()" class="w-100" placeholder="القيمة">
             <input *ngIf="getOptionType(i)=='color'" type="color" formControlName="color" class="attrColor">
             <div *ngIf="getOptionType(i)=='image'" class="uploadImageAttr">
-                <p-fileupload width="100px" (onUpload)="onUpload($event,i,j)" *ngIf="!val.get('image')?.value?.length" mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" [auto]="true" chooseLabel="Browse" />
+                <p-fileupload width="100px" (onUpload)="onUpload($event,i,j)" *ngIf="!val.get('imageUrl')?.value?.length" mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" [auto]="true" chooseLabel="Browse" />
                 <div class="d-flex flex-wrap justify-content-center gap-4">
-                    <div *ngFor="let file of val.get('image')?.value;" class="rounded-border d-flex flex-column  items-center">
+                    <div *ngFor="let file of val.get('imageUrl')?.value;" class="rounded-border d-flex flex-column  items-center">
                         <div  class="d-flex justify-content-between imageView">
-                            <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="30" height="30" />
+                            <img role="presentation" [alt]="file?.name" [src]="file.objectURL" width="30" height="30" />
                             <p-button icon="pi pi-times" size="small" (click)="removeImage(i, j)" [outlined]="true" [rounded]="true" severity="danger" />
                         </div>
                     </div>
@@ -306,7 +306,7 @@
 
   <form [formGroup]="variantForm" class="w-full">
     <div formArrayName="variants">
-            <!-- <div *ngIf="options.controls.length>0" class="card d-flex justify-content-center"> -->
+            <div *ngIf="options.controls.length>0" class="card d-flex justify-content-center">
                 <p-accordion >
 
                         <div *ngFor="let variantGroup of variants.controls; let j = index" [formGroupName]="j">
@@ -389,7 +389,7 @@
                         </div>
                 </p-accordion>
             </div>
-    <!-- </div> -->
+    </div>
             </form>
         </div>
 

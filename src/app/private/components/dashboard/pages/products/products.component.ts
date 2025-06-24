@@ -44,6 +44,7 @@ export class ProductsComponent implements OnInit{
   visible: boolean = false;
 
   dialog!: 'productSetting' | 'uploadImages' | 'category' | 'quantityAndOptions';
+  productId!:number;
   src: string = 'assets/images/image.jpeg';
   @ViewChild('editorRef') editorRef?: PinturaEditorComponent<any> = undefined;
   options: any = {
@@ -195,8 +196,11 @@ export class ProductsComponent implements OnInit{
 
     
 
-    showDialog(dialog: 'productSetting' | 'uploadImages' | 'category' | 'quantityAndOptions') {
+    showDialog(dialog: 'productSetting' | 'uploadImages' | 'category' | 'quantityAndOptions',productId?:number) {
         this.dialog = dialog;
+        if(productId){
+          this.productId=productId;
+        }
         this.visible = true;
     }
     getVisable():boolean{

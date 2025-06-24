@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup,FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { PrimeNG } from 'primeng/config';
+import { CreateProductOptionsDto, CreateProductVariantsDto, ProductsService } from 'src/app/services/products.service';
 interface Option {
     name: string,
     code: string
@@ -18,6 +19,7 @@ interface VariantOption {
 
 interface ProductVariant {
   sku: string;
+  variant:string;
   barcode: string;
   price: number;
   costPrice: number;
@@ -73,42 +75,33 @@ export class DialogComponent {
     /*end quantity And Options objects*/
 
 
-
-    attributes: any[] = [];
-
-showAttributeDialog = false;
-
     attributeTypes = [
         { label: 'نص', value: 'text' },
         { label: 'اللون', value: 'color' },
         { label: 'صورة', value: 'image' }
     ];
 
-addAttribute() {
-  this.attributes.push({
-    name: '',
-    type: 'text',
-    values: []
-  });
-  
-}
-
-removeAttribute(index: number) {
-  this.attributes.splice(index, 1);
-}
-
-addValue(attrIndex: number) {
-//   this.attributes[attrIndex].values.push({name:"",color:"#000000",image:[]});
-//   console.log(this.attributes);
-//   this.generateAttributeVariants()
-
-}
-
-removeValue(attrIndex: number, valIndex: number) {
-  this.attributes[attrIndex].values.splice(valIndex, 1);
-}
 
 
+    constructor(private messageService: MessageService,
+        private config: PrimeNG,
+        private fb: FormBuilder,
+        private productsService: ProductsService){
+      this.visible=false
+      this.productForm = this.fb.group({
+      name: ['', Validators.required],
+      options: this.fb.array([]),
+      
+    });
+    this.variantForm = this.fb.group({
+      variants: this.fb.array([]),
+    });
+    this.optionForm = this.fb.group({
+      options: this.fb.array([]),
+    });
+
+
+    }
 
     choose(event:Event, callback:any) {
         callback();
@@ -166,22 +159,7 @@ removeValue(attrIndex: number, valIndex: number) {
       this.visableData.emit(this.visible);
     }
   
-    constructor(private messageService: MessageService,private config: PrimeNG,private fb: FormBuilder){
-      this.visible=false
-      this.productForm = this.fb.group({
-      name: ['', Validators.required],
-      options: this.fb.array([]),
-      
-    });
-    this.variantForm = this.fb.group({
-      variants: this.fb.array([]),
-    });
-    this.optionForm = this.fb.group({
-      options: this.fb.array([]),
-    });
 
-
-    }
 
     ngOnInit() {
 
@@ -238,11 +216,11 @@ get variants(): FormArray {
 
 
 
-  getOptionsValueNamesOnly(): string[][] {
+  getOptionValuesNamesOnly(): string[][] {
     const optionsArray = this.optionForm.get('options') as FormArray;
 
   return optionsArray.controls.map(optionGroup => {
-    const valuesArray = (optionGroup.get('optionsValue') as FormArray);
+    const valuesArray = (optionGroup.get('optionValues') as FormArray);
     return valuesArray.controls.map(valueGroup => {
       return valueGroup.get('name')?.value || '';
     });
@@ -273,15 +251,15 @@ get variants(): FormArray {
   
   convertOptionsToAttributes(): any[] {
     return this.options.controls.map((optionGroup, i) => {
-      const valuesArray = optionGroup.get('optionsValue') as FormArray;
+      const valuesArray = optionGroup.get('optionValues') as FormArray;
       return {
         id: i,
         name: optionGroup.get('name')?.value,
         values: valuesArray.controls.map((valGroup, j) => ({
-          id: ((i+1)*10)+j,
+          productOptionValueId: ((i+1)*10)+j,
           name: valGroup.get('name')?.value,
           color: valGroup.get('color')?.value,
-          image: valGroup.get('image')?.value,
+          imageUrl: valGroup.get('imageUrl')?.value,
           optionId: i
         }))
       };
@@ -307,7 +285,7 @@ get variants(): FormArray {
         options: this.fb.array(
           combo.map(val => this.fb.group({
             productOptionId: [val.optionId],
-            productOptionValueId: [val.id]
+            productOptionValueId: [val.productOptionValueId]
           }))
         )
       }));
@@ -357,10 +335,10 @@ get variants(): FormArray {
     const options = this.optionForm.get('options') as FormArray;
     options.push(this.fb.group({
       optionId: [options.length/*, Validators.required*/],
-      productId: [null/*, Validators.required*/],
-      name: [null/*, Validators.required*/],
+      productId: [this.productId/*, Validators.required*/],
+      name: [""/*, Validators.required*/],
       type: ["text"/*, Validators.required*/],
-      optionsValue: this.fb.array([])
+      optionValues: this.fb.array([])
     }));
   }
 
@@ -373,11 +351,13 @@ get variants(): FormArray {
 
 
   addOptionValue(optionIndex: number) {
-    this.getOptionValues(optionIndex).push(this.fb.group({
-      productOptionValueId:[optionIndex],
+
+    let OptionValues=this.getOptionValues(optionIndex)
+    OptionValues.push(this.fb.group({
+      productOptionValueId:[((optionIndex+1)*10)+OptionValues.length],
       name: [''],
       color: ['#000000'],
-      image: [[]]
+      imageUrl: [[]]
     }));
   }
 
@@ -395,7 +375,7 @@ get variants(): FormArray {
     }
 
   getOptionValues(optionIndex: number): FormArray {
-    return this.options.at(optionIndex).get('optionsValue') as FormArray;
+    return this.options.at(optionIndex).get('optionValues') as FormArray;
   }
 
   removeImage(attrIndex: number, valIndex: number){
@@ -419,12 +399,71 @@ get variants(): FormArray {
   
 
   submit() {
-    const payload = this.optionForm.value;
+    // const payload = this.optionForm.value;
     // call service to send data to backend
-    console.log(payload);
+    // console.log(payload);
+    let options=this.optionForm.value.options
+    let variants=this.variantForm.value.variants
 
-    this.visible=false
-      this.visableData.emit(this.visible);
+    const payload: CreateProductOptionsDto = {
+            productId: this.productId,
+            options:options,
+            variants:variants
+        };
+
+        
+        this.productsService.addProductOption(payload).subscribe({
+            next: (res:any) => {
+                console.log(res);
+                
+            this.messageService.add({
+                severity: 'success',
+                summary: 'تم الحفظ',
+                detail: 'تم حفظ التوليفات بنجاح'
+            });
+            this.visible = false;
+            this.visableData.emit(this.visible);
+            },
+            error: (err) => {
+            console.error(err);
+            this.messageService.add({
+                severity: 'error',
+                summary: 'خطأ',
+                detail: 'فشل في حفظ التوليفات'
+            });
+            }
+        });
+
+//     const payload: CreateProductVariantsDto = {
+//         productId: this.productId,
+//         variants: this.variantForm.value.variants
+//     };
+
+//   console.log(payload);
+
+  
+//   this.productsService.addProductVariant(payload).subscribe({
+//     next: () => {
+//       this.messageService.add({
+//         severity: 'success',
+//         summary: 'تم الحفظ',
+//         detail: 'تم حفظ التوليفات بنجاح'
+//       });
+//       this.visible = false;
+//       this.visableData.emit(this.visible);
+//     },
+//     error: (err) => {
+//       console.error(err);
+//       this.messageService.add({
+//         severity: 'error',
+//         summary: 'خطأ',
+//         detail: 'فشل في حفظ التوليفات'
+//       });
+//     }
+//   });
+
+    // this.visible=false
+    //   this.visableData.emit(this.visible);
   }
 
 
