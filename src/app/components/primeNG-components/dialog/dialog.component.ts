@@ -72,6 +72,8 @@ export class DialogComponent {
     checkedEnableOptions: boolean = false;
     attrColor: string = '#6466f1';
     uploadedFiles: any[] = [];
+    optionsValues:any[] = [];
+    VariantsValues:any[] = [];
     /*end quantity And Options objects*/
 
 
@@ -87,19 +89,19 @@ export class DialogComponent {
         private config: PrimeNG,
         private fb: FormBuilder,
         private productsService: ProductsService){
-      this.visible=false
-      this.productForm = this.fb.group({
-      name: ['', Validators.required],
-      options: this.fb.array([]),
-      
-    });
-    this.variantForm = this.fb.group({
-      variants: this.fb.array([]),
-    });
-    this.optionForm = this.fb.group({
-      options: this.fb.array([]),
-    });
-
+        this.visible=false
+        this.productForm = this.fb.group({
+        name: ['', Validators.required],
+          options: this.fb.array([]),
+        
+        });
+        this.variantForm = this.fb.group({
+          variants: this.fb.array([]),
+        });
+        this.optionForm = this.fb.group({
+          options: this.fb.array([]),
+        });
+        
 
     }
 
@@ -183,6 +185,25 @@ export class DialogComponent {
           {name: 'رطل', code: '2'},
           {name: 'أوقيه', code: '3'}
     ];
+
+    console.log("Calling getOptionsByProductId with ID:", this.productId);
+    this.productsService.getOptionsByProductId(this.productId).subscribe({
+      next: (optionsData:any) => {
+          optionsData.forEach((option: any) => {
+            this.options.push(this.createOptionGroup(option));       
+      });
+    console.log(this.options);
+        this.productsService.getVariantsByProductId(this.productId).subscribe({
+          next: (res:any) => {
+            res.forEach((option: any) => {
+              this.variants.push(this.createVariantGroup(option));
+            });
+          },
+            error: (err) => console.error("Request error:", err)
+        });
+      },
+      error: (err) => console.error("Request error:", err)
+    });
     }
 
 
@@ -396,7 +417,54 @@ get variants(): FormArray {
     removeOption(index: number) {
     this.options.removeAt(index);
   }
-  
+
+  createOptionGroup(option: any): FormGroup {
+    return this.fb.group({
+      id: [option.id || ''],
+      name: [option.name || ''],
+      opionId: [option.opionId || ''],
+      productId: [option.productId || ''],
+      type: [option.type || 'text'],
+      optionValues: this.fb.array(option.optionValues?.map((value: any) => this.createValueGroup(value)) || [])
+    });
+  }
+
+  createVariantGroup(variant: any): FormGroup {
+    return this.fb.group({
+      id: [variant.id || ''],
+      barcode: [variant.barcode || ''],
+      costPrice: [variant.costPrice || ''],
+      discountPrice: [variant.discountPrice || ''],
+      lowStockAlert: [variant.lowStockAlert || ''],
+      price: [variant.price || ''],
+      productId: [variant.productId || ''],
+      quantity: [variant.quantity || ''],
+      sku: [variant.sku || ''],
+      variant: [variant.variant || ''],
+      weight: [variant.weight || ''],
+      variantOptions: this.fb.array(variant.variantOptions?.map((value: any) => this.createVariantValueGroup(value)) || [])
+
+      
+    });
+  }
+
+  createVariantValueGroup(value: any): FormGroup {
+    return this.fb.group({
+      id: [value.id || null],
+      productOptionId: [value.productOptionId || null],
+      productOptionValueId: [value.productOptionValueId || null],
+      productVariantId: [value.productVariantId || null]
+    });
+  }
+
+  createValueGroup(value: any): FormGroup {
+    return this.fb.group({
+      name: [value.name || ''],
+      color: [value.color || ''],
+      image: [value.image || null]
+    });
+  }
+    
 
   submit() {
     // const payload = this.optionForm.value;
@@ -412,9 +480,10 @@ get variants(): FormArray {
         };
 
         
-        this.productsService.addProductOption(payload).subscribe({
+        this.productsService.addProductOptions(payload).subscribe({
             next: (res:any) => {
                 console.log(res);
+                
                 
             this.messageService.add({
                 severity: 'success',

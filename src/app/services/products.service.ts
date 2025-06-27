@@ -149,21 +149,29 @@ export class ProductsService {
     
   }
 
-  addProductVariants(dto: CreateProductVariantsDto): Observable<any> {
-    return this.http.post(`${environment.appUrl}/${this.url}/add-product-variants`, dto);
-  }
+  // addProductVariants(dto: CreateProductVariantsDto): Observable<any> {
+  //   return this.http.post(`${environment.appUrl}/${this.url}/add-product-variants`, dto);
+  // }
 
-  addProductVariant(dto: CreateProductVariantsDto): Observable<any> {
-    let productId=dto.productId
-    let variants=dto.variants
-    return this.http.post(`${environment.appUrl}/${this.url}/${productId}/variants`,variants);
-  }
+  // addProductVariant(dto: CreateProductVariantsDto): Observable<any> {
+  //   let productId=dto.productId
+  //   let variants=dto.variants
+  //   return this.http.post(`${environment.appUrl}/${this.url}/${productId}/variants`,variants);
+  // }
 
-  addProductOption(dto: CreateProductOptionsDto): Observable<any> {
+  addProductOptions(dto: CreateProductOptionsDto): Observable<any> {
     let productId=dto.productId
     let options=dto.options
     let variants=dto.variants
     return this.http.post(`${environment.appUrl}/${this.url}/${productId}/add-options`,{options,variants});
+  }
+
+  getOptionsByProductId(productId:number){
+    return this.http.get(`${environment.appUrl}/${this.url}/${productId}/get-options`)
+  }
+
+  getVariantsByProductId(productId:number){
+    return this.http.get(`${environment.appUrl}/${this.url}/${productId}/get-Variants`)
   }
 
 
