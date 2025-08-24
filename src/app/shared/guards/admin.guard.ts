@@ -25,7 +25,7 @@ export class AdminGuard {
     return this.userService.user$.pipe(
       map((user:User|null)=>{
         if(user){
-          const decodeToken:any=jwtDecode(user.jwt);
+          const decodeToken:any=jwtDecode(user.token);
           if(decodeToken.role.includes('Admin')){
             return true
           }

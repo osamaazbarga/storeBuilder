@@ -4,6 +4,7 @@ import { HomeComponent } from './components/dashboard/home/home.component';
 import { MainComponent } from './components/dashboard/pages/main/main.component';
 import { ProductsComponent } from './components/dashboard/pages/products/products.component';
 import { AddProductComponent } from './components/dashboard/pages/products/add-product/add-product.component';
+import { CategoriesComponent } from './components/dashboard/pages/products/categories/categories.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,11 @@ const routes: Routes = [
     path:'products/addproduct',
     runGuardsAndResolvers:'always',
     component:AddProductComponent
+  },
+  {
+    path:'categories',
+    runGuardsAndResolvers:'always',
+    component:CategoriesComponent
   },
   // {
   //   path:'**',

@@ -1,0 +1,48 @@
+
+<div class="container">
+<p-table
+  #table
+  dataKey="id"
+  [value]="categories"
+  rowReorder
+  (onRowReorder)="onReorder($event)"
+  groupRowsBy="id"
+  rowGroupMode="subheader"
+
+>
+
+  <ng-template #header>
+    <tr>
+
+      <th style="width: 3rem"></th>
+      <th>اسم التصنيف</th>
+    </tr>
+  </ng-template>
+
+  <ng-template  #groupheader let-category  let-index="rowIndex">
+    <tr [pReorderableRow]="index" pRowGroupHeader>
+     <!-- <td>
+        <button
+          pButton
+          type="button"
+          [pRowToggler]="category"
+          (click)="toggleRow1(category)"
+          class="p-button-text"
+        ></button>
+      </td> -->
+      <td>
+        <i class="pi pi-bars" pReorderableRowHandle style="cursor: move"></i>
+      </td>
+      <td>{{ category.name }}</td>
+       
+    </tr>
+    <ng-template #body let-category>
+        <tr *ngFor="let sub of category.subCategories">
+            
+            <th style="width: 3rem"></th>
+            <td >
+                {{sub.name}}
+            </td>
+                
+        </tr>
+ 

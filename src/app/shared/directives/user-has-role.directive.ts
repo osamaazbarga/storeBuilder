@@ -17,7 +17,7 @@ export class UserHasRoleDirective {
       this.userService.user$.pipe((take(1))).subscribe({
         next:user=>{
           if(user){
-            const decodeToken:any=jwtDecode(user.jwt);
+            const decodeToken:any=jwtDecode(user.token);
             if(/*decodeToken.role.some((role:any)=> this.appUserHasRole.includes(role))*/true){
               this.viewContainerRef.createEmbeddedView(this.templateRef);
             }

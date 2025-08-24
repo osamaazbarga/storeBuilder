@@ -4,14 +4,14 @@ a{
     transition: background-color 1s ease, box-shadow 1s ease;
 }
 
-.scrolled a,.hovered a{
-  
+::ng-deep .scrolled .p-menubar-item-content a, ::ng-deep .hovered .p-menubar-item-content a{
+
     text-decoration: none;
     color: white;
     transition: background-color 1s ease, box-shadow 1s ease;
   
 }
-.hovered a:hover{
+::ng-deep .hovered .p-menubar-item-content a:hover{
   
   text-decoration: none;
   color: black;
@@ -19,7 +19,7 @@ a{
 
 }
 
-a:hover{
+::ng-deep .p-menubar-item-content a:hover{
     color: currentColor;
     transition: background-color 1s ease, box-shadow 1s ease;
     
@@ -31,7 +31,7 @@ header {
     position: fixed;
     top: 0;
     width: 100vw;
-    height: 80px;
+    height: 80px !important;
     z-index: 1000;
     background-color: transparent;
     backdrop-filter: blur(6px);
@@ -55,7 +55,7 @@ header .nav-content{
     margin: auto;
     justify-content: space-evenly;
     height: 80px;
-    /* flex-grow: 3 !important; */
+    /* flex-grow: 3 !important;*/
 
 }
 
@@ -169,3 +169,43 @@ header .item:hover{
   }
 
 
+::ng-deep .p-menubar-button{
+  position: absolute !important;
+  left: 7px !important;
+}
+
+::ng-deep .p-menubar-end {
+  /* display: none; */
+}
+
+::ng-deep .p-menubar{
+  justify-content: space-between;
+  background: none !important;
+  height: 80px !important;
+  border: none !important;
+
+
+}
+
+::ng-deep p-menubar{
+  background-color: none;
+    position: absolute;
+    top: 0;
+    height: 80px !important;
+}
+
+::ng-deep .menuitem a{
+  color: black;
+}
+
+::ng-deep .p-menubar-submenu .p-menubar-item a span{
+  color: black !important;
+}
+
+::ng-deep .p-menubar-item .p-menubar-item-content a:hover{
+  background: white;
+
+  height: 80px !important;
+  display: flex;
+  align-items: center;
+}

@@ -54,8 +54,8 @@ export class LoginComponent implements OnInit{
   
   initializeForm():void{
     this.loginForm=this.formBuilder.group({
-      userName:new FormControl('',[Validators.required]),
-      password:new FormControl('',[Validators.required,])
+      email:new FormControl('',[Validators.required]),
+      password:new FormControl('',[Validators.required])
     })
   }
   loginUser(loginData:any){
@@ -98,6 +98,8 @@ export class LoginComponent implements OnInit{
     this.submitted=false;
     if(this.loginForm.valid){
       this.submitted=false;
+      console.log(this.loginForm.value);
+      
       this.loginUser(this.loginForm.value)
     }
     else{

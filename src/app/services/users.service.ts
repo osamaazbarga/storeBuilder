@@ -26,7 +26,7 @@ export class UsersService {
 
 
 
-  private url="Users";
+  private url="users";
   private userSource=new ReplaySubject<User|null>(1);
   user$=this.userSource.asObservable();
   constructor(private http:HttpClient,private snackbar:MatSnackBar,private router:Router) { }
@@ -127,7 +127,7 @@ export class UsersService {
     const key=localStorage.getItem(environment.userKey);
     if(key){
       const user:User=JSON.parse(key);
-      return user.jwt
+      return user.token
     }
     return null;
   }

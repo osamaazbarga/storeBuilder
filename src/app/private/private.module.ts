@@ -23,6 +23,7 @@ import { SidebarItemComponent } from '../components/sidebar-item/sidebar-item.co
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AngularPinturaModule } from '@pqina/angular-pintura';
+import { CategoriesComponent } from './components/dashboard/pages/products/categories/categories.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { AngularPinturaModule } from '@pqina/angular-pintura';
     AddProductComponent,
     DropDargComponent,
     DragDropDirective,
-    SidebarItemComponent
+    SidebarItemComponent,
+    CategoriesComponent
 
   
     

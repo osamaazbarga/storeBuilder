@@ -195,6 +195,7 @@ export class DialogComponent {
     console.log(this.options);
         this.productsService.getVariantsByProductId(this.productId).subscribe({
           next: (res:any) => {
+            this.checkedEnableOptions=true
             res.forEach((option: any) => {
               this.variants.push(this.createVariantGroup(option));
             });

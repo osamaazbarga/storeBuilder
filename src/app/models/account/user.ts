@@ -11,5 +11,5 @@ export interface User{
     postalCode?:string;
     country?:string;
     plan?:number;
-    jwt:string;
+    token:string; 
 }

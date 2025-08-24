@@ -78,7 +78,7 @@ export class ProductsService {
     const key=localStorage.getItem(environment.userKey);
     if(key){
       const user:User=JSON.parse(key);
-      jwt= user.jwt  
+      jwt= user.token  
       
     }
     const headers = new HttpHeaders({

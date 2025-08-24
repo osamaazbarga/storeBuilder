@@ -7,9 +7,9 @@
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
                 <label for="email">{{ 'EMAIL' | translate }}</label>
                 <div class="">
-                    <input formControlName="userName" type="text" placeholder="{{ 'ENTEREMAIL' | translate }}" class="form-control"
-                    [class.is-invalid]="submitted &&loginForm.get('userName')?.errors">
-                    <span class="text-danger" *ngIf=" submitted && loginForm.get('userName')?.hasError('required')">
+                    <input formControlName="email" type="text" placeholder="{{ 'ENTEREMAIL' | translate }}" class="form-control"
+                    [class.is-invalid]="submitted &&loginForm.get('email')?.errors">
+                    <span class="text-danger" *ngIf=" submitted && loginForm.get('email')?.hasError('required')">
                         {{ 'errorMessage.EMAILREQ' | translate }}
                     </span>
                 </div>
