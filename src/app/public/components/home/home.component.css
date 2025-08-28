@@ -4,12 +4,32 @@
   overflow-x: hidden;
   position: relative;
   width: 100%;
+
+  /* Account for fixed navbar */
+  padding-top: 70px;
 }
 
 /* Ensure footer takes full width */
 .home-container app-footer {
   display: block;
   width: 100%;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Section spacing adjustments for navbar */
+.home-container > * {
+  position: relative;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .home-container {
+    padding-top: 60px;
+  }
 }
 
 /* Smooth scrolling for the entire page */

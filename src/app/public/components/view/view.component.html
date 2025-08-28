@@ -1,10 +1,10 @@
 <ng-container *ngIf="!isStoreView; else dynamicView">
-    <app-navbar></app-navbar>
+
         <div class="" style="min-height: 500px;">
             <router-outlet></router-outlet>
 
         </div>
-<app-footer></app-footer>
+
 </ng-container>
 
 <ng-template #dynamicView>
