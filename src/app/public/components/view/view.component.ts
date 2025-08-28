@@ -33,7 +33,7 @@ export class ViewComponent {
       if (hostname) {
         this.storeService.loadStoreBySubdomain(parts[0]).subscribe({
           next: (store) => this.isStoreView = true,
-          error: (err) => window.location.href='http://localtest.me:4200'
+          error: (err) => window.location.href='https://localtest.me:4200'
         });
       }
     }

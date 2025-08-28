@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take } from 'rxjs';
+import { take, Subject, takeUntil } from 'rxjs';
 import { User } from 'src/app/models/account/user';
 import { StoreService } from 'src/app/services/store.service';
 import { UsersService } from 'src/app/services/users.service';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
     selector: 'app-sidebar-dashboard',
@@ -11,12 +12,37 @@ import { UsersService } from 'src/app/services/users.service';
     styleUrls: ['./sidebar-dashboard.component.css'],
     standalone: false
 })
-export class SidebarDashboardComponent {
+export class SidebarDashboardComponent implements OnInit, OnDestroy {
   errorMessages:string[]=[]
   mode:string|undefined;
-  storeData:any
+  storeData:any;
+  currentLang: string = 'ar';
+  isRTL: boolean = true;
+  isMobileSidebarOpen: boolean = false;
+  isCollapsed: boolean = false;
+  private destroy$ = new Subject<void>();
 
-  constructor(private storeService:StoreService,private userService:UsersService,private activatedRoute:ActivatedRoute,private router:Router){
+  constructor(
+    private storeService:StoreService,
+    private userService:UsersService,
+    private activatedRoute:ActivatedRoute,
+    private router:Router,
+    public languageService:LanguageService
+  ){
+  }
+
+  ngOnInit() {
+    // Subscribe to language changes
+    this.languageService.lang$.pipe(takeUntil(this.destroy$)).subscribe(lang => {
+      this.currentLang = lang;
+      this.isRTL = lang === 'ar' || lang === 'he';
+      console.log('Sidebar: Language changed to:', lang);
+      console.log('Sidebar: Current itemList:', this.itemList);
+    });
+
+    // Listen for window resize to handle responsive behavior
+    this.handleWindowResize();
+
     this.userService.user$.pipe(take(1)).subscribe({
               next:(user:User|null)=>{
                 if(user){
@@ -27,10 +53,61 @@ export class SidebarDashboardComponent {
                   if(mode){
                     this.mode=mode
                     console.log(this.mode);
-                  }             
+                  }
                 }
               }
         })
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  // Mobile Sidebar Toggle
+  toggleMobileSidebar() {
+    this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
+    console.log('Mobile sidebar toggled:', this.isMobileSidebarOpen);
+  }
+
+  closeMobileSidebar() {
+    this.isMobileSidebarOpen = false;
+  }
+
+  // Sidebar Collapse Toggle
+  toggleCollapse() {
+    this.isCollapsed = !this.isCollapsed;
+    console.log('Sidebar collapsed:', this.isCollapsed);
+  }
+
+  // Handle window resize
+  private handleWindowResize() {
+    if (typeof window !== 'undefined') {
+      const checkScreenSize = () => {
+        const isMobile = window.innerWidth <= 768;
+        if (!isMobile && this.isMobileSidebarOpen) {
+          this.isMobileSidebarOpen = false;
+        }
+      };
+
+      // Initial check
+      checkScreenSize();
+
+      // Listen to resize events
+      window.addEventListener('resize', checkScreenSize);
+    }
+  }
+
+  // Handle overlay click
+  onOverlayClick() {
+    this.closeMobileSidebar();
+  }
+
+  // Handle ESC key
+  onEscapeKey(event: KeyboardEvent) {
+    if (event.key === 'Escape' && this.isMobileSidebarOpen) {
+      this.closeMobileSidebar();
+    }
   }
 
 
@@ -69,30 +146,64 @@ export class SidebarDashboardComponent {
    }
 
   itemList = [
+    // الصفحة الرئيسية
     { labelKey: 'MERCHANT.DASHBOARD', icon: 'dashboard', route: '/dashboard' },
-    { labelKey: 'MERCHANT.PRODUCTS', icon: 'apparel', route: '/dashboard/products' },
-    { labelKey: 'MERCHANT.ORDERS', icon: 'shopping_bag', route: '/dashboard/orders' },
-    { labelKey: 'MERCHANT.CUDTOMERS', icon: 'people', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.REPORTS', icon: 'receipt_long', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.QUESTIONSANDEVALUATIONS', icon: 'rate_review', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.MARKETINGTOOLS', icon: 'campaign', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.SALESCHANNELS', icon: 'people', route: '/dashboard/customers' ,kind:"main"},
-    { labelKey: 'MERCHANT.LOCALY', icon: 'people', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.SUPPORTINGTOOLS', icon: 'people', route: '/dashboard/customers' ,kind:"main"},
-    { labelKey: 'MERCHANT.MERCHANTSERVICES', icon: 'business_center', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.SETTINGS', icon: 'people', route: '/dashboard/customers' ,kind:"main"},
-    { labelKey: 'MERCHANT.STOREPLAN', icon: 'store', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.STORESETTINGS', icon: 'settings', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.WALLETANDBILLING', icon: 'wallet', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.STOREAPPEARANCE', icon: 'people', route: '/dashboard/customers' ,kind:"main"},
-    { labelKey: 'MERCHANT.THEMESTORE', icon: 'storefront', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.NEWSTOREDESIGN', icon: 'widget_width', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.APPSTORE', icon: 'people', route: '/dashboard/customers' ,kind:"main"},
-    { labelKey: 'MERCHANT.INSTALLEDAPPS', icon: 'extension', route: '/dashboard/customers' },
-    { labelKey: 'MERCHANT.VISITAPPSTORE', icon: 'apps', route: '/dashboard/customers' },
 
+    // إدارة المتجر
+    { labelKey: 'MERCHANT.STORE_MANAGEMENT', kind: "main" },
+    { labelKey: 'MERCHANT.PRODUCTS', icon: 'inventory_2', route: '/dashboard/products' },
+    { labelKey: 'MERCHANT.ORDERS', icon: 'shopping_cart', route: '/dashboard/orders' },
+    { labelKey: 'MERCHANT.CUSTOMERS', icon: 'people', route: '/dashboard/customers' },
+    { labelKey: 'MERCHANT.INVENTORY', icon: 'inventory', route: '/dashboard/inventory' },
 
+    // التحليلات والتقارير
+    { labelKey: 'MERCHANT.ANALYTICS_REPORTS', kind: "main" },
+    { labelKey: 'MERCHANT.SALES_ANALYTICS', icon: 'analytics', route: '/dashboard/analytics' },
+    { labelKey: 'MERCHANT.FINANCIAL_REPORTS', icon: 'assessment', route: '/dashboard/reports' },
+    { labelKey: 'MERCHANT.CUSTOMER_INSIGHTS', icon: 'insights', route: '/dashboard/insights' },
 
+    // التسويق والمبيعات
+    { labelKey: 'MERCHANT.MARKETING_SALES', kind: "main" },
+    { labelKey: 'MERCHANT.MARKETING_CAMPAIGNS', icon: 'campaign', route: '/dashboard/marketing' },
+    { labelKey: 'MERCHANT.DISCOUNT_COUPONS', icon: 'local_offer', route: '/dashboard/coupons' },
+    { labelKey: 'MERCHANT.EMAIL_MARKETING', icon: 'email', route: '/dashboard/email-marketing' },
+    { labelKey: 'MERCHANT.SOCIAL_MEDIA', icon: 'share', route: '/dashboard/social' },
+
+    // قنوات البيع
+    { labelKey: 'MERCHANT.SALES_CHANNELS', kind: "main" },
+    { labelKey: 'MERCHANT.ONLINE_STORE', icon: 'storefront', route: '/dashboard/online-store' },
+    { labelKey: 'MERCHANT.MARKETPLACE', icon: 'shopping_bag', route: '/dashboard/marketplace' },
+    { labelKey: 'MERCHANT.SOCIAL_COMMERCE', icon: 'shopping_basket', route: '/dashboard/social-commerce' },
+
+    // الأدوات المساعدة
+    { labelKey: 'MERCHANT.TOOLS_UTILITIES', kind: "main" },
+    { labelKey: 'MERCHANT.BULK_ACTIONS', icon: 'batch_prediction', route: '/dashboard/bulk-actions' },
+    { labelKey: 'MERCHANT.IMPORT_EXPORT', icon: 'import_export', route: '/dashboard/import-export' },
+    { labelKey: 'MERCHANT.API_INTEGRATIONS', icon: 'api', route: '/dashboard/integrations' },
+
+    // الإعدادات
+    { labelKey: 'MERCHANT.SETTINGS', kind: "main" },
+    { labelKey: 'MERCHANT.STORE_SETTINGS', icon: 'settings', route: '/dashboard/store-settings' },
+    { labelKey: 'MERCHANT.PAYMENT_SETTINGS', icon: 'payment', route: '/dashboard/payment-settings' },
+    { labelKey: 'MERCHANT.SHIPPING_SETTINGS', icon: 'local_shipping', route: '/dashboard/shipping' },
+    { labelKey: 'MERCHANT.TAX_SETTINGS', icon: 'receipt', route: '/dashboard/tax-settings' },
+
+    // المظهر والتصميم
+    { labelKey: 'MERCHANT.DESIGN_APPEARANCE', kind: "main" },
+    { labelKey: 'MERCHANT.THEME_CUSTOMIZATION', icon: 'palette', route: '/dashboard/themes' },
+    { labelKey: 'MERCHANT.PAGE_BUILDER', icon: 'web', route: '/dashboard/page-builder' },
+    { labelKey: 'MERCHANT.MOBILE_APP', icon: 'phone_android', route: '/dashboard/mobile-app' },
+
+    // التطبيقات والإضافات
+    { labelKey: 'MERCHANT.APPS_EXTENSIONS', kind: "main" },
+    { labelKey: 'MERCHANT.INSTALLED_APPS', icon: 'extension', route: '/dashboard/installed-apps' },
+    { labelKey: 'MERCHANT.APP_STORE', icon: 'apps', route: '/dashboard/app-store' },
+
+    // الحساب والفوترة
+    { labelKey: 'MERCHANT.ACCOUNT_BILLING', kind: "main" },
+    { labelKey: 'MERCHANT.SUBSCRIPTION_PLAN', icon: 'card_membership', route: '/dashboard/subscription' },
+    { labelKey: 'MERCHANT.BILLING_INVOICES', icon: 'receipt_long', route: '/dashboard/billing' },
+    { labelKey: 'MERCHANT.ACCOUNT_SETTINGS', icon: 'account_circle', route: '/dashboard/account' }
   ];
 
 }

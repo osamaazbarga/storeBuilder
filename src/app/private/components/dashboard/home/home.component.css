@@ -1,31 +1,95 @@
-.dashboard {
-  /* display: grid;
-  grid-template-columns:  16.66% auto;
-  height: 100vh; */
-  display: grid;
-  grid-template-columns:  9.66% 90%;
-  height: 100vh;
+/* Dashboard Layout with Brand Colors */
+:root {
+  --primary-brand: rgba(231, 76, 60, 1);
+  --primary-light: rgba(231, 76, 60, 0.1);
+  --primary-medium: rgba(231, 76, 60, 0.3);
+  --bg-primary: rgba(248, 249, 250, 1);
 }
 
-.sidebar {
-  width: 250px;
-  background-color: #f0f0f0;
-  /* Add more styles as needed */
+/* Dashboard Layout */
+.dashboard {
+  display: flex;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(248, 250, 252, 1) 100%);
+  position: relative;
+}
+
+.dashboard.rtl-layout {
+  direction: rtl;
 }
 
 .main-content {
   flex: 1;
-  
-  /* Add more styles as needed */
+  overflow-y: auto;
+  background: var(--bg-primary);
+  margin-left: 360px;
+  transition: margin 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
 }
 
+.main-content.rtl-content,
+[dir="rtl"] .main-content {
+  margin-left: 0;
+  margin-right: 360px;
+}
 
+/* Custom Scrollbar */
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
 
-.container { margin: 30px; }
-/* @media only screen and (max-width: 767px) { .container { max-width: 100%; } }
-@media only screen and (min-width: 768px) { .container { max-width: 740px; } }
-@media only screen and (min-width: 992px) { .container { max-width: 980px; } }
-@media only screen and (min-width: 1200px) { .container { max-width: 1140px; } }
-@media only screen and (min-width: 1400px) { .container { max-width: 1320px; } } */
+.main-content::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
 
+.main-content::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 4px;
+}
 
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-medium);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .main-content {
+    margin-left: 240px;
+  }
+
+  .main-content.rtl-content,
+  [dir="rtl"] .main-content {
+    margin-left: 0;
+    margin-right: 240px;
+  }
+}
+
+@media (max-width: 992px) {
+  .main-content {
+    margin-left: 220px;
+  }
+
+  .main-content.rtl-content,
+  [dir="rtl"] .main-content {
+    margin-left: 0;
+    margin-right: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+
+  .main-content.rtl-content,
+  [dir="rtl"] .main-content {
+    margin-right: 0;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .main-content {
+    transition: none;
+  }
+}

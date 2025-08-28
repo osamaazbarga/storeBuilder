@@ -27,7 +27,7 @@ export class StoreService {
     this.http.get(`${environment.appUrl}/${this.url}`)
   }
   getIsAvalibleLink(link:string){
-    return this.http.get(`${environment.appUrl}/${this.url}/check-availble-link/${link}`)
+    return this.http.get(`${environment.appUrl}/${this.url}/check-available-link/${link}`)
   }
 
   getStoreByUserId(userId:string){
@@ -62,6 +62,8 @@ export class StoreService {
    * Loads store details based on subdomain
    */
     loadStoreBySubdomain(subdomain: string): Observable<StoreAddEdit> {
+      console.log(subdomain);
+      
       return this.http.get<StoreAddEdit>(`${environment.appUrl}/${this.url}/by-subdomain/${subdomain}`);
     }
   

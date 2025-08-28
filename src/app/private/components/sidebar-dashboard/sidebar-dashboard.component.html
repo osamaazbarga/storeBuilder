@@ -1,17 +1,55 @@
+<!-- Mobile Overlay -->
+<div class="sidebar-overlay"
+     [class.show]="isMobileSidebarOpen"
+     (click)="onOverlayClick()"
+     (keydown)="onEscapeKey($event)"></div>
 
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2 bg-white my-2" id="sidenav-main">
+<!-- Main Sidebar -->
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg"
+       [class.sidebar-ltr]="!isRTL"
+       [class.sidebar-rtl]="isRTL"
+       [class.show]="isMobileSidebarOpen"
+       [class.collapsed]="isCollapsed"
+       [class.ms-2]="!isRTL"
+       [class.me-2]="isRTL"
+       id="sidenav-main"
+       (keydown)="onEscapeKey($event)"
+       tabindex="-1">
   <div class="sidenav-header">
-    <img src="./assets/images/redLogoHovered.png" class="logo-img" height="30" alt="Logo">
+    <!-- Collapse Button (Desktop) -->
+    <button class="collapse-btn d-none d-lg-block"
+            (click)="toggleCollapse()"
+            [attr.aria-label]="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+            type="button">
+      <i class="material-symbols-rounded">{{ isCollapsed ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</i>
+    </button>
+
+    <!-- Close Button (Mobile) -->
+    <button class="close-btn d-lg-none"
+            (click)="closeMobileSidebar()"
+            aria-label="Close sidebar"
+            type="button">
+      <i class="material-symbols-rounded">close</i>
+    </button>
+
+    <img src="./assets/images/redLogoHovered.png"
+         class="logo-img"
+         [class.d-none]="isCollapsed"
+         height="30"
+         alt="Logo">
     <a class="navbar-brand px-4 py-3 m-0" target="_blank">
       <img src="./assets/images/defult-img-store.jpg" class="navbar-brand-img mb-2 p-1" height="85" alt="main_logo">
-      <span class="text-dark mb-2">{{storeData?.name}}</span>
-      <a class="btn-store-link" (click)="routerLink()"><span class="store-name">visit store</span><i class="material-symbols-rounded">Link</i></a>
+      <span class="text-dark mb-2" [style.text-align]="currentLang === 'ar' || currentLang === 'he' ? 'right' : 'left'">{{storeData?.name}}</span>
+      <a class="btn-store-link" (click)="routerLink()">
+        <span class="store-name">{{ 'DASHBOARD.VISIT_STORE' | translate }}</span>
+        <i class="material-symbols-rounded">Link</i>
+      </a>
     </a>
   </div>
   <hr class="horizontal dark mt-0 mb-2">
-  <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+  <div class="navbar-collapse w-auto " id="sidenav-collapse-main">
     <ul class="navbar-nav">
-      <!-- <ng-container *ngFor="let item of itemlist">
+      <!-- <ng-container *ngFor="let item of itemList">
         <li class="nav-item">
           <a class="nav-link active bg-gradient-dark text-white" href="/dashboard">
             <i class="material-symbols-rounded opacity-5">dashboard</i>
@@ -22,7 +60,7 @@
       <app-sidebar-item *ngFor="let item of itemList" [item]="item"></app-sidebar-item>
     </ul>
   </div>
-  <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+  <div class="sidenav-footer position-sticky w-100 bottom-0 bg-white">
     <div class="mx-3">
       <a class="btn btn-outline-dark mt-4 w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard?ref=sidebarfree" type="button">Documentation</a>
       <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>

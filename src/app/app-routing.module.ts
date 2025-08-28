@@ -23,7 +23,7 @@ const routes: Routes = [
   // },
   {
     path:'dashboard',
-    canActivate:[AuthorizationGuard],
+    // canActivate:[AuthorizationGuard],
     runGuardsAndResolvers:'always',
     component:dashboardPrivateComponents,
     loadChildren:()=>import('./private/private.module').then(m=>m.PrivateModule)
@@ -38,7 +38,7 @@ const routes: Routes = [
   {
     path:'store-info',
     runGuardsAndResolvers:'always',
-    canActivate:[AuthorizationGuard],
+    // canActivate:[AuthorizationGuard],
     component:StoreInfoComponent,
     loadChildren:()=>import('./private/components/storeInformation/store-info.module').then(m=>m.StoreInfoModule)
   },

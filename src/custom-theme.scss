@@ -2,16 +2,279 @@
 
 @include mat.core();
 
-$SuperEcommere-primary: mat.m2-define-palette(mat.$m2-indigo-palette, A400, A100, A700);
-$SuperEcommere-accent: mat.m2-define-palette(mat.$m2-indigo-palette);
-$SuperEcommere-warn: mat.m2-define-palette(mat.$m2-red-palette);
+// Define custom color palettes using the new brand color
+$custom-primary-palette: (
+  50: #fef2f0,
+  100: #fde5e0,
+  200: #fbccc6,
+  300: #f8a89e,
+  400: #f37766,
+  500: #e74c3c, // Main brand color rgba(231, 76, 60)
+  600: #d73527,
+  700: #b92d20,
+  800: #9a251b,
+  900: #81221a,
+  A100: #fde5e0,
+  A200: #f8a89e,
+  A400: #f37766,
+  A700: #b92d20,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #ffffff,
+  )
+);
 
+$custom-accent-palette: (
+  50: #fef3f0,
+  100: #fde6e0,
+  200: #fccac4,
+  300: #f9a499,
+  400: #f47968,
+  500: #f15a4a, // Accent color
+  600: #e24135,
+  700: #c53327,
+  800: #a32822,
+  900: #891f1e,
+  A100: #fde6e0,
+  A200: #f9a499,
+  A400: #f47968,
+  A700: #c53327,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #ffffff,
+  )
+);
+
+// Create Material Design palettes
+$SuperEcommere-primary: mat.m2-define-palette($custom-primary-palette, 500, 300, 700);
+$SuperEcommere-accent: mat.m2-define-palette($custom-accent-palette, 500, 300, 700);
+$SuperEcommere-warn: mat.m2-define-palette(mat.$m2-red-palette, 500, 300, 700);
+
+// Create the theme
 $SuperEcommere-theme: mat.m2-define-light-theme((
   color: (
     primary: $SuperEcommere-primary,
     accent: $SuperEcommere-accent,
     warn: $SuperEcommere-warn,
   ),
+  typography: mat.m2-define-typography-config(
+    $font-family: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    $headline-1: mat.m2-define-typography-level(2.5rem, 3rem, 800, $letter-spacing: -0.025em),
+    $headline-2: mat.m2-define-typography-level(2rem, 2.5rem, 700, $letter-spacing: -0.025em),
+    $headline-3: mat.m2-define-typography-level(1.75rem, 2.25rem, 600),
+    $headline-4: mat.m2-define-typography-level(1.5rem, 2rem, 600),
+    $headline-5: mat.m2-define-typography-level(1.25rem, 1.75rem, 500),
+    $headline-6: mat.m2-define-typography-level(1.125rem, 1.5rem, 500),
+    $body-1: mat.m2-define-typography-level(1rem, 1.5rem, 400),
+    $body-2: mat.m2-define-typography-level(0.875rem, 1.25rem, 400),
+    $caption: mat.m2-define-typography-level(0.75rem, 1rem, 400),
+    $button: mat.m2-define-typography-level(0.875rem, 1.25rem, 600, $letter-spacing: 0.025em),
+  ),
+  density: 0,
 ));
 
+// Apply the theme to all Angular Material components
 @include mat.all-component-themes($SuperEcommere-theme);
+
+// Custom Material overrides to match our brand
+.mat-mdc-raised-button.mat-primary {
+  background: linear-gradient(135deg, #e74c3c 0%, #f15a4a 100%) !important;
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  
+  &:hover {
+    background: linear-gradient(135deg, #d73527 0%, #e24135 100%) !important;
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4) !important;
+    transform: translateY(-2px) !important;
+  }
+  
+  &:active {
+    transform: translateY(0) !important;
+  }
+}
+
+.mat-mdc-outlined-button.mat-primary {
+  border-color: #e74c3c !important;
+  color: #e74c3c !important;
+  
+  &:hover {
+    background-color: rgba(231, 76, 60, 0.1) !important;
+    border-color: #d73527 !important;
+    color: #d73527 !important;
+  }
+}
+
+.mat-mdc-text-button.mat-primary {
+  color: #e74c3c !important;
+  
+  &:hover {
+    background-color: rgba(231, 76, 60, 0.1) !important;
+  }
+}
+
+// Form field customizations
+.mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper .mat-mdc-form-field-focus-overlay {
+  background-color: rgba(231, 76, 60, 0.1) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+  color: #e74c3c !important;
+}
+
+.mat-mdc-form-field .mat-mdc-text-field-wrapper.mdc-text-field--focused .mdc-notched-outline .mdc-notched-outline__leading,
+.mat-mdc-form-field .mat-mdc-text-field-wrapper.mdc-text-field--focused .mdc-notched-outline .mdc-notched-outline__notch,
+.mat-mdc-form-field .mat-mdc-text-field-wrapper.mdc-text-field--focused .mdc-notched-outline .mdc-notched-outline__trailing {
+  border-color: #e74c3c !important;
+}
+
+// Checkbox customizations
+.mat-mdc-checkbox.mat-primary .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
+.mat-mdc-checkbox.mat-primary .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+  background-color: #e74c3c !important;
+  border-color: #e74c3c !important;
+}
+
+// Radio button customizations
+.mat-mdc-radio-button.mat-primary .mdc-radio .mdc-radio__native-control:enabled:checked + .mdc-radio__background .mdc-radio__outer-circle {
+  border-color: #e74c3c !important;
+}
+
+.mat-mdc-radio-button.mat-primary .mdc-radio .mdc-radio__native-control:enabled:checked + .mdc-radio__background .mdc-radio__inner-circle {
+  background-color: #e74c3c !important;
+}
+
+// Slider customizations
+.mat-mdc-slider.mat-primary .mdc-slider__track--active_fill {
+  background-color: #e74c3c !important;
+}
+
+.mat-mdc-slider.mat-primary .mdc-slider__thumb-knob {
+  background-color: #e74c3c !important;
+  border-color: #e74c3c !important;
+}
+
+// Progress bar customizations
+.mat-mdc-progress-bar.mat-primary .mdc-linear-progress__bar-inner {
+  background-color: #e74c3c !important;
+}
+
+// Tab customizations
+.mat-mdc-tab-group.mat-primary .mat-mdc-tab .mdc-tab__text-label {
+  color: inherit;
+}
+
+.mat-mdc-tab-group.mat-primary .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #e74c3c !important;
+}
+
+.mat-mdc-tab-group.mat-primary .mat-mdc-tab-header .mat-mdc-tab-label-container .mat-mdc-tab-list .mat-mdc-tab .mdc-tab-indicator__content--underline {
+  background-color: #e74c3c !important;
+}
+
+// Toolbar customizations
+.mat-toolbar.mat-primary {
+  background: linear-gradient(135deg, #e74c3c 0%, #f15a4a 100%) !important;
+  color: white !important;
+}
+
+// Card customizations
+.mat-mdc-card {
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease !important;
+  
+  &:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-2px) !important;
+  }
+}
+
+// Dialog customizations
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 1rem !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+}
+
+// Snackbar customizations
+.mat-mdc-snack-bar-container {
+  border-radius: 0.75rem !important;
+  
+  &.primary-snackbar {
+    background: linear-gradient(135deg, #e74c3c 0%, #f15a4a 100%) !important;
+    color: white !important;
+  }
+}
+
+// Menu customizations
+.mat-mdc-menu-panel {
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid rgba(231, 76, 60, 0.1) !important;
+}
+
+.mat-mdc-menu-item:hover {
+  background-color: rgba(231, 76, 60, 0.1) !important;
+  color: #e74c3c !important;
+}
+
+// Tooltip customizations
+.mat-mdc-tooltip {
+  background: #e74c3c !important;
+  color: white !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.75rem !important;
+  padding: 0.5rem 0.75rem !important;
+}
+
+// Dark theme support
+.dark-theme {
+  // Add dark theme customizations here if needed
+  .mat-mdc-card {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+  }
+  
+  .mat-mdc-form-field {
+    color: #e2e8f0 !important;
+  }
+  
+  .mat-mdc-text-field-wrapper {
+    background-color: #4a5568 !important;
+  }
+}
+
+// RTL support
+[dir="rtl"] {
+  .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+    text-align: right;
+  }
+  
+  .mat-mdc-tab-group .mat-mdc-tab-header .mat-mdc-tab-label-container {
+    direction: rtl;
+  }
+}

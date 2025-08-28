@@ -3,14 +3,26 @@
 
 $global-font: 'Ubuntu', sans-serif;
 
-/* Primary Colors */
-$sub-nautical: hsl(213, 96%, 18%);
-$shady-neon-blue: hsl(243, 100%, 62%);
-$lavender-blue-shadow: hsl(243, 100%, 77%);
-$dithered-sky: hsl(206, 94%, 87%);
-$strawberry-red: hsl(354, 84%, 57%);
+/* Primary Colors - Updated to use new brand color */
+$primary-brand: rgba(231, 76, 60, 1);
+$primary-brand-light: rgba(231, 76, 60, 0.1);
+$primary-brand-medium: rgba(231, 76, 60, 0.3);
+$primary-brand-dark: rgba(231, 76, 60, 0.9);
+$primary-brand-darker: rgba(200, 60, 50, 1);
 
+/* Legacy colors - Updated to use new brand */
+$sub-nautical: $primary-brand;
+$shady-neon-blue: $primary-brand;
+$lavender-blue-shadow: rgba(231, 76, 60, 0.7);
+$dithered-sky: rgba(231, 76, 60, 0.15);
+$strawberry-red: $primary-brand;
 
+/* Secondary Colors */
+$accent-color: rgba(241, 90, 74, 1);
+$success-color: rgba(76, 175, 80, 1);
+$warning-color: rgba(255, 152, 0, 1);
+$danger-color: rgba(244, 67, 53, 1);
+$info-color: rgba(33, 150, 243, 1);
 
 /* Neutral Colors */
 $bright-manatee: hsl(231, 11%, 63%);
@@ -19,6 +31,35 @@ $cotton-ball: hsl(216, 100%, 97%);
 $wash-me: hsl(228, 100%, 99%);
 $bright-white: hsl(0, 0%, 100%);
 
+/* Text Colors */
+$text-primary: rgba(52, 71, 103, 1);
+$text-secondary: rgba(103, 116, 142, 1);
+$text-muted: rgba(149, 165, 166, 1);
+$text-light: rgba(255, 255, 255, 1);
+
+/* Background Colors */
+$bg-primary: rgba(248, 249, 250, 1);
+$bg-secondary: rgba(255, 255, 255, 1);
+$bg-dark: rgba(33, 37, 41, 1);
+
+/* Border Colors */
+$border-light: rgba(233, 236, 239, 1);
+$border-medium: rgba(206, 212, 218, 1);
+$border-dark: rgba(173, 181, 189, 1);
+
+/* Shadow Colors */
+$shadow-light: rgba(0, 0, 0, 0.05);
+$shadow-medium: rgba(0, 0, 0, 0.1);
+$shadow-dark: rgba(0, 0, 0, 0.15);
+$shadow-primary: rgba(231, 76, 60, 0.15);
+
+/* Gradient Definitions */
+$gradient-primary: linear-gradient(135deg, $primary-brand 0%, $accent-color 100%);
+$gradient-primary-soft: linear-gradient(135deg, $primary-brand-light 0%, rgba(241, 90, 74, 0.1) 100%);
+$gradient-success: linear-gradient(135deg, $success-color 0%, rgba(129, 199, 132, 1) 100%);
+$gradient-warning: linear-gradient(135deg, $warning-color 0%, rgba(255, 183, 77, 1) 100%);
+$gradient-danger: linear-gradient(135deg, $danger-color 0%, rgba(239, 83, 80, 1) 100%);
+$gradient-info: linear-gradient(135deg, $info-color 0%, rgba(66, 165, 245, 1) 100%);
 
 /* Typography */
 @mixin heading-m {
@@ -27,43 +68,170 @@ $bright-white: hsl(0, 0%, 100%);
   line-height: 1.75rem;
   letter-spacing: 0;
   text-align: left;
-  color: $sub-nautical;
+  color: $text-primary;
+}
+
+@mixin heading-l {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2.25rem;
+  letter-spacing: -0.025em;
+  color: $text-primary;
+}
+
+@mixin heading-xl {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 2.75rem;
+  letter-spacing: -0.025em;
+  color: $text-primary;
 }
 
 @mixin body-primary-l {
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.5rem;
-  color: $bright-manatee;
+  color: $text-secondary;
 }
 
 @mixin body-primary-m {
   font-weight: 400;
   font-size: .875rem;
   line-height: 1rem;
+  color: $text-secondary;
 }
+
 @mixin body-primary-s {
   font-weight: 500;
   font-size: .875rem;
   line-height: 1rem;
   letter-spacing: 0.063rem;
+  color: $text-primary;
 }
 
 @mixin body-primary-xs {
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.1rem;
+  color: $text-primary;
 }
 
 @mixin body-secondary-s {
   font-weight: 400;
   font-size: .75rem;
   line-height: 1.1rem;
-  color: $sub-nautical;
+  color: $text-secondary;
 }
 
+@mixin caption {
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: $text-muted;
+}
 
-/* Flex */
+/* Button Mixins */
+@mixin btn-primary {
+  background: $gradient-primary;
+  color: $text-light;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  
+  &:hover {
+    background: linear-gradient(135deg, $primary-brand-dark 0%, rgba(241, 90, 74, 0.9) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px $shadow-primary;
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:focus {
+    outline: 2px solid $primary-brand;
+    outline-offset: 2px;
+  }
+}
+
+@mixin btn-secondary {
+  background: transparent;
+  color: $primary-brand;
+  border: 2px solid $primary-brand;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  
+  &:hover {
+    background: $primary-brand;
+    color: $text-light;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px $shadow-primary;
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:focus {
+    outline: 2px solid $primary-brand;
+    outline-offset: 2px;
+  }
+}
+
+/* Card Mixins */
+@mixin card-base {
+  background: $bg-secondary;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px $shadow-light;
+  border: 1px solid $border-light;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 8px 30px $shadow-medium;
+    transform: translateY(-2px);
+  }
+}
+
+@mixin card-primary {
+  @include card-base;
+  border-left: 4px solid $primary-brand;
+  
+  &:hover {
+    border-left-color: $primary-brand-dark;
+    box-shadow: 0 8px 30px $shadow-primary;
+  }
+}
+
+/* Input Mixins */
+@mixin input-base {
+  border: 1px solid $border-medium;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  background: $bg-secondary;
+  color: $text-primary;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    border-color: $primary-brand;
+    box-shadow: 0 0 0 3px $primary-brand-light;
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: $text-muted;
+  }
+}
+
+/* Flex Utilities */
 @mixin flexCenter($direction) {
   display: flex;
   align-items: center;
@@ -76,4 +244,75 @@ $bright-white: hsl(0, 0%, 100%);
   flex-direction: $direction;
   align-items: center;
   justify-content: space-between;
+}
+
+@mixin flexStart($direction) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Spacing Variables */
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-xxl: 3rem;
+
+/* Breakpoints */
+$breakpoint-xs: 576px;
+$breakpoint-sm: 768px;
+$breakpoint-md: 992px;
+$breakpoint-lg: 1200px;
+$breakpoint-xl: 1400px;
+
+/* Media Query Mixins */
+@mixin mobile {
+  @media (max-width: #{$breakpoint-xs - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-xs}) and (max-width: #{$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-md}) {
+    @content;
+  }
+}
+
+@mixin large-desktop {
+  @media (min-width: #{$breakpoint-lg}) {
+    @content;
+  }
+}
+
+/* Animation Mixins */
+@mixin smooth-transition {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@mixin hover-lift {
+  @include smooth-transition;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px $shadow-medium;
+  }
+}
+
+@mixin pulse-animation {
+  animation: pulse 2s infinite;
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
 }

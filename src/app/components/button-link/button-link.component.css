@@ -1,69 +1,490 @@
-:host{
-    width: 180px;
-    margin: auto;
-    justify-items: anchor-center;
+/* Button Link Component with New Brand Colors */
+:root {
+  --primary-brand: rgba(231, 76, 60, 1);
+  --primary-light: rgba(231, 76, 60, 0.1);
+  --primary-medium: rgba(231, 76, 60, 0.3);
+  --primary-dark: rgba(200, 60, 50, 1);
+  --accent-color: rgba(241, 90, 74, 1);
+  --text-primary: rgba(52, 71, 103, 1);
+  --text-secondary: rgba(103, 116, 142, 1);
+  --bg-secondary: rgba(255, 255, 255, 1);
+  --border-light: rgba(233, 236, 239, 1);
+  --shadow-primary: rgba(231, 76, 60, 0.15);
 }
 
-.scrolled a,.hovered a{
-  
-    text-decoration: none;
-    color: white;
-  
+:host {
+  width: auto;
+  max-width: 100%;
+  margin: auto;
+  display: inline-block;
 }
-.hovered a:hover{
-  
+
+/* Base Link Styles */
+a {
   text-decoration: none;
-  color: black;
-
-}
-a{
-    text-decoration: none;
-    color: black;
-}
-.btn-with-color{
-    background-color: white;
-    color: #e74c3c;
-    
-}
-.item-button{
-    margin: 40px;
-}
-.item-button a{
-    background-color: none;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* font-size: 18px; */
-    font-weight: 600;
-    transition: all .5s ease;
-    border: 1px solid black;
-    border-radius: 15px;
-    margin: auto;
-    
-}
-.item-button .btn-with-color{
-    background-color: white;
-    color: #e74c3c;
-    
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
 }
 
-.item-button .btn-with-color:hover{
-    background-color: rgb(255, 233, 233);
-
-    
+a:hover {
+  color: var(--primary-brand);
 }
-.item-button .btn-without-color:hover{
-    background-color: white;
-    color: #e74c3c;
-    border: 1px solid #e74c3c !important;
-      
+
+a:focus {
+  outline: 2px solid var(--primary-brand);
+  outline-offset: 2px;
+}
+
+/* Button Item Container */
+.item-button {
+  margin: 1rem;
+  display: inline-block;
+  width: 100%;
+  max-width: 280px;
+}
+
+.item-button a {
+  background: var(--bg-secondary);
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 2px solid var(--border-light);
+  border-radius: 1rem;
+  margin: auto;
+  padding: 0 1.5rem;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.item-button a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--primary-light), transparent);
+  transition: left 0.6s ease;
+}
+
+.item-button a:hover::before {
+  left: 100%;
+}
+
+/* Primary Button with Brand Color */
+.item-button .btn-with-color {
+  background: linear-gradient(135deg, var(--primary-brand) 0%, var(--accent-color) 100%);
+  color: white;
+  border-color: var(--primary-brand);
+  box-shadow: 0 4px 15px var(--shadow-primary);
+}
+
+.item-button .btn-with-color:hover {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, rgba(220, 70, 55, 1) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--primary-medium);
+  color: white;
+}
+
+/* Secondary Button without Background */
+.item-button .btn-without-color {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-light);
+}
+
+.item-button .btn-without-color:hover {
+  background: var(--primary-brand);
+  color: white;
+  border-color: var(--primary-brand);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--shadow-primary);
+}
+
+/* Contextual Styles for Different States */
+.scrolled a {
+  color: white;
+  text-decoration: none;
+}
+
+.scrolled .btn-with-color {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary-brand);
+  border-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.scrolled .btn-with-color:hover {
+  background: white;
+  color: var(--primary-dark);
+  border-color: white;
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+.scrolled .btn-without-color {
+  background: transparent;
+  color: white;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.scrolled .btn-without-color:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary-brand);
+  border-color: white;
+}
+
+.hovered a {
+  color: white;
+  text-decoration: none;
+}
+
+.hovered a:hover {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.hovered .btn-with-color {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary-brand);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.hovered .btn-with-color:hover {
+  background: white;
+  color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+.hovered .btn-without-color:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary-brand);
+  border-color: white;
+}
+
+/* Red Color Utility Class */
+.red-color {
+  color: var(--primary-brand);
+  margin: 0.5rem;
+  font-weight: 600;
+}
+
+/* Button Variants */
+.btn-outline {
+  background: transparent;
+  color: var(--primary-brand);
+  border: 2px solid var(--primary-brand);
+}
+
+.btn-outline:hover {
+  background: var(--primary-brand);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--shadow-primary);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--primary-brand);
+  border: none;
+}
+
+.btn-ghost:hover {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.btn-rounded {
+  border-radius: 50px;
+}
+
+.btn-square {
+  border-radius: 0.5rem;
+}
+
+/* Size Variants */
+.btn-sm {
+  height: 40px;
+  font-size: 0.8rem;
+  padding: 0 1rem;
+}
+
+.btn-lg {
+  height: 60px;
+  font-size: 1rem;
+  padding: 0 2rem;
+}
+
+/* Icon Support */
+.btn-icon-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-icon-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: row-reverse;
+}
+
+.btn-icon-only {
+  width: 50px;
+  padding: 0;
+}
+
+/* Loading State */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: btnSpin 0.8s linear infinite;
+  z-index: 1;
+}
+
+@keyframes btnSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.btn-loading .btn-text {
+  opacity: 0;
+}
+
+/* Disabled State */
+.btn-disabled,
+.item-button a:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* RTL Support */
+.rtl .item-button a {
+  direction: rtl;
+}
+
+.rtl .btn-icon-left {
+  flex-direction: row-reverse;
+}
+
+.rtl .btn-icon-right {
+  flex-direction: row;
+}
+
+[dir="rtl"] .item-button a {
+  direction: rtl;
+}
+
+[dir="rtl"] .btn-icon-left {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .btn-icon-right {
+  flex-direction: row;
+}
+
+/* Dropdown Menu Support */
+.dropdown-menu-right {
+  text-align: right;
+}
+
+.rtl .dropdown-menu-right,
+[dir="rtl"] .dropdown-menu-right {
+  text-align: right;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .item-button {
+    margin: 0.75rem;
+    max-width: 240px;
   }
-.red-color{
-    color: #e74c3c;
-    margin: 10px;
+  
+  .item-button a {
+    height: 45px;
+    font-size: 0.8rem;
+    padding: 0 1.25rem;
+  }
 }
 
+@media (max-width: 768px) {
+  :host {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .item-button {
+    margin: 0.5rem;
+    max-width: none;
+  }
+  
+  .item-button a {
+    height: 44px;
+    font-size: 0.875rem;
+    padding: 0 1rem;
+    border-radius: 0.75rem;
+  }
+  
+  .btn-sm {
+    height: 36px;
+    font-size: 0.75rem;
+  }
+  
+  .btn-lg {
+    height: 52px;
+    font-size: 0.9rem;
+  }
+}
 
+@media (max-width: 576px) {
+  .item-button {
+    margin: 0.25rem;
+  }
+  
+  .item-button a {
+    height: 40px;
+    font-size: 0.8rem;
+    padding: 0 0.75rem;
+  }
+  
+  .btn-icon-only {
+    width: 40px;
+  }
+}
 
+/* Focus and Accessibility */
+.item-button a:focus {
+  outline: 2px solid var(--primary-brand);
+  outline-offset: 2px;
+}
 
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .item-button a {
+    border-width: 3px;
+  }
+  
+  .btn-with-color {
+    border: 3px solid white;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .item-button a,
+  .item-button a::before {
+    transition: none;
+    animation: none;
+  }
+  
+  .item-button a:hover {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .item-button a {
+    background: transparent !important;
+    color: var(--primary-brand) !important;
+    border: 2px solid var(--primary-brand) !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Dark Mode Support (Future) */
+@media (prefers-color-scheme: dark) {
+  .dark-mode .item-button a {
+    background: rgba(45, 55, 72, 1);
+    color: rgba(226, 232, 240, 1);
+    border-color: rgba(74, 85, 104, 1);
+  }
+  
+  .dark-mode .btn-without-color:hover {
+    background: var(--primary-brand);
+    color: white;
+  }
+}
+
+/* Animation Enhancements */
+.item-button a {
+  transform: perspective(1px) translateZ(0);
+  backface-visibility: hidden;
+}
+
+.item-button a:hover {
+  animation: btnPulse 0.6s ease-in-out;
+}
+
+@keyframes btnPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Button Group Support */
+.btn-group {
+  display: flex;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin: 1rem;
+}
+
+.btn-group .item-button {
+  margin: 0;
+  flex: 1;
+}
+
+.btn-group .item-button a {
+  border-radius: 0;
+  margin: 0;
+  height: 50px;
+  border-right-width: 1px;
+}
+
+.btn-group .item-button:first-child a {
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.btn-group .item-button:last-child a {
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-right-width: 2px;
+}
+
+[dir="rtl"] .btn-group .item-button:first-child a {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+[dir="rtl"] .btn-group .item-button:last-child a {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}

@@ -13,11 +13,12 @@ export class LanguageService {
 //   constructor(private translate: TranslateService) {
 //     this.setLanguage(this.currentLang);
 //   }
-constructor(private translate: TranslateService) { 
-    const savedLang = localStorage.getItem('lang') || 'en'; 
+constructor(private translate: TranslateService) {
+    const savedLang = localStorage.getItem('lang') || 'ar';
+    this.currentLang = savedLang;
     this.langSubject = new BehaviorSubject<string>(savedLang);
     this.lang$ = this.langSubject.asObservable();
-    this.translate.addLangs(this.supportedLangs.map(l => l.code)); this.translate.setDefaultLang('en'); 
+    this.translate.addLangs(this.supportedLangs.map(l => l.code)); this.translate.setDefaultLang('ar');
     this.translate.use(savedLang); 
     document.documentElement.dir = savedLang === 'ar' || savedLang === 'he' ? 'rtl' : 'ltr'; 
     document.body.classList.remove('rtl', 'ltr');
@@ -32,8 +33,9 @@ constructor(private translate: TranslateService) {
     }
 }
 
-setLanguage(lang: string) { 
-    this.translate.use(lang); 
+setLanguage(lang: string) {
+    this.currentLang = lang;
+    this.translate.use(lang);
     this.langSubject.next(lang);
     localStorage.setItem('lang', lang); 
     document.documentElement.dir = lang === 'ar' || lang === 'he' ? 'rtl' : 'ltr'; 
@@ -71,8 +73,3 @@ getLanguages() { return this.supportedLangs; }
 //     return this.currentLang;
 //   }
 }
-
-
-
-
-

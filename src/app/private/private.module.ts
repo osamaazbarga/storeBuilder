@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-
-
 import { NavbarDashboardComponent } from './components/navbar-dashboard/navbar-dashboard.component';
 import { FooterDashboardComponent } from './components/footer-dashboard/footer-dashboard.component';
 import { HomeComponent } from './components/dashboard/home/home.component';
@@ -25,6 +23,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AngularPinturaModule } from '@pqina/angular-pintura';
 import { CategoriesComponent } from './components/dashboard/pages/products/categories/categories.component';
 
+// Dashboard Shared Components
+import { SharedModule as DashboardSharedModule } from './components/dashboard/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -46,13 +47,14 @@ import { CategoriesComponent } from './components/dashboard/pages/products/categ
   imports: [
     CommonModule,
     SharedModule,
+    DashboardSharedModule,
     PrivateRoutingModule,
     PrimeNgCompnentsModule,
     MatGridListModule,
     MaterialModule,
     TranslateModule,
     AngularPinturaModule
-    
+
   ]
 })
 export class PrivateModule { }

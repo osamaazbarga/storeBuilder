@@ -27,6 +27,7 @@ import Aura from '@primeng/themes/aura';
 
 
 
+
 export function HttpLoaderFactory(http: HttpBackend) {
   
   return new MultiTranslateHttpLoader(http, [
@@ -58,6 +59,7 @@ export function HttpLoaderFactory(http: HttpBackend) {
     // NgMultiSelectDropDownModule.forRoot(),
     MatGridListModule,
     // HttpClientModule,
+    
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {

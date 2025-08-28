@@ -81,9 +81,10 @@
             "ssl": true,
             "sslKey": "./ssl/localtest.me+1-key.pem",
             "sslCert": "./ssl/localtest.me+1.pem",
-            "host": "localtest.me",
+            "host": "0.0.0.0",
             "port": 4200,
-            "allowedHosts": [".localtest.me"]
+            "allowedHosts": ["test.localtest.me", "localtest.me"],
+            "proxyConfig": "proxy.conf.json"
             
           },
           "configurations": {

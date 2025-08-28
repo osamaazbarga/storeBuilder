@@ -1,0 +1,121 @@
+<div class="card h-100">
+  <div class="card-header pb-0">
+    <div class="row">
+      <div class="col-lg-6 col-7">
+        <h6 class="orders-title">{{ title | translate }}</h6>
+        <p class="text-sm mb-0">
+          <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
+          <span class="font-weight-bold ms-1">{{ displayedOrders.length }}</span> 
+          {{ 'DASHBOARD.NEW_ORDERS' | translate }}
+        </p>
+      </div>
+      <div class="col-lg-6 col-5 my-auto text-end">
+        <button class="btn btn-outline-primary btn-sm mb-0" (click)="onViewAllOrders()">
+          {{ 'DASHBOARD.VIEW_ALL' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card-body px-0 pb-2">
+    <div class="table-responsive">
+      <table class="table align-items-center mb-0">
+        <thead>
+          <tr>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+              {{ 'DASHBOARD.CUSTOMER' | translate }}
+            </th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+              {{ 'DASHBOARD.ORDER_INFO' | translate }}
+            </th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+              {{ 'DASHBOARD.STATUS' | translate }}
+            </th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+              {{ 'DASHBOARD.TOTAL' | translate }}
+            </th>
+            <th class="text-secondary opacity-7" *ngIf="showActions">
+              {{ 'DASHBOARD.ACTIONS' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of displayedOrders; trackBy: trackByOrderId">
+            <!-- Customer Info -->
+            <td>
+              <div class="d-flex px-2 py-1">
+                <div>
+                  <div class="avatar avatar-sm me-3" *ngIf="order.customerAvatar; else initials">
+                    <img [src]="order.customerAvatar" class="border-radius-lg" [alt]="order.customerName">
+                  </div>
+                  <ng-template #initials>
+                    <div class="avatar avatar-sm me-3 bg-gradient-primary">
+                      <span class="text-white text-xs font-weight-bold">{{ getCustomerInitials(order.customerName) }}</span>
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="d-flex flex-column justify-content-center">
+                  <h6 class="mb-0 text-sm customer-name">{{ order.customerName }}</h6>
+                  <p class="text-xs text-secondary mb-0" *ngIf="order.customerEmail">{{ order.customerEmail }}</p>
+                </div>
+              </div>
+            </td>
+
+            <!-- Order Info -->
+            <td>
+              <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm">#{{ order.id }}</h6>
+                <p class="text-xs text-secondary mb-0">
+                  <i class="material-symbols-rounded text-xs me-1">{{ getPaymentIcon(order.paymentMethod) }}</i>
+                  {{ order.items }} {{ 'DASHBOARD.ITEMS' | translate }}
+                </p>
+                <p class="text-xs text-secondary mb-0">{{ formatDate(order.orderDate) }}</p>
+              </div>
+            </td>
+
+            <!-- Status -->
+            <td class="align-middle text-center text-sm">
+              <span class="badge badge-sm" [ngClass]="getStatusClass(order.status)">
+                <i class="material-symbols-rounded text-xs me-1">{{ getStatusIcon(order.status) }}</i>
+                {{ 'ORDER_STATUS.' + order.status.toUpperCase() | translate }}
+              </span>
+            </td>
+
+            <!-- Total -->
+            <td class="align-middle text-center">
+              <span class="text-secondary text-sm font-weight-bold">{{ formatCurrency(order.total) }}</span>
+            </td>
+
+            <!-- Actions -->
+            <td class="align-middle" *ngIf="showActions">
+              <div class="dropdown">
+                <a class="btn btn-link text-secondary mb-0" id="dropdownOrder{{ order.id }}" 
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa fa-ellipsis-v text-xs"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end px-2 py-3 ms-sm-n4 ms-n5" 
+                     [attr.aria-labelledby]="'dropdownOrder' + order.id">
+                  <a class="dropdown-item border-radius-md" (click)="onViewOrder(order)" href="javascript:;">
+                    <i class="material-symbols-rounded text-sm me-2">visibility</i>
+                    {{ 'DASHBOARD.VIEW_DETAILS' | translate }}
+                  </a>
+                  <a class="dropdown-item border-radius-md" (click)="onUpdateStatus(order)" href="javascript:;">
+                    <i class="material-symbols-rounded text-sm me-2">edit</i>
+                    {{ 'DASHBOARD.UPDATE_STATUS' | translate }}
+                  </a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div class="text-center py-4" *ngIf="displayedOrders.length === 0">
+      <i class="material-symbols-rounded text-secondary" style="font-size: 3rem;">shopping_cart</i>
+      <h6 class="text-secondary mb-0 mt-2">{{ 'DASHBOARD.NO_ORDERS_YET' | translate }}</h6>
+      <p class="text-xs text-secondary">{{ 'DASHBOARD.ORDERS_WILL_APPEAR_HERE' | translate }}</p>
+    </div>
+  </div>
+</div>

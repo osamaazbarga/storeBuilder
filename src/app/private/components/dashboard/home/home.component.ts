@@ -1,68 +1,44 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { take } from 'rxjs';
-import { User } from 'src/app/models/account/user';
-import { StoreService } from 'src/app/services/store.service';
-import { UsersService } from 'src/app/services/users.service';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Subscription, takeUntil, Subject } from 'rxjs';
+import { LanguageService } from 'src/app/services/language.service';
+import { SidebarDashboardComponent } from '../../sidebar-dashboard/sidebar-dashboard.component';
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css'],
-    standalone: false
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
+  standalone: false
 })
-export class HomeComponent {
-  errorMessages:string[]=[]
-  mode:string|undefined;
-  storeData:any=null;
-  constructor(private storeService:StoreService,private userService:UsersService,private activatedRoute:ActivatedRoute){
-    this.userService.user$.pipe(take(1)).subscribe({
-          next: (user:User|null)=>{
-            if(user){
-              this.getStoreByUserId(user.id!)
-    
-                
-            }
-            else{
-              const mode=this.activatedRoute.snapshot.paramMap.get('mode');
-              if(mode){
-                this.mode=mode
-                console.log(this.mode);
-              }             
-            }
-          }
-    })
+export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChild('sidebar') sidebar!: SidebarDashboardComponent;
+
+  // Language and RTL support
+  currentLang: string = 'ar';
+  isRTL: boolean = true;
+
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    public languageService: LanguageService
+  ) {}
+
+  ngOnInit() {
+    // Subscribe to language changes
+    this.languageService.lang$.pipe(takeUntil(this.destroy$)).subscribe(lang => {
+      this.currentLang = lang;
+      this.isRTL = lang === 'ar' || lang === 'he';
+    });
   }
 
-  getStoreByUserId(userId:string){
-    this.errorMessages=[];
-    
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
-      this.storeService.getStoreByUserId(userId).subscribe({
-          next:(res:any)=>{
-            console.log(res);
-            
-            if(res!=null){
-              this.storeData= res
-              this.storeService.setStoreData(this.storeData);
-            } 
-            else{
-              this.errorMessages.push("no Stores yet");
-            }     
-            // this.sharedService.showNotification(true,res.value.title,res.value.message);
-            // this.router.navigateByUrl('/login')
-          },
-          error:error=>{
-            if(error.error.errors){
-              this.errorMessages=error.error.errors
-              
-            }
-            else{
-              this.errorMessages.push(error.error)
-            }
-            
-          }
-      })
-    
+  // Sidebar toggle handler
+  onSidebarToggle() {
+    if (this.sidebar) {
+      this.sidebar.toggleMobileSidebar();
+    }
   }
 }

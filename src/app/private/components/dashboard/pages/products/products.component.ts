@@ -122,10 +122,13 @@ export class ProductsComponent implements OnInit{
   }
 
   ngOnInit() {
+    console.log("data");
      this.storeService.storeData$
     .pipe(filter(data => !!data)) // ignore null/undefined
     .subscribe(data => {
       this.storeData = data;
+      
+      
       this.getProductDataByStore();
     });
     

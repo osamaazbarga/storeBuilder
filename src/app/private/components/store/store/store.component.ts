@@ -31,6 +31,7 @@ export class StoreComponent implements OnInit{
     }
 
     const subdomain = this.storeService.getSubdomain();
+    console.log(subdomain);
 
     if (subdomain) {
       this.storeService.loadStoreBySubdomain(subdomain).subscribe({

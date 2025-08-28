@@ -3,6 +3,7 @@ import { UsersService } from './services/users.service';
 import { SharedService } from './shared/shared.service';
 import { StoreService } from './services/store.service';
 import { Router } from '@angular/router';
+import { SocketService } from './services/socket.service';
 
 @Component({
     selector: 'app-root',
@@ -12,14 +13,22 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit{
   store:any=null
+  storeName = '';
   constructor(private userServies:UsersService,
     private sharedService:SharedService,private storeService:StoreService,
-    private router: Router
+    private router: Router,
+    private socketService: SocketService
   ){
     
   }
   ngOnInit():void{
-    this.refreshUser()
+    // this.refreshUser()
+    this.socketService.onNewMessage().subscribe(msg => {
+      console.log('📥 Received from WS:', msg);
+    });
+
+    // إرسال رسالة للباك إند
+    this.socketService.sendMessage('Hello from Angular!');
     
   //   const subdomain = this.getSubdomain();
   // if (subdomain) {
@@ -33,6 +42,10 @@ export class AppComponent implements OnInit{
   //     }
   //   });
   // }
+
+  const hostname = window.location.hostname; // ex: test.localtest.me
+  this.storeName = hostname.split('.')[0];   // يرجع "test"
+  console.log('🛍️ Current store:', this.storeName);
   }
 
   getSubdomain(): string | null {
