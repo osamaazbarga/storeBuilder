@@ -1,13 +1,14 @@
 import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { first } from 'rxjs/operators';
 import { TblUser } from 'src/app/models/TblUser';
 import { SuperEcommere } from 'src/app/models/super-ecommere';
 import { CustomValidators } from 'src/app/shared/_helpers/custom-validators';
 import { UsersService } from 'src/app/services/users.service';
-
 import { SharedService } from 'src/app/shared/shared.service';
+import { LanguageService } from 'src/app/services/language.service';
 import { CredentialResponse } from 'google-one-tap';
 import { jwtDecode } from 'jwt-decode';
 import { DOCUMENT } from '@angular/common';
@@ -43,6 +44,11 @@ export class RegisterComponent implements OnInit {
   // Device detection
   isTablet: boolean = false;
   isMobile: boolean = false;
+
+  // Language properties
+  currentLang: string = 'ar';
+  isRTL: boolean = true;
+
   form:FormGroup=new FormGroup({
     email:new FormControl('',[Validators.required,Validators.email]),
     //username:new FormControl(null,[Validators.required,Validators.email]),
@@ -88,12 +94,32 @@ export class RegisterComponent implements OnInit {
     private router:Router,
     private formBuilder: FormBuilder,
     private sharedService:SharedService,
+    private translateService: TranslateService,
+    private languageService: LanguageService,
     private renderer2:Renderer2,@Inject(DOCUMENT) private _document:Document){
   }
   ngOnInit():void{
     this.detectDevice();
     this.initializeGoogleButton();
     this.initializeForm();
+    this.initializeLanguage();
+  }
+
+  /**
+   * Initialize language settings
+   */
+  private initializeLanguage(): void {
+    // Subscribe to language changes
+    this.languageService.lang$.subscribe(lang => {
+      this.currentLang = lang;
+      this.isRTL = lang === 'ar' || lang === 'he';
+      this.translateService.use(lang);
+    });
+
+    // Set initial language
+    this.currentLang = this.languageService.currentLang;
+    this.isRTL = this.currentLang === 'ar' || this.currentLang === 'he';
+    this.translateService.use(this.currentLang);
   }
 
   ngAfterViewInit(){

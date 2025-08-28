@@ -265,7 +265,7 @@
       <div class="login-section">
         <p>
           {{ 'ALREADYHAVEACCOUNT' | translate }}
-          <a routerLink="/auth/login" class="login-link">
+          <a routerLink="/login" class="login-link">
             {{ 'LOGINNOW' | translate }}
           </a>
         </p>
@@ -276,6 +276,11 @@
     <!-- Side Info Panel -->
     <div class="info-panel">
       <div class="info-content">
+        <!-- Language Selector -->
+        <div class="language-selector-container">
+          <app-language-selector></app-language-selector>
+        </div>
+        
         <div class="info-icon">
           <i class="pi pi-chart-line"></i>
         </div>

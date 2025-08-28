@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { CredentialResponse } from 'google-one-tap';
 import { jwtDecode } from 'jwt-decode';
 import { take } from 'rxjs';
@@ -9,6 +10,7 @@ import { LoginWithExternal } from 'src/app/models/account/loginWithExternal';
 import { User } from 'src/app/models/account/user';
 import { UsersService } from 'src/app/services/users.service';
 import { SharedService } from 'src/app/shared/shared.service';
+import { LanguageService } from 'src/app/services/language.service';
 declare const FB: any;
 
 @Component({
@@ -32,10 +34,17 @@ export class LoginComponent implements OnInit{
   // Device detection
   isTablet: boolean = false;
   isMobile: boolean = false;
+  
+  // Language properties
+  currentLang: string = 'ar';
+  isRTL: boolean = true;
+
   constructor(private usersService:UsersService,
     private router:Router,
     private formBuilder: FormBuilder,
     private sharedService:SharedService,
+    private translateService: TranslateService,
+    private languageService: LanguageService,
     private renderer2:Renderer2,@Inject(DOCUMENT) private _document:Document){
     this.usersService.user$.pipe(take(1)).subscribe({
       next:(user:User|null)=>{
@@ -50,6 +59,7 @@ export class LoginComponent implements OnInit{
     this.detectDevice();
     this.initializeForm();
     this.initializeGoogleButton();
+    this.initializeLanguage();
   }
   ngAfterViewInit(){
     const script1=this.renderer2.createElement('script');
@@ -274,7 +284,7 @@ export class LoginComponent implements OnInit{
           next: () => {
             this.loading = false;
             this.router.navigateByUrl('/');
-            this.sharedService.showNotification(true, 'نجح ت��جيل الدخول', 'مرحباً بك في منصتنا!');
+            this.sharedService.showNotification(true, 'نجح تسجيل الدخول', 'مرحباً بك في منصتنا!');
           },
           error: error => {
             this.loading = false;
@@ -309,6 +319,23 @@ export class LoginComponent implements OnInit{
    * Focus on the first invalid form field
    */
 
+
+  /**
+   * Initialize language settings
+   */
+  private initializeLanguage(): void {
+    // Subscribe to language changes
+    this.languageService.lang$.subscribe(lang => {
+      this.currentLang = lang;
+      this.isRTL = lang === 'ar' || lang === 'he';
+      this.translateService.use(lang);
+    });
+
+    // Set initial language
+    this.currentLang = this.languageService.currentLang;
+    this.isRTL = this.currentLang === 'ar' || this.currentLang === 'he';
+    this.translateService.use(this.currentLang);
+  }
 
 
 }

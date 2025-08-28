@@ -52,9 +52,7 @@ setLanguage(lang: string) {
 }
 
 getCurrentLang() { 
-  return this.langSubject.value;
-  return this.translate.currentLang; 
-
+  return this.currentLang;
 }
 
 getLanguages() { return this.supportedLangs; }
