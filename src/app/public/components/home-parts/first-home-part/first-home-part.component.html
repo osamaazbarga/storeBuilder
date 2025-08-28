@@ -1,12 +1,128 @@
-<div class="container-fluid fluid">
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-background">
+    <!-- Background Pattern -->
+    <div class="hero-pattern"></div>
+
+    <!-- Main Hero Content -->
     <div class="container">
-        <div class="right-side">
-            <h1>سلة.. تجارة ذكيَّة وسهلة</h1>
-            <p class="text-end">أنشئ متجرك الإلكتروني في دقائق، واربط منتجاتك بمجموعة متكاملة من الحلول الرقميَّة الذكيَّة للمدفوعات، والشحن، وإدارة المخزون، والتسويق، بكل سهولة؛ لأن نجاحك لا يحتاج إلى تعقيد.</p>
-        </div>
-        <div>
-            <img src="./assets/images/random-products.png" class="me-3" height="700" alt="products-image">
+      <div class="row align-items-center min-vh-100 py-5">
+        <!-- Text Content -->
+        <div class="col-lg-6 col-md-12 order-2 order-lg-1">
+          <div class="hero-content" [class.rtl-content]="isRTL">
+            <!-- Badge -->
+            <div class="hero-badge">
+              <i class="material-symbols-rounded">trending_up</i>
+              <span>{{ 'HERO.BADGE_TEXT' | translate }}</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="hero-title">
+              <span class="hero-title-main">{{ 'HERO.TITLE_MAIN' | translate }}</span>
+              <span class="hero-title-highlight">{{ 'HERO.TITLE_HIGHLIGHT' | translate }}</span>
+            </h1>
+
+            <!-- Description -->
+            <p class="hero-description">
+              {{ 'HERO.DESCRIPTION' | translate }}
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="hero-cta-buttons">
+              <app-button-link
+                width="220"
+                height="50"
+                devClass="primary-cta"
+                linkClass="btn-primary-hero"
+                routerLink="/auth/register"
+                [label]="'HERO.START_FREE' | translate">
+              </app-button-link>
+
+              <button class="btn-secondary-hero" (click)="playDemo()">
+                <i class="material-symbols-rounded">play_circle</i>
+                {{ 'HERO.WATCH_DEMO' | translate }}
+              </button>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="hero-trust">
+              <p class="trust-text">{{ 'HERO.TRUSTED_BY' | translate }}</p>
+              <div class="trust-stats">
+                <div class="trust-stat">
+                  <span class="trust-number">50,000+</span>
+                  <span class="trust-label">{{ 'HERO.STORES' | translate }}</span>
+                </div>
+                <div class="trust-stat">
+                  <span class="trust-number">99.9%</span>
+                  <span class="trust-label">{{ 'HERO.UPTIME' | translate }}</span>
+                </div>
+                <div class="trust-stat">
+                  <span class="trust-number">24/7</span>
+                  <span class="trust-label">{{ 'HERO.SUPPORT' | translate }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-</div>
-</div>
+        <!-- Visual Content -->
+        <div class="col-lg-6 col-md-12 order-1 order-lg-2">
+          <div class="hero-visual">
+            <!-- Main Dashboard Preview -->
+            <div class="dashboard-preview">
+              <div class="dashboard-header">
+                <div class="dashboard-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <div class="dashboard-url">{{ 'HERO.STORE_URL' | translate }}</div>
+              </div>
+              <div class="dashboard-content">
+                <img src="./assets/images/random-products.png" alt="Dashboard Preview" class="dashboard-image">
+              </div>
+            </div>
+
+            <!-- Floating Cards -->
+            <div class="floating-card card-sales">
+              <div class="card-icon">
+                <i class="material-symbols-rounded">trending_up</i>
+              </div>
+              <div class="card-content">
+                <span class="card-value">{{ 'HERO.SALES_INCREASE' | translate }}</span>
+                <span class="card-label">{{ 'HERO.SALES_GROWTH' | translate }}</span>
+              </div>
+            </div>
+
+            <div class="floating-card card-orders">
+              <div class="card-icon">
+                <i class="material-symbols-rounded">shopping_cart</i>
+              </div>
+              <div class="card-content">
+                <span class="card-value">1,247</span>
+                <span class="card-label">{{ 'HERO.NEW_ORDERS' | translate }}</span>
+              </div>
+            </div>
+
+            <div class="floating-card card-customers">
+              <div class="card-icon">
+                <i class="material-symbols-rounded">people</i>
+              </div>
+              <div class="card-content">
+                <span class="card-value">+89%</span>
+                <span class="card-label">{{ 'HERO.CUSTOMER_GROWTH' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+      <div class="scroll-arrow">
+        <i class="material-symbols-rounded">keyboard_arrow_down</i>
+      </div>
+    </div>
+  </div>
+</section>

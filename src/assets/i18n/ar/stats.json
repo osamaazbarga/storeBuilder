@@ -1,0 +1,30 @@
+{
+  "STATS": {
+    "BADGE": "إحصائيات مذهلة",
+    "TITLE": "أرقام تتحدث عن نفسها",
+    "DESCRIPTION": "انضم إلى آلاف التجار الناجحين الذين اختاروا منصتنا لبناء إمبراطوريتهم التجارية",
+    "STORES": {
+      "TITLE": "متجر نشط",
+      "DESCRIPTION": "يثق بنا التجار حول العالم"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "معاملة شهرياً",
+      "DESCRIPTION": "معالجة آمنة وسريعة"
+    },
+    "SUCCESS_RATE": {
+      "TITLE": "معدل نجاح",
+      "DESCRIPTION": "موثوقية وأداء عالي"
+    },
+    "COUNTRIES": {
+      "TITLE": "دولة",
+      "DESCRIPTION": "نخدم العالم بأكمله"
+    },
+    "SUPPORT_HOURS": "ساعات الدعم يومياً",
+    "SETUP_TIME": "دقائق لإعداد المتجر",
+    "SECURE_TRANSACTIONS": "معاملات آمنة",
+    "TRUSTED_BY": "موثوق من قبل المؤسسات الرائدة",
+    "ENCRYPTED": "مشفر",
+    "COMPLIANT": "متوافق",
+    "CERTIFIED": "معتمد"
+  }
+}

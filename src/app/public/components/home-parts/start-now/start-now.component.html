@@ -1,7 +1,92 @@
-<div class="container">
-    <div class="">
-        <h1>أنطلق الان</h1>
-        <h1 class="red-color">وابني متجرك مجانا</h1>
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="cta-background">
+    <div class="cta-pattern"></div>
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="cta-content text-center">
+            <!-- Main CTA -->
+            <div class="cta-main">
+              <span class="cta-badge">{{ 'CTA.BADGE' | translate }}</span>
+              <h2 class="cta-title">
+                <span class="cta-title-main">{{ 'CTA.TITLE_MAIN' | translate }}</span>
+                <span class="cta-title-highlight">{{ 'CTA.TITLE_HIGHLIGHT' | translate }}</span>
+              </h2>
+              <p class="cta-description">{{ 'CTA.DESCRIPTION' | translate }}</p>
+
+              <!-- CTA Buttons -->
+              <div class="cta-buttons">
+                <app-button-link
+                  width="280"
+                  height="60"
+                  devClass="cta-primary"
+                  linkClass="btn-cta-primary"
+                  routerLink="/auth/register"
+                  [label]="'CTA.START_NOW' | translate">
+                </app-button-link>
+
+                <div class="cta-secondary-info">
+                  <div class="cta-features">
+                    <div class="cta-feature">
+                      <i class="material-symbols-rounded">check_circle</i>
+                      <span>{{ 'CTA.FEATURE_1' | translate }}</span>
+                    </div>
+                    <div class="cta-feature">
+                      <i class="material-symbols-rounded">check_circle</i>
+                      <span>{{ 'CTA.FEATURE_2' | translate }}</span>
+                    </div>
+                    <div class="cta-feature">
+                      <i class="material-symbols-rounded">check_circle</i>
+                      <span>{{ 'CTA.FEATURE_3' | translate }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="cta-trust">
+              <p class="cta-trust-text">{{ 'CTA.TRUST_TEXT' | translate }}</p>
+              <div class="cta-testimonials">
+                <div class="cta-testimonial">
+                  <div class="testimonial-stars">
+                    <i class="material-symbols-rounded filled">star</i>
+                    <i class="material-symbols-rounded filled">star</i>
+                    <i class="material-symbols-rounded filled">star</i>
+                    <i class="material-symbols-rounded filled">star</i>
+                    <i class="material-symbols-rounded filled">star</i>
+                  </div>
+                  <p class="testimonial-text">"{{ 'CTA.TESTIMONIAL_1' | translate }}"</p>
+                  <span class="testimonial-author">{{ 'CTA.TESTIMONIAL_1_AUTHOR' | translate }}</span>
+                </div>
+
+                <div class="cta-testimonial">
+                  <div class="testimonial-stars">
+                    <i class="material-symbols-rounded filled">star</i>
+                    <i class="material-symbols-rounded filled">star</i>
+                    <i class="material-symbols-rounded filled">star</i>
+                    <i class="material-symbols-rounded filled">star</i>
+                    <i class="material-symbols-rounded filled">star</i>
+                  </div>
+                  <p class="testimonial-text">"{{ 'CTA.TESTIMONIAL_2' | translate }}"</p>
+                  <span class="testimonial-author">{{ 'CTA.TESTIMONIAL_2_AUTHOR' | translate }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Urgency Element -->
+            <div class="cta-urgency">
+              <div class="urgency-content">
+                <i class="material-symbols-rounded">schedule</i>
+                <span class="urgency-text">{{ 'CTA.URGENCY_TEXT' | translate }}</span>
+                <span class="urgency-highlight">{{ 'CTA.URGENCY_HIGHLIGHT' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <app-button-link width="300" devClass="item-button" linkClass="btn-with-color" routerLink="/auth/register" label="{{ 'CREATEYOURSTORE' | translate }}"></app-button-link>
-</div>
+  </div>
+</section>

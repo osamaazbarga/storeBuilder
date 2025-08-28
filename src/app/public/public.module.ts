@@ -18,6 +18,8 @@ import { StoreComponent } from '../private/components/store/store/store.componen
 import { FooterNavComponent } from './components/home-parts/footer-nav/footer-nav.component';
 import { StartNowComponent } from './components/home-parts/start-now/start-now.component';
 import { FirstHomePartComponent } from './components/home-parts/first-home-part/first-home-part.component';
+import { FeaturesSectionComponent } from './components/home-parts/features-section/features-section.component';
+import { StatisticsSectionComponent } from './components/home-parts/statistics-section/statistics-section.component';
 
 
 
@@ -31,7 +33,9 @@ import { FirstHomePartComponent } from './components/home-parts/first-home-part/
     StoreComponent,
     FooterNavComponent,
     StartNowComponent,
-    FirstHomePartComponent
+    FirstHomePartComponent,
+    FeaturesSectionComponent,
+    StatisticsSectionComponent
   ],
   imports: [
     CommonModule,

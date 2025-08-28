@@ -1,0 +1,30 @@
+{
+  "STATS": {
+    "BADGE": "amazing statistics",
+    "TITLE": "Numbers that speak for themselves",
+    "DESCRIPTION": "Join thousands of successful merchants who chose our platform to build their commercial empire",
+    "STORES": {
+      "TITLE": "Active Stores",
+      "DESCRIPTION": "Trusted by merchants worldwide"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "Monthly Transactions",
+      "DESCRIPTION": "Safe and fast processing"
+    },
+    "SUCCESS_RATE": {
+      "TITLE": "Success Rate",
+      "DESCRIPTION": "Reliability and high performance"
+    },
+    "COUNTRIES": {
+      "TITLE": "Countries",
+      "DESCRIPTION": "We serve the entire world"
+    },
+    "SUPPORT_HOURS": "Support hours daily",
+    "SETUP_TIME": "Minutes to setup store",
+    "SECURE_TRANSACTIONS": "Secure transactions",
+    "TRUSTED_BY": "Trusted by leading institutions",
+    "ENCRYPTED": "Encrypted",
+    "COMPLIANT": "Compliant",
+    "CERTIFIED": "Certified"
+  }
+}

@@ -1,3 +1,37 @@
-div{
-    margin-top: 80px;
+/* Home Component Styles */
+.home-container {
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Smooth scrolling for the entire page */
+.home-container {
+  scroll-behavior: smooth;
+}
+
+/* Global section spacing */
+.home-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Section transitions */
+.home-container section {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 0;
+  }
+}
+
+/* Print styles */
+@media print {
+  .home-container {
+    background: white;
+    color: black;
+  }
 }

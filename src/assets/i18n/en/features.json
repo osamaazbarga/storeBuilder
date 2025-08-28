@@ -1,0 +1,54 @@
+{
+  "FEATURES": {
+    "BADGE": "comprehensive features",
+    "TITLE": "Everything you need for store success",
+    "DESCRIPTION": "We provide you with a comprehensive set of advanced tools and solutions to build and manage your online store efficiently",
+    "POPULAR": "most popular",
+    "EASY_CREATION": {
+      "TITLE": "Easy & Fast Creation",
+      "DESCRIPTION": "Create your online store in minutes without needing technical expertise",
+      "POINT1": "Professional ready-made templates",
+      "POINT2": "Easy drag & drop editor",
+      "POINT3": "Complete design customization"
+    },
+    "PAYMENT": {
+      "TITLE": "Advanced Payment Solutions",
+      "DESCRIPTION": "Accept payments from around the world safely and easily",
+      "POINT1": "Support for all payment methods",
+      "POINT2": "High-level security",
+      "POINT3": "Instant payment processing"
+    },
+    "SHIPPING": {
+      "TITLE": "Smart Shipping Management",
+      "DESCRIPTION": "Integrated shipping system with leading shipping companies in the region",
+      "POINT1": "Real-time shipment tracking",
+      "POINT2": "Automatic shipping cost calculation",
+      "POINT3": "Local and international shipping support"
+    },
+    "MARKETING": {
+      "TITLE": "Powerful Marketing Tools",
+      "DESCRIPTION": "Attract customers and increase your sales with advanced digital marketing tools",
+      "POINT1": "Smart advertising campaigns",
+      "POINT2": "Social media marketing",
+      "POINT3": "Loyalty programs and discounts"
+    },
+    "ANALYTICS": {
+      "TITLE": "Comprehensive Analytics & Reports",
+      "DESCRIPTION": "Track your store performance and make informed decisions based on data",
+      "POINT1": "Detailed sales reports",
+      "POINT2": "Customer behavior analysis",
+      "POINT3": "Key performance indicators"
+    },
+    "SUPPORT": {
+      "TITLE": "Outstanding Technical Support",
+      "DESCRIPTION": "Specialized support team available 24/7 to help you",
+      "POINT1": "24/7 technical support",
+      "POINT2": "Free consultations",
+      "POINT3": "Training and workshops"
+    },
+    "INTEGRATIONS": {
+      "TITLE": "Integration with the best services",
+      "DESCRIPTION": "Connect your store with more than 100 leading services and applications"
+    }
+  }
+}

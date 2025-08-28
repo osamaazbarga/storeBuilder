@@ -1,0 +1,144 @@
+<!-- Statistics Section -->
+<section class="statistics-section">
+  <div class="stats-background">
+    <div class="stats-pattern"></div>
+    
+    <div class="container">
+      <!-- Section Header -->
+      <div class="row">
+        <div class="col-12">
+          <div class="stats-header text-center">
+            <span class="stats-badge">{{ 'STATS.BADGE' | translate }}</span>
+            <h2 class="stats-title">{{ 'STATS.TITLE' | translate }}</h2>
+            <p class="stats-description">{{ 'STATS.DESCRIPTION' | translate }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistics Grid -->
+      <div class="row stats-grid">
+        <!-- Stat 1: Active Stores -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-icon">
+              <i class="material-symbols-rounded">store</i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number" [attr.data-count]="50000">50,000+</div>
+              <h4 class="stat-title">{{ 'STATS.STORES.TITLE' | translate }}</h4>
+              <p class="stat-description">{{ 'STATS.STORES.DESCRIPTION' | translate }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat 2: Monthly Transactions -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-icon">
+              <i class="material-symbols-rounded">payments</i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number" [attr.data-count]="10000000">10M+</div>
+              <h4 class="stat-title">{{ 'STATS.TRANSACTIONS.TITLE' | translate }}</h4>
+              <p class="stat-description">{{ 'STATS.TRANSACTIONS.DESCRIPTION' | translate }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat 3: Success Rate -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="stat-icon">
+              <i class="material-symbols-rounded">trending_up</i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number" [attr.data-count]="99.9">99.9%</div>
+              <h4 class="stat-title">{{ 'STATS.SUCCESS_RATE.TITLE' | translate }}</h4>
+              <p class="stat-description">{{ 'STATS.SUCCESS_RATE.DESCRIPTION' | translate }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat 4: Countries Served -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="stat-icon">
+              <i class="material-symbols-rounded">public</i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number" [attr.data-count]="25">25+</div>
+              <h4 class="stat-title">{{ 'STATS.COUNTRIES.TITLE' | translate }}</h4>
+              <p class="stat-description">{{ 'STATS.COUNTRIES.DESCRIPTION' | translate }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Stats Row -->
+      <div class="row additional-stats">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="additional-stat" data-aos="fade-up" data-aos-delay="500">
+            <div class="additional-stat-icon">
+              <i class="material-symbols-rounded">support_agent</i>
+            </div>
+            <div class="additional-stat-content">
+              <div class="additional-stat-number">24/7</div>
+              <div class="additional-stat-text">{{ 'STATS.SUPPORT_HOURS' | translate }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="additional-stat" data-aos="fade-up" data-aos-delay="600">
+            <div class="additional-stat-icon">
+              <i class="material-symbols-rounded">speed</i>
+            </div>
+            <div class="additional-stat-content">
+              <div class="additional-stat-number">< 3</div>
+              <div class="additional-stat-text">{{ 'STATS.SETUP_TIME' | translate }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="additional-stat" data-aos="fade-up" data-aos-delay="700">
+            <div class="additional-stat-icon">
+              <i class="material-symbols-rounded">security</i>
+            </div>
+            <div class="additional-stat-content">
+              <div class="additional-stat-number">100%</div>
+              <div class="additional-stat-text">{{ 'STATS.SECURE_TRANSACTIONS' | translate }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="row trust-badges-row">
+        <div class="col-12">
+          <div class="trust-badges text-center">
+            <h3 class="trust-title">{{ 'STATS.TRUSTED_BY' | translate }}</h3>
+            <div class="trust-logos">
+              <div class="trust-logo">
+                <img src="./assets/images/certifications/ssl.png" alt="SSL Certificate" class="trust-img">
+                <span class="trust-text">SSL {{ 'STATS.ENCRYPTED' | translate }}</span>
+              </div>
+              <div class="trust-logo">
+                <img src="./assets/images/certifications/pci.png" alt="PCI Compliant" class="trust-img">
+                <span class="trust-text">PCI {{ 'STATS.COMPLIANT' | translate }}</span>
+              </div>
+              <div class="trust-logo">
+                <img src="./assets/images/certifications/iso.png" alt="ISO Certified" class="trust-img">
+                <span class="trust-text">ISO {{ 'STATS.CERTIFIED' | translate }}</span>
+              </div>
+              <div class="trust-logo">
+                <img src="./assets/images/certifications/gdpr.png" alt="GDPR Compliant" class="trust-img">
+                <span class="trust-text">GDPR {{ 'STATS.COMPLIANT' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
