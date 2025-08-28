@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
     standalone: false
 })
 export class ValidationMessagesComponent {
-  @Input() errorMessages:string[] | undefined
+  @Input() errorMessages:string[] | undefined=[]
 
 }

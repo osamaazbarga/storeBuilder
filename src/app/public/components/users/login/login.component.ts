@@ -9,7 +9,7 @@ import { LoginWithExternal } from 'src/app/models/account/loginWithExternal';
 import { User } from 'src/app/models/account/user';
 import { UsersService } from 'src/app/services/users.service';
 import { SharedService } from 'src/app/shared/shared.service';
-declare const FB:any;
+declare const FB: any;
 
 @Component({
     selector: 'app-login',
@@ -18,12 +18,20 @@ declare const FB:any;
     standalone: false
 })
 export class LoginComponent implements OnInit{
-  @ViewChild('googleButton',{static:true}) 
+  @ViewChild('googleButton',{static:true})
   googleButton:ElementRef=new ElementRef({});
   loginForm:FormGroup=new FormGroup({});
   submitted:boolean=false;
   errorMessages:string[]=[]
-  loading: boolean=false;;
+  loading: boolean=false;
+
+  // New UI state properties
+  showPassword: boolean = false;
+  rememberMe: boolean = false;
+
+  // Device detection
+  isTablet: boolean = false;
+  isMobile: boolean = false;
   constructor(private usersService:UsersService,
     private router:Router,
     private formBuilder: FormBuilder,
@@ -39,8 +47,8 @@ export class LoginComponent implements OnInit{
     })
   }
   ngOnInit():void{
+    this.detectDevice();
     this.initializeForm();
-    
     this.initializeGoogleButton();
   }
   ngAfterViewInit(){
@@ -58,88 +66,66 @@ export class LoginComponent implements OnInit{
       password:new FormControl('',[Validators.required])
     })
   }
-  loginUser(loginData:any){
-    this.submitted=false;
-    this.errorMessages=[]
-    // this.usersService
-    //   .createUser(User).pipe(first() ,tap(()=>this.router.navigate(['/login'])))
-    //   //.subscribe((Users:TblUser[])=>this.userUpdated.emit(Users))
-    //   .subscribe({
-    //     next:(user)=>{
-    //       console.log(user);  
-    //     }
-    //   })
+  loginUser(loginData: any) {
     this.usersService.login(loginData).subscribe({
-      next:_=>{
-        // if(this.returnUrl){
-        //   this.router.navigateByUrl(this.returnUrl)
-        // }
-        // else
-        this.router.navigateByUrl('/')
-        
-        
-        // this.sharedService.showNotification(true,res.value.title,res.value.message);
-        // this.router.navigateByUrl('/login')
+      next: () => {
+        this.loading = false;
+        this.router.navigateByUrl('/');
+        this.sharedService.showNotification(true, 'نجح تسجيل الدخول', 'مرحباً بك في منصتنا!');
       },
-      error:error=>{
-        this.submitted=true;
-        if(error.error.errors){
-          this.errorMessages=error.error.errors
+      error: error => {
+        this.loading = false;
+        this.submitted = true;
+
+        if (error.error.errors) {
+          this.errorMessages = error.error.errors;
+        } else {
+          this.errorMessages.push(error.error);
         }
-        else{
-          this.errorMessages.push(error.error)
-        }
-        
+
+        this.sharedService.showNotification(false, 'خطأ في تسجيل الدخول', 'يرجى التحقق من بياناتك والمحاولة مرة أخرى');
       }
-    })
+    });
   }
 
   onSubmit() {
-    this.submitted=false;
+    this.submitted = true;
+    this.errorMessages = [];
+
     if(this.loginForm.valid){
-      this.submitted=false;
-      console.log(this.loginForm.value);
-      
-      this.loginUser(this.loginForm.value)
+      this.loading = true;
+      this.loginUser(this.loginForm.value);
+    } else {
+      this.focusFirstInvalidField();
     }
-    else{
-      this.submitted=true;
-    }
-    this.loading = true;  
   }
 
-  loginWithFacebook(){
-    FB.login(async(fbResult:any)=>{
-      
-      if(fbResult.authResponse){
-        const userId=fbResult.authResponse.userID;
-        const accessToken=fbResult.authResponse.accessToken;
-        //this.router.navigateByUrl(`/register/thirdParty/facebook?access_token=${accessToken}&userId=${userId}`)
-        this.usersService.loginWithThirdParty(new LoginWithExternal(accessToken,userId,"facebook")).subscribe({
-          next:_=>{
- // if(this.returnUrl){
-        //   this.router.navigateByUrl(this.returnUrl)
-        // }
-        // else
-        this.router.navigateByUrl('/')
+  loginWithFacebook() {
+    if (this.loading) return;
+
+    this.loading = true;
+
+    FB.login(async (fbResult: any) => {
+      if (fbResult.authResponse) {
+        const userId = fbResult.authResponse.userID;
+        const accessToken = fbResult.authResponse.accessToken;
+
+        this.usersService.loginWithThirdParty(new LoginWithExternal(accessToken, userId, "facebook")).subscribe({
+          next: () => {
+            this.loading = false;
+            this.router.navigateByUrl('/');
+            this.sharedService.showNotification(true, 'نجح تسجيل الدخول', 'مرحباً بك في منصتنا!');
           },
-          error:error=>{
-            this.sharedService.showNotification(false,"Failed",error.error);
-            // if(error.error.errors){
-            //   this.errorMessages=error.error.errors;
-            // }
-            // else{
-            //   this.errorMessages.push(error.error)
-            // }
+          error: error => {
+            this.loading = false;
+            this.sharedService.showNotification(false, "فشل تسجيل الدخول", error.error);
           }
-        })
-        
+        });
+      } else {
+        this.loading = false;
+        this.sharedService.showNotification(false, "فشل", "لم نتمكن من تسجيل الدخول عبر فيسبوك");
       }
-      else{
-        this.sharedService.showNotification(false,"Failed","Unable to login with ypur facebook")
-      }
-      
-    })
+    });
   }
 
   resendEmailConfirmationLink(){
@@ -182,10 +168,147 @@ export class LoginComponent implements OnInit{
 
     })
     //this.router.navigateByUrl(`/register/thirdParty/google?access_token=${response.credential}&userId=${decodeToken.sub}`)
-
-
-    
   }
+
+  /**
+   * Toggle password visibility
+   */
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  /**
+   * Detect device type for optimal experience
+   */
+  private detectDevice(): void {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const screenWidth = window.innerWidth;
+
+    // Detect tablets
+    this.isTablet = (
+      /ipad/.test(userAgent) ||
+      (/android/.test(userAgent) && !/mobile/.test(userAgent)) ||
+      (screenWidth >= 768 && screenWidth <= 1024)
+    );
+
+    // Detect mobile phones
+    this.isMobile = (
+      screenWidth < 768 ||
+      /iphone|ipod|android.*mobile|blackberry|iemobile/.test(userAgent)
+    );
+  }
+
+  /**
+   * Handle form submission with enhanced validation
+   */
+  onSubmitEnhanced(): void {
+    this.submitted = true;
+    this.errorMessages = [];
+
+    if (this.loginForm.valid) {
+      this.loading = true;
+
+      // Add remember me logic if needed
+      const loginData = {
+        ...this.loginForm.value,
+        rememberMe: this.rememberMe
+      };
+
+      this.loginUser(loginData);
+    } else {
+      // Focus on first invalid field
+      this.focusFirstInvalidField();
+    }
+  }
+
+  /**
+   * Focus on the first invalid form field
+   */
+  private focusFirstInvalidField(): void {
+    const firstInvalidField = document.querySelector('.form-input.ng-invalid') as HTMLElement;
+    if (firstInvalidField) {
+      firstInvalidField.focus();
+    }
+  }
+
+  /**
+   * Enhanced login method with better error handling
+   */
+  private loginUserEnhanced(loginData: any): void {
+    this.usersService.login(loginData).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigateByUrl('/');
+        this.sharedService.showNotification(true, 'نجح تسجيل الدخول', 'مرحباً بك في منصتنا!');
+      },
+      error: error => {
+        this.loading = false;
+        this.submitted = true;
+
+        if (error.error.errors) {
+          this.errorMessages = error.error.errors;
+        } else {
+          this.errorMessages.push(error.error);
+        }
+
+        // Show user-friendly error notification
+        this.sharedService.showNotification(false, 'خطأ في تسجيل الدخول', 'يرجى التحقق من بياناتك والمحاولة مرة أخرى');
+      }
+    });
+  }
+
+  /**
+   * Enhanced Facebook login with better error handling
+   */
+  loginWithFacebookEnhanced(): void {
+    if (this.loading) return;
+
+    this.loading = true;
+
+    FB.login(async (fbResult: any) => {
+      if (fbResult.authResponse) {
+        const userId = fbResult.authResponse.userID;
+        const accessToken = fbResult.authResponse.accessToken;
+
+        this.usersService.loginWithThirdParty(new LoginWithExternal(accessToken, userId, "facebook")).subscribe({
+          next: () => {
+            this.loading = false;
+            this.router.navigateByUrl('/');
+            this.sharedService.showNotification(true, 'نجح ت��جيل الدخول', 'مرحباً بك في منصتنا!');
+          },
+          error: error => {
+            this.loading = false;
+            this.sharedService.showNotification(false, "فشل تسجيل الدخول", error.error);
+          }
+        });
+      } else {
+        this.loading = false;
+        this.sharedService.showNotification(false, "فشل", "لم نتمكن من تسجيل الدخول عبر فيسبوك");
+      }
+    });
+  }
+
+  /**
+   * Get optimized input type for device
+   */
+  getInputType(baseType: string): string {
+    if (this.isMobile && baseType === 'email') {
+      return 'email'; // This will show email keyboard on mobile
+    }
+    return baseType;
+  }
+
+  /**
+   * Check if current device supports touch
+   */
+  get isTouch(): boolean {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  }
+
+  /**
+   * Focus on the first invalid form field
+   */
+
 
 
 }

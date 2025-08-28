@@ -21,12 +21,28 @@ declare const FB:any;
     standalone: false
 })
 export class RegisterComponent implements OnInit {
-  @ViewChild('googleButton',{static:true}) 
+  @ViewChild('googleButton',{static:true})
   googleButton:ElementRef=new ElementRef({});
   title = 'SuperEcommere';
   submitted:boolean=false;
   errorMessages:string[]=[]
   registerForm:FormGroup=new FormGroup({});
+
+  // Enhanced UI state
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+  acceptTerms: boolean = false;
+  currentStep: number = 1;
+
+  // Password strength
+  passwordStrength: any = {
+    level: '',
+    text: ''
+  };
+
+  // Device detection
+  isTablet: boolean = false;
+  isMobile: boolean = false;
   form:FormGroup=new FormGroup({
     email:new FormControl('',[Validators.required,Validators.email]),
     //username:new FormControl(null,[Validators.required,Validators.email]),
@@ -75,18 +91,9 @@ export class RegisterComponent implements OnInit {
     private renderer2:Renderer2,@Inject(DOCUMENT) private _document:Document){
   }
   ngOnInit():void{
+    this.detectDevice();
     this.initializeGoogleButton();
-    this.initializeForm()
-  //   this.form = this.formBuilder.group({
-  //     userName: ['', Validators.required],
-  //     email: ['', Validators.required],
-  //     //isDeleted: ['', Validators.required],
-  //     password: ['', [Validators.required, Validators.minLength(6)]]
-  // });
-
-    // this.superEcommereServies.getSuperEcommeres().subscribe((result:SuperEcommere[])=>{
-    //   this.heroes=result
-    // });
+    this.initializeForm();
   }
 
   ngAfterViewInit(){
@@ -112,60 +119,65 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  createUser(registerData:any){
-    this.submitted=true;
-    this.errorMessages=[]
-    
-    
+  createUser(registerData: any) {
     this.usersService.register(registerData).subscribe({
-      next:(res:any)=>{
-        this.sharedService.showNotification(true,res.title,res.message);
-        this.router.navigateByUrl('/login')
+      next: (res: any) => {
+        this.loading = false;
+        this.sharedService.showNotification(true, res.title, res.message);
+        this.router.navigateByUrl('/login');
       },
-      error:error=>{
-        if(error.error.errors){
-          this.errorMessages=error.error.errors
+      error: error => {
+        this.loading = false;
+        this.submitted = true;
+
+        if (error.error.errors) {
+          this.errorMessages = error.error.errors;
+        } else {
+          this.errorMessages.push(error.error);
         }
-        else{
-          this.errorMessages.push(error.error)
-        }
-        
+
+        this.sharedService.showNotification(false, 'خطأ في التسجيل', 'يرجى التحقق من بياناتك والمحاولة مرة أخرى');
       }
-    })
+    });
   }
 
   onSubmit() {
     this.submitted = true;
     this.errorMessages = [];
-  
-    if (this.registerForm.valid) {
-      const { passwordConfirm, ...cleanData } = this.registerForm.value;  // ❌ نشيل passwordConfirm
+
+    if (this.registerForm.valid && this.acceptTerms && this.passwordsMatch) {
+      this.loading = true;
+      const { passwordConfirm, ...cleanData } = this.registerForm.value;
       this.createUser(cleanData);
     } else {
-      this.submitted = true;
-    }
-  
-    this.loading = true;
+      this.focusFirstInvalidField();
 
-    
+      if (!this.acceptTerms) {
+        this.errorMessages.push('يرجى الموافقة على الشروط والأحكام');
+      }
+
+      if (!this.passwordsMatch) {
+        this.errorMessages.push('كلمات المرور غير متطابقة');
+      }
+    }
   }
 
-  registerWithFacebook(){
-    FB.login(async(fbResult:any)=>{
-      
-      if(fbResult.authResponse){
-        const userId=fbResult.authResponse.userID;
-        const accessToken=fbResult.authResponse.accessToken;
-        console.log(fbResult);
-        
-        this.router.navigateByUrl(`/register/thirdParty/facebook?access_token=${accessToken}&userId=${userId}`)
-        
+  registerWithFacebook() {
+    if (this.loading) return;
+
+    this.loading = true;
+
+    FB.login(async (fbResult: any) => {
+      if (fbResult.authResponse) {
+        const userId = fbResult.authResponse.userID;
+        const accessToken = fbResult.authResponse.accessToken;
+
+        this.router.navigateByUrl(`/register/thirdParty/facebook?access_token=${accessToken}&userId=${userId}`);
+      } else {
+        this.loading = false;
+        this.sharedService.showNotification(false, "فشل", "لم نتمكن من التسجيل عبر فيسبوك");
       }
-      else{
-        this.sharedService.showNotification(false,"Failed","Unable to register with ypur facebook")
-      }
-      
-    })
+    });
   }
 
   initializeGoogleButton() {
@@ -196,6 +208,241 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnDestroy():void{
-    //this.
+    //cleanup if needed
+  }
+
+  /**
+   * Toggle password visibility
+   */
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  /**
+   * Toggle confirm password visibility
+   */
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  /**
+   * Check if passwords match
+   */
+  get passwordsMatch(): boolean {
+    const password = this.registerForm.get('password')?.value;
+    const passwordConfirm = this.registerForm.get('passwordConfirm')?.value;
+    return password === passwordConfirm;
+  }
+
+  /**
+   * Handle password change and update strength indicator
+   */
+  onPasswordChange(): void {
+    const password = this.registerForm.get('password')?.value || '';
+    this.passwordStrength = this.calculatePasswordStrength(password);
+
+    // Update current step based on form completion
+    this.updateCurrentStep();
+  }
+
+  /**
+   * Calculate password strength
+   */
+  private calculatePasswordStrength(password: string): any {
+    if (!password) {
+      return { level: '', text: '' };
+    }
+
+    let score = 0;
+    const checks = {
+      length: password.length >= 8,
+      lowercase: /[a-z]/.test(password),
+      uppercase: /[A-Z]/.test(password),
+      numbers: /\d/.test(password),
+      symbols: /[^A-Za-z0-9]/.test(password)
+    };
+
+    // Calculate score
+    Object.values(checks).forEach(check => {
+      if (check) score++;
+    });
+
+    // Determine strength level
+    if (score < 2) {
+      return { level: 'weak', text: 'ضعيفة' };
+    } else if (score < 3) {
+      return { level: 'fair', text: 'متوسطة' };
+    } else if (score < 4) {
+      return { level: 'good', text: 'جيدة' };
+    } else {
+      return { level: 'strong', text: 'قوية جداً' };
+    }
+  }
+
+  /**
+   * Update current step based on form completion
+   */
+  private updateCurrentStep(): void {
+    const fullName = this.registerForm.get('fullName')?.value;
+    const email = this.registerForm.get('email')?.value;
+    const phone = this.registerForm.get('phone')?.value;
+    const password = this.registerForm.get('password')?.value;
+    const passwordConfirm = this.registerForm.get('passwordConfirm')?.value;
+
+    if (!fullName || !email || !phone) {
+      this.currentStep = 1;
+    } else if (!password || !passwordConfirm || !this.passwordsMatch) {
+      this.currentStep = 2;
+    } else {
+      this.currentStep = 3;
+    }
+  }
+
+  /**
+   * Detect device type for optimal experience
+   */
+  private detectDevice(): void {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const screenWidth = window.innerWidth;
+
+    // Detect tablets
+    this.isTablet = (
+      /ipad/.test(userAgent) ||
+      (/android/.test(userAgent) && !/mobile/.test(userAgent)) ||
+      (screenWidth >= 768 && screenWidth <= 1024)
+    );
+
+    // Detect mobile phones
+    this.isMobile = (
+      screenWidth < 768 ||
+      /iphone|ipod|android.*mobile|blackberry|iemobile/.test(userAgent)
+    );
+  }
+
+  /**
+   * Enhanced form submission with better validation
+   */
+  onSubmitEnhanced(): void {
+    this.submitted = true;
+    this.errorMessages = [];
+
+    if (this.registerForm.valid && this.acceptTerms && this.passwordsMatch) {
+      this.loading = true;
+
+      const { passwordConfirm, ...cleanData } = this.registerForm.value;
+      this.createUser(cleanData);
+    } else {
+      // Focus on first invalid field
+      this.focusFirstInvalidField();
+
+      // Show validation messages
+      if (!this.acceptTerms) {
+        this.errorMessages.push('يرجى الموافقة على الشروط والأحكام');
+      }
+
+      if (!this.passwordsMatch) {
+        this.errorMessages.push('كلمات المرور غير متطابقة');
+      }
+    }
+  }
+
+  /**
+   * Focus on the first invalid form field
+   */
+ 
+
+  /**
+   * Enhanced user creation with better error handling
+   */
+  private createUserEnhanced(registerData: any): void {
+    this.usersService.register(registerData).subscribe({
+      next: (res: any) => {
+        this.loading = false;
+        this.sharedService.showNotification(true, res.title, res.message);
+        this.router.navigateByUrl('/login');
+      },
+      error: error => {
+        this.loading = false;
+        this.submitted = true;
+
+        if (error.error.errors) {
+          this.errorMessages = error.error.errors;
+        } else {
+          this.errorMessages.push(error.error);
+        }
+
+        // Show user-friendly error notification
+        this.sharedService.showNotification(false, 'خطأ في التسجيل', 'يرجى التحقق من بياناتك والمحاولة مرة أخرى');
+      }
+    });
+  }
+
+  /**
+   * Enhanced Facebook registration
+   */
+  registerWithFacebookEnhanced(): void {
+    if (this.loading) return;
+
+    this.loading = true;
+
+    FB.login(async (fbResult: any) => {
+      if (fbResult.authResponse) {
+        const userId = fbResult.authResponse.userID;
+        const accessToken = fbResult.authResponse.accessToken;
+
+        this.router.navigateByUrl(`/register/thirdParty/facebook?access_token=${accessToken}&userId=${userId}`);
+      } else {
+        this.loading = false;
+        this.sharedService.showNotification(false, "فشل", "لم نتمكن من التسجيل عبر فيسبوك");
+      }
+    });
+  }
+
+  /**
+   * Handle real-time form validation
+   */
+  onFieldChange(fieldName: string): void {
+    const field = this.registerForm.get(fieldName);
+    if (field && field.value) {
+      // Update step progress
+      this.updateCurrentStep();
+
+      // Real-time validation feedback
+      if (fieldName === 'password') {
+        this.onPasswordChange();
+      }
+    }
+  }
+
+  /**
+   * Get optimized input type for device
+   */
+  getInputType(baseType: string): string {
+    if (this.isMobile) {
+      if (baseType === 'email') return 'email';
+      if (baseType === 'tel') return 'tel';
+    }
+    return baseType;
+  }
+
+  /**
+   * Check if current device supports touch
+   */
+  get isTouch(): boolean {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  }
+
+  /**
+   * Focus on the first invalid form field
+   */
+  private focusFirstInvalidField(): void {
+    const firstInvalidField = document.querySelector('.form-input.ng-invalid') as HTMLElement;
+    if (firstInvalidField) {
+      firstInvalidField.focus();
+      firstInvalidField.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
   }
 }

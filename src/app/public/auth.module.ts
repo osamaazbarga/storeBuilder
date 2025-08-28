@@ -21,14 +21,14 @@ import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
-    LoginComponent,
-    RegisterComponent,
-    EditUserComponent,
-    ConfirmEmailComponent,
-    SendEmailComponent,
-    ResetPasswordComponent,
-    RegisterWithThirdPartyComponent,
-    AuthComponent,
+    
+    // RegisterComponent,
+    // EditUserComponent,
+    // ConfirmEmailComponent,
+    // SendEmailComponent,
+    // ResetPasswordComponent,
+    // RegisterWithThirdPartyComponent,
+    // AuthComponent,
   ],
   imports: [
     CommonModule,

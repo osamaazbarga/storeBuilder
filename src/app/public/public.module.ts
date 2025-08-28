@@ -21,6 +21,13 @@ import { StartNowComponent } from './components/home-parts/start-now/start-now.c
 import { FirstHomePartComponent } from './components/home-parts/first-home-part/first-home-part.component';
 import { FeaturesSectionComponent } from './components/home-parts/features-section/features-section.component';
 import { StatisticsSectionComponent } from './components/home-parts/statistics-section/statistics-section.component';
+import { LoginComponent } from './components/users/login/login.component';
+import { RegisterComponent } from './components/users/register/register.component';
+import { ConfirmEmailComponent } from './components/users/confirm-email/confirm-email.component';
+import { EditUserComponent } from './components/users/edit-user/edit-user.component';
+import { RegisterWithThirdPartyComponent } from './components/users/register-with-third-party/register-with-third-party.component';
+import { ResetPasswordComponent } from './components/users/reset-password/reset-password.component';
+import { SendEmailComponent } from './components/users/send-email/send-email.component';
 
 
 
@@ -36,7 +43,14 @@ import { StatisticsSectionComponent } from './components/home-parts/statistics-s
     StartNowComponent,
     FirstHomePartComponent,
     FeaturesSectionComponent,
-    StatisticsSectionComponent
+    StatisticsSectionComponent,
+    LoginComponent,
+    RegisterComponent,
+    EditUserComponent,
+    ConfirmEmailComponent,
+    SendEmailComponent,
+    ResetPasswordComponent,
+    RegisterWithThirdPartyComponent,
   ],
   imports: [
     CommonModule,

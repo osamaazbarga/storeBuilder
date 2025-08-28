@@ -10,8 +10,7 @@ import { AuthorizationGuard } from './shared/guards/authorization.guard';
 import { AdminGuard } from './shared/guards/admin.guard';
 import { AdminViewComponent } from './private/components/admin/admin-view/admin-view.component';
 import { StoreInfoComponent } from './private/components/storeInformation/store-info/store-info.component';
-import { StoreComponent } from './private/components/store/store/store.component';
-import { AuthComponent } from './public/components/auth/auth.component';
+
 
 
 
@@ -48,11 +47,11 @@ const routes: Routes = [
     loadChildren:()=>import('./public/public.module').then(m=>m.PublicModule)
   },
 
-  {
-    path: 'auth',
-    component:AuthComponent,
-    loadChildren: () => import('./public/auth.module').then(m => m.AuthModule)
-  },
+  // {
+  //   path: 'auth',
+  //   component:AuthComponent,
+  //   loadChildren: () => import('./public/auth.module').then(m => m.AuthModule)
+  // },
   // {
   //   path:'',
   //   component:StoreComponent,
@@ -67,12 +66,8 @@ const routes: Routes = [
     path:'**',
     component:NotFoundComponent,
     pathMatch:'full'
-  }
+  },
 
-  // {
-  //   path:'register',
-  //   component:RegisterComponent
-  // },
   // {
   //   path:'user/edit/:id',
   //   component:EditUserComponent

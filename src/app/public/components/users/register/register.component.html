@@ -1,171 +1,303 @@
-<!-- <div class="container my-5">
-    <h1 class="mb-3">Register</h1>
-        <form  (ngSubmit)="onSubmit()" [formGroup]="form">
-            <div class="mb-3">
-                <label class="form-label">email</label>
-                <input id="email" name="email" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted  }" 
-                />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">password</label>
-                <input id="password" name="password" type="text" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted }" />
-            </div>
-            <div>
-                <button [disabled]="loading" class="btn btn-primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
-                    Register
-                </button>
-                <a routerLink="../login" class="btn btn-link">Cancel</a>
-            </div>
-    </form>
-
-</div> -->
-
-<div class="d-flex justify-content-center">
-    <!-- <div>
-        <div class="login">
-            <a [routerLink]="['/login']">Go TO Login</a>
-        </div> -->
-
-        <div class="col-12">
-            <main class="form-signin">
-
-                <!-- <mat-card-content> -->
-                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" autocomplete="off">
-                        <label for="fullName">{{ 'FULLNAME' | translate }}</label>
-                        <div class="">
-                            <input type="text" placeholder="{{ 'ENTERFULLNAME' | translate }}" formControlName="fullName" class="form-control" 
-                            [class.is-invalid]="submitted &&registerForm.get('fullName')?.errors">
-                            
-                            <span class="text-danger" *ngIf="submitted && registerForm.get('fullName')?.hasError('required')">
-                                {{ 'errorMessage.FULLNAMEREQ' | translate }}
-                            </span>
-                            <ng-container *ngIf="registerForm.get('fullName')?.touched">
-                                <span class="text-danger" *ngIf="registerForm.get('fullName')?.hasError('pattern'); else minlengthErr">
-                                    {{ 'errorMessage.NOTCONTAINNUMANDSSYMBOLS' | translate }}
-                                </span>
-                                <ng-template #minlengthErr>
-                                  <span class="text-danger" *ngIf="registerForm.get('fullName')?.hasError('minlength'); else maxlengthErr">
-                                    {{ 'errorMessage.FULLNAMELESS3LETTERS' | translate }}
-                                  </span>
-                                </ng-template>
-                                <ng-template #maxlengthErr>
-                                  <span class="text-danger" *ngIf="registerForm.get('fullName')?.hasError('maxlength')">
-                                    more than 50
-                                  </span>
-                                </ng-template>
-                              </ng-container>
-                            
-                            <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
-                            <mat-error *ngIf="email.touched&&email.hasError('email')">Email must be valid</mat-error> -->
-
-                        </div>
-
-                        <div class="">
-                            <label for="email">{{ 'EMAIL' | translate }}</label>
-                            <input type="email" autocomplete="off" placeholder="{{ 'ENTEREMAIL' | translate }}" formControlName="email" class="form-control" 
-                            [class.is-invalid]="submitted &&registerForm.get('email')?.errors">
-                            <span class="text-danger" *ngIf=" submitted && registerForm.get('email')?.hasError('required')">
-                                {{ 'errorMessage.EMAILREQ' | translate }}
-                            </span>
-                            <span class="text-danger" *ngIf="registerForm.get('email')?.touched&&registerForm.get('email')?.hasError('pattern')">
-                                {{ 'errorMessage.INVALIDEMAIL' | translate }}
-                            </span>
-                            <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
-                            <mat-error *ngIf="email.touched&&email.hasError('email')">Email must be valid</mat-error> -->
-
-                        </div>
-
-                        <div class="">
-                            <label for="phone">{{ 'PHONE' | translate }}</label>
-                            <input type="text" placeholder="{{ 'ENTERPHONE' | translate }}" formControlName="phone" class="form-control" 
-                            [class.is-invalid]="submitted &&registerForm.get('phone')?.errors">
-                            <span class="text-danger" *ngIf="submitted && registerForm.get('phone')?.hasError('required')">
-                                {{ 'errorMessage.PHONENUMREQ' | translate }}
-                            </span>
-                            <span class="text-danger" *ngIf="registerForm.get('phone')?.touched&&registerForm.get('phone')?.hasError('pattern')">
-                                {{ 'errorMessage.INVALIDPHONE' | translate }}
-                            </span>
-                            <!-- <mat-error *ngIf="email.touched&&email.hasError('required')">Email is required</mat-error>
-                            <mat-error *ngIf="email.touched&&email.hasError('email')">Email must be valid</mat-error> -->
-
-                        </div>
-                        <div class="">
-                            <label for="password">{{ 'PASSWORD' | translate }}</label>
-                            <input autocomplete="new-password" type="password" placeholder="{{ 'ENTERPASSWORD' | translate }}" formControlName="password" class="form-control"
-                            [class.is-invalid]="submitted &&registerForm.get('password')?.errors">
-                            <!-- <mat-error *ngIf="password.touched&&password.hasError('required')">Password is required</mat-error> -->
-                            <span class="text-danger" *ngIf="submitted && registerForm.get('password')?.hasError('required')">
-                                {{ 'errorMessage.PASSWORDREQ' | translate }}
-                            </span>
-                            <span class="text-danger" *ngIf="registerForm.get('password')?.touched && (registerForm.get('password')?.hasError('minlength') || registerForm.get('password')?.hasError('maxlength'))">
-                                {{ 'errorMessage.PASSWORDMORE8' | translate }}
-                            </span>
-                        </div>
-                        <div class="">
-                            <label for="passwordConfirm">{{ 'CONFIRMPASSWORD' | translate }}</label>
-                            <input type="password" placeholder="{{ 'ENTERCONFIRMPASSWORD' | translate }}" formControlName="passwordConfirm" class="form-control"
-                            [class.is-invalid]="submitted &&registerForm.get('passwordConfirm')?.errors">
-                            <span class="text-danger" *ngIf="submitted && registerForm.get('passwordConfirm')?.hasError('required')">
-                                {{ 'errorMessage.CONFIRMPASSWORDREQ' | translate }}
-                            </span>
-                            <ng-container *ngIf="registerForm.get('passwordConfirm')?.touched">
-                                <span class="text-danger" *ngIf="(registerForm.get('passwordConfirm')?.value != registerForm.get('password')?.value); else minlengthErr">
-                                    {{ 'errorMessage.PASSWORDNOTEQUAL' | translate }}
-                                </span>
-                                <ng-template #minlengthErr>
-                                  <span class="text-danger" *ngIf="registerForm.get('passwordConfirm')?.hasError('minlength'); else maxlengthErr">
-                                    less than 3
-                                    {{ 'errorMessage.PASSWORDMORE8' | translate }}
-                                  </span>
-                                </ng-template>
-                                <ng-template #maxlengthErr>
-                                  <span class="text-danger" *ngIf="registerForm.get('passwordConfirm')?.hasError('maxlength')">
-                                    more than 50
-                                  </span>
-                                </ng-template>
-                              </ng-container>
-                            
-                            
-                        </div>
-                       <div class="form-floating" *ngIf="errorMessages.length>0">
-                        <app-validation-messages [errorMessages]="errorMessages">
-
-                        </app-validation-messages>
-                    </div>
-                        <!-- <mat-error *ngIf="passwordConfirm.touched&&registerForm.hasError('passwordNotMatching')">Password not matching</mat-error> -->
-                        <div class="d-grid mt-4 px-1">
-                            <button class="btn btn-lg btn-sign" type="submit">
-                                {{ 'SIGNUP' | translate }}
-                            </button>
-
-                        </div>
-                        
-                    </form>
-                    <div class="row d-flex justify-content-center mt-3">
-                        <div class="col-4">
-                            <hr>
-                        </div>
-                        <div class="col-4 text-center">{{ 'USING' | translate }}</div>
-                        <div class="col-4">
-                            <hr>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between my-3">
-                        <div #googleButton>
-                            
-                        </div>
-                        <button style="width: 180px;" class="btn btn-primary btn-sm" (click)="registerWithFacebook()">Facebook</button>
-                        
-                    </div>
-
-                    
-                <!-- </mat-card-content> -->
-            </main>
+<!-- <app-navbar></app-navbar>
+ -->
+<div class="register-page">
+  <!-- Main register container -->
+  <div class="register-container">
+    
+    <!-- Register Card -->
+    <div class="register-card">
+      
+      <!-- Header -->
+      <div class="register-header">
+        <div class="brand-logo">
+          <img src="./assets/images/redLogoHovered.png" alt="Logo" class="logo-img">
         </div>
-    <!-- </div> -->
+        <h1 class="register-title">{{ 'SIGNUP' | translate }}</h1>
+        <p class="register-subtitle">{{ 'JOINSUCCESSFUL' | translate }}</p>
+      </div>
+
+      <!-- Progress Indicator -->
+      <div class="progress-section">
+        <div class="progress-step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+          <div class="step-number">1</div>
+          <span class="step-text">البيانات الأساسية</span>
+        </div>
+        <div class="progress-step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
+          <div class="step-number">2</div>
+          <span class="step-text">كلمة المرور</span>
+        </div>
+        <div class="progress-step" [class.active]="currentStep >= 3">
+          <div class="step-number">3</div>
+          <span class="step-text">التأكيد</span>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="register-form-section">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+          
+          <!-- Full Name -->
+          <div class="input-group">
+            <label for="fullName" class="input-label">
+              <i class="pi pi-user"></i>
+              {{ 'FULLNAME' | translate }}
+            </label>
+            <div class="input-container">
+              <input 
+                id="fullName"
+                type="text" 
+                formControlName="fullName"
+                class="form-input"
+                [placeholder]="'ENTERFULLNAME' | translate"
+                [class.error]="submitted && registerForm.get('fullName')?.errors"
+                autocomplete="name"
+                (input)="onFieldChange('fullName')"
+              >
+              <span class="input-icon">
+                <i class="pi pi-check" *ngIf="registerForm.get('fullName')?.valid && registerForm.get('fullName')?.value"></i>
+                <i class="pi pi-times" *ngIf="submitted && registerForm.get('fullName')?.errors"></i>
+              </span>
+            </div>
+            <div class="error-message" *ngIf="submitted && registerForm.get('fullName')?.hasError('required')">
+              {{ 'errorMessage.FULLNAMEREQ' | translate }}
+            </div>
+            <div class="error-message" *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.hasError('pattern')">
+              {{ 'errorMessage.NOTCONTAINNUMANDSSYMBOLS' | translate }}
+            </div>
+            <div class="error-message" *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.hasError('minlength')">
+              {{ 'errorMessage.FULLNAMELESS3LETTERS' | translate }}
+            </div>
+          </div>
+
+          <!-- Email and Phone Row -->
+          <div class="input-row">
+            <!-- Email -->
+            <div class="input-group">
+              <label for="email" class="input-label">
+                <i class="pi pi-envelope"></i>
+                {{ 'EMAIL' | translate }}
+              </label>
+              <div class="input-container">
+                <input 
+                  id="email"
+                  type="email" 
+                  formControlName="email"
+                  class="form-input"
+                  [placeholder]="'ENTEREMAIL' | translate"
+                  [class.error]="submitted && registerForm.get('email')?.errors"
+                  autocomplete="email"
+                  (input)="onFieldChange('email')"
+                >
+                <span class="input-icon">
+                  <i class="pi pi-check" *ngIf="registerForm.get('email')?.valid && registerForm.get('email')?.value"></i>
+                  <i class="pi pi-times" *ngIf="submitted && registerForm.get('email')?.errors"></i>
+                </span>
+              </div>
+              <div class="error-message" *ngIf="submitted && registerForm.get('email')?.hasError('required')">
+                {{ 'errorMessage.EMAILREQ' | translate }}
+              </div>
+              <div class="error-message" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('pattern')">
+                {{ 'errorMessage.INVALIDEMAIL' | translate }}
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="input-group">
+              <label for="phone" class="input-label">
+                <i class="pi pi-phone"></i>
+                {{ 'PHONE' | translate }}
+              </label>
+              <div class="input-container">
+                <input 
+                  id="phone"
+                  type="tel" 
+                  formControlName="phone"
+                  class="form-input"
+                  [placeholder]="'ENTERPHONE' | translate"
+                  [class.error]="submitted && registerForm.get('phone')?.errors"
+                  autocomplete="tel"
+                  (input)="onFieldChange('phone')"
+                >
+                <span class="input-icon">
+                  <i class="pi pi-check" *ngIf="registerForm.get('phone')?.valid && registerForm.get('phone')?.value"></i>
+                  <i class="pi pi-times" *ngIf="submitted && registerForm.get('phone')?.errors"></i>
+                </span>
+              </div>
+              <div class="error-message" *ngIf="submitted && registerForm.get('phone')?.hasError('required')">
+                {{ 'errorMessage.PHONENUMREQ' | translate }}
+              </div>
+              <div class="error-message" *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.hasError('pattern')">
+                {{ 'errorMessage.INVALIDPHONE' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="input-group">
+            <label for="password" class="input-label">
+              <i class="pi pi-lock"></i>
+              {{ 'PASSWORD' | translate }}
+            </label>
+            <div class="input-container">
+              <input 
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                class="form-input"
+                [placeholder]="'ENTERPASSWORD' | translate"
+                [class.error]="submitted && registerForm.get('password')?.errors"
+                autocomplete="new-password"
+                (input)="onPasswordChange()"
+              >
+              <span class="input-icon password-toggle" (click)="togglePasswordVisibility()">
+                <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+              </span>
+            </div>
+            
+            <!-- Password Strength -->
+            <div class="password-strength" *ngIf="registerForm.get('password')?.value">
+              <div class="strength-bars">
+                <div class="strength-bar" [class]="passwordStrength.level"></div>
+                <div class="strength-bar" [class]="passwordStrength.level"></div>
+                <div class="strength-bar" [class]="passwordStrength.level"></div>
+                <div class="strength-bar" [class]="passwordStrength.level"></div>
+              </div>
+              <span class="strength-text" [class]="passwordStrength.level">{{ passwordStrength.text }}</span>
+            </div>
+            
+            <div class="error-message" *ngIf="submitted && registerForm.get('password')?.hasError('required')">
+              {{ 'errorMessage.PASSWORDREQ' | translate }}
+            </div>
+            <div class="error-message" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('minlength')">
+              {{ 'errorMessage.PASSWORDMORE8' | translate }}
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="input-group">
+            <label for="passwordConfirm" class="input-label">
+              <i class="pi pi-lock"></i>
+              {{ 'CONFIRMPASSWORD' | translate }}
+            </label>
+            <div class="input-container">
+              <input 
+                id="passwordConfirm"
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                formControlName="passwordConfirm"
+                class="form-input"
+                [placeholder]="'ENTERCONFIRMPASSWORD' | translate"
+                [class.error]="submitted && registerForm.get('passwordConfirm')?.errors"
+                autocomplete="new-password"
+              >
+              <span class="input-icon password-toggle" (click)="toggleConfirmPasswordVisibility()">
+                <i [class]="showConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+              </span>
+            </div>
+            <div class="error-message" *ngIf="submitted && registerForm.get('passwordConfirm')?.hasError('required')">
+              {{ 'errorMessage.CONFIRMPASSWORDREQ' | translate }}
+            </div>
+            <div class="error-message" *ngIf="registerForm.get('passwordConfirm')?.touched && !passwordsMatch && registerForm.get('passwordConfirm')?.value">
+              {{ 'errorMessage.PASSWORDNOTEQUAL' | translate }}
+            </div>
+          </div>
+
+          <!-- Terms Checkbox -->
+          <div class="terms-section">
+            <label class="terms-checkbox">
+              <input type="checkbox" [(ngModel)]="acceptTerms" [ngModelOptions]="{standalone: true}">
+              <span class="checkmark"></span>
+              <span class="terms-text">
+                {{ 'ACCEPTTERMS' | translate }}
+                <a href="#" class="terms-link">{{ 'TERMSANDCONDITIONS' | translate }}</a>
+                و
+                <a href="#" class="terms-link">{{ 'PRIVACYPOLICY' | translate }}</a>
+              </span>
+            </label>
+          </div>
+
+          <!-- Global Error -->
+          <div class="global-error" *ngIf="errorMessages.length > 0">
+            <app-validation-messages [errorMessages]="errorMessages"></app-validation-messages>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            class="register-btn"
+            [class.loading]="loading"
+            [disabled]="loading || !acceptTerms"
+          >
+            <span *ngIf="!loading">
+              <i class="pi pi-user-plus"></i>
+              {{ 'SIGNUP' | translate }}
+            </span>
+            <span *ngIf="loading" class="loading-content">
+              <i class="pi pi-spinner pi-spin"></i>
+              جاري إنشاء الحساب...
+            </span>
+          </button>
+
+        </form>
+      </div>
+
+      <!-- Social Register -->
+      <div class="social-section">
+        <div class="divider">
+          <span>{{ 'USING' | translate }}</span>
+        </div>
+        
+        <div class="social-buttons">
+          <div #googleButton class="google-btn-container"></div>
+          
+          <button 
+            type="button" 
+            class="facebook-btn"
+            (click)="registerWithFacebook()"
+            [disabled]="loading"
+          >
+            <i class="fab fa-facebook-f"></i>
+            Facebook
+          </button>
+        </div>
+      </div>
+
+      <!-- Login Link -->
+      <div class="login-section">
+        <p>
+          {{ 'ALREADYHAVEACCOUNT' | translate }}
+          <a routerLink="/auth/login" class="login-link">
+            {{ 'LOGINNOW' | translate }}
+          </a>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Side Info Panel -->
+    <div class="info-panel">
+      <div class="info-content">
+        <div class="info-icon">
+          <i class="pi pi-chart-line"></i>
+        </div>
+        <h2>نجاحات حقيقية</h2>
+        <p>تجار حققوا نجاحات باهرة مع منصتنا. انضم إليهم وابدأ رحلتك نحو النجاح</p>
+        
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">10,000+</div>
+            <div class="stat-label">متجر نشط</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">50M+</div>
+            <div class="stat-label">عملية شراء</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">دعم فني</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-
-
-

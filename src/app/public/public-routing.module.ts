@@ -14,13 +14,6 @@ const routes: Routes = [
     path:'',
     component:HomeComponent
   },
-
-  {
-    path:'store-view',
-    component:StoreComponent,
-    //loadChildren:()=>import('./private/components/store/store.module').then(m=>m.StoreModule)
-  },
-  
   {
     path:'login',
     component:LoginComponent
@@ -28,6 +21,11 @@ const routes: Routes = [
   {
     path:'register',
     component:RegisterComponent
+  },
+  {
+    path:'store-view',
+    component:StoreComponent,
+    //loadChildren:()=>import('./private/components/store/store.module').then(m=>m.StoreModule)
   },
   {
     path:'users/confirmEmail',
