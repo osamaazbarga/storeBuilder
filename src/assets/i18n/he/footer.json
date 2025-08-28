@@ -1,5 +1,67 @@
 {
+  "COMPANY": {
+    "NAME": "סופר אי-קומרס",
+    "DESCRIPTION": "פלטפורמת מסחר אלקטרוני מקיפה לבניה וניהול החנות הדיגיטלית שלך ביעילות ובקלות",
+    "COPYRIGHT": "© {{currentYear}} סופר אי-קומרס. כל הזכויות שמורות."
+  },
+  "NAVIGATION": {
+    "TITLE": "קישורים מהירים",
     "HOME": "דף הבית",
-    "PRODUCTS": "מוצרים",
-    "CONTACT": "צור קשר"
+    "FEATURES": "תכונות",
+    "PRICING": "תמחור",
+    "ABOUT": "אודותינו",
+    "BLOG": "בלוג"
+  },
+  "PRODUCTS": {
+    "TITLE": "מוצרים",
+    "ECOMMERCE_PLATFORM": "פלטפורמת מסחר אלקטרוני",
+    "PAYMENT_GATEWAY": "שער תשלומים",
+    "INVENTORY_MANAGEMENT": "ניהול מלאי",
+    "ANALYTICS": "אנליטיקה",
+    "MOBILE_APP": "אפליקציה ניידת"
+  },
+  "SUPPORT": {
+    "TITLE": "תמיכה ועזרה",
+    "HELP_CENTER": "מרכז עזרה",
+    "DOCUMENTATION": "תיעוד",
+    "API_DOCS": "תיעוד API",
+    "CONTACT_SUPPORT": "פנה לתמיכה",
+    "COMMUNITY": "קהילה"
+  },
+  "LEGAL": {
+    "TITLE": "משפטי",
+    "PRIVACY_POLICY": "מדיניות פרטיות",
+    "TERMS_OF_SERVICE": "תנאי שירות",
+    "COOKIE_POLICY": "מדיניות עוגיות",
+    "GDPR": "הגנת מידע"
+  },
+  "CONTACT": {
+    "TITLE": "צור קשר",
+    "EMAIL": "אימייל",
+    "PHONE": "טלפון",
+    "ADDRESS": "כתובת",
+    "WORKING_HOURS": "שעות פעילות"
+  },
+  "NEWSLETTER": {
+    "TITLE": "הירשם לניוזלטר",
+    "DESCRIPTION": "קבל את החדשות והעדכונים האחרונים",
+    "EMAIL_PLACEHOLDER": "הכנס את האימייל שלך",
+    "SUBSCRIBE_BUTTON": "הירשם כעת",
+    "SUCCESS_MESSAGE": "תודה! נרשמת בהצלחה"
+  },
+  "SOCIAL": {
+    "TITLE": "עקוב אחרינו",
+    "FACEBOOK": "פייסבוק",
+    "TWITTER": "טוויטר",
+    "LINKEDIN": "לינקדאין",
+    "INSTAGRAM": "אינסטגרם",
+    "YOUTUBE": "יוטיוב"
+  },
+  "PAYMENT": {
+    "LABEL": "אמצעי תשלום:",
+    "VISA": "ויזה",
+    "MASTERCARD": "מאסטרקארד",
+    "APPLE_PAY": "אפל פיי",
+    "PAYPAL": "פייפאל"
   }
+}

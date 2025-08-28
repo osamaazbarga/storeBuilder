@@ -1,5 +1,67 @@
 {
+  "COMPANY": {
+    "NAME": "Super Ecommerce",
+    "DESCRIPTION": "Comprehensive e-commerce platform for building and managing your digital store efficiently and easily",
+    "COPYRIGHT": "© {{currentYear}} Super Ecommerce. All rights reserved."
+  },
+  "NAVIGATION": {
+    "TITLE": "Quick Links",
     "HOME": "Home",
-    "PRODUCTS": "Products",
-    "CONTACT": "Contact"
+    "FEATURES": "Features",
+    "PRICING": "Pricing",
+    "ABOUT": "About Us",
+    "BLOG": "Blog"
+  },
+  "PRODUCTS": {
+    "TITLE": "Products",
+    "ECOMMERCE_PLATFORM": "E-commerce Platform",
+    "PAYMENT_GATEWAY": "Payment Gateway",
+    "INVENTORY_MANAGEMENT": "Inventory Management",
+    "ANALYTICS": "Analytics",
+    "MOBILE_APP": "Mobile App"
+  },
+  "SUPPORT": {
+    "TITLE": "Support & Help",
+    "HELP_CENTER": "Help Center",
+    "DOCUMENTATION": "Documentation",
+    "API_DOCS": "API Documentation",
+    "CONTACT_SUPPORT": "Contact Support",
+    "COMMUNITY": "Community"
+  },
+  "LEGAL": {
+    "TITLE": "Legal",
+    "PRIVACY_POLICY": "Privacy Policy",
+    "TERMS_OF_SERVICE": "Terms of Service",
+    "COOKIE_POLICY": "Cookie Policy",
+    "GDPR": "Data Protection"
+  },
+  "CONTACT": {
+    "TITLE": "Contact Us",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "ADDRESS": "Address",
+    "WORKING_HOURS": "Working Hours"
+  },
+  "NEWSLETTER": {
+    "TITLE": "Subscribe to Newsletter",
+    "DESCRIPTION": "Get the latest news and updates",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "SUBSCRIBE_BUTTON": "Subscribe Now",
+    "SUCCESS_MESSAGE": "Thank you! Successfully subscribed"
+  },
+  "SOCIAL": {
+    "TITLE": "Follow Us",
+    "FACEBOOK": "Facebook",
+    "TWITTER": "Twitter",
+    "LINKEDIN": "LinkedIn",
+    "INSTAGRAM": "Instagram",
+    "YOUTUBE": "YouTube"
+  },
+  "PAYMENT": {
+    "LABEL": "Payment Methods:",
+    "VISA": "Visa",
+    "MASTERCARD": "Mastercard",
+    "APPLE_PAY": "Apple Pay",
+    "PAYPAL": "PayPal"
   }
+}

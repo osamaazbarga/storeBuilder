@@ -1,13 +1,22 @@
-.footer-nav{
+/* This component is now minimal since the main footer is comprehensive */
+.footer-nav-minimal {
+  /* Removed the excessive 700px height and background styling */
+  /* The main footer component now handles all footer functionality */
+  display: none; /* Hidden since main footer is now comprehensive */
+}
 
-    margin: 10px;
-    height: 700px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 10px;
+/* Legacy styles kept for reference but not applied */
+/*
+.footer-nav {
+  margin: 10px;
+  height: 700px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 10px;
 }
-/* izhaka@mdb.co.il */
-img{
-    margin: 10px;
+
+img {
+  margin: 10px;
 }
+*/

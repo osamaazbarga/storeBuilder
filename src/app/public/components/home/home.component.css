@@ -3,6 +3,13 @@
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+  width: 100%;
+}
+
+/* Ensure footer takes full width */
+.home-container app-footer {
+  display: block;
+  width: 100%;
 }
 
 /* Smooth scrolling for the entire page */

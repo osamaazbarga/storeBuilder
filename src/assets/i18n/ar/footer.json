@@ -1,5 +1,67 @@
 {
+  "COMPANY": {
+    "NAME": "سوبر إيكومرس",
+    "DESCRIPTION": "منصة التجارة الإلكترونية الشاملة لبناء وإدارة متجرك الرقمي بكفاءة وسهولة",
+    "COPYRIGHT": "© {{currentYear}} سوبر إيكومرس. جميع الحقوق محفوظة."
+  },
+  "NAVIGATION": {
+    "TITLE": "الروابط الرئيسية",
     "HOME": "الرئيسية",
-    "PRODUCTS": "المنتجات",
-    "CONTACT": "تواصل معنا"
+    "FEATURES": "المميزات",
+    "PRICING": "الأسعار",
+    "ABOUT": "عن الشركة",
+    "BLOG": "المدونة"
+  },
+  "PRODUCTS": {
+    "TITLE": "المنتجات",
+    "ECOMMERCE_PLATFORM": "منصة التجارة الإلكترونية",
+    "PAYMENT_GATEWAY": "بوابة الدفع",
+    "INVENTORY_MANAGEMENT": "إدارة المخزون",
+    "ANALYTICS": "التحليلات",
+    "MOBILE_APP": "التطبيق المحمول"
+  },
+  "SUPPORT": {
+    "TITLE": "الدعم والمساعدة",
+    "HELP_CENTER": "مركز المساعدة",
+    "DOCUMENTATION": "التوثيق",
+    "API_DOCS": "توثيق API",
+    "CONTACT_SUPPORT": "تواصل مع الدعم",
+    "COMMUNITY": "المجتمع"
+  },
+  "LEGAL": {
+    "TITLE": "القانونية",
+    "PRIVACY_POLICY": "سياسة الخصوصية",
+    "TERMS_OF_SERVICE": "شروط الخدمة",
+    "COOKIE_POLICY": "سياسة الكوكيز",
+    "GDPR": "حماية البيانات"
+  },
+  "CONTACT": {
+    "TITLE": "تواصل معنا",
+    "EMAIL": "البريد الإلكتروني",
+    "PHONE": "الهاتف",
+    "ADDRESS": "العنوان",
+    "WORKING_HOURS": "ساعات العمل"
+  },
+  "NEWSLETTER": {
+    "TITLE": "اشترك في النشرة الإخبارية",
+    "DESCRIPTION": "احصل على أحدث الأخبار والتحديثات",
+    "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
+    "SUBSCRIBE_BUTTON": "اشترك الآن",
+    "SUCCESS_MESSAGE": "شكراً لك! تم الاشتراك بنجاح"
+  },
+  "SOCIAL": {
+    "TITLE": "تابعنا على",
+    "FACEBOOK": "فيسبوك",
+    "TWITTER": "تويتر",
+    "LINKEDIN": "لينكد إن",
+    "INSTAGRAM": "إنستغرام",
+    "YOUTUBE": "يوتيوب"
+  },
+  "PAYMENT": {
+    "LABEL": "طرق الدفع المتاحة:",
+    "VISA": "فيزا",
+    "MASTERCARD": "ماستركارد",
+    "APPLE_PAY": "أبل باي",
+    "PAYPAL": "باي بال"
   }
+}

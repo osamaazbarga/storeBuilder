@@ -1,7 +1,164 @@
-<footer class="text-center border-top border-primary">
-    <app-footer-nav></app-footer-nav>
-    <div class="mt-2">
-        <h6>Copyright &copy; {{currentYear}}<a class="Link">superecommere</a></h6>
+<footer class="modern-footer">
+  <!-- Footer Main Content -->
+  <div class="footer-content">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <!-- Company Information Section -->
+        <div class="footer-column company-info">
+          <div class="company-brand">
+            <img src="./assets/images/whiteLogo.png" class="brand-logo" alt="{{ 'COMPANY.NAME' | translate }}">
+            <h3 class="brand-title">{{ 'COMPANY.NAME' | translate }}</h3>
+          </div>
+          <p class="company-desc">{{ 'COMPANY.DESCRIPTION' | translate }}</p>
+          
+          <!-- Contact Information -->
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-envelope contact-icon"></i>
+              <span>info&#64;superecommerce.com</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-phone contact-icon"></i>
+              <span>+966 50 123 4567</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt contact-icon"></i>
+              <span>الرياض، المملكة العربية السعودية</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-column">
+          <h4 class="column-title">{{ 'NAVIGATION.TITLE' | translate }}</h4>
+          <div class="links-grid">
+            <a href="#" class="footer-link">{{ 'NAVIGATION.HOME' | translate }}</a>
+            <a href="#features" class="footer-link">{{ 'NAVIGATION.FEATURES' | translate }}</a>
+            <a href="#pricing" class="footer-link">{{ 'NAVIGATION.PRICING' | translate }}</a>
+            <a href="#about" class="footer-link">{{ 'NAVIGATION.ABOUT' | translate }}</a>
+            <a href="#blog" class="footer-link">{{ 'NAVIGATION.BLOG' | translate }}</a>
+          </div>
+        </div>
+
+        <!-- Products & Services -->
+        <div class="footer-column">
+          <h4 class="column-title">{{ 'PRODUCTS.TITLE' | translate }}</h4>
+          <div class="links-grid">
+            <a href="#" class="footer-link">{{ 'PRODUCTS.ECOMMERCE_PLATFORM' | translate }}</a>
+            <a href="#" class="footer-link">{{ 'PRODUCTS.PAYMENT_GATEWAY' | translate }}</a>
+            <a href="#" class="footer-link">{{ 'PRODUCTS.INVENTORY_MANAGEMENT' | translate }}</a>
+            <a href="#" class="footer-link">{{ 'PRODUCTS.ANALYTICS' | translate }}</a>
+            <a href="#" class="footer-link">{{ 'PRODUCTS.MOBILE_APP' | translate }}</a>
+          </div>
+        </div>
+
+        <!-- Support -->
+        <div class="footer-column">
+          <h4 class="column-title">{{ 'SUPPORT.TITLE' | translate }}</h4>
+          <div class="links-grid">
+            <a href="#" class="footer-link">{{ 'SUPPORT.HELP_CENTER' | translate }}</a>
+            <a href="#" class="footer-link">{{ 'SUPPORT.DOCUMENTATION' | translate }}</a>
+            <a href="#" class="footer-link">{{ 'SUPPORT.API_DOCS' | translate }}</a>
+            <a href="#" class="footer-link">{{ 'SUPPORT.CONTACT_SUPPORT' | translate }}</a>
+            <a href="#" class="footer-link">{{ 'SUPPORT.COMMUNITY' | translate }}</a>
+          </div>
+        </div>
+
+        <!-- Newsletter & Social -->
+        <div class="footer-column newsletter-column">
+          <h4 class="column-title">{{ 'NEWSLETTER.TITLE' | translate }}</h4>
+          <p class="newsletter-desc">{{ 'NEWSLETTER.DESCRIPTION' | translate }}</p>
+          
+          <!-- Newsletter Form -->
+          <form class="newsletter-form" (ngSubmit)="onNewsletterSubmit()" #newsletterForm="ngForm">
+            <div class="form-group">
+              <input 
+                type="email" 
+                class="email-input" 
+                [placeholder]="'NEWSLETTER.EMAIL_PLACEHOLDER' | translate"
+                [(ngModel)]="newsletterEmail"
+                name="email"
+                required
+                email
+              >
+              <button 
+                type="submit" 
+                class="subscribe-btn"
+                [disabled]="newsletterForm.invalid || isSubmitting"
+              >
+                {{ isSubmitting ? '...' : ('NEWSLETTER.SUBSCRIBE_BUTTON' | translate) }}
+              </button>
+            </div>
+            <div *ngIf="newsletterMessage" class="message" [class.success]="newsletterSuccess">
+              {{ newsletterMessage }}
+            </div>
+          </form>
+
+          <!-- Social Media -->
+          <div class="social-section">
+            <h5 class="social-title">{{ 'SOCIAL.TITLE' | translate }}</h5>
+            <div class="social-links">
+              <a href="#" class="social-btn facebook" [attr.aria-label]="'SOCIAL.FACEBOOK' | translate">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="social-btn twitter" [attr.aria-label]="'SOCIAL.TWITTER' | translate">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="social-btn instagram" [attr.aria-label]="'SOCIAL.INSTAGRAM' | translate">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#" class="social-btn linkedin" [attr.aria-label]="'SOCIAL.LINKEDIN' | translate">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="#" class="social-btn youtube" [attr.aria-label]="'SOCIAL.YOUTUBE' | translate">
+                <i class="fab fa-youtube"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-    
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="bottom-content">
+        
+        <!-- Copyright -->
+        <div class="copyright-section">
+          <p class="copyright-text">{{ 'COMPANY.COPYRIGHT' | translate:{ currentYear: currentYear } }}</p>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="payment-methods">
+          <span class="payment-label">{{ 'PAYMENT.LABEL' | translate }}</span>
+          <div class="payment-icons">
+            <div class="payment-icon visa" [attr.title]="'PAYMENT.VISA' | translate">
+              <i class="fab fa-cc-visa"></i>
+            </div>
+            <div class="payment-icon mastercard" [attr.title]="'PAYMENT.MASTERCARD' | translate">
+              <i class="fab fa-cc-mastercard"></i>
+            </div>
+            <div class="payment-icon apple-pay" [attr.title]="'PAYMENT.APPLE_PAY' | translate">
+              <i class="fab fa-cc-apple-pay"></i>
+            </div>
+            <div class="payment-icon paypal" [attr.title]="'PAYMENT.PAYPAL' | translate">
+              <i class="fab fa-cc-paypal"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legal Links -->
+        <div class="legal-section">
+          <a href="#" class="legal-link">{{ 'LEGAL.PRIVACY_POLICY' | translate }}</a>
+          <a href="#" class="legal-link">{{ 'LEGAL.TERMS_OF_SERVICE' | translate }}</a>
+          <a href="#" class="legal-link">{{ 'LEGAL.COOKIE_POLICY' | translate }}</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </footer>

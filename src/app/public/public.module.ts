@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { PublicRoutingModule } from './public-routing.module';
 import { HomeComponent } from './components/home/home.component';
@@ -39,6 +40,7 @@ import { StatisticsSectionComponent } from './components/home-parts/statistics-s
   ],
   imports: [
     CommonModule,
+    FormsModule,
     PublicRoutingModule,
     MatCardModule,
     MatFormFieldModule,
