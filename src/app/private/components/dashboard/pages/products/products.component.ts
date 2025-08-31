@@ -11,9 +11,6 @@ import { PrimeNG } from 'primeng/config';
 import { ProductsService } from 'src/app/services/products.service';
 import { StoreService } from 'src/app/services/store.service';
 
-
-
-
 interface City {
     name: string,
     code: string
@@ -22,6 +19,13 @@ interface City {
 interface Option {
     name: string,
     code: string
+}
+
+interface ProductType {
+    type: string;
+    title: string;
+    description: string;
+    icon: string;
 }
 
 @Component({
@@ -33,7 +37,6 @@ interface Option {
 })
 export class ProductsComponent implements OnInit{
 
-  
   items: MenuItem[]=[];
   fakeArray = new Array(12);
   productsData:any;
@@ -42,6 +45,7 @@ export class ProductsComponent implements OnInit{
   selectedNeedShip:string | undefined;
   selectKindWeight:string | undefined;
   visible: boolean = false;
+  showProductTypes: boolean = false;
 
   dialog!: 'productSetting' | 'uploadImages' | 'category' | 'quantityAndOptions';
   productId!:number;
@@ -55,12 +59,56 @@ export class ProductsComponent implements OnInit{
         imageCropAspectRatio: 1
     }
 
-
   editorOptions = getEditorDefaults() as PinturaEditorOptions;
 
   result?: string = undefined;
   cropAspectRatio = 1;
   locale?: any = { ...getEditorDefaults().locale };
+
+  productTypes: ProductType[] = [
+    {
+      type: 'ready-product',
+      title: 'PRODUCTS.READY_PRODUCT',
+      description: 'PRODUCTS.READY_PRODUCT_DESC',
+      icon: 'pi pi-shopping-bag'
+    },
+    {
+      type: 'custom-service',
+      title: 'PRODUCTS.CUSTOM_SERVICE',
+      description: 'PRODUCTS.CUSTOM_SERVICE_DESC',
+      icon: 'pi pi-calendar-plus'
+    },
+    {
+      type: 'food-product',
+      title: 'PRODUCTS.FOOD_PRODUCT',
+      description: 'PRODUCTS.FOOD_PRODUCT_DESC',
+      icon: 'pi pi-apple'
+    },
+    {
+      type: 'digital-product',
+      title: 'PRODUCTS.DIGITAL_PRODUCT',
+      description: 'PRODUCTS.DIGITAL_PRODUCT_DESC',
+      icon: 'pi pi-gamepad'
+    },
+    {
+      type: 'digital-card',
+      title: 'PRODUCTS.DIGITAL_CARD',
+      description: 'PRODUCTS.DIGITAL_CARD_DESC',
+      icon: 'pi pi-credit-card'
+    },
+    {
+      type: 'product-bundle',
+      title: 'PRODUCTS.PRODUCT_BUNDLE',
+      description: 'PRODUCTS.PRODUCT_BUNDLE_DESC',
+      icon: 'pi pi-box'
+    },
+    {
+      type: 'bookings',
+      title: 'PRODUCTS.BOOKINGS',
+      description: 'PRODUCTS.BOOKINGS_DESC',
+      icon: 'pi pi-calendar'
+    }
+  ];
 
   constructor(private messageService: MessageService,
     private productsService:ProductsService,
@@ -309,6 +357,12 @@ export class ProductsComponent implements OnInit{
           }
     })
     
+  }
+
+  navigateToAddProduct(productType: string) {
+    this.router.navigate(['/dashboard/products/addproduct'], { 
+      queryParams: { type: productType } 
+    });
   }
 
 }

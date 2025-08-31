@@ -1,10 +1,21 @@
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ProductsService } from 'src/app/services/products.service';
 import { SharedService } from 'src/app/shared/shared.service';
+
+export interface ProductTypeConfig {
+  type: string;
+  title: string;
+  description: string;
+  fields: string[];
+  hasShipping: boolean;
+  hasDigitalDelivery: boolean;
+  hasVariants: boolean;
+  hasBookings: boolean;
+}
 
 @Component({
     selector: 'app-add-product',
@@ -13,9 +24,12 @@ import { SharedService } from 'src/app/shared/shared.service';
     standalone: false
 })
 export class AddProductComponent implements OnInit {
-  productForm:FormGroup=new FormGroup({});
-  submitted:boolean=false;
-  errorMessages:string[]=[];
+  productForm: FormGroup = new FormGroup({});
+  submitted: boolean = false;
+  errorMessages: string[] = [];
+  productType: string = '';
+  productTypeConfig: ProductTypeConfig | null = null;
+  
   /*upload impages */
   selectedFiles?: FileList;
   progressInfos: any[] = [];
@@ -25,21 +39,168 @@ export class AddProductComponent implements OnInit {
   imageInfos?: Observable<any>;
   /*upload impages */
 
+  productTypeConfigs: ProductTypeConfig[] = [
+    {
+      type: 'ready-product',
+      title: 'PRODUCTS.READY_PRODUCT',
+      description: 'PRODUCTS.READY_PRODUCT_DESC',
+      fields: ['title', 'description', 'price', 'quantity', 'category', 'shipping', 'weight', 'images'],
+      hasShipping: true,
+      hasDigitalDelivery: false,
+      hasVariants: true,
+      hasBookings: false
+    },
+    {
+      type: 'custom-service',
+      title: 'PRODUCTS.CUSTOM_SERVICE',
+      description: 'PRODUCTS.CUSTOM_SERVICE_DESC',
+      fields: ['title', 'description', 'price', 'serviceType', 'deliveryTime', 'requirements', 'images'],
+      hasShipping: false,
+      hasDigitalDelivery: true,
+      hasVariants: false,
+      hasBookings: false
+    },
+    {
+      type: 'food-product',
+      title: 'PRODUCTS.FOOD_PRODUCT',
+      description: 'PRODUCTS.FOOD_PRODUCT_DESC',
+      fields: ['title', 'description', 'price', 'quantity', 'category', 'expiryDate', 'ingredients', 'allergens', 'images'],
+      hasShipping: true,
+      hasDigitalDelivery: false,
+      hasVariants: true,
+      hasBookings: false
+    },
+    {
+      type: 'digital-product',
+      title: 'PRODUCTS.DIGITAL_PRODUCT',
+      description: 'PRODUCTS.DIGITAL_PRODUCT_DESC',
+      fields: ['title', 'description', 'price', 'fileUpload', 'downloadLimit', 'expiryDate', 'images'],
+      hasShipping: false,
+      hasDigitalDelivery: true,
+      hasVariants: false,
+      hasBookings: false
+    },
+    {
+      type: 'digital-card',
+      title: 'PRODUCTS.DIGITAL_CARD',
+      description: 'PRODUCTS.DIGITAL_CARD_DESC',
+      fields: ['title', 'description', 'price', 'cardType', 'cardValue', 'expiryDate', 'images'],
+      hasShipping: false,
+      hasDigitalDelivery: true,
+      hasVariants: false,
+      hasBookings: false
+    },
+    {
+      type: 'product-bundle',
+      title: 'PRODUCTS.PRODUCT_BUNDLE',
+      description: 'PRODUCTS.PRODUCT_BUNDLE_DESC',
+      fields: ['title', 'description', 'price', 'bundleItems', 'discount', 'images'],
+      hasShipping: true,
+      hasDigitalDelivery: false,
+      hasVariants: false,
+      hasBookings: false
+    },
+    {
+      type: 'bookings',
+      title: 'PRODUCTS.BOOKINGS',
+      description: 'PRODUCTS.BOOKINGS_DESC',
+      fields: ['title', 'description', 'price', 'duration', 'availability', 'location', 'images'],
+      hasShipping: false,
+      hasDigitalDelivery: false,
+      hasVariants: false,
+      hasBookings: true
+    }
+  ];
 
-  constructor(private productsService:ProductsService,
-    private router:Router,
+  constructor(private productsService: ProductsService,
+    private router: Router,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private sharedService:SharedService,
+    private sharedService: SharedService,
     private cdr: ChangeDetectorRef) {}
+
   ngOnInit(): void {
-    this.initializeForm()
-    this.imageInfos = this.productsService.getFiles();
+    this.route.queryParams.subscribe(params => {
+      this.productType = params['type'] || 'ready-product';
+      this.productTypeConfig = this.productTypeConfigs.find(config => config.type === this.productType) || this.productTypeConfigs[0];
+      this.initializeForm();
+    });
+  }
+
+  initializeForm() {
+    const baseFields: any = {
+      title: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.minLength(10)]],
+      price: ['', [Validators.required, Validators.min(0)]],
+      images: [[]]
+    };
+
+    // Add type-specific fields
+    if (this.productTypeConfig?.hasShipping) {
+      baseFields['quantity'] = ['', [Validators.required, Validators.min(1)]];
+      baseFields['weight'] = ['', [Validators.required, Validators.min(0)]];
+      baseFields['category'] = ['', Validators.required];
+    }
+
+    if (this.productTypeConfig?.hasDigitalDelivery) {
+      baseFields['deliveryMethod'] = ['digital', Validators.required];
+    }
+
+    if (this.productTypeConfig?.hasBookings) {
+      baseFields['duration'] = ['', Validators.required];
+      baseFields['availability'] = ['', Validators.required];
+      baseFields['location'] = ['', Validators.required];
+    }
+
+    // Add specific fields based on product type
+    switch (this.productType) {
+      case 'custom-service':
+        baseFields['serviceType'] = ['', Validators.required];
+        baseFields['deliveryTime'] = ['', Validators.required];
+        baseFields['requirements'] = ['', Validators.required];
+        break;
+      case 'food-product':
+        baseFields['expiryDate'] = ['', Validators.required];
+        baseFields['ingredients'] = ['', Validators.required];
+        baseFields['allergens'] = [''];
+        break;
+      case 'digital-product':
+        baseFields['fileUpload'] = ['', Validators.required];
+        baseFields['downloadLimit'] = ['', Validators.required];
+        baseFields['expiryDate'] = ['', Validators.required];
+        break;
+      case 'digital-card':
+        baseFields['cardType'] = ['', Validators.required];
+        baseFields['cardValue'] = ['', Validators.required];
+        baseFields['expiryDate'] = ['', Validators.required];
+        break;
+      case 'product-bundle':
+        baseFields['bundleItems'] = ['', Validators.required];
+        baseFields['discount'] = ['', [Validators.min(0), Validators.max(100)]];
+        break;
+    }
+
+    this.productForm = this.formBuilder.group(baseFields);
   }
 
   onSubmit() {
-   if(this.productForm.valid){
-      this.createProduct(this.productForm.value)
-   }
+    this.submitted = true;
+    if (this.productForm.valid) {
+      const formData = this.productForm.value;
+      formData.productType = this.productType;
+      
+      // Handle form submission based on product type
+      this.productsService.createProdct(formData).subscribe({
+        next: (response: any) => {
+          // Show success message
+          console.log('Product created successfully');
+          this.router.navigate(['/dashboard/products']);
+        },
+        error: (error: any) => {
+          this.errorMessages = error.error?.errors || ['An error occurred while creating the product'];
+        }
+      });
+    }
   }
 
   // onImageUploaded(file: any) {
@@ -130,27 +291,6 @@ export class AddProductComponent implements OnInit {
   }
 
 
-  initializeForm():void{
-    this.productForm=this.formBuilder.group({
-      title:new FormControl('',[Validators.required,Validators.minLength(15),Validators.maxLength(160)]),
-      description:new FormControl('',[Validators.required,Validators.minLength(15)]),
-      price:new FormControl('',[Validators.required]),
-      pictureUrl:new FormControl('',[Validators.required]),
-      quantity:new FormControl('',[Validators.required]),
-      productTypeId:new FormControl(6,[Validators.required]),
-      productBrandId:new FormControl(4,[Validators.required]),
-
-      // email:new FormControl('',[Validators.required,Validators.pattern('^([0-9a-zA-Z]+[-._+&amp;])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$')]),
-      // firstname:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(15)]),
-      // lastname:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(15)]),
-      // merchant:new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(60)]),
-      // phone:new FormControl('',[Validators.required,Validators.pattern(/^\+?\d{10,15}$/)]),
-      // password:new FormControl('',[Validators.required,Validators.minLength(6),Validators.maxLength(15)]),
-      // passwordConfirm:new FormControl('',[Validators.required,Validators.minLength(6),Validators.maxLength(15)])
-    })
-  }
-
-
   uploadFiles(): void {
     this.messageUpload = [];
 
@@ -187,27 +327,33 @@ export class AddProductComponent implements OnInit {
   }
 
   selectFiles(event: any): void {
-    this.messageUpload = [];
-    this.progressInfos = [];
-    if(this.selectedFiles){
-      let filesArray= Array.from(this.selectedFiles).concat(Array.from(event.target.files))
-      this.selectedFiles = filesArray as any
-    }
-    else{
-      this.selectedFiles = event.target.files
-    }
+    this.selectedFiles = event.target.files;
     this.previews = [];
     if (this.selectedFiles && this.selectedFiles[0]) {
       const numberOfFiles = this.selectedFiles.length;
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
-
         reader.onload = (e: any) => {
           this.previews.push(e.target.result);
         };
-
         reader.readAsDataURL(this.selectedFiles[i]);
       }
     }
   }
+
+  removeImage(index: number): void {
+    this.previews.splice(index, 1);
+    if (this.selectedFiles) {
+      const dt = new DataTransfer();
+      const files = this.selectedFiles;
+      for (let i = 0; i < files.length; i++) {
+        if (i !== index) {
+          dt.items.add(files[i]);
+        }
+      }
+      this.selectedFiles = dt.files;
+    }
+  }
 }
+
+

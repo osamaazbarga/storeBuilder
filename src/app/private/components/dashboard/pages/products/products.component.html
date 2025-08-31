@@ -35,147 +35,122 @@
 
 
 
-<div>
-     <app-button kind="splitButton" label="Add Product" [items]="items" icon="pi pi-plus-circle"></app-button>
-     
-    
-    <div class="container">
-
-  <div class="row row-cols-3"> 
-    <div *ngFor="let product of this.productsData; let index = index" class="col">
-      <div class="card">
-    <div class="mainProductImage">
-    <img src="./assets/images/defultImgProduct.jpg" class="card-img-top" width="80" alt="..." (click)="showDialog('uploadImages',product.id)">
+<div class="container">
+  <!-- Header with buttons -->
+  <div class="header-section">
+    <div class="button-group">
+      <button class="btn btn-outline-secondary help-btn">
+        <i class="pi pi-question-circle"></i>
+        {{ 'PRODUCTS.HELP' | translate }}
+      </button>
+      <button class="btn btn-primary new-product-btn" (click)="showProductTypes = !showProductTypes">
+        <i class="pi pi-plus"></i>
+        {{ 'PRODUCTS.NEW_PRODUCT' | translate }}
+        <i class="pi pi-chevron-down"></i>
+      </button>
     </div>
-
-  <div class="card-body ltr grid grid-cols-1 md:grid-cols-2 gap-4">
-<p-inputgroup>
-    <p-inputgroup-addon>
-        &#64;
-    </p-inputgroup-addon>
-    <input pInputText [(ngModel)]="product.title" placeholder="{{ 'productCard.TITLE' | translate }}" />
-    </p-inputgroup>
-
-    <p-inputgroup>
-        <p-inputgroup-addon><i class="pi pi-money-bill"></i></p-inputgroup-addon>
-        <p-inputnumber [(ngModel)]="product.price" placeholder="{{ 'productCard.PRICE' | translate }}" />
-        <p-inputgroup-addon>.00</p-inputgroup-addon>
-    </p-inputgroup>
-
-    <p-inputgroup class="w-full md:!w-[30rem]">
-    <p-inputgroup-addon>
-        <span class="material-symbols-rounded">
-            production_quantity_limits
-        </span>
-    </p-inputgroup-addon>
-    
-    <input [(ngModel)]="product.quantity" type="text" pInputText placeholder="{{ 'productCard.QUANTITY' | translate }}" />
-    <p-inputgroup-addon>
-      <span class="material-symbols-rounded">
-            notification_important
-      </span>
-    </p-inputgroup-addon>
-    <p-inputgroup-addon>
-      <span class="material-symbols-rounded">
-            all_inclusive
-      </span>
-    </p-inputgroup-addon>
-
-    <p-inputgroup-addon class="inlineTextButton w-100">
-      <p-button severity="secondary" (click)="showDialog('quantityAndOptions',product.id)" label="{{ 'productCard.OPTIONANDQUANTITY' | translate }}" />
-    </p-inputgroup-addon>
-</p-inputgroup>
-
-     <p-inputgroup>
-      <p-multiselect [attr.dir]="currentLang === 'ar' ||  currentLang === 'he'? 'rtl' : 'ltr'"
-        id="categorySelect" class="form-select"
-          [options]="cities" [(ngModel)]="selectedCities" placeholder="{{ 'productCard.CATEGORY' | translate }}" optionLabel="name" display="chip" />
-        <p-inputgroup-addon class="inlineTextButton">
-
-            <p-button severity="secondary" label="{{ 'productCard.ADDCATEGORY' | translate }}" (click)="showDialog('category',product.id)"/>
-        </p-inputgroup-addon>
-        
-    </p-inputgroup>
-
-    <p-inputgroup class="buttonGroup">
-    <p-inputgroup-addon class="buttonElement">
-
-            <p-button label="{{ 'productCard.SETTINGS' | translate }}" (click)="showDialog('productSetting',product.id)" icon="pi pi-sliders-h" severity="secondary" [iconPos]="currentLang === 'ar' ||  currentLang === 'he'? 'right' : 'left'"/>
-        </p-inputgroup-addon>
-        <p-inputgroup-addon class="buttonElement">
-
-            <!-- <p-button severity="secondary" label="More" data-bs-toggle="modal" data-bs-target="#staticBackdrop"/> -->
-            <p-splitbutton severity="secondary" label="{{ 'productCard.MORE' | translate }}" [model]="items" />
-
-        </p-inputgroup-addon>
-</p-inputgroup>
-<!-- 
-<div class="input-group mb-3">
-  <span class="input-group-text"><i class="material-symbols-rounded">payments</i></span>
-  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-  <span class="input-group-text">.00</span>
-</div>
-
-<div class="input-group mb-3">
-  <span class="input-group-text"><i class="material-symbols-rounded">inventory_2</i></span>
-  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-  <span class="input-group-text">.00</span>
-  <span class="input-group-text">.00</span>
-</div>
-
-<div class="input-group">
-
-<p-multiselect [attr.dir]="currentLang === 'ar' ||  currentLang === 'he'? 'rtl' : 'ltr'"
- id="categorySelect" class="form-select"
-  [options]="cities" [(ngModel)]="selectedCities" placeholder="Select Cities" optionLabel="name" display="chip" />
-
-  <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">add category</button>
-  
-</div>
-
-<div [attr.dir]="'ltr'"  class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Recipient’s username" aria-label="Recipient’s username" aria-describedby="basic-addon2">
-  <span dir="rtl" class="input-group-text" id="basic-addon2">&#64;example.com</span>
-</div>
-
-<div [attr.dir]="'ltr'" class="mb-3">
-  <label for="basic-url" class="form-label">Your vanity URL</label>
-  <div class="input-group">
-    <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
   </div>
-  <div class="form-text" id="basic-addon4">Example help text goes outside the input group.</div>
-</div>
 
-<div class="input-group mb-3">
-  <span class="input-group-text">$</span>
-  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-  <span class="input-group-text">.00</span>
-</div>
-
-<div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username">
-  <span class="input-group-text">&#64;</span>
-  <input type="text" class="form-control" placeholder="Server" aria-label="Server">
-</div>
-
-<div class="input-group">
-  <span class="input-group-text">With textarea</span>
-  <textarea class="form-control" aria-label="With textarea"></textarea>
-</div> -->
-
-
-  <p-button (onClick)="submit(product)" label="{{ 'productCard.SAVEBUTTON' | translate }}" class="btnSave w-100"/>
-
-  </div>
+  <!-- Product Types Menu -->
+  <div class="product-types-menu" *ngIf="showProductTypes">
+    <div class="product-type-grid">
+      <div class="product-type-card" *ngFor="let productType of productTypes" (click)="navigateToAddProduct(productType.type)">
+        <div class="product-type-icon">
+          <i [class]="productType.icon"></i>
         </div>
+        <div class="product-type-content">
+          <h3 class="product-type-title">{{ productType.title | translate }}</h3>
+          <p class="product-type-description">{{ productType.description | translate }}</p>
+        </div>
+      </div>
     </div>
-   
+  </div>
+
+  <!-- Existing Products Section -->
+  <div class="existing-products" *ngIf="productsData && productsData.length > 0">
+    <h3 class="section-title">{{ 'PRODUCTS.EXISTING_PRODUCTS' | translate }}</h3>
+    
+    <div class="row row-cols-3"> 
+      <div *ngFor="let product of this.productsData; let index = index" class="col">
+        <div class="card">
+          <div class="mainProductImage">
+            <img src="./assets/images/defultImgProduct.jpg" class="card-img-top" width="80" alt="..." (click)="showDialog('uploadImages',product.id)">
+          </div>
+
+          <div class="card-body ltr grid grid-cols-1 md:grid-cols-2 gap-4">
+            <p-inputgroup>
+              <p-inputgroup-addon>
+                &#64;
+              </p-inputgroup-addon>
+              <input pInputText [(ngModel)]="product.title" placeholder="{{ 'productCard.TITLE' | translate }}" />
+            </p-inputgroup>
+
+            <p-inputgroup>
+              <p-inputgroup-addon><i class="pi pi-money-bill"></i></p-inputgroup-addon>
+              <p-inputnumber [(ngModel)]="product.price" placeholder="{{ 'productCard.PRICE' | translate }}" />
+              <p-inputgroup-addon>.00</p-inputgroup-addon>
+            </p-inputgroup>
+
+            <p-inputgroup class="w-full md:!w-[30rem]">
+              <p-inputgroup-addon>
+                <span class="material-symbols-rounded">
+                  production_quantity_limits
+                </span>
+              </p-inputgroup-addon>
+              
+              <input [(ngModel)]="product.quantity" type="text" pInputText placeholder="{{ 'productCard.QUANTITY' | translate }}" />
+              <p-inputgroup-addon>
+                <span class="material-symbols-rounded">
+                  notification_important
+                </span>
+              </p-inputgroup-addon>
+              <p-inputgroup-addon>
+                <span class="material-symbols-rounded">
+                  all_inclusive
+                </span>
+              </p-inputgroup-addon>
+
+              <p-inputgroup-addon class="inlineTextButton w-100">
+                <p-button severity="secondary" (click)="showDialog('quantityAndOptions',product.id)" label="{{ 'productCard.OPTIONANDQUANTITY' | translate }}" />
+              </p-inputgroup-addon>
+            </p-inputgroup>
+
+            <p-inputgroup>
+              <p-multiselect [attr.dir]="currentLang === 'ar' ||  currentLang === 'he'? 'rtl' : 'ltr'"
+                id="categorySelect" class="form-select"
+                [options]="cities" [(ngModel)]="selectedCities" placeholder="{{ 'productCard.CATEGORY' | translate }}" optionLabel="name" display="chip" />
+              <p-inputgroup-addon class="inlineTextButton">
+                <p-button severity="secondary" label="{{ 'productCard.ADDCATEGORY' | translate }}" (click)="showDialog('category',product.id)"/>
+              </p-inputgroup-addon>
+            </p-inputgroup>
+
+            <p-inputgroup class="buttonGroup">
+              <p-inputgroup-addon class="buttonElement">
+                <p-button label="{{ 'productCard.SETTINGS' | translate }}" (click)="showDialog('productSetting',product.id)" icon="pi pi-sliders-h" severity="secondary" [iconPos]="currentLang === 'ar' ||  currentLang === 'he'? 'right' : 'left'"/>
+              </p-inputgroup-addon>
+              <p-inputgroup-addon class="buttonElement">
+                <p-splitbutton severity="secondary" label="{{ 'productCard.MORE' | translate }}" [model]="items" />
+              </p-inputgroup-addon>
+            </p-inputgroup>
+
+            <p-button (onClick)="submit(product)" label="{{ 'productCard.SAVEBUTTON' | translate }}" class="btnSave w-100"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!productsData || productsData.length === 0">
+    <div class="empty-state-content">
+      <i class="pi pi-box empty-state-icon"></i>
+      <h3>{{ 'PRODUCTS.NO_PRODUCTS_YET' | translate }}</h3>
+      <p>{{ 'PRODUCTS.START_ADDING_PRODUCTS' | translate }}</p>
+      <button class="btn btn-primary" (click)="showProductTypes = true">
+        {{ 'PRODUCTS.ADD_FIRST_PRODUCT' | translate }}
+      </button>
+    </div>
   </div>
 </div>
-
-
-</div>
-
 
 <app-dialog *ngIf="visible" [productId]="productId" (visableData)="handleDataFromChild($event)" [visible]="getVisable()" [dialog]="dialog"></app-dialog>
