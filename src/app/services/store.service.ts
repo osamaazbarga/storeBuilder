@@ -34,6 +34,14 @@ export class StoreService {
     return this.http.get(`${environment.appUrl}/${this.url}/get-store-by-user/${userId}`)
   }
 
+  getMyStores(){
+    return this.http.get(`${environment.appUrl}/${this.url}/my-stores`)
+  }
+
+  getMyStore(){
+    return this.http.get(`${environment.appUrl}/${this.url}/my-store`)
+  }
+
   createStore(subdomain: string) {
     return this.http.post<{ success: boolean; subdomain: string }>(
       `${environment.appUrl}/${this.url}/add-edit-store`,

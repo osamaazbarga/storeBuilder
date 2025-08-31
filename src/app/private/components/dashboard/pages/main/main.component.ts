@@ -73,34 +73,31 @@ export class MainComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  private initializeComponent() {
-    
-    
-    const userSub = this.userService.user$.pipe(take(1)).subscribe({
-      next: (user: User | null) => {
-        if (user) {
-          console.log(user);
-          this.getStoreByUserId(user.id!);
-        } else {
-          const mode = this.activatedRoute.snapshot.paramMap.get('mode');
-          if (mode) {
-            this.mode = mode;
-            console.log(this.mode);
-          }
-          this.initializeDemoData();
-        }
+    private initializeComponent() {
+   
+    // Check if token exists
+    const token = this.userService.getJWT();
+    if (token) {
+      console.log('Token found, fetching store data...');
+      this.getMyStore();
+    } else {
+      console.log('No token found, using demo data');
+      const mode = this.activatedRoute.snapshot.paramMap.get('mode');
+      if (mode) {
+        this.mode = mode;
+        console.log(this.mode);
       }
-    });
-
-    this.subscriptions.push(userSub);
+      this.initializeDemoData();
+    }
   }
 
   getStoreByUserId(userId: string) {
     this.errorMessages = [];
 
+    // Use getMyStore instead of getStoreByUserId to use token
     const storeSub = this.storeService.getStoreByUserId(userId).subscribe({
       next: (res: any) => {
-        console.log(res);
+        console.log('Store data received:', res);
 
         if (res != null) {
           this.storeData = res;
@@ -112,6 +109,38 @@ export class MainComponent implements OnInit, OnDestroy {
         }
       },
       error: error => {
+        console.error('Error fetching store:', error);
+        if (error.error.errors) {
+          this.errorMessages = error.error.errors;
+        } else {
+          this.errorMessages.push(error.error);
+        }
+        this.initializeDemoData();
+      }
+    });
+
+    this.subscriptions.push(storeSub);
+  }
+
+  getMyStore() {
+    this.errorMessages = [];
+
+    // Use getMyStore to use token instead of user ID
+    const storeSub = this.storeService.getMyStore().subscribe({
+      next: (res: any) => {
+        console.log('Store data received:', res);
+
+        if (res != null) {
+          this.storeData = res;
+          this.storeService.setStoreData(this.storeData);
+          this.initializeStoreData();
+        } else {
+          this.errorMessages.push("no Stores yet");
+          this.initializeDemoData();
+        }
+      },
+      error: error => {
+        console.error('Error fetching store:', error);
         if (error.error.errors) {
           this.errorMessages = error.error.errors;
         } else {

@@ -14,22 +14,19 @@ export class UserHasRoleDirective {
     private userService:UsersService) { }
   
     ngOnInit():void{
-      this.userService.user$.pipe((take(1))).subscribe({
-        next:user=>{
-          if(user){
-            const decodeToken:any=jwtDecode(user.token);
-            if(/*decodeToken.role.some((role:any)=> this.appUserHasRole.includes(role))*/true){
-              this.viewContainerRef.createEmbeddedView(this.templateRef);
-            }
-            else{
-              this.viewContainerRef.clear();
-            }
-          }
-          else{
-            this.viewContainerRef.clear();
-          }
+      const token = this.userService.getJWT();
+      if(token){
+        const decodeToken:any=jwtDecode(token);
+        if(/*decodeToken.role && decodeToken.role.some((role:any)=> this.appUserHasRole.includes(role))*/true){
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
         }
-      })
+        else{
+          this.viewContainerRef.clear();
+        }
+      }
+      else{
+        this.viewContainerRef.clear();
+      }
     }
 
 }

@@ -43,20 +43,19 @@ export class SidebarDashboardComponent implements OnInit, OnDestroy {
     // Listen for window resize to handle responsive behavior
     this.handleWindowResize();
 
-    this.userService.user$.pipe(take(1)).subscribe({
-              next:(user:User|null)=>{
-                if(user){
-                    this.getStoreByUserId(user.id!)
-                }
-                else{
-                  const mode=this.activatedRoute.snapshot.paramMap.get('mode');
-                  if(mode){
-                    this.mode=mode
-                    console.log(this.mode);
-                  }
-                }
-              }
-        })
+        // Check if token exists
+    const token = this.userService.getJWT();
+    if (token) {
+      console.log('Token found, fetching store data...');
+      this.getMyStores();
+    } else {
+      console.log('No token found');
+      const mode = this.activatedRoute.snapshot.paramMap.get('mode');
+      if (mode) {
+        this.mode = mode;
+        console.log(this.mode);
+      }
+    }
   }
 
   ngOnDestroy() {
@@ -138,6 +137,31 @@ export class SidebarDashboardComponent implements OnInit, OnDestroy {
           }
       })
     
+  }
+
+  getMyStores(){
+    this.errorMessages=[];
+    
+    this.storeService.getMyStore().subscribe({
+        next:(res:any)=>{
+          if(res){
+            this.storeData=res
+          } 
+          else{
+            this.errorMessages.push("no Stores yet");
+          }     
+        },
+        error:error=>{
+          if(error.error.errors){
+            this.errorMessages=error.error.errors
+            
+          }
+          else{
+            this.errorMessages.push(error.error)
+          }
+          
+        }
+    })
   }
 
   routerLink(){

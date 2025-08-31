@@ -5,6 +5,7 @@ import { AddProduct } from '../models/products/addProduct';
 import { Observable } from 'rxjs';
 import { User } from '../models/account/user';
 import { StoreService } from './store.service';
+import { UsersService } from './users.service';
 
 
 export interface ProductVariantOptionDto {
@@ -54,7 +55,7 @@ export interface CreateProductOptionsDto {
 export class ProductsService {
   private url="Products";
 
-  constructor(private http:HttpClient,private storeService:StoreService) { }
+  constructor(private http:HttpClient,private storeService:StoreService,private userService:UsersService) { }
 
   getProducts(){
     this.http.get(`${environment.appUrl}/${this.url}`)
@@ -74,13 +75,15 @@ export class ProductsService {
   }
   
   public createEmptyProdct(storeId:number){
-    let jwt=null
-    const key=localStorage.getItem(environment.userKey);
-    if(key){
-      const user:User=JSON.parse(key);
-      jwt= user.token  
+    // let jwt=null
+    const jwt=this.userService.getJWT();
+    // const key=localStorage.getItem(environment.userKey);
+    // if(key){
+    //   const user:User=JSON.parse(key);
+    //   jwt= user.token  
       
-    }
+    // }
+    
     const headers = new HttpHeaders({
         'Authorization': `Bearer ${jwt}`, // or whatever key you use
         'Content-Type': 'application/json'

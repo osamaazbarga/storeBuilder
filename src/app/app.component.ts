@@ -22,7 +22,6 @@ export class AppComponent implements OnInit{
     
   }
   ngOnInit():void{
-    // this.refreshUser()
     this.socketService.onNewMessage().subscribe(msg => {
       console.log('📥 Received from WS:', msg);
     });
@@ -59,25 +58,5 @@ export class AppComponent implements OnInit{
   
     return null; // Default domain (e.g., localtest.me)
   }
-  private refreshUser(){
-    const jwt=this.userServies.getJWT();
-    if(jwt){
-      this.userServies.refreshUser(jwt).subscribe({
-        next:_=>{
 
-        },
-        error:error=>{
-          this.userServies.logout();
-          if(error.status===401){
-            this.sharedService.showNotification(false,'Account blocked',error.error)
-          }
-        }
-
-      })
-
-
-    }else{
-      this.userServies.refreshUser(null).subscribe()
-    }
-  }
 }

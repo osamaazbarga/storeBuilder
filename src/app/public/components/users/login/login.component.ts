@@ -46,14 +46,11 @@ export class LoginComponent implements OnInit{
     private translateService: TranslateService,
     private languageService: LanguageService,
     private renderer2:Renderer2,@Inject(DOCUMENT) private _document:Document){
-    this.usersService.user$.pipe(take(1)).subscribe({
-      next:(user:User|null)=>{
-        if(user){
-          this.router.navigateByUrl('/')
-        }
-
-      }
-    })
+    // Check if user is already logged in
+    const token = this.usersService.getJWT();
+    if(token){
+      this.router.navigateByUrl('/')
+    }
   }
   ngOnInit():void{
     this.detectDevice();
@@ -78,10 +75,14 @@ export class LoginComponent implements OnInit{
   }
   loginUser(loginData: any) {
     this.usersService.login(loginData).subscribe({
-      next: () => {
+      next: (response: any) => {
         this.loading = false;
-        this.router.navigateByUrl('/');
-        this.sharedService.showNotification(true, 'نجح تسجيل الدخول', 'مرحباً بك في منصتنا!');
+        if (response && response.token) {
+          this.router.navigateByUrl('/');
+          this.sharedService.showNotification(true, 'نجح تسجيل الدخول', 'مرحباً بك في منصتنا!');
+        } else {
+          this.sharedService.showNotification(false, 'خطأ في تسجيل الدخول', 'لم يتم استلام التوكين من الخادم');
+        }
       },
       error: error => {
         this.loading = false;

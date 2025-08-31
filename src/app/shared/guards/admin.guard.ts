@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { UsersService } from 'src/app/services/users.service';
 import { SharedService } from '../shared.service';
 import { User } from 'src/app/models/account/user';
@@ -22,23 +22,17 @@ export class AdminGuard {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.userService.user$.pipe(
-      map((user:User|null)=>{
-        if(user){
-          const decodeToken:any=jwtDecode(user.token);
-          if(decodeToken.role.includes('Admin')){
-            return true
-          }
-        }
-        
-        this.sharedService.showNotification(false,"admin Area","Leave now!");
-        this.router.navigateByUrl('/');
-
-        
-
-        return false
-      })
-    );
+    const token = this.userService.getJWT();
+    if (token) {
+      const decodeToken: any = jwtDecode(token);
+      if (decodeToken.role && decodeToken.role.includes('Admin')) {
+        return of(true);
+      }
+    }
+    
+    this.sharedService.showNotification(false,"admin Area","Leave now!");
+    this.router.navigateByUrl('/');
+    return of(false);
   }
   
 }

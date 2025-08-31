@@ -48,27 +48,33 @@ export class UsersService {
   public refreshUser(jwt:string|null){
     if(jwt===null){
       this.userSource.next(null);
-      return of(undefined)
+      return of(null)
     }
 
     let headers=new HttpHeaders();
     headers=headers.set('Authorization','Bearer '+jwt)
     return this.http.get<User>(`${environment.appUrl}/${this.url}/refresh-user-token`,{headers}).pipe(
       map((user:User)=>{
-        if(user){
-          console.log(user);
-          
+        if(user && user.token){
+          console.log('User refreshed:', user);
           this.setUser(user)
+          return user;
         }
+        return user;
       })
     );
   }
   public login(model:Login){
-    return this.http.post<User>(`${environment.appUrl}/${this.url}/login`,model).pipe(
-      map((user:User)=>{
-        if(user){
-          this.setUser(user)
+    return this.http.post<{token: string, user: User}>(`${environment.appUrl}/${this.url}/login`,model).pipe(
+      map((response)=>{
+        if(response && response.token){
+          // Store only the token
+          this.setToken(response.token);
+          // Emit user data for components
+          this.userSource.next(response.user);
+          return response;
         }
+        return response;
       })
     );
   }
@@ -76,17 +82,18 @@ export class UsersService {
   loginWithThirdParty(model:LoginWithExternal){
     return this.http.post<User>(`${environment.appUrl}/${this.url}/login-with-third-party`,model).pipe(
       map((user:User)=>{
-        if(user){
+        if(user && user.token){
           this.setUser(user);
+          return user;
         }
+        return user;
       })
     )
   }
   logout(){
-    localStorage.removeItem(environment.userKey);
+    this.removeToken();
     this.userSource.next(null);
     this.router.navigateByUrl('/');
-
   }
 
   public register(model:Register){
@@ -96,9 +103,11 @@ export class UsersService {
   public registerWithThirdParty(model:RegisterWithExternal){
     return this.http.post<User>(`${environment.appUrl}/${this.url}/registerWithThirdParty`,model).pipe(
       map((user:User)=>{
-        if(user){
+        if(user && user.token){
           this.setUser(user)
+          return user;
         }
+        return user;
       })
     );
   }
@@ -124,16 +133,25 @@ export class UsersService {
 
 
   getJWT(){
-    const key=localStorage.getItem(environment.userKey);
-    if(key){
-      const user:User=JSON.parse(key);
-      return user.token
-    }
-    return null;
+    return sessionStorage.getItem('auth_token');
+  }
+
+  setToken(token: string){
+    sessionStorage.setItem('auth_token', token);
+  }
+
+  removeToken(){
+    sessionStorage.removeItem('auth_token');
   }
   private setUser(user:User){
-    localStorage.setItem(environment.userKey,JSON.stringify(user));
-    this.userSource.next(user);
+    if(user && user.token){
+      // Store only the token in sessionStorage
+      this.setToken(user.token);
+      // Emit user data for components that need it
+      this.userSource.next(user);
+    } else {
+      console.error('Invalid user data or missing token');
+    }
   }
 
 
