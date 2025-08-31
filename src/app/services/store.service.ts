@@ -12,15 +12,107 @@ export class StoreService {
   private url="Store";
   private storeDataSubject = new BehaviorSubject<any>(null);
   storeData$ = this.storeDataSubject.asObservable();
+  
+  // localStorage key for store data
+  private readonly STORE_DATA_KEY = 'store_data';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) { 
+    // استرجاع البيانات المحفوظة عند بدء الخدمة
+    this.loadStoreDataFromStorage();
+  }
 
   setStoreData(data: any) {
+    // حفظ البيانات في localStorage
+    this.saveStoreDataToStorage(data);
+    // تحديث BehaviorSubject
     this.storeDataSubject.next(data);
   }
 
   getStoreData() {
     return this.storeDataSubject.value;
+  }
+
+  // حفظ البيانات في localStorage
+  private saveStoreDataToStorage(data: any) {
+    try {
+      localStorage.setItem(this.STORE_DATA_KEY, JSON.stringify(data));
+    } catch (error) {
+      console.error('Error saving store data to localStorage:', error);
+    }
+  }
+
+  // استرجاع البيانات من localStorage
+  private loadStoreDataFromStorage() {
+    try {
+      const storedData = localStorage.getItem(this.STORE_DATA_KEY);
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        this.storeDataSubject.next(parsedData);
+      }
+    } catch (error) {
+      console.error('Error loading store data from localStorage:', error);
+    }
+  }
+
+  // مسح البيانات من localStorage
+  clearStoreData() {
+    try {
+      localStorage.removeItem(this.STORE_DATA_KEY);
+      this.storeDataSubject.next(null);
+    } catch (error) {
+      console.error('Error clearing store data from localStorage:', error);
+    }
+  }
+
+  // التحقق من وجود بيانات محفوظة
+  hasStoredStoreData(): boolean {
+    try {
+      return localStorage.getItem(this.STORE_DATA_KEY) !== null;
+    } catch (error) {
+      console.error('Error checking stored store data:', error);
+      return false;
+    }
+  }
+
+  // استرجاع البيانات المحفوظة مباشرة
+  getStoredStoreData(): any {
+    try {
+      const storedData = localStorage.getItem(this.STORE_DATA_KEY);
+      return storedData ? JSON.parse(storedData) : null;
+    } catch (error) {
+      console.error('Error getting stored store data:', error);
+      return null;
+    }
+  }
+
+  // تهيئة بيانات المتجر - تحميل من localStorage أو من الخادم
+  initializeStoreData(): Observable<any> {
+    return new Observable(observer => {
+      // التحقق من وجود بيانات محفوظة
+      if (this.hasStoredStoreData()) {
+        const storedData = this.getStoredStoreData();
+        this.storeDataSubject.next(storedData);
+        observer.next(storedData);
+        observer.complete();
+      } else {
+        // تحميل البيانات من الخادم
+        this.getMyStore().subscribe({
+          next: (data) => {
+            if (data) {
+              this.setStoreData(data);
+              observer.next(data);
+            } else {
+              observer.next(null);
+            }
+            observer.complete();
+          },
+          error: (error) => {
+            console.error('Error loading store data:', error);
+            observer.error(error);
+          }
+        });
+      }
+    });
   }
 
   getStores(){

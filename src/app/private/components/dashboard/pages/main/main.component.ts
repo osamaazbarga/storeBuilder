@@ -93,7 +93,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   getStoreByUserId(userId: string) {
     this.errorMessages = [];
-
+    
     // Use getMyStore instead of getStoreByUserId to use token
     const storeSub = this.storeService.getStoreByUserId(userId).subscribe({
       next: (res: any) => {

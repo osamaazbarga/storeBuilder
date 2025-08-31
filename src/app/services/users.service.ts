@@ -16,6 +16,7 @@ import { ResetPassword } from '../models/account/resetPassword';
 import { RegisterWithExternal } from '../models/account/registerWithExternal';
 import { LoginWithExternal } from '../models/account/loginWithExternal';
 import { environment } from 'src/environments/environment';
+import { StoreService } from './store.service';
 
 
 @Injectable({
@@ -29,7 +30,12 @@ export class UsersService {
   private url="users";
   private userSource=new ReplaySubject<User|null>(1);
   user$=this.userSource.asObservable();
-  constructor(private http:HttpClient,private snackbar:MatSnackBar,private router:Router) { }
+  constructor(
+    private http:HttpClient,
+    private snackbar:MatSnackBar,
+    private router:Router,
+    private storeService:StoreService
+  ) { }
   // getUsers():User[]{
   //   let user=new User();
   //   user.id=1;
@@ -93,6 +99,8 @@ export class UsersService {
   logout(){
     this.removeToken();
     this.userSource.next(null);
+    // مسح بيانات المتجر من localStorage
+    this.storeService.clearStoreData();
     this.router.navigateByUrl('/');
   }
 

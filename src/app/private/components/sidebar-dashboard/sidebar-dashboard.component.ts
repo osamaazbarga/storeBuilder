@@ -43,11 +43,22 @@ export class SidebarDashboardComponent implements OnInit, OnDestroy {
     // Listen for window resize to handle responsive behavior
     this.handleWindowResize();
 
-        // Check if token exists
+    // Check if token exists
     const token = this.userService.getJWT();
     if (token) {
-      console.log('Token found, fetching store data...');
-      this.getMyStores();
+      console.log('Token found, checking store data...');
+      
+      // التحقق من وجود بيانات محفوظة أولاً
+      if (this.storeService.hasStoredStoreData()) {
+        console.log('Found stored store data, using cached data...');
+        const storedData = this.storeService.getStoredStoreData();
+        this.storeData = storedData;
+        // تحديث BehaviorSubject بالبيانات المحفوظة
+        this.storeService.setStoreData(storedData);
+      } else {
+        console.log('No stored data found, fetching from server...');
+        this.getMyStores();
+      }
     } else {
       console.log('No token found');
       const mode = this.activatedRoute.snapshot.paramMap.get('mode');
@@ -145,7 +156,10 @@ export class SidebarDashboardComponent implements OnInit, OnDestroy {
     this.storeService.getMyStore().subscribe({
         next:(res:any)=>{
           if(res){
-            this.storeData=res
+            this.storeData=res;
+            // حفظ البيانات في localStorage
+            this.storeService.setStoreData(res);
+            console.log('Store data saved to localStorage:', res);
           } 
           else{
             this.errorMessages.push("no Stores yet");
