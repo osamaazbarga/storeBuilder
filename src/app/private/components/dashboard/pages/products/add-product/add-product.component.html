@@ -9,7 +9,7 @@
     </div>
     <div class="product-type-info" *ngIf="productTypeConfig">
       <h2>{{ productTypeConfig.title | translate }}</h2>
-      <p>{{ productTypeConfig.description | translate }}</p>
+      <p>{{ 'PRODUCTS.BASIC_INFO_DESCRIPTION' | translate }}</p>
     </div>
   </div>
 
@@ -20,23 +20,37 @@
     <div class="form-section">
       <h3>{{ 'PRODUCTS.BASIC_INFORMATION' | translate }}</h3>
       
+      <!-- Image Upload Area -->
+      <div class="image-upload-area">
+        <div class="upload-box">
+          <i class="pi pi-camera"></i>
+          <p>{{ 'PRODUCTS.UPLOAD_IMAGE_TEXT' | translate }}</p>
+          <small>{{ 'PRODUCTS.UPLOAD_IMAGE_SUBTEXT' | translate }}</small>
+        </div>
+        <input 
+          type="file" 
+          multiple 
+          accept="image/*" 
+          (change)="selectFiles($event)"
+          class="file-input"
+          id="imageUpload"
+        />
+      </div>
+
       <div class="form-row">
         <div class="form-group">
-          <label for="title">{{ 'PRODUCTS.TITLE' | translate }} *</label>
+          <label for="title">{{ 'PRODUCTS.PRODUCT_NAME' | translate }} *</label>
           <input 
             type="text" 
             id="title"
             formControlName="title" 
             class="form-control" 
             [class.is-invalid]="submitted && productForm.get('title')?.errors"
-            placeholder="{{ 'PRODUCTS.TITLE_PLACEHOLDER' | translate }}"
+            placeholder="{{ 'PRODUCTS.PRODUCT_NAME_PLACEHOLDER' | translate }}"
           />
           <div class="invalid-feedback" *ngIf="submitted && productForm.get('title')?.errors">
             <span *ngIf="productForm.get('title')?.hasError('required')">
-              {{ 'PRODUCTS.TITLE_REQUIRED' | translate }}
-            </span>
-            <span *ngIf="productForm.get('title')?.hasError('minlength')">
-              {{ 'PRODUCTS.TITLE_MIN_LENGTH' | translate }}
+              {{ 'PRODUCTS.PRODUCT_NAME_REQUIRED' | translate }}
             </span>
           </div>
         </div>
@@ -56,467 +70,521 @@
             <span *ngIf="productForm.get('price')?.hasError('required')">
               {{ 'PRODUCTS.PRICE_REQUIRED' | translate }}
             </span>
-            <span *ngIf="productForm.get('price')?.hasError('min')">
-              {{ 'PRODUCTS.PRICE_MIN' | translate }}
-            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="costPrice">{{ 'PRODUCTS.COST_PRICE' | translate }}</label>
+          <input 
+            type="number" 
+            id="costPrice"
+            formControlName="costPrice" 
+            class="form-control" 
+            placeholder="0.00"
+            step="0.01"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="brand">{{ 'PRODUCTS.BRAND' | translate }}</label>
+          <select 
+            id="brand"
+            formControlName="brand" 
+            class="form-control"
+          >
+            <option value="">{{ 'PRODUCTS.SELECT_BRAND' | translate }}</option>
+            <option value="brand1">{{ 'PRODUCTS.BRAND_1' | translate }}</option>
+            <option value="brand2">{{ 'PRODUCTS.BRAND_2' | translate }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="category">{{ 'PRODUCTS.CATEGORIES' | translate }}</label>
+          <div class="category-select-group">
+            <select 
+              id="category"
+              formControlName="category" 
+              class="form-control" 
+              [class.is-invalid]="submitted && productForm.get('category')?.errors"
+            >
+              <option value="">{{ 'PRODUCTS.SELECT_CATEGORIES' | translate }}</option>
+              <option value="electronics">{{ 'PRODUCTS.ELECTRONICS' | translate }}</option>
+              <option value="clothing">{{ 'PRODUCTS.CLOTHING' | translate }}</option>
+              <option value="home">{{ 'PRODUCTS.HOME' | translate }}</option>
+              <option value="books">{{ 'PRODUCTS.BOOKS' | translate }}</option>
+              <option value="sports">{{ 'PRODUCTS.SPORTS' | translate }}</option>
+            </select>
+            <button type="button" class="btn btn-outline-primary add-category-btn">
+              + {{ 'PRODUCTS.NEW_CATEGORY' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="localCategory">{{ 'PRODUCTS.LOCAL_CATEGORY' | translate }}</label>
+          <select 
+            id="localCategory"
+            formControlName="localCategory" 
+            class="form-control"
+          >
+            <option value="">{{ 'PRODUCTS.SELECT_LOCAL_CATEGORY' | translate }}</option>
+            <option value="local1">{{ 'PRODUCTS.LOCAL_CATEGORY_1' | translate }}</option>
+            <option value="local2">{{ 'PRODUCTS.LOCAL_CATEGORY_2' | translate }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">{{ 'PRODUCTS.PRODUCT_DESCRIPTION' | translate }}</label>
+        <div class="rich-text-editor">
+          <div class="editor-toolbar">
+            <button type="button" class="toolbar-btn" title="Bold"><i class="pi pi-bold"></i></button>
+            <button type="button" class="toolbar-btn" title="Italic"><i class="pi pi-italic"></i></button>
+            <button type="button" class="toolbar-btn" title="Underline"><i class="pi pi-underline"></i></button>
+            <button type="button" class="toolbar-btn" title="List"><i class="pi pi-list"></i></button>
+            <button type="button" class="toolbar-btn" title="Link"><i class="pi pi-link"></i></button>
+            <button type="button" class="toolbar-btn" title="Image"><i class="pi pi-image"></i></button>
+          </div>
+          <textarea 
+            id="description"
+            formControlName="description" 
+            class="form-control rich-textarea" 
+            placeholder="{{ 'PRODUCTS.DESCRIPTION_PLACEHOLDER' | translate }}"
+            rows="6"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Advanced Information -->
+    <div class="form-section">
+      <h3>{{ 'PRODUCTS.ADVANCED_INFORMATION' | translate }}</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="promotionalTitle">{{ 'PRODUCTS.PROMOTIONAL_TITLE' | translate }}</label>
+          <input 
+            type="text" 
+            id="promotionalTitle"
+            formControlName="promotionalTitle" 
+            class="form-control" 
+            placeholder="{{ 'PRODUCTS.PROMOTIONAL_TITLE_PLACEHOLDER' | translate }}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="arabicTitle">{{ 'PRODUCTS.ARABIC_TITLE' | translate }}</label>
+          <input 
+            type="text" 
+            id="arabicTitle"
+            formControlName="arabicTitle" 
+            class="form-control" 
+            placeholder="{{ 'PRODUCTS.ARABIC_TITLE_PLACEHOLDER' | translate }}"
+          />
+        </div>
+      </div>
+
+      <!-- Discounts Section -->
+      <div class="discounts-section">
+        <h4>{{ 'PRODUCTS.DISCOUNTS' | translate }}</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="discountPercentage">{{ 'PRODUCTS.DISCOUNT_PERCENTAGE' | translate }}</label>
+            <input 
+              type="number" 
+              id="discountPercentage"
+              formControlName="discountPercentage" 
+              class="form-control" 
+              placeholder="0"
+              min="0"
+              max="100"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="discountAmount">{{ 'PRODUCTS.DISCOUNT_AMOUNT' | translate }}</label>
+            <input 
+              type="number" 
+              id="discountAmount"
+              formControlName="discountAmount" 
+              class="form-control" 
+              placeholder="0.00"
+              step="0.01"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="discountedPrice">{{ 'PRODUCTS.DISCOUNTED_PRICE' | translate }}</label>
+            <input 
+              type="number" 
+              id="discountedPrice"
+              formControlName="discountedPrice" 
+              class="form-control" 
+              placeholder="0.00"
+              step="0.01"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="discountStartDate">{{ 'PRODUCTS.DISCOUNT_START_DATE' | translate }}</label>
+            <input 
+              type="date" 
+              id="discountStartDate"
+              formControlName="discountStartDate" 
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="discountEndDate">{{ 'PRODUCTS.DISCOUNT_END_DATE' | translate }}</label>
+            <input 
+              type="date" 
+              id="discountEndDate"
+              formControlName="discountEndDate" 
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Display Channels and Requirements -->
+    <div class="form-section">
+      <h3>{{ 'PRODUCTS.DISPLAY_CHANNELS_AND_REQUIREMENTS' | translate }}</h3>
+      
+      <div class="channels-section">
+        <h4>{{ 'PRODUCTS.PRODUCT_DISPLAY_CHANNELS' | translate }}</h4>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="storeWebsite" formControlName="storeWebsite" class="form-check-input">
+            <label for="storeWebsite">{{ 'PRODUCTS.STORE_WEBSITE' | translate }}</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="storeApp" formControlName="storeApp" class="form-check-input">
+            <label for="storeApp">{{ 'PRODUCTS.STORE_APP' | translate }}</label>
+          </div>
+          <div class="checkbox-item" *ngIf="productType === 'ready-product'">
+            <input type="checkbox" id="wholesaleMarket" formControlName="wholesaleMarket" class="form-check-input">
+            <label for="wholesaleMarket">{{ 'PRODUCTS.WHOLESALE_MARKET' | translate }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="requirements-section">
+        <h4>{{ 'PRODUCTS.PRODUCT_REQUIREMENTS' | translate }}</h4>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="attachFile" formControlName="attachFile" class="form-check-input">
+            <label for="attachFile">{{ 'PRODUCTS.ATTACH_FILE_ON_REQUEST' | translate }}</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="writeNotes" formControlName="writeNotes" class="form-check-input">
+            <label for="writeNotes">{{ 'PRODUCTS.ABILITY_TO_WRITE_NOTES' | translate }}</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="taxable" formControlName="taxable" class="form-check-input">
+            <label for="taxable">{{ 'PRODUCTS.PRODUCT_SUBJECT_TO_TAX' | translate }}</label>
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="description">{{ 'PRODUCTS.DESCRIPTION' | translate }} *</label>
-        <textarea 
-          id="description"
-          formControlName="description" 
+        <label for="tags">{{ 'PRODUCTS.TAGS' | translate }}</label>
+        <input 
+          type="text" 
+          id="tags"
+          formControlName="tags" 
           class="form-control" 
-          [class.is-invalid]="submitted && productForm.get('description')?.errors"
-          placeholder="{{ 'PRODUCTS.DESCRIPTION_PLACEHOLDER' | translate }}"
-          rows="4"
-        ></textarea>
-        <div class="invalid-feedback" *ngIf="submitted && productForm.get('description')?.errors">
-          <span *ngIf="productForm.get('description')?.hasError('required')">
-            {{ 'PRODUCTS.DESCRIPTION_REQUIRED' | translate }}
-          </span>
-          <span *ngIf="productForm.get('description')?.hasError('minlength')">
-            {{ 'PRODUCTS.DESCRIPTION_MIN_LENGTH' | translate }}
-          </span>
-        </div>
+          placeholder="{{ 'PRODUCTS.TAGS_PLACEHOLDER' | translate }}"
+        />
       </div>
     </div>
 
-    <!-- Type-specific fields -->
+    <!-- Shipping Section -->
     <div class="form-section" *ngIf="productTypeConfig?.hasShipping">
-      <h3>{{ 'PRODUCTS.SHIPPING_INFORMATION' | translate }}</h3>
+      <h3>{{ 'PRODUCTS.SHIPPING' | translate }}</h3>
       
-      <div class="form-row">
-        <div class="form-group">
-          <label for="quantity">{{ 'PRODUCTS.QUANTITY' | translate }} *</label>
-          <input 
-            type="number" 
-            id="quantity"
-            formControlName="quantity" 
-            class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('quantity')?.errors"
-            placeholder="0"
-            min="1"
-          />
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('quantity')?.errors">
-            <span *ngIf="productForm.get('quantity')?.hasError('required')">
-              {{ 'PRODUCTS.QUANTITY_REQUIRED' | translate }}
-            </span>
-            <span *ngIf="productForm.get('quantity')?.hasError('min')">
-              {{ 'PRODUCTS.QUANTITY_MIN' | translate }}
-            </span>
+      <div class="shipping-options">
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" id="noShipping" name="shipping" value="no" formControlName="shippingRequired" class="form-check-input">
+            <label for="noShipping">{{ 'PRODUCTS.DOES_NOT_REQUIRE_SHIPPING' | translate }}</label>
           </div>
+          <div class="radio-item">
+            <input type="radio" id="requiresShipping" name="shipping" value="yes" formControlName="shippingRequired" class="form-check-input">
+            <label for="requiresShipping">{{ 'PRODUCTS.REQUIRES_SHIPPING' | translate }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row" *ngIf="productForm.get('shippingRequired')?.value === 'yes'">
+        <div class="form-group">
+          <label for="weightType">{{ 'PRODUCTS.WEIGHT_TYPE' | translate }}</label>
+          <select 
+            id="weightType"
+            formControlName="weightType" 
+            class="form-control"
+          >
+            <option value="">{{ 'PRODUCTS.SELECT_WEIGHT_TYPE' | translate }}</option>
+            <option value="kg">كيلوغرام</option>
+            <option value="g">غرام</option>
+            <option value="lb">باوند</option>
+          </select>
         </div>
 
         <div class="form-group">
-          <label for="weight">{{ 'PRODUCTS.WEIGHT' | translate }} (kg) *</label>
+          <label for="weight">{{ 'PRODUCTS.PRODUCT_WEIGHT' | translate }}</label>
           <input 
             type="number" 
             id="weight"
             formControlName="weight" 
             class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('weight')?.errors"
             placeholder="0.00"
             step="0.01"
             min="0"
           />
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('weight')?.errors">
-            <span *ngIf="productForm.get('weight')?.hasError('required')">
-              {{ 'PRODUCTS.WEIGHT_REQUIRED' | translate }}
-            </span>
-            <span *ngIf="productForm.get('weight')?.hasError('min')">
-              {{ 'PRODUCTS.WEIGHT_MIN' | translate }}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="category">{{ 'PRODUCTS.CATEGORY' | translate }} *</label>
-        <select 
-          id="category"
-          formControlName="category" 
-          class="form-control" 
-          [class.is-invalid]="submitted && productForm.get('category')?.errors"
-        >
-          <option value="">{{ 'PRODUCTS.SELECT_CATEGORY' | translate }}</option>
-          <option value="electronics">{{ 'PRODUCTS.ELECTRONICS' | translate }}</option>
-          <option value="clothing">{{ 'PRODUCTS.CLOTHING' | translate }}</option>
-          <option value="home">{{ 'PRODUCTS.HOME' | translate }}</option>
-          <option value="books">{{ 'PRODUCTS.BOOKS' | translate }}</option>
-          <option value="sports">{{ 'PRODUCTS.SPORTS' | translate }}</option>
-        </select>
-        <div class="invalid-feedback" *ngIf="submitted && productForm.get('category')?.errors">
-          <span *ngIf="productForm.get('category')?.hasError('required')">
-            {{ 'PRODUCTS.CATEGORY_REQUIRED' | translate }}
-          </span>
         </div>
       </div>
     </div>
 
-    <!-- Custom Service Fields -->
-    <div class="form-section" *ngIf="productType === 'custom-service'">
-      <h3>{{ 'PRODUCTS.SERVICE_DETAILS' | translate }}</h3>
+    <!-- Inventory Section -->
+    <div class="form-section" *ngIf="productTypeConfig?.hasShipping">
+      <h3>{{ 'PRODUCTS.INVENTORY' | translate }}</h3>
       
       <div class="form-row">
         <div class="form-group">
-          <label for="serviceType">{{ 'PRODUCTS.SERVICE_TYPE' | translate }} *</label>
-          <select 
-            id="serviceType"
-            formControlName="serviceType" 
+          <label for="quantity">{{ 'PRODUCTS.PRODUCT_QUANTITY' | translate }}</label>
+          <input 
+            type="number" 
+            id="quantity"
+            formControlName="quantity" 
             class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('serviceType')?.errors"
-          >
-            <option value="">{{ 'PRODUCTS.SELECT_SERVICE_TYPE' | translate }}</option>
-            <option value="design">{{ 'PRODUCTS.DESIGN' | translate }}</option>
-            <option value="printing">{{ 'PRODUCTS.PRINTING' | translate }}</option>
-            <option value="consultation">{{ 'PRODUCTS.CONSULTATION' | translate }}</option>
-            <option value="development">{{ 'PRODUCTS.DEVELOPMENT' | translate }}</option>
-          </select>
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('serviceType')?.errors">
-            <span *ngIf="productForm.get('serviceType')?.hasError('required')">
-              {{ 'PRODUCTS.SERVICE_TYPE_REQUIRED' | translate }}
-            </span>
-          </div>
+            placeholder="0"
+            min="0"
+          />
         </div>
 
         <div class="form-group">
-          <label for="deliveryTime">{{ 'PRODUCTS.DELIVERY_TIME' | translate }} *</label>
+          <label for="maxQuantityPerCustomer">{{ 'PRODUCTS.MAX_QUANTITY_PER_CUSTOMER' | translate }}</label>
+          <input 
+            type="number" 
+            id="maxQuantityPerCustomer"
+            formControlName="maxQuantityPerCustomer" 
+            class="form-control" 
+            placeholder="0"
+            min="0"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="sku">{{ 'PRODUCTS.SKU' | translate }}</label>
           <input 
             type="text" 
-            id="deliveryTime"
-            formControlName="deliveryTime" 
+            id="sku"
+            formControlName="sku" 
             class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('deliveryTime')?.errors"
-            placeholder="{{ 'PRODUCTS.DELIVERY_TIME_PLACEHOLDER' | translate }}"
+            placeholder="{{ 'PRODUCTS.SKU_PLACEHOLDER' | translate }}"
           />
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('deliveryTime')?.errors">
-            <span *ngIf="productForm.get('deliveryTime')?.hasError('required')">
-              {{ 'PRODUCTS.DELIVERY_TIME_REQUIRED' | translate }}
-            </span>
-          </div>
         </div>
+
+        <div class="form-group">
+          <label for="gtin">{{ 'PRODUCTS.GTIN' | translate }}</label>
+          <input 
+            type="text" 
+            id="gtin"
+            formControlName="gtin" 
+            class="form-control" 
+            placeholder="{{ 'PRODUCTS.GTIN_PLACEHOLDER' | translate }}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="mpn">{{ 'PRODUCTS.MPN' | translate }}</label>
+          <input 
+            type="text" 
+            id="mpn"
+            formControlName="mpn" 
+            class="form-control" 
+            placeholder="{{ 'PRODUCTS.MPN_PLACEHOLDER' | translate }}"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Marketing Section -->
+    <div class="form-section">
+      <h3>{{ 'PRODUCTS.MARKETING' | translate }}</h3>
+      
+      <div class="form-group">
+        <label for="pageTitle">{{ 'PRODUCTS.PAGE_TITLE' | translate }}</label>
+        <input 
+          type="text" 
+          id="pageTitle"
+          formControlName="pageTitle" 
+          class="form-control" 
+          placeholder="{{ 'PRODUCTS.PAGE_TITLE_PLACEHOLDER' | translate }}"
+        />
       </div>
 
       <div class="form-group">
-        <label for="requirements">{{ 'PRODUCTS.REQUIREMENTS' | translate }} *</label>
-        <textarea 
-          id="requirements"
-          formControlName="requirements" 
+        <label for="customLink">{{ 'PRODUCTS.CUSTOM_LINK' | translate }}</label>
+        <input 
+          type="text" 
+          id="customLink"
+          formControlName="customLink" 
           class="form-control" 
-          [class.is-invalid]="submitted && productForm.get('requirements')?.errors"
-          placeholder="{{ 'PRODUCTS.REQUIREMENTS_PLACEHOLDER' | translate }}"
+          placeholder="{{ 'PRODUCTS.CUSTOM_LINK_PLACEHOLDER' | translate }}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="pageDescription">{{ 'PRODUCTS.PAGE_DESCRIPTION' | translate }}</label>
+        <textarea 
+          id="pageDescription"
+          formControlName="pageDescription" 
+          class="form-control" 
+          placeholder="{{ 'PRODUCTS.PAGE_DESCRIPTION_PLACEHOLDER' | translate }}"
           rows="3"
         ></textarea>
-        <div class="invalid-feedback" *ngIf="submitted && productForm.get('requirements')?.errors">
-          <span *ngIf="productForm.get('requirements')?.hasError('required')">
-            {{ 'PRODUCTS.REQUIREMENTS_REQUIRED' | translate }}
-          </span>
+      </div>
+    </div>
+
+    <!-- Quantity Management -->
+    <div class="form-section" *ngIf="productTypeConfig?.hasShipping">
+      <h3>{{ 'PRODUCTS.QUANTITY_MANAGEMENT' | translate }}</h3>
+      
+      <div class="quantity-controls">
+        <div class="checkbox-item">
+          <input type="checkbox" id="unlimitedQuantity" formControlName="unlimitedQuantity" class="form-check-input">
+          <label for="unlimitedQuantity">{{ 'PRODUCTS.UNLIMITED_QUANTITY' | translate }}</label>
+        </div>
+        
+        <div class="form-row" *ngIf="!productForm.get('unlimitedQuantity')?.value">
+          <div class="form-group">
+            <label for="branch">{{ 'PRODUCTS.BRANCH' | translate }}</label>
+            <select 
+              id="branch"
+              formControlName="branch" 
+              class="form-control"
+            >
+              <option value="main">{{ 'PRODUCTS.MAIN' | translate }}</option>
+              <option value="branch1">{{ 'PRODUCTS.BRANCH_1' | translate }}</option>
+              <option value="branch2">{{ 'PRODUCTS.BRANCH_2' | translate }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="mainQuantity">{{ 'PRODUCTS.MAIN' | translate }}</label>
+            <div class="quantity-input-group">
+              <button type="button" class="quantity-btn" (click)="decreaseQuantity()">-</button>
+              <input 
+                type="number" 
+                id="mainQuantity"
+                formControlName="mainQuantity" 
+                class="form-control quantity-input" 
+                value="0"
+                min="0"
+              />
+              <button type="button" class="quantity-btn" (click)="increaseQuantity()">+</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Food Product Fields -->
-    <div class="form-section" *ngIf="productType === 'food-product'">
-      <h3>{{ 'PRODUCTS.FOOD_DETAILS' | translate }}</h3>
+    <!-- Options Section -->
+    <div class="form-section">
+      <h3>{{ 'PRODUCTS.OPTIONS' | translate }}</h3>
       
-      <div class="form-row">
-        <div class="form-group">
-          <label for="expiryDate">{{ 'PRODUCTS.EXPIRY_DATE' | translate }} *</label>
-          <input 
-            type="date" 
-            id="expiryDate"
-            formControlName="expiryDate" 
-            class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('expiryDate')?.errors"
-          />
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('expiryDate')?.errors">
-            <span *ngIf="productForm.get('expiryDate')?.hasError('required')">
-              {{ 'PRODUCTS.EXPIRY_DATE_REQUIRED' | translate }}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="ingredients">{{ 'PRODUCTS.INGREDIENTS' | translate }} *</label>
-        <textarea 
-          id="ingredients"
-          formControlName="ingredients" 
-          class="form-control" 
-          [class.is-invalid]="submitted && productForm.get('ingredients')?.errors"
-          placeholder="{{ 'PRODUCTS.INGREDIENTS_PLACEHOLDER' | translate }}"
-          rows="3"
-        ></textarea>
-        <div class="invalid-feedback" *ngIf="submitted && productForm.get('ingredients')?.errors">
-          <span *ngIf="productForm.get('ingredients')?.hasError('required')">
-            {{ 'PRODUCTS.INGREDIENTS_REQUIRED' | translate }}
-          </span>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="allergens">{{ 'PRODUCTS.ALLERGENS' | translate }}</label>
-        <textarea 
-          id="allergens"
-          formControlName="allergens" 
-          class="form-control" 
-          placeholder="{{ 'PRODUCTS.ALLERGENS_PLACEHOLDER' | translate }}"
-          rows="2"
-        ></textarea>
+      <button type="button" class="btn btn-outline-primary add-option-btn">
+        + {{ 'PRODUCTS.ADD_OPTION' | translate }}
+      </button>
+      
+      <div class="options-placeholder">
+        <i class="pi pi-tag"></i>
+        <p>{{ 'PRODUCTS.NO_OPTIONS_ADDED_YET' | translate }}</p>
       </div>
     </div>
 
-    <!-- Digital Product Fields -->
-    <div class="form-section" *ngIf="productType === 'digital-product'">
-      <h3>{{ 'PRODUCTS.DIGITAL_DETAILS' | translate }}</h3>
+    <!-- Order Form Section -->
+    <div class="form-section">
+      <h3>{{ 'PRODUCTS.ORDER_FORM' | translate }}</h3>
       
-      <div class="form-row">
-        <div class="form-group">
-          <label for="fileUpload">{{ 'PRODUCTS.FILE_UPLOAD' | translate }} *</label>
-          <input 
-            type="file" 
-            id="fileUpload"
-            formControlName="fileUpload" 
-            class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('fileUpload')?.errors"
-            accept=".pdf,.doc,.docx,.zip,.rar"
-          />
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('fileUpload')?.errors">
-            <span *ngIf="productForm.get('fileUpload')?.hasError('required')">
-              {{ 'PRODUCTS.FILE_UPLOAD_REQUIRED' | translate }}
-            </span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="downloadLimit">{{ 'PRODUCTS.DOWNLOAD_LIMIT' | translate }} *</label>
-          <input 
-            type="number" 
-            id="downloadLimit"
-            formControlName="downloadLimit" 
-            class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('downloadLimit')?.errors"
-            placeholder="0"
-            min="1"
-          />
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('downloadLimit')?.errors">
-            <span *ngIf="productForm.get('downloadLimit')?.hasError('required')">
-              {{ 'PRODUCTS.DOWNLOAD_LIMIT_REQUIRED' | translate }}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="expiryDate">{{ 'PRODUCTS.EXPIRY_DATE' | translate }} *</label>
-        <input 
-          type="date" 
-          id="expiryDate"
-          formControlName="expiryDate" 
-          class="form-control" 
-          [class.is-invalid]="submitted && productForm.get('expiryDate')?.errors"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && productForm.get('expiryDate')?.errors">
-          <span *ngIf="productForm.get('expiryDate')?.hasError('required')">
-            {{ 'PRODUCTS.EXPIRY_DATE_REQUIRED' | translate }}
-          </span>
-        </div>
+      <button type="button" class="btn btn-outline-primary add-form-btn">
+        + {{ 'PRODUCTS.ADD_FORM' | translate }}
+      </button>
+      
+      <div class="form-placeholder">
+        <i class="pi pi-file"></i>
+        <p>{{ 'PRODUCTS.NO_FORMS_ADDED_YET' | translate }}</p>
       </div>
     </div>
 
-    <!-- Digital Card Fields -->
-    <div class="form-section" *ngIf="productType === 'digital-card'">
-      <h3>{{ 'PRODUCTS.CARD_DETAILS' | translate }}</h3>
+    <!-- Custom Fields Section -->
+    <div class="form-section">
+      <h3>{{ 'PRODUCTS.CUSTOM_FIELDS' | translate }}</h3>
       
-      <div class="form-row">
-        <div class="form-group">
-          <label for="cardType">{{ 'PRODUCTS.CARD_TYPE' | translate }} *</label>
-          <select 
-            id="cardType"
-            formControlName="cardType" 
-            class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('cardType')?.errors"
-          >
-            <option value="">{{ 'PRODUCTS.SELECT_CARD_TYPE' | translate }}</option>
-            <option value="gift">{{ 'PRODUCTS.GIFT_CARD' | translate }}</option>
-            <option value="prepaid">{{ 'PRODUCTS.PREPAID_CARD' | translate }}</option>
-            <option value="subscription">{{ 'PRODUCTS.SUBSCRIPTION_CARD' | translate }}</option>
-          </select>
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('cardType')?.errors">
-            <span *ngIf="productForm.get('cardType')?.hasError('required')">
-              {{ 'PRODUCTS.CARD_TYPE_REQUIRED' | translate }}
-            </span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="cardValue">{{ 'PRODUCTS.CARD_VALUE' | translate }} *</label>
-          <input 
-            type="number" 
-            id="cardValue"
-            formControlName="cardValue" 
-            class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('cardValue')?.errors"
-            placeholder="0.00"
-            step="0.01"
-            min="0"
-          />
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('cardValue')?.errors">
-            <span *ngIf="productForm.get('cardValue')?.hasError('required')">
-              {{ 'PRODUCTS.CARD_VALUE_REQUIRED' | translate }}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="expiryDate">{{ 'PRODUCTS.EXPIRY_DATE' | translate }} *</label>
-        <input 
-          type="date" 
-          id="expiryDate"
-          formControlName="expiryDate" 
-          class="form-control" 
-          [class.is-invalid]="submitted && productForm.get('expiryDate')?.errors"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && productForm.get('expiryDate')?.errors">
-          <span *ngIf="productForm.get('expiryDate')?.hasError('required')">
-            {{ 'PRODUCTS.EXPIRY_DATE_REQUIRED' | translate }}
-          </span>
-        </div>
+      <button type="button" class="btn btn-outline-primary add-section-btn">
+        + {{ 'PRODUCTS.ADD_SECTION' | translate }}
+      </button>
+      
+      <div class="section-placeholder">
+        <i class="pi pi-users"></i>
+        <p>{{ 'PRODUCTS.NO_SECTIONS_ADDED_YET' | translate }}</p>
       </div>
     </div>
 
-    <!-- Product Bundle Fields -->
-    <div class="form-section" *ngIf="productType === 'product-bundle'">
-      <h3>{{ 'PRODUCTS.BUNDLE_DETAILS' | translate }}</h3>
+    <!-- Notifications Section -->
+    <div class="form-section">
+      <h3>{{ 'PRODUCTS.NOTIFICATIONS' | translate }}</h3>
       
       <div class="form-group">
-        <label for="bundleItems">{{ 'PRODUCTS.BUNDLE_ITEMS' | translate }} *</label>
-        <textarea 
-          id="bundleItems"
-          formControlName="bundleItems" 
-          class="form-control" 
-          [class.is-invalid]="submitted && productForm.get('bundleItems')?.errors"
-          placeholder="{{ 'PRODUCTS.BUNDLE_ITEMS_PLACEHOLDER' | translate }}"
-          rows="4"
-        ></textarea>
-        <div class="invalid-feedback" *ngIf="submitted && productForm.get('bundleItems')?.errors">
-          <span *ngIf="productForm.get('bundleItems')?.hasError('required')">
-            {{ 'PRODUCTS.BUNDLE_ITEMS_REQUIRED' | translate }}
-          </span>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="discount">{{ 'PRODUCTS.DISCOUNT' | translate }} (%)</label>
+        <label for="alertQuantity">{{ 'PRODUCTS.ALERT_WHEN_QUANTITY_REACHES' | translate }}</label>
         <input 
           type="number" 
-          id="discount"
-          formControlName="discount" 
+          id="alertQuantity"
+          formControlName="alertQuantity" 
           class="form-control" 
-          [class.is-invalid]="submitted && productForm.get('discount')?.errors"
+          placeholder="0"
+          min="0"
+        />
+        <small class="form-text">{{ 'PRODUCTS.ALERT_QUANTITY_DESCRIPTION' | translate }}</small>
+      </div>
+
+      <div class="form-group">
+        <label for="notifyPercentage">{{ 'PRODUCTS.NOTIFY_PERCENTAGE_DESCRIPTION' | translate }}</label>
+        <input 
+          type="number" 
+          id="notifyPercentage"
+          formControlName="notifyPercentage" 
+          class="form-control" 
           placeholder="0"
           min="0"
           max="100"
         />
-        <div class="invalid-feedback" *ngIf="submitted && productForm.get('discount')?.errors">
-          <span *ngIf="productForm.get('discount')?.hasError('min') || productForm.get('discount')?.hasError('max')">
-            {{ 'PRODUCTS.DISCOUNT_RANGE' | translate }}
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bookings Fields -->
-    <div class="form-section" *ngIf="productType === 'bookings'">
-      <h3>{{ 'PRODUCTS.BOOKING_DETAILS' | translate }}</h3>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label for="duration">{{ 'PRODUCTS.DURATION' | translate }} *</label>
-          <input 
-            type="text" 
-            id="duration"
-            formControlName="duration" 
-            class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('duration')?.errors"
-            placeholder="{{ 'PRODUCTS.DURATION_PLACEHOLDER' | translate }}"
-          />
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('duration')?.errors">
-            <span *ngIf="productForm.get('duration')?.hasError('required')">
-              {{ 'PRODUCTS.DURATION_REQUIRED' | translate }}
-            </span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="location">{{ 'PRODUCTS.LOCATION' | translate }} *</label>
-          <input 
-            type="text" 
-            id="location"
-            formControlName="location" 
-            class="form-control" 
-            [class.is-invalid]="submitted && productForm.get('location')?.errors"
-            placeholder="{{ 'PRODUCTS.LOCATION_PLACEHOLDER' | translate }}"
-          />
-          <div class="invalid-feedback" *ngIf="submitted && productForm.get('location')?.errors">
-            <span *ngIf="productForm.get('location')?.hasError('required')">
-              {{ 'PRODUCTS.LOCATION_REQUIRED' | translate }}
-            </span>
-          </div>
-        </div>
+        <small class="form-text">{{ 'PRODUCTS.NOTIFY_PERCENTAGE_HELP' | translate }}</small>
       </div>
 
       <div class="form-group">
-        <label for="availability">{{ 'PRODUCTS.AVAILABILITY' | translate }} *</label>
-        <textarea 
-          id="availability"
-          formControlName="availability" 
+        <label for="customerPercentage">{{ 'PRODUCTS.CUSTOMER_PERCENTAGE_TO_NOTIFY' | translate }}</label>
+        <input 
+          type="number" 
+          id="customerPercentage"
+          formControlName="customerPercentage" 
           class="form-control" 
-          [class.is-invalid]="submitted && productForm.get('availability')?.errors"
-          placeholder="{{ 'PRODUCTS.AVAILABILITY_PLACEHOLDER' | translate }}"
-          rows="3"
-        ></textarea>
-        <div class="invalid-feedback" *ngIf="submitted && productForm.get('availability')?.errors">
-          <span *ngIf="productForm.get('availability')?.hasError('required')">
-            {{ 'PRODUCTS.AVAILABILITY_REQUIRED' | translate }}
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Images Section -->
-    <div class="form-section">
-      <h3>{{ 'PRODUCTS.IMAGES' | translate }}</h3>
-      
-      <div class="upload-section">
-        <div class="upload-area">
-          <input 
-            type="file" 
-            multiple 
-            accept="image/*" 
-            (change)="selectFiles($event)"
-            class="file-input"
-            id="imageUpload"
-          />
-          <label for="imageUpload" class="upload-label">
-            <i class="pi pi-cloud-upload"></i>
-            <span>{{ 'PRODUCTS.DRAG_AND_DROP_IMAGES' | translate }}</span>
-            <small>{{ 'PRODUCTS.CLICK_TO_SELECT' | translate }}</small>
-          </label>
-        </div>
-
-        <div class="image-previews" *ngIf="previews.length > 0">
-          <div class="image-preview" *ngFor="let preview of previews; let i = index">
-            <img [src]="preview" alt="Preview" />
-            <button type="button" class="remove-image" (click)="removeImage(i)">
-              <i class="pi pi-times"></i>
-            </button>
-          </div>
-        </div>
+          placeholder="0"
+          min="0"
+          max="100"
+        />
+        <small class="form-text">{{ 'PRODUCTS.CUSTOMER_PERCENTAGE_HELP' | translate }}</small>
       </div>
     </div>
 
@@ -538,4 +606,12 @@
       </button>
     </div>
   </form>
+</div>
+
+<!-- Footer -->
+<div class="footer-promotion">
+  <div class="promotion-content">
+    <p>{{ 'PRODUCTS.PROMOTION_MESSAGE' | translate }}</p>
+    <button type="button" class="btn btn-success">{{ 'PRODUCTS.START_STORE_FREE' | translate }}</button>
+  </div>
 </div>

@@ -132,6 +132,41 @@ export class AddProductComponent implements OnInit {
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
       price: ['', [Validators.required, Validators.min(0)]],
+      costPrice: [''],
+      brand: [''],
+      category: [''],
+      localCategory: [''],
+      promotionalTitle: [''],
+      arabicTitle: [''],
+      discountPercentage: [''],
+      discountAmount: [''],
+      discountedPrice: [''],
+      discountStartDate: [''],
+      discountEndDate: [''],
+      storeWebsite: [true],
+      storeApp: [true],
+      wholesaleMarket: [false],
+      attachFile: [false],
+      writeNotes: [false],
+      taxable: [true],
+      tags: [''],
+      shippingRequired: ['no'],
+      weightType: [''],
+      weight: [''],
+      quantity: [''],
+      maxQuantityPerCustomer: [''],
+      sku: [''],
+      gtin: [''],
+      mpn: [''],
+      pageTitle: [''],
+      customLink: [''],
+      pageDescription: [''],
+      unlimitedQuantity: [false],
+      branch: ['main'],
+      mainQuantity: [0],
+      alertQuantity: [''],
+      notifyPercentage: [''],
+      customerPercentage: [''],
       images: [[]]
     };
 
@@ -181,6 +216,18 @@ export class AddProductComponent implements OnInit {
     }
 
     this.productForm = this.formBuilder.group(baseFields);
+  }
+
+  decreaseQuantity() {
+    const currentValue = this.productForm.get('mainQuantity')?.value || 0;
+    if (currentValue > 0) {
+      this.productForm.patchValue({ mainQuantity: currentValue - 1 });
+    }
+  }
+
+  increaseQuantity() {
+    const currentValue = this.productForm.get('mainQuantity')?.value || 0;
+    this.productForm.patchValue({ mainQuantity: currentValue + 1 });
   }
 
   onSubmit() {
