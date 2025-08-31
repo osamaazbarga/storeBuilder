@@ -1,0 +1,64 @@
+<div class="form-section" [formGroup]="productForm">
+  <h3>{{ 'PRODUCTS.INVENTORY' | translate }}</h3>
+  
+  <div class="form-row">
+    <div class="form-group">
+      <label for="quantity">{{ 'PRODUCTS.PRODUCT_QUANTITY' | translate }}</label>
+      <input 
+        type="number" 
+        id="quantity"
+        formControlName="quantity" 
+        class="form-control" 
+        placeholder="0"
+        min="0"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="maxQuantityPerCustomer">{{ 'PRODUCTS.MAX_QUANTITY_PER_CUSTOMER' | translate }}</label>
+      <input 
+        type="number" 
+        id="maxQuantityPerCustomer"
+        formControlName="maxQuantityPerCustomer" 
+        class="form-control" 
+        placeholder="0"
+        min="0"
+      />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="sku">{{ 'PRODUCTS.SKU' | translate }}</label>
+      <input 
+        type="text" 
+        id="sku"
+        formControlName="sku" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.SKU_PLACEHOLDER' | translate }}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="gtin">{{ 'PRODUCTS.GTIN' | translate }}</label>
+      <input 
+        type="text" 
+        id="gtin"
+        formControlName="gtin" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.GTIN_PLACEHOLDER' | translate }}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="mpn">{{ 'PRODUCTS.MPN' | translate }}</label>
+      <input 
+        type="text" 
+        id="mpn"
+        formControlName="mpn" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.MPN_PLACEHOLDER' | translate }}"
+      />
+    </div>
+  </div>
+</div>

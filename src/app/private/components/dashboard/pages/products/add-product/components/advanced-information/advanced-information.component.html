@@ -1,0 +1,92 @@
+<div class="form-section" [formGroup]="productForm">
+  <h3>{{ 'PRODUCTS.ADVANCED_INFORMATION' | translate }}</h3>
+  
+  <div class="form-row">
+    <div class="form-group">
+      <label for="promotionalTitle">{{ 'PRODUCTS.PROMOTIONAL_TITLE' | translate }}</label>
+      <input 
+        type="text" 
+        id="promotionalTitle"
+        formControlName="promotionalTitle" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.PROMOTIONAL_TITLE_PLACEHOLDER' | translate }}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="arabicTitle">{{ 'PRODUCTS.ARABIC_TITLE' | translate }}</label>
+      <input 
+        type="text" 
+        id="arabicTitle"
+        formControlName="arabicTitle" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.ARABIC_TITLE_PLACEHOLDER' | translate }}"
+      />
+    </div>
+  </div>
+
+  <!-- Discounts Section -->
+  <div class="discounts-section">
+    <h4>{{ 'PRODUCTS.DISCOUNTS' | translate }}</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="discountPercentage">{{ 'PRODUCTS.DISCOUNT_PERCENTAGE' | translate }}</label>
+        <input 
+          type="number" 
+          id="discountPercentage"
+          formControlName="discountPercentage" 
+          class="form-control" 
+          placeholder="0"
+          min="0"
+          max="100"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="discountAmount">{{ 'PRODUCTS.DISCOUNT_AMOUNT' | translate }}</label>
+        <input 
+          type="number" 
+          id="discountAmount"
+          formControlName="discountAmount" 
+          class="form-control" 
+          placeholder="0.00"
+          step="0.01"
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="discountedPrice">{{ 'PRODUCTS.DISCOUNTED_PRICE' | translate }}</label>
+        <input 
+          type="number" 
+          id="discountedPrice"
+          formControlName="discountedPrice" 
+          class="form-control" 
+          placeholder="0.00"
+          step="0.01"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="discountStartDate">{{ 'PRODUCTS.DISCOUNT_START_DATE' | translate }}</label>
+        <input 
+          type="date" 
+          id="discountStartDate"
+          formControlName="discountStartDate" 
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="discountEndDate">{{ 'PRODUCTS.DISCOUNT_END_DATE' | translate }}</label>
+        <input 
+          type="date" 
+          id="discountEndDate"
+          formControlName="discountEndDate" 
+          class="form-control"
+        />
+      </div>
+    </div>
+  </div>
+</div>

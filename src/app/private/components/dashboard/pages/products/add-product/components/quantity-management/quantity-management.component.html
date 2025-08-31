@@ -1,0 +1,41 @@
+<div class="form-section" [formGroup]="productForm">
+  <h3>{{ 'PRODUCTS.QUANTITY_MANAGEMENT' | translate }}</h3>
+  
+  <div class="quantity-controls">
+    <div class="checkbox-item">
+      <input type="checkbox" id="unlimitedQuantity" formControlName="unlimitedQuantity" class="form-check-input">
+      <label for="unlimitedQuantity">{{ 'PRODUCTS.UNLIMITED_QUANTITY' | translate }}</label>
+    </div>
+    
+    <div class="form-row" *ngIf="!productForm.get('unlimitedQuantity')?.value">
+      <div class="form-group">
+        <label for="branch">{{ 'PRODUCTS.BRANCH' | translate }}</label>
+        <select 
+          id="branch"
+          formControlName="branch" 
+          class="form-control"
+        >
+          <option value="main">{{ 'PRODUCTS.MAIN' | translate }}</option>
+          <option value="branch1">{{ 'PRODUCTS.BRANCH_1' | translate }}</option>
+          <option value="branch2">{{ 'PRODUCTS.BRANCH_2' | translate }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="mainQuantity">{{ 'PRODUCTS.MAIN' | translate }}</label>
+        <div class="quantity-input-group">
+          <button type="button" class="quantity-btn" (click)="decreaseQuantity()">-</button>
+          <input 
+            type="number" 
+            id="mainQuantity"
+            formControlName="mainQuantity" 
+            class="form-control quantity-input" 
+            value="0"
+            min="0"
+          />
+          <button type="button" class="quantity-btn" (click)="increaseQuantity()">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

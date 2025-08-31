@@ -1,0 +1,50 @@
+<div class="form-section" [formGroup]="productForm">
+  <h3>{{ 'PRODUCTS.DISPLAY_CHANNELS_AND_REQUIREMENTS' | translate }}</h3>
+  
+  <div class="channels-section">
+    <h4>{{ 'PRODUCTS.PRODUCT_DISPLAY_CHANNELS' | translate }}</h4>
+    <div class="checkbox-group">
+      <div class="checkbox-item">
+        <input type="checkbox" id="storeWebsite" formControlName="storeWebsite" class="form-check-input">
+        <label for="storeWebsite">{{ 'PRODUCTS.STORE_WEBSITE' | translate }}</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="storeApp" formControlName="storeApp" class="form-check-input">
+        <label for="storeApp">{{ 'PRODUCTS.STORE_APP' | translate }}</label>
+      </div>
+      <div class="checkbox-item" *ngIf="productType === 'ready-product'">
+        <input type="checkbox" id="wholesaleMarket" formControlName="wholesaleMarket" class="form-check-input">
+        <label for="wholesaleMarket">{{ 'PRODUCTS.WHOLESALE_MARKET' | translate }}</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="requirements-section">
+    <h4>{{ 'PRODUCTS.PRODUCT_REQUIREMENTS' | translate }}</h4>
+    <div class="checkbox-group">
+      <div class="checkbox-item">
+        <input type="checkbox" id="attachFile" formControlName="attachFile" class="form-check-input">
+        <label for="attachFile">{{ 'PRODUCTS.ATTACH_FILE_ON_REQUEST' | translate }}</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="writeNotes" formControlName="writeNotes" class="form-check-input">
+        <label for="writeNotes">{{ 'PRODUCTS.ABILITY_TO_WRITE_NOTES' | translate }}</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="taxable" formControlName="taxable" class="form-check-input">
+        <label for="taxable">{{ 'PRODUCTS.PRODUCT_SUBJECT_TO_TAX' | translate }}</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="tags">{{ 'PRODUCTS.TAGS' | translate }}</label>
+    <input 
+      type="text" 
+      id="tags"
+      formControlName="tags" 
+      class="form-control" 
+      placeholder="{{ 'PRODUCTS.TAGS_PLACEHOLDER' | translate }}"
+    />
+  </div>
+</div>

@@ -26,17 +26,14 @@ const routes: Routes = [
     path:'categories',
     runGuardsAndResolvers:'always',
     component:CategoriesComponent
-  },
-  // {
-  //   path:'**',
-  //   redirectTo:'',
-  //   pathMatch:'full'
-  // }
-
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild(routes),
+    AddProductComponent
+  ],
   exports: [RouterModule]
 })
 export class PrivateRoutingModule { }

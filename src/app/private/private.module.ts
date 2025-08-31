@@ -12,7 +12,6 @@ import { PrivateRoutingModule } from './private-routing.module';
 import { ProductsComponent } from './components/dashboard/pages/products/products.component';
 import { ButtonComponent } from '../components/button/button.component';
 import { PrimeNgCompnentsModule } from '../shared/prime-ng-compnents.module';
-import { AddProductComponent } from './components/dashboard/pages/products/add-product/add-product.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MaterialModule } from '../shared/material.module';
 import { DropDargComponent } from '../shared/components/drop-darg/drop-darg.component';
@@ -26,7 +25,6 @@ import { CategoriesComponent } from './components/dashboard/pages/products/categ
 // Dashboard Shared Components
 import { SharedModule as DashboardSharedModule } from './components/dashboard/shared.module';
 
-
 @NgModule({
   declarations: [
     NavbarDashboardComponent,
@@ -35,14 +33,10 @@ import { SharedModule as DashboardSharedModule } from './components/dashboard/sh
     SidebarDashboardComponent,
     MainComponent,
     ProductsComponent,
-    AddProductComponent,
     DropDargComponent,
     DragDropDirective,
     SidebarItemComponent,
     CategoriesComponent
-
-  
-    
   ],
   imports: [
     CommonModule,
@@ -54,7 +48,12 @@ import { SharedModule as DashboardSharedModule } from './components/dashboard/sh
     MaterialModule,
     TranslateModule,
     AngularPinturaModule
-
+  ],
+  exports: [
+    HomeComponent,
+    MainComponent,
+    ProductsComponent,
+    CategoriesComponent
   ]
 })
 export class PrivateModule { }

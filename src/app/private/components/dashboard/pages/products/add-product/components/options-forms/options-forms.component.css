@@ -1,0 +1,64 @@
+/* Form Section */
+.form-section {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #212529;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #28a745;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  margin-bottom: 1rem;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.btn-outline-primary:hover {
+  background: #28a745;
+  color: white;
+}
+
+/* Placeholders */
+.options-placeholder, .form-placeholder, .section-placeholder {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #f8f9fa;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.options-placeholder i, .form-placeholder i, .section-placeholder i {
+  font-size: 3rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.options-placeholder p, .form-placeholder p, .section-placeholder p {
+  color: #6c757d;
+  margin: 0;
+}

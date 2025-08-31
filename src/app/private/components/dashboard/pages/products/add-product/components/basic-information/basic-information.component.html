@@ -1,0 +1,142 @@
+<div class="form-section" [formGroup]="productForm">
+  <h3>{{ 'PRODUCTS.BASIC_INFORMATION' | translate }}</h3>
+  
+  <!-- Image Upload Area -->
+  <div class="image-upload-area">
+    <div class="upload-box" (click)="onUploadBoxClick()">
+      <i class="pi pi-camera"></i>
+      <p>{{ 'PRODUCTS.UPLOAD_IMAGE_TEXT' | translate }}</p>
+      <small>{{ 'PRODUCTS.UPLOAD_IMAGE_SUBTEXT' | translate }}</small>
+    </div>
+    <input 
+      type="file" 
+      multiple 
+      accept="image/*" 
+      (change)="onFileSelect($event)"
+      class="file-input"
+      id="imageUpload"
+    />
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="title">{{ 'PRODUCTS.PRODUCT_NAME' | translate }} *</label>
+      <input 
+        type="text" 
+        id="title"
+        formControlName="title" 
+        class="form-control" 
+        [class.is-invalid]="submitted && productForm.get('title')?.errors"
+        placeholder="{{ 'PRODUCTS.PRODUCT_NAME_PLACEHOLDER' | translate }}"
+      />
+      <div class="invalid-feedback" *ngIf="submitted && productForm.get('title')?.errors">
+        <span *ngIf="productForm.get('title')?.hasError('required')">
+          {{ 'PRODUCTS.PRODUCT_NAME_REQUIRED' | translate }}
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="price">{{ 'PRODUCTS.PRICE' | translate }} *</label>
+      <input 
+        type="number" 
+        id="price"
+        formControlName="price" 
+        class="form-control" 
+        [class.is-invalid]="submitted && productForm.get('price')?.errors"
+        placeholder="0.00"
+        step="0.01"
+      />
+      <div class="invalid-feedback" *ngIf="submitted && productForm.get('price')?.errors">
+        <span *ngIf="productForm.get('price')?.hasError('required')">
+          {{ 'PRODUCTS.PRICE_REQUIRED' | translate }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="costPrice">{{ 'PRODUCTS.COST_PRICE' | translate }}</label>
+      <input 
+        type="number" 
+        id="costPrice"
+        formControlName="costPrice" 
+        class="form-control" 
+        placeholder="0.00"
+        step="0.01"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="brand">{{ 'PRODUCTS.BRAND' | translate }}</label>
+      <select 
+        id="brand"
+        formControlName="brand" 
+        class="form-control"
+      >
+        <option value="">{{ 'PRODUCTS.SELECT_BRAND' | translate }}</option>
+        <option value="brand1">{{ 'PRODUCTS.BRAND_1' | translate }}</option>
+        <option value="brand2">{{ 'PRODUCTS.BRAND_2' | translate }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="category">{{ 'PRODUCTS.CATEGORIES' | translate }}</label>
+      <div class="category-select-group">
+        <select 
+          id="category"
+          formControlName="category" 
+          class="form-control" 
+          [class.is-invalid]="submitted && productForm.get('category')?.errors"
+        >
+          <option value="">{{ 'PRODUCTS.SELECT_CATEGORIES' | translate }}</option>
+          <option value="electronics">{{ 'PRODUCTS.ELECTRONICS' | translate }}</option>
+          <option value="clothing">{{ 'PRODUCTS.CLOTHING' | translate }}</option>
+          <option value="home">{{ 'PRODUCTS.HOME' | translate }}</option>
+          <option value="books">{{ 'PRODUCTS.BOOKS' | translate }}</option>
+          <option value="sports">{{ 'PRODUCTS.SPORTS' | translate }}</option>
+        </select>
+        <button type="button" class="btn btn-outline-primary add-category-btn">
+          + {{ 'PRODUCTS.NEW_CATEGORY' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="localCategory">{{ 'PRODUCTS.LOCAL_CATEGORY' | translate }}</label>
+      <select 
+        id="localCategory"
+        formControlName="localCategory" 
+        class="form-control"
+      >
+        <option value="">{{ 'PRODUCTS.SELECT_LOCAL_CATEGORY' | translate }}</option>
+        <option value="local1">{{ 'PRODUCTS.LOCAL_CATEGORY_1' | translate }}</option>
+        <option value="local2">{{ 'PRODUCTS.LOCAL_CATEGORY_2' | translate }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="description">{{ 'PRODUCTS.PRODUCT_DESCRIPTION' | translate }}</label>
+    <div class="rich-text-editor">
+      <div class="editor-toolbar">
+        <button type="button" class="toolbar-btn" title="Bold"><i class="pi pi-bold"></i></button>
+        <button type="button" class="toolbar-btn" title="Italic"><i class="pi pi-italic"></i></button>
+        <button type="button" class="toolbar-btn" title="Underline"><i class="pi pi-underline"></i></button>
+        <button type="button" class="toolbar-btn" title="List"><i class="pi pi-list"></i></button>
+        <button type="button" class="toolbar-btn" title="Link"><i class="pi pi-link"></i></button>
+        <button type="button" class="toolbar-btn" title="Image"><i class="pi pi-image"></i></button>
+      </div>
+      <textarea 
+        id="description"
+        formControlName="description" 
+        class="form-control rich-textarea" 
+        placeholder="{{ 'PRODUCTS.DESCRIPTION_PLACEHOLDER' | translate }}"
+        rows="6"
+      ></textarea>
+    </div>
+  </div>
+</div>
