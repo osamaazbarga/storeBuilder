@@ -16,51 +16,63 @@
   <!-- Form -->
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()" autocomplete="off" class="product-form">
     
-    <!-- Basic Information Component -->
+    <!-- Basic Information Component - Always Show -->
     <app-basic-information 
       [productForm]="productForm" 
       [submitted]="submitted"
+      [productType]="productType"
       (filesSelected)="selectFiles($event)">
     </app-basic-information>
 
-    <!-- Advanced Information Component -->
+    <!-- Advanced Information Component - Always Show -->
     <app-advanced-information 
       [productForm]="productForm" 
       [submitted]="submitted">
     </app-advanced-information>
 
-    <!-- Display Channels Component -->
-    <app-display-channels 
-      [productForm]="productForm" 
-      [productType]="productType">
-    </app-display-channels>
-
-    <!-- Shipping Component -->
-    <app-shipping 
-      [productForm]="productForm" 
-      [hasShipping]="productTypeConfig?.hasShipping || false">
-    </app-shipping>
-
-    <!-- Inventory Component -->
-    <app-inventory 
-      [productForm]="productForm" 
-      [hasShipping]="productTypeConfig?.hasShipping || false">
-    </app-inventory>
-
-    <!-- Marketing Component -->
-    <app-marketing [productForm]="productForm"></app-marketing>
-
-    <!-- Quantity Management Component -->
+    <!-- Quantity Management Component - For ready-product, custom-service, food-product -->
     <app-quantity-management 
+      *ngIf="productType === 'ready-product' || productType === 'custom-service' || productType === 'food-product'"
       [productForm]="productForm" 
       [hasShipping]="productTypeConfig?.hasShipping || false">
     </app-quantity-management>
 
-    <!-- Options and Forms Component -->
-    <app-options-forms></app-options-forms>
+    <!-- Files Component - For digital-product, digital-card -->
+    <app-files 
+      *ngIf="productType === 'digital-product' || productType === 'digital-card'"
+      [productForm]="productForm">
+    </app-files>
 
-    <!-- Notifications Component -->
-    <app-notifications [productForm]="productForm"></app-notifications>
+    <!-- Product Bundle Component - For product-bundle only -->
+    <app-product-bundle 
+      *ngIf="productType === 'product-bundle'"
+      [productForm]="productForm">
+    </app-product-bundle>
+
+    <!-- Booking Schedule Component - For bookings only -->
+    <app-booking-schedule 
+      *ngIf="productType === 'bookings'"
+      [productForm]="productForm">
+    </app-booking-schedule>
+
+    <!-- Options Component - For ready-product, custom-service only -->
+    <app-options 
+      *ngIf="productType === 'ready-product' || productType === 'custom-service'">
+    </app-options>
+
+    <!-- Order Form Component - For custom-service, food-product, bookings -->
+    <app-order-form 
+      *ngIf="productType === 'custom-service' || productType === 'food-product' || productType === 'bookings'">
+    </app-order-form>
+
+    <!-- Custom Fields Component - Always Show -->
+    <app-custom-fields></app-custom-fields>
+
+    <!-- Notifications Component - For ready-product, custom-service, product-bundle, food-product -->
+    <app-notifications 
+      *ngIf="productType === 'ready-product' || productType === 'custom-service' || productType === 'product-bundle' || productType === 'food-product'"
+      [productForm]="productForm">
+    </app-notifications>
 
     <!-- Error Messages -->
     <div class="error-messages" *ngIf="errorMessages.length > 0">

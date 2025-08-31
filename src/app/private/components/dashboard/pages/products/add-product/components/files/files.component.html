@@ -1,0 +1,39 @@
+<div class="form-section" [formGroup]="productForm">
+  <h3>{{ 'PRODUCTS.FILES' | translate }}</h3>
+  
+  <div class="form-group">
+    <label for="fileUpload">{{ 'PRODUCTS.UPLOAD_FILE' | translate }} *</label>
+    <input 
+      type="file" 
+      id="fileUpload"
+      formControlName="fileUpload" 
+      class="form-control" 
+      accept=".pdf,.doc,.docx,.zip,.rar,.mp4,.mp3"
+    />
+    <small class="form-text text-muted">{{ 'PRODUCTS.FILE_UPLOAD_HELP' | translate }}</small>
+  </div>
+
+  <div class="form-group">
+    <label for="downloadLimit">{{ 'PRODUCTS.DOWNLOAD_LIMIT' | translate }} *</label>
+    <input 
+      type="number" 
+      id="downloadLimit"
+      formControlName="downloadLimit" 
+      class="form-control" 
+      placeholder="0"
+      min="0"
+    />
+    <small class="form-text text-muted">{{ 'PRODUCTS.DOWNLOAD_LIMIT_HELP' | translate }}</small>
+  </div>
+
+  <div class="form-group">
+    <label for="expiryDate">{{ 'PRODUCTS.EXPIRY_DATE' | translate }} *</label>
+    <input 
+      type="date" 
+      id="expiryDate"
+      formControlName="expiryDate" 
+      class="form-control"
+    />
+    <small class="form-text text-muted">{{ 'PRODUCTS.EXPIRY_DATE_HELP' | translate }}</small>
+  </div>
+</div>

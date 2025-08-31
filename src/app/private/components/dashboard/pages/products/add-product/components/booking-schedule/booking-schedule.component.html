@@ -1,0 +1,27 @@
+<div class="form-section" [formGroup]="productForm">
+  <h3>{{ 'PRODUCTS.BOOKING_SCHEDULE' | translate }}</h3>
+  
+  <div class="form-group">
+    <label for="availability">{{ 'PRODUCTS.AVAILABILITY' | translate }} *</label>
+    <textarea 
+      id="availability"
+      formControlName="availability" 
+      class="form-control" 
+      placeholder="{{ 'PRODUCTS.AVAILABILITY_PLACEHOLDER' | translate }}"
+      rows="3"
+    ></textarea>
+    <small class="form-text text-muted">{{ 'PRODUCTS.AVAILABILITY_HELP' | translate }}</small>
+  </div>
+
+  <div class="form-group">
+    <label for="bookingDuration">{{ 'PRODUCTS.BOOKING_DURATION' | translate }} *</label>
+    <input 
+      type="text" 
+      id="bookingDuration"
+      formControlName="bookingDuration" 
+      class="form-control" 
+      placeholder="{{ 'PRODUCTS.BOOKING_DURATION_PLACEHOLDER' | translate }}"
+    />
+    <small class="form-text text-muted">{{ 'PRODUCTS.BOOKING_DURATION_HELP' | translate }}</small>
+  </div>
+</div>

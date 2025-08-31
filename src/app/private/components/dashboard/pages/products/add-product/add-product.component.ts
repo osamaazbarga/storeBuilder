@@ -11,13 +11,14 @@ import { TranslateModule } from '@ngx-translate/core';
 // Import standalone components
 import { BasicInformationComponent } from './components/basic-information/basic-information.component';
 import { AdvancedInformationComponent } from './components/advanced-information/advanced-information.component';
-import { DisplayChannelsComponent } from './components/display-channels/display-channels.component';
-import { ShippingComponent } from './components/shipping/shipping.component';
-import { InventoryComponent } from './components/inventory/inventory.component';
-import { MarketingComponent } from './components/marketing/marketing.component';
 import { QuantityManagementComponent } from './components/quantity-management/quantity-management.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
-import { OptionsFormsComponent } from './components/options-forms/options-forms.component';
+import { FilesComponent } from './components/files/files.component';
+import { ProductBundleComponent } from './components/product-bundle/product-bundle.component';
+import { BookingScheduleComponent } from './components/booking-schedule/booking-schedule.component';
+import { OptionsComponent } from './components/options/options.component';
+import { OrderFormComponent } from './components/order-form/order-form.component';
+import { CustomFieldsComponent } from './components/custom-fields/custom-fields.component';
 
 export interface ProductTypeConfig {
   type: string;
@@ -41,13 +42,14 @@ export interface ProductTypeConfig {
     TranslateModule,
     BasicInformationComponent,
     AdvancedInformationComponent,
-    DisplayChannelsComponent,
-    ShippingComponent,
-    InventoryComponent,
-    MarketingComponent,
     QuantityManagementComponent,
     NotificationsComponent,
-    OptionsFormsComponent
+    FilesComponent,
+    ProductBundleComponent,
+    BookingScheduleComponent,
+    OptionsComponent,
+    OrderFormComponent,
+    CustomFieldsComponent
   ]
 })
 export class AddProductComponent implements OnInit {
@@ -111,7 +113,7 @@ export class AddProductComponent implements OnInit {
       type: 'digital-card',
       title: 'PRODUCTS.DIGITAL_CARD',
       description: 'PRODUCTS.DIGITAL_CARD_DESC',
-      fields: ['title', 'description', 'price', 'cardType', 'cardValue', 'expiryDate', 'images'],
+      fields: ['title', 'description', 'price', 'cardType', 'cardValue', 'expiryDate', 'fileUpload', 'downloadLimit', 'images'],
       hasShipping: false,
       hasDigitalDelivery: true,
       hasVariants: false,
@@ -235,10 +237,18 @@ export class AddProductComponent implements OnInit {
         baseFields['cardType'] = ['', Validators.required];
         baseFields['cardValue'] = ['', Validators.required];
         baseFields['expiryDate'] = ['', Validators.required];
+        baseFields['fileUpload'] = ['', Validators.required];
+        baseFields['downloadLimit'] = ['', Validators.required];
         break;
       case 'product-bundle':
         baseFields['bundleItems'] = ['', Validators.required];
         baseFields['discount'] = ['', [Validators.min(0), Validators.max(100)]];
+        break;
+      case 'bookings':
+        baseFields['duration'] = ['', Validators.required];
+        baseFields['availability'] = ['', Validators.required];
+        baseFields['location'] = ['', Validators.required];
+        baseFields['bookingDuration'] = ['', Validators.required];
         break;
     }
 

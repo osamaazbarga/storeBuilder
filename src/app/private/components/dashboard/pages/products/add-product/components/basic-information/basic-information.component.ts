@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class BasicInformationComponent {
   @Input() productForm!: FormGroup;
   @Input() submitted: boolean = false;
+  @Input() productType: string = '';
   @Output() filesSelected = new EventEmitter<FileList>();
 
   onFileSelect(event: any) {

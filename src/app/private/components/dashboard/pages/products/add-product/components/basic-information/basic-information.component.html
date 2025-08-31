@@ -55,7 +55,8 @@
     </div>
   </div>
 
-  <div class="form-row">
+  <!-- Cost Price and Brand - Only for physical products -->
+  <div class="form-row" *ngIf="productType !== 'bookings' && productType !== 'digital-product' && productType !== 'digital-card'">
     <div class="form-group">
       <label for="costPrice">{{ 'PRODUCTS.COST_PRICE' | translate }}</label>
       <input 
@@ -82,7 +83,8 @@
     </div>
   </div>
 
-  <div class="form-row">
+  <!-- Categories - Only for physical products -->
+  <div class="form-row" *ngIf="productType !== 'bookings' && productType !== 'digital-product' && productType !== 'digital-card'">
     <div class="form-group">
       <label for="category">{{ 'PRODUCTS.CATEGORIES' | translate }}</label>
       <div class="category-select-group">
@@ -116,6 +118,139 @@
         <option value="local1">{{ 'PRODUCTS.LOCAL_CATEGORY_1' | translate }}</option>
         <option value="local2">{{ 'PRODUCTS.LOCAL_CATEGORY_2' | translate }}</option>
       </select>
+    </div>
+  </div>
+
+  <!-- Special fields for bookings -->
+  <div class="form-row" *ngIf="productType === 'bookings'">
+    <div class="form-group">
+      <label for="duration">{{ 'PRODUCTS.DURATION' | translate }} *</label>
+      <input 
+        type="text" 
+        id="duration"
+        formControlName="duration" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.DURATION_PLACEHOLDER' | translate }}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="location">{{ 'PRODUCTS.LOCATION' | translate }} *</label>
+      <input 
+        type="text" 
+        id="location"
+        formControlName="location" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.LOCATION_PLACEHOLDER' | translate }}"
+      />
+    </div>
+  </div>
+
+  <!-- Special fields for digital products -->
+  <div class="form-row" *ngIf="productType === 'digital-product'">
+    <div class="form-group">
+      <label for="downloadLimit">{{ 'PRODUCTS.DOWNLOAD_LIMIT' | translate }} *</label>
+      <input 
+        type="number" 
+        id="downloadLimit"
+        formControlName="downloadLimit" 
+        class="form-control" 
+        placeholder="0"
+        min="0"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="expiryDate">{{ 'PRODUCTS.EXPIRY_DATE' | translate }} *</label>
+      <input 
+        type="date" 
+        id="expiryDate"
+        formControlName="expiryDate" 
+        class="form-control"
+      />
+    </div>
+  </div>
+
+  <!-- Special fields for digital cards -->
+  <div class="form-row" *ngIf="productType === 'digital-card'">
+    <div class="form-group">
+      <label for="cardType">{{ 'PRODUCTS.CARD_TYPE' | translate }} *</label>
+      <select 
+        id="cardType"
+        formControlName="cardType" 
+        class="form-control"
+      >
+        <option value="">{{ 'PRODUCTS.SELECT_CARD_TYPE' | translate }}</option>
+        <option value="gift">{{ 'PRODUCTS.GIFT_CARD' | translate }}</option>
+        <option value="prepaid">{{ 'PRODUCTS.PREPAID_CARD' | translate }}</option>
+        <option value="subscription">{{ 'PRODUCTS.SUBSCRIPTION_CARD' | translate }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="cardValue">{{ 'PRODUCTS.CARD_VALUE' | translate }} *</label>
+      <input 
+        type="number" 
+        id="cardValue"
+        formControlName="cardValue" 
+        class="form-control" 
+        placeholder="0.00"
+        step="0.01"
+        min="0"
+      />
+    </div>
+  </div>
+
+  <!-- Special fields for food products -->
+  <div class="form-row" *ngIf="productType === 'food-product'">
+    <div class="form-group">
+      <label for="expiryDate">{{ 'PRODUCTS.EXPIRY_DATE' | translate }} *</label>
+      <input 
+        type="date" 
+        id="expiryDate"
+        formControlName="expiryDate" 
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="ingredients">{{ 'PRODUCTS.INGREDIENTS' | translate }} *</label>
+      <textarea 
+        id="ingredients"
+        formControlName="ingredients" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.INGREDIENTS_PLACEHOLDER' | translate }}"
+        rows="3"
+      ></textarea>
+    </div>
+  </div>
+
+  <!-- Special fields for custom services -->
+  <div class="form-row" *ngIf="productType === 'custom-service'">
+    <div class="form-group">
+      <label for="serviceType">{{ 'PRODUCTS.SERVICE_TYPE' | translate }} *</label>
+      <select 
+        id="serviceType"
+        formControlName="serviceType" 
+        class="form-control"
+      >
+        <option value="">{{ 'PRODUCTS.SELECT_SERVICE_TYPE' | translate }}</option>
+        <option value="consultation">{{ 'PRODUCTS.CONSULTATION' | translate }}</option>
+        <option value="design">{{ 'PRODUCTS.DESIGN' | translate }}</option>
+        <option value="development">{{ 'PRODUCTS.DEVELOPMENT' | translate }}</option>
+        <option value="maintenance">{{ 'PRODUCTS.MAINTENANCE' | translate }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="deliveryTime">{{ 'PRODUCTS.DELIVERY_TIME' | translate }} *</label>
+      <input 
+        type="text" 
+        id="deliveryTime"
+        formControlName="deliveryTime" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.DELIVERY_TIME_PLACEHOLDER' | translate }}"
+      />
     </div>
   </div>
 

@@ -1,0 +1,30 @@
+<div class="form-section" [formGroup]="productForm">
+  <h3>{{ 'PRODUCTS.PRODUCT_BUNDLE' | translate }}</h3>
+  
+  <div class="form-group">
+    <label for="bundleItems">{{ 'PRODUCTS.BUNDLE_ITEMS' | translate }} *</label>
+    <textarea 
+      id="bundleItems"
+      formControlName="bundleItems" 
+      class="form-control" 
+      placeholder="{{ 'PRODUCTS.BUNDLE_ITEMS_PLACEHOLDER' | translate }}"
+      rows="4"
+    ></textarea>
+    <small class="form-text text-muted">{{ 'PRODUCTS.BUNDLE_ITEMS_HELP' | translate }}</small>
+  </div>
+
+  <div class="form-group">
+    <label for="discount">{{ 'PRODUCTS.BUNDLE_DISCOUNT' | translate }}</label>
+    <input 
+      type="number" 
+      id="discount"
+      formControlName="discount" 
+      class="form-control" 
+      placeholder="0"
+      min="0"
+      max="100"
+      step="0.01"
+    />
+    <small class="form-text text-muted">{{ 'PRODUCTS.BUNDLE_DISCOUNT_HELP' | translate }}</small>
+  </div>
+</div>
