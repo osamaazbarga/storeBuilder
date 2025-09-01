@@ -172,16 +172,6 @@ export class AddProductComponent implements OnInit {
       discountedPrice: [''],
       discountStartDate: [''],
       discountEndDate: [''],
-      storeWebsite: [true],
-      storeApp: [true],
-      wholesaleMarket: [false],
-      attachFile: [false],
-      writeNotes: [false],
-      taxable: [true],
-      tags: [''],
-      shippingRequired: ['no'],
-      weightType: [''],
-      weight: [''],
       quantity: [''],
       maxQuantityPerCustomer: [''],
       sku: [''],
@@ -196,59 +186,86 @@ export class AddProductComponent implements OnInit {
       alertQuantity: [''],
       notifyPercentage: [''],
       customerPercentage: [''],
-      images: [[]]
+      images: [[]],
+      // Display channels and requirements
+      storeWebsite: [true],
+      storeApp: [false],
+      wholesaleMarket: [false],
+      showInBranch: [''],
+      attachFile: [false],
+      writeNotes: [false],
+      taxable: [false],
+      tags: [''],
+      // Shipping
+      shippingRequired: ['false'],
+      weightType: ['g'],
+      weight: [''],
+      // Digital delivery fields
+      deliveryMethod: ['digital'],
+      fileUpload: [''],
+      downloadLimit: [''],
+      // Booking fields
+      duration: [''],
+      availability: [''],
+      location: [''],
+      bookingDuration: [''],
+      // Product type specific fields
+      serviceType: [''],
+      deliveryTime: [''],
+      requirements: [''],
+      expiryDate: [''],
+      ingredients: [''],
+      allergens: [''],
+      cardType: [''],
+      cardValue: [''],
+      bundleItems: [''],
+      discount: [''],
+      // Food product calories
+      calories: ['']
     };
 
-    // Add type-specific fields
-    if (this.productTypeConfig?.hasShipping) {
-      baseFields['quantity'] = ['', [Validators.required, Validators.min(1)]];
-      baseFields['weight'] = ['', [Validators.required, Validators.min(0)]];
-      baseFields['category'] = ['', Validators.required];
-    }
-
-    if (this.productTypeConfig?.hasDigitalDelivery) {
-      baseFields['deliveryMethod'] = ['digital', Validators.required];
-    }
-
-    if (this.productTypeConfig?.hasBookings) {
-      baseFields['duration'] = ['', Validators.required];
-      baseFields['availability'] = ['', Validators.required];
-      baseFields['location'] = ['', Validators.required];
-    }
-
-    // Add specific fields based on product type
+    // Apply validations based on product type
     switch (this.productType) {
+      case 'ready-product':
+        baseFields.quantity = ['', [Validators.required, Validators.min(1)]];
+        baseFields.category = ['', Validators.required];
+        break;
       case 'custom-service':
-        baseFields['serviceType'] = ['', Validators.required];
-        baseFields['deliveryTime'] = ['', Validators.required];
-        baseFields['requirements'] = ['', Validators.required];
+        baseFields.serviceType = ['', Validators.required];
+        baseFields.deliveryTime = ['', Validators.required];
+        baseFields.requirements = ['', Validators.required];
+        baseFields.quantity = ['', [Validators.required, Validators.min(1)]];
+        baseFields.category = ['', Validators.required];
         break;
       case 'food-product':
-        baseFields['expiryDate'] = ['', Validators.required];
-        baseFields['ingredients'] = ['', Validators.required];
-        baseFields['allergens'] = [''];
+        baseFields.expiryDate = ['', Validators.required];
+        baseFields.ingredients = ['', Validators.required];
+        baseFields.quantity = ['', [Validators.required, Validators.min(1)]];
+        baseFields.category = ['', Validators.required];
         break;
       case 'digital-product':
-        baseFields['fileUpload'] = ['', Validators.required];
-        baseFields['downloadLimit'] = ['', Validators.required];
-        baseFields['expiryDate'] = ['', Validators.required];
+        baseFields.deliveryMethod = ['digital', Validators.required];
+        baseFields.fileUpload = ['', Validators.required];
+        baseFields.downloadLimit = ['', Validators.required];
+        baseFields.expiryDate = ['', Validators.required];
         break;
       case 'digital-card':
-        baseFields['cardType'] = ['', Validators.required];
-        baseFields['cardValue'] = ['', Validators.required];
-        baseFields['expiryDate'] = ['', Validators.required];
-        baseFields['fileUpload'] = ['', Validators.required];
-        baseFields['downloadLimit'] = ['', Validators.required];
+        baseFields.cardType = ['', Validators.required];
+        baseFields.cardValue = ['', Validators.required];
+        baseFields.expiryDate = ['', Validators.required];
+        baseFields.deliveryMethod = ['digital', Validators.required];
+        baseFields.fileUpload = ['', Validators.required];
+        baseFields.downloadLimit = ['', Validators.required];
         break;
       case 'product-bundle':
-        baseFields['bundleItems'] = ['', Validators.required];
-        baseFields['discount'] = ['', [Validators.min(0), Validators.max(100)]];
+        baseFields.bundleItems = ['', Validators.required];
+        baseFields.discount = ['', [Validators.min(0), Validators.max(100)]];
         break;
       case 'bookings':
-        baseFields['duration'] = ['', Validators.required];
-        baseFields['availability'] = ['', Validators.required];
-        baseFields['location'] = ['', Validators.required];
-        baseFields['bookingDuration'] = ['', Validators.required];
+        baseFields.duration = ['', Validators.required];
+        baseFields.availability = ['', Validators.required];
+        baseFields.location = ['', Validators.required];
+        baseFields.bookingDuration = ['', Validators.required];
         break;
     }
 

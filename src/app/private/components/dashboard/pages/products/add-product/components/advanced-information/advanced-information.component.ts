@@ -13,4 +13,5 @@ import { TranslateModule } from '@ngx-translate/core';
 export class AdvancedInformationComponent {
   @Input() productForm!: FormGroup;
   @Input() submitted: boolean = false;
+  @Input() productType: string = '';
 }

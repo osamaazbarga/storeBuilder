@@ -168,7 +168,19 @@
         "AVAILABILITY_HELP": "הגדר זמנים זמינים להזמנות",
         "BOOKING_DURATION": "משך הזמנה",
         "BOOKING_DURATION_PLACEHOLDER": "הזן משך הזמנה",
-        "BOOKING_DURATION_HELP": "המשך הנדרש להזמנה"
+        "BOOKING_DURATION_HELP": "המשך הנדרש להזמנה",
+        "KILOGRAM": "קילוגרם",
+        "GRAM": "גרם",
+        "POUND": "פאונד",
+        "OUNCE": "אונקיה",
+        "SHOW_IN_BRANCH": "הצג בסניף",
+        "SELECT_BRANCH": "בחר סניף",
+        "MAIN_BRANCH": "סניף ראשי",
+        "BRANCH_1": "סניף 1",
+        "BRANCH_2": "סניף 2",
+        "ALL_BRANCHES": "כל הסניפים",
+        "CALORIES": "קלוריות",
+        "CALORIES_PLACEHOLDER": "הזן מספר קלוריות"
     },
     "productCard":{
         "TITLE": "הכנס שם מוצר",

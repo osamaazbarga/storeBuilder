@@ -168,7 +168,19 @@
         "AVAILABILITY_HELP": "Set available times for bookings",
         "BOOKING_DURATION": "Booking Duration",
         "BOOKING_DURATION_PLACEHOLDER": "Enter booking duration",
-        "BOOKING_DURATION_HELP": "Required duration for booking"
+        "BOOKING_DURATION_HELP": "Required duration for booking",
+        "KILOGRAM": "Kilogram",
+        "GRAM": "Gram",
+        "POUND": "Pound",
+        "OUNCE": "Ounce",
+        "SHOW_IN_BRANCH": "Show in Branch",
+        "SELECT_BRANCH": "Select Branch",
+        "MAIN_BRANCH": "Main Branch",
+        "BRANCH_1": "Branch 1",
+        "BRANCH_2": "Branch 2", 
+        "ALL_BRANCHES": "All Branches",
+        "CALORIES": "Calories",
+        "CALORIES_PLACEHOLDER": "Enter number of calories"
     },
     "productCard":{
         "TITLE": "Enter product name",

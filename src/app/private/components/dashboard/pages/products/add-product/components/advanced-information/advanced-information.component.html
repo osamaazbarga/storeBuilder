@@ -1,6 +1,22 @@
 <div class="form-section" [formGroup]="productForm">
   <h3>{{ 'PRODUCTS.ADVANCED_INFORMATION' | translate }}</h3>
   
+  <!-- Calories for food products - At the top -->
+  <div class="form-row" *ngIf="productType === 'food-product'">
+    <div class="form-group">
+      <label for="calories">{{ 'PRODUCTS.CALORIES' | translate }}</label>
+      <input 
+        type="number" 
+        id="calories"
+        formControlName="calories" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.CALORIES_PLACEHOLDER' | translate }}"
+        min="0"
+      />
+    </div>
+  </div>
+
+  <!-- Promotional and Arabic Titles -->
   <div class="form-row">
     <div class="form-group">
       <label for="promotionalTitle">{{ 'PRODUCTS.PROMOTIONAL_TITLE' | translate }}</label>
@@ -25,36 +41,9 @@
     </div>
   </div>
 
-  <!-- Discounts Section -->
-  <div class="discounts-section">
+  <!-- Discounts Section - For ready-product, custom-service, food-product, digital-product, digital-card, product-bundle and bookings -->
+  <div class="discounts-section" *ngIf="productType === 'ready-product' || productType === 'custom-service' || productType === 'food-product' || productType === 'digital-product' || productType === 'digital-card' || productType === 'product-bundle' || productType === 'bookings'">
     <h4>{{ 'PRODUCTS.DISCOUNTS' | translate }}</h4>
-    <div class="form-row">
-      <div class="form-group">
-        <label for="discountPercentage">{{ 'PRODUCTS.DISCOUNT_PERCENTAGE' | translate }}</label>
-        <input 
-          type="number" 
-          id="discountPercentage"
-          formControlName="discountPercentage" 
-          class="form-control" 
-          placeholder="0"
-          min="0"
-          max="100"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="discountAmount">{{ 'PRODUCTS.DISCOUNT_AMOUNT' | translate }}</label>
-        <input 
-          type="number" 
-          id="discountAmount"
-          formControlName="discountAmount" 
-          class="form-control" 
-          placeholder="0.00"
-          step="0.01"
-        />
-      </div>
-    </div>
-
     <div class="form-row">
       <div class="form-group">
         <label for="discountedPrice">{{ 'PRODUCTS.DISCOUNTED_PRICE' | translate }}</label>
@@ -87,6 +76,208 @@
           class="form-control"
         />
       </div>
+    </div>
+  </div>
+
+  <!-- Display Channels and Requirements - For ready-product, custom-service, food-product, digital-product, digital-card, product-bundle and bookings -->
+  <div class="channels-requirements-section" *ngIf="productType === 'ready-product' || productType === 'custom-service' || productType === 'food-product' || productType === 'digital-product' || productType === 'digital-card' || productType === 'product-bundle' || productType === 'bookings'">
+    <h4>{{ 'PRODUCTS.DISPLAY_CHANNELS_AND_REQUIREMENTS' | translate }}</h4>
+    
+    <div class="channels-section">
+      <h5>{{ 'PRODUCTS.PRODUCT_DISPLAY_CHANNELS' | translate }}</h5>
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <input type="checkbox" id="storeWebsite" formControlName="storeWebsite" class="form-check-input">
+          <label for="storeWebsite">{{ 'PRODUCTS.STORE_WEBSITE' | translate }}</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="storeApp" formControlName="storeApp" class="form-check-input">
+          <label for="storeApp">{{ 'PRODUCTS.STORE_APP' | translate }}</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="wholesaleMarket" formControlName="wholesaleMarket" class="form-check-input">
+          <label for="wholesaleMarket">{{ 'PRODUCTS.WHOLESALE_MARKET' | translate }}</label>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="requirements-section">
+      <h5>{{ 'PRODUCTS.PRODUCT_REQUIREMENTS' | translate }}</h5>
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <input type="checkbox" id="attachFile" formControlName="attachFile" class="form-check-input">
+          <label for="attachFile">{{ 'PRODUCTS.ATTACH_FILE_ON_REQUEST' | translate }}</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="writeNotes" formControlName="writeNotes" class="form-check-input">
+          <label for="writeNotes">{{ 'PRODUCTS.ABILITY_TO_WRITE_NOTES' | translate }}</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="taxable" formControlName="taxable" class="form-check-input">
+          <label for="taxable">{{ 'PRODUCTS.PRODUCT_SUBJECT_TO_TAX' | translate }}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="tags">{{ 'PRODUCTS.TAGS' | translate }}</label>
+      <input 
+        type="text" 
+        id="tags"
+        formControlName="tags" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.TAGS_PLACEHOLDER' | translate }}"
+      />
+    </div>
+
+    <!-- Show in Branch - Hide for digital products, digital cards and bookings -->
+    <div class="form-group" *ngIf="productType !== 'digital-product' && productType !== 'digital-card' && productType !== 'bookings'">
+      <label for="showInBranch">{{ 'PRODUCTS.SHOW_IN_BRANCH' | translate }}</label>
+      <select 
+        id="showInBranch"
+        formControlName="showInBranch" 
+        class="form-control"
+      >
+        <option value="">{{ 'PRODUCTS.SELECT_BRANCH' | translate }}</option>
+        <option value="main">{{ 'PRODUCTS.MAIN_BRANCH' | translate }}</option>
+        <option value="branch1">{{ 'PRODUCTS.BRANCH_1' | translate }}</option>
+        <option value="branch2">{{ 'PRODUCTS.BRANCH_2' | translate }}</option>
+        <option value="all">{{ 'PRODUCTS.ALL_BRANCHES' | translate }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Shipping Section - For ready-product, food-product, custom-service and product-bundle -->
+  <div class="shipping-section" *ngIf="productType === 'ready-product' || productType === 'food-product' || productType === 'custom-service' || productType === 'product-bundle'">
+    <h4>{{ 'PRODUCTS.SHIPPING' | translate }}</h4>
+    
+    <div class="radio-group">
+      <div class="radio-item">
+        <input type="radio" id="doesNotRequireShipping" value="false" formControlName="shippingRequired" name="shippingRequired" class="form-check-input">
+        <label for="doesNotRequireShipping">{{ 'PRODUCTS.DOES_NOT_REQUIRE_SHIPPING' | translate }}</label>
+      </div>
+      <div class="radio-item">
+        <input type="radio" id="requiresShipping" value="true" formControlName="shippingRequired" name="shippingRequired" class="form-check-input">
+        <label for="requiresShipping">{{ 'PRODUCTS.REQUIRES_SHIPPING' | translate }}</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inventory Section - For ready-product, food-product, custom-service and product-bundle -->
+  <div class="inventory-section" *ngIf="productType === 'ready-product' || productType === 'food-product' || productType === 'custom-service' || productType === 'product-bundle'">
+    <h4>{{ 'PRODUCTS.INVENTORY' | translate }}</h4>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label for="maxQuantityPerCustomer">{{ 'PRODUCTS.MAX_QUANTITY_PER_CUSTOMER' | translate }}</label>
+        <input 
+          type="number" 
+          id="maxQuantityPerCustomer"
+          formControlName="maxQuantityPerCustomer" 
+          class="form-control" 
+          placeholder="0"
+          min="0"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="sku">{{ 'PRODUCTS.SKU' | translate }}</label>
+        <input 
+          type="text" 
+          id="sku"
+          formControlName="sku" 
+          class="form-control" 
+          placeholder="{{ 'PRODUCTS.SKU_PLACEHOLDER' | translate }}"
+        />
+      </div>
+    </div>
+
+    <!-- Weight in Inventory -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="inventoryWeight">{{ 'PRODUCTS.PRODUCT_WEIGHT' | translate }}</label>
+        <div class="weight-input-group">
+          <input 
+            type="number" 
+            id="inventoryWeight"
+            formControlName="weight" 
+            class="form-control weight-input" 
+            placeholder="0.00"
+            step="0.01"
+            min="0"
+          />
+          <select id="inventoryWeightType" formControlName="weightType" class="form-control weight-unit">
+            <option value="g">{{ 'PRODUCTS.GRAM' | translate }}</option>
+            <option value="kg">{{ 'PRODUCTS.KILOGRAM' | translate }}</option>
+            <option value="lb">{{ 'PRODUCTS.POUND' | translate }}</option>
+            <option value="oz">{{ 'PRODUCTS.OUNCE' | translate }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- GTIN and MPN - Hide for custom-service and food-product -->
+    <div class="form-row" *ngIf="productType !== 'custom-service' && productType !== 'food-product'">
+      <div class="form-group">
+        <label for="gtin">{{ 'PRODUCTS.GTIN' | translate }}</label>
+        <input 
+          type="text" 
+          id="gtin"
+          formControlName="gtin" 
+          class="form-control" 
+          placeholder="{{ 'PRODUCTS.GTIN_PLACEHOLDER' | translate }}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="mpn">{{ 'PRODUCTS.MPN' | translate }}</label>
+        <input 
+          type="text" 
+          id="mpn"
+          formControlName="mpn" 
+          class="form-control" 
+          placeholder="{{ 'PRODUCTS.MPN_PLACEHOLDER' | translate }}"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Marketing Section - For ready-product, custom-service, food-product, digital-product, digital-card, product-bundle and bookings -->
+  <div class="marketing-section" *ngIf="productType === 'ready-product' || productType === 'custom-service' || productType === 'food-product' || productType === 'digital-product' || productType === 'digital-card' || productType === 'product-bundle' || productType === 'bookings'">
+    <h4>{{ 'PRODUCTS.MARKETING' | translate }}</h4>
+    
+    <div class="form-group">
+      <label for="pageTitle">{{ 'PRODUCTS.PAGE_TITLE' | translate }}</label>
+      <input 
+        type="text" 
+        id="pageTitle"
+        formControlName="pageTitle" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.PAGE_TITLE_PLACEHOLDER' | translate }}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="customLink">{{ 'PRODUCTS.CUSTOM_LINK' | translate }}</label>
+      <input 
+        type="text" 
+        id="customLink"
+        formControlName="customLink" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.CUSTOM_LINK_PLACEHOLDER' | translate }}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="pageDescription">{{ 'PRODUCTS.PAGE_DESCRIPTION' | translate }}</label>
+      <textarea 
+        id="pageDescription"
+        formControlName="pageDescription" 
+        class="form-control" 
+        placeholder="{{ 'PRODUCTS.PAGE_DESCRIPTION_PLACEHOLDER' | translate }}"
+        rows="3"
+      ></textarea>
     </div>
   </div>
 </div>

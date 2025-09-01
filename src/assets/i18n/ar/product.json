@@ -168,7 +168,19 @@
         "AVAILABILITY_HELP": "حدد الأوقات المتاحة للحجوزات",
         "BOOKING_DURATION": "مدة الحجز",
         "BOOKING_DURATION_PLACEHOLDER": "أدخل مدة الحجز",
-        "BOOKING_DURATION_HELP": "المدة المطلوبة للحجز"
+        "BOOKING_DURATION_HELP": "المدة المطلوبة للحجز",
+        "KILOGRAM": "كيلوغرام",
+        "GRAM": "غرام",
+        "POUND": "باوند",
+        "OUNCE": "أونصة",
+        "SHOW_IN_BRANCH": "إظهار المنتج في الفرع",
+        "SELECT_BRANCH": "اختر الفرع",
+        "MAIN_BRANCH": "الفرع الرئيسي",
+        "BRANCH_1": "الفرع الأول",
+        "BRANCH_2": "الفرع الثاني",
+        "ALL_BRANCHES": "جميع الفروع",
+        "CALORIES": "عدد السعرات الحرارية",
+        "CALORIES_PLACEHOLDER": "أدخل عدد السعرات الحرارية"
     },
     "productCard":{
         "TITLE": "أدخل اسم المنتج",
