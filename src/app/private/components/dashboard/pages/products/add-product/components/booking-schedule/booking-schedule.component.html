@@ -1,27 +1,362 @@
-<div class="form-section" [formGroup]="productForm">
+<div class="form-section">
   <h3>{{ 'PRODUCTS.BOOKING_SCHEDULE' | translate }}</h3>
   
-  <div class="form-group">
-    <label for="availability">{{ 'PRODUCTS.AVAILABILITY' | translate }} *</label>
-    <textarea 
-      id="availability"
-      formControlName="availability" 
-      class="form-control" 
-      placeholder="{{ 'PRODUCTS.AVAILABILITY_PLACEHOLDER' | translate }}"
-      rows="3"
-    ></textarea>
-    <small class="form-text text-muted">{{ 'PRODUCTS.AVAILABILITY_HELP' | translate }}</small>
-  </div>
+  <!-- Tabs Navigation -->
+  <div class="tabs-container">
+    <div class="tabs-nav">
+      <button 
+        type="button"
+        class="tab-button"
+        [class.active]="activeTab === 'days'"
+        (click)="setActiveTab('days')">
+        {{ 'productSettingsDialog.DAYS' | translate }}
+      </button>
+      <button 
+        type="button"
+        class="tab-button"
+        [class.active]="activeTab === 'days-times'"
+        (click)="setActiveTab('days-times')">
+        {{ 'productSettingsDialog.DAYS_AND_TIMES' | translate }}
+      </button>
+    </div>
 
-  <div class="form-group">
-    <label for="bookingDuration">{{ 'PRODUCTS.BOOKING_DURATION' | translate }} *</label>
-    <input 
-      type="text" 
-      id="bookingDuration"
-      formControlName="bookingDuration" 
-      class="form-control" 
-      placeholder="{{ 'PRODUCTS.BOOKING_DURATION_PLACEHOLDER' | translate }}"
-    />
-    <small class="form-text text-muted">{{ 'PRODUCTS.BOOKING_DURATION_HELP' | translate }}</small>
+    <!-- Tab Content -->
+    <div class="tab-content">
+      
+
+      
+      <!-- Days Tab -->
+      <div class="tab-pane" *ngIf="activeTab === 'days'">
+        <div class="days-schedule">
+          <h4>{{ 'productSettingsDialog.DAYS_SCHEDULE_SYSTEM' | translate }}</h4>
+          <p class="description">{{ 'productSettingsDialog.DAYS_SCHEDULE_DESC' | translate }}</p>
+          
+          <!-- Basic Form Fields -->
+          <!-- 1. العدد المتاح للحجز في العميل الواحد -->
+          <div class="form-group">
+            <label for="availablePerCustomer">{{ 'productSettingsDialog.AVAILABLE_PER_CUSTOMER' | translate }}</label>
+            <input 
+              type="number" 
+              id="availablePerCustomer"
+              class="form-control" 
+              placeholder="{{ 'productSettingsDialog.AVAILABLE_PER_CUSTOMER_PLACEHOLDER' | translate }}"
+              min="1"
+            />
+          </div>
+
+          <!-- 2. حجز عدة مواعيد لنفس العميل -->
+          <div class="form-group">
+            <label for="multipleAppointmentsPerCustomer">{{ 'productSettingsDialog.MULTIPLE_APPOINTMENTS_PER_CUSTOMER' | translate }}</label>
+            <input 
+              type="number" 
+              id="multipleAppointmentsPerCustomer"
+              class="form-control" 
+              placeholder="{{ 'productSettingsDialog.MULTIPLE_APPOINTMENTS_PLACEHOLDER' | translate }}"
+              min="1"
+            />
+          </div>
+
+          <!-- 3. العدد المتاح للحجز في الموعد الواحد -->
+          <div class="form-group">
+            <label for="availablePerAppointment">{{ 'productSettingsDialog.AVAILABLE_PER_APPOINTMENT' | translate }}</label>
+            <input 
+              type="number" 
+              id="availablePerAppointment"
+              class="form-control" 
+              placeholder="{{ 'productSettingsDialog.AVAILABLE_PER_APPOINTMENT_PLACEHOLDER' | translate }}"
+              min="1"
+            />
+          </div>
+
+          <!-- 4. الحد من الحجوزات المتأخرة -->
+          <div class="form-group">
+            <label for="lateBookingsLimit">{{ 'productSettingsDialog.LATE_BOOKINGS_LIMIT' | translate }}</label>
+            <input 
+              type="number" 
+              id="lateBookingsLimit"
+              class="form-control" 
+              placeholder="{{ 'productSettingsDialog.LATE_BOOKINGS_PLACEHOLDER' | translate }}"
+              min="0"
+            />
+          </div>
+
+          <!-- 5. الموقع -->
+          <div class="form-group">
+            <label for="location">{{ 'productSettingsDialog.LOCATION' | translate }}</label>
+            <input 
+              type="text" 
+              id="location"
+              class="form-control" 
+              placeholder="{{ 'productSettingsDialog.LOCATION_PLACEHOLDER' | translate }}"
+            />
+          </div>
+
+          <!-- Schedule Section -->
+          <div class="schedule-section">
+            <h5>{{ 'PRODUCTS.SCHEDULE' | translate }}</h5>
+            <p class="schedule-desc">{{ 'PRODUCTS.SCHEDULE_DESC' | translate }}</p>
+            
+            <div class="days-list">
+              <div class="day-item" *ngFor="let day of weekDays; let i = index">
+                <div class="day-header">
+                  <input 
+                    type="checkbox" 
+                    [id]="'day-' + i"
+                    class="day-checkbox"
+                  />
+                  <label [for]="'day-' + i" class="day-label">{{ day | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking Exceptions Section -->
+          <div class="booking-exceptions-section">
+            <h5>{{ 'productSettingsDialog.BOOKING_EXCEPTIONS' | translate }}</h5>
+            <p class="exceptions-desc">{{ 'productSettingsDialog.BOOKING_EXCEPTIONS_DESC' | translate }}</p>
+            
+            <div class="calendar-container">
+              <!-- Inline Calendar -->
+              <div class="inline-calendar">
+                <div class="calendar-header">
+                  <button type="button" class="nav-btn" (click)="previousMonth()">
+                    <i class="pi pi-chevron-right"></i>
+                  </button>
+                  <h4 class="month-year">{{ monthNames[currentMonth] }} {{ currentYear }}</h4>
+                  <button type="button" class="nav-btn" (click)="nextMonth()">
+                    <i class="pi pi-chevron-left"></i>
+                  </button>
+                </div>
+
+                <div class="calendar-weekdays">
+                  <div class="weekday" *ngFor="let day of weekDaysShort">{{ day }}</div>
+                </div>
+
+                <div class="calendar-days">
+                  <div class="calendar-week" *ngFor="let week of getDaysInMonth()">
+                    <div 
+                      class="calendar-day"
+                      *ngFor="let day of week"
+                      [class.empty]="day === 0"
+                      [class.today]="isToday(day)"
+                      [class.exception]="isDateException(day)"
+                      (click)="selectDate(day)"
+                    >
+                      {{ day || '' }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="exceptions-list" *ngIf="exceptions.length > 0">
+              <h6>{{ 'productSettingsDialog.EXCLUDED_DAYS' | translate }}:</h6>
+              <ul class="exception-items">
+                <li class="exception-item" *ngFor="let exception of exceptions; let i = index">
+                  <span class="exception-date">{{ formatDateForDisplay(exception) }}</span>
+                  <button 
+                    type="button" 
+                    class="remove-exception-btn" 
+                    (click)="removeException(i)"
+                    [title]="'productSettingsDialog.DELETE_EXCEPTION' | translate"
+                  >×</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+      <!-- Days and Times Tab -->
+      <div class="tab-pane" *ngIf="activeTab === 'days-times'">
+        <div class="days-times-schedule">
+          <h4>{{ 'productSettingsDialog.DAYS_TIMES_SYSTEM' | translate }}</h4>
+          <p class="description">{{ 'productSettingsDialog.DAYS_TIMES_DESC' | translate }}</p>
+          
+          <!-- 1. مدة الحجز -->
+          <div class="form-group">
+            <label for="bookingDurationDT">{{ 'productSettingsDialog.BOOKING_DURATION' | translate }}</label>
+            <div class="duration-input-group">
+              <input 
+                type="number" 
+                id="bookingDurationDT"
+                class="form-control duration-input" 
+                placeholder="60"
+                min="1"
+              />
+              <span class="duration-unit">{{ 'productSettingsDialog.MINUTES' | translate }}</span>
+            </div>
+          </div>
+
+          <!-- 2. وقت التجهيز -->
+          <div class="form-group">
+            <label for="preparationTime">{{ 'productSettingsDialog.PREPARATION_TIME' | translate }}</label>
+            <div class="duration-input-group">
+              <input 
+                type="number" 
+                id="preparationTime"
+                class="form-control duration-input" 
+                placeholder="{{ 'productSettingsDialog.PREPARATION_TIME_PLACEHOLDER' | translate }}"
+                min="0"
+              />
+              <span class="duration-unit">{{ 'productSettingsDialog.MINUTES' | translate }}</span>
+            </div>
+          </div>
+
+          <!-- 3. العدد المتاح للحجز في العميل الواحد -->
+          <div class="form-group">
+            <label for="availablePerCustomerDT">{{ 'productSettingsDialog.AVAILABLE_PER_CUSTOMER' | translate }}</label>
+            <input 
+              type="number" 
+              id="availablePerCustomerDT"
+              class="form-control" 
+              placeholder="{{ 'productSettingsDialog.AVAILABLE_PER_CUSTOMER_PLACEHOLDER' | translate }}"
+              min="1"
+            />
+          </div>
+
+          <!-- 4. حجز عدة مواعيد لنفس العميل -->
+          <div class="form-group">
+            <label for="multipleAppointmentsPerCustomerDT">{{ 'productSettingsDialog.MULTIPLE_APPOINTMENTS_PER_CUSTOMER' | translate }}</label>
+            <input 
+              type="number" 
+              id="multipleAppointmentsPerCustomerDT"
+              class="form-control" 
+              placeholder="{{ 'productSettingsDialog.MULTIPLE_APPOINTMENTS_PLACEHOLDER' | translate }}"
+              min="1"
+            />
+          </div>
+
+          <!-- 5. العدد المتاح للحجز في الموعد الواحد -->
+          <div class="form-group">
+            <label for="availablePerAppointmentDT">{{ 'productSettingsDialog.AVAILABLE_PER_APPOINTMENT' | translate }}</label>
+            <input 
+              type="number" 
+              id="availablePerAppointmentDT"
+              class="form-control" 
+              placeholder="{{ 'productSettingsDialog.AVAILABLE_PER_APPOINTMENT_PLACEHOLDER' | translate }}"
+              min="1"
+            />
+          </div>
+
+          <!-- 6. الحد من الحجوزات المتأخرة -->
+          <div class="form-group">
+            <label for="lateBookingsLimitDT">{{ 'productSettingsDialog.LATE_BOOKINGS_LIMIT' | translate }}</label>
+            <input 
+              type="number" 
+              id="lateBookingsLimitDT"
+              class="form-control" 
+              placeholder="{{ 'productSettingsDialog.LATE_BOOKINGS_PLACEHOLDER' | translate }}"
+              min="0"
+            />
+          </div>
+
+          <!-- 7. الموقع -->
+          <div class="form-group">
+            <label for="locationDT">{{ 'productSettingsDialog.LOCATION' | translate }}</label>
+            <input 
+              type="text" 
+              id="locationDT"
+              class="form-control" 
+              placeholder="{{ 'productSettingsDialog.LOCATION_PLACEHOLDER' | translate }}"
+            />
+          </div>
+
+          <!-- Schedule Section -->
+          <div class="schedule-section">
+            <h5>{{ 'PRODUCTS.SCHEDULE' | translate }}</h5>
+            <p class="schedule-desc">{{ 'PRODUCTS.SCHEDULE_TIME_DESC' | translate }}</p>
+            
+            <div class="days-list">
+              <div class="day-item-detailed" *ngFor="let day of weekDays; let i = index">
+                <div class="day-header-detailed">
+                  <input 
+                    type="checkbox" 
+                    [id]="'dayDT-' + i"
+                    class="day-checkbox"
+                  />
+                  <label [for]="'dayDT-' + i" class="day-label">{{ day | translate }}</label>
+                </div>
+                
+                <div class="detailed-time-slots">
+                  <div class="time-slot-detailed" *ngFor="let slot of getDetailedTimeSlots(i); let j = index">
+                    <input 
+                      type="time" 
+                      class="time-input"
+                    />
+                    <span>{{ 'PRODUCTS.TO' | translate }}</span>
+                    <input 
+                      type="time" 
+                      class="time-input"
+                    />
+                    <button type="button" class="add-time-btn-detailed" (click)="addDetailedTimeSlot(i)">+</button>
+                    <button type="button" class="remove-time-btn" (click)="removeDetailedTimeSlot(i, j)" *ngIf="j > 0">×</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking Exceptions Section -->
+          <div class="booking-exceptions-section">
+            <h5>{{ 'productSettingsDialog.BOOKING_EXCEPTIONS' | translate }}</h5>
+            <p class="exceptions-desc">{{ 'productSettingsDialog.BOOKING_EXCEPTIONS_DESC' | translate }}</p>
+            
+            <div class="calendar-container">
+              <!-- Inline Calendar -->
+              <div class="inline-calendar">
+                <div class="calendar-header">
+                  <button type="button" class="nav-btn" (click)="previousMonth()">
+                    <i class="pi pi-chevron-right"></i>
+                  </button>
+                  <h4 class="month-year">{{ monthNames[currentMonth] }} {{ currentYear }}</h4>
+                  <button type="button" class="nav-btn" (click)="nextMonth()">
+                    <i class="pi pi-chevron-left"></i>
+                  </button>
+                </div>
+
+                <div class="calendar-weekdays">
+                  <div class="weekday" *ngFor="let day of weekDaysShort">{{ day }}</div>
+                </div>
+
+                <div class="calendar-days">
+                  <div class="calendar-week" *ngFor="let week of getDaysInMonth()">
+                    <div 
+                      class="calendar-day"
+                      *ngFor="let day of week"
+                      [class.empty]="day === 0"
+                      [class.today]="isToday(day)"
+                      [class.exception]="isDateExceptionDT(day)"
+                      (click)="selectDateDT(day)"
+                    >
+                      {{ day || '' }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="exceptions-list" *ngIf="exceptionsDT.length > 0">
+              <h6>{{ 'productSettingsDialog.EXCLUDED_DAYS' | translate }}:</h6>
+              <ul class="exception-items">
+                <li class="exception-item" *ngFor="let exception of exceptionsDT; let i = index">
+                  <span class="exception-date">{{ formatDateForDisplay(exception) }}</span>
+                  <button 
+                    type="button" 
+                    class="remove-exception-btn" 
+                    (click)="removeExceptionDT(i)"
+                    [title]="'productSettingsDialog.DELETE_EXCEPTION' | translate"
+                  >×</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
   </div>
 </div>
