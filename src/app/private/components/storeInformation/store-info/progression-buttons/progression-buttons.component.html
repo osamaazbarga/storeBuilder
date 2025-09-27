@@ -1,16 +1,12 @@
 <span class="error">{{this.errorMessages[0]}}</span>
 <div class="container">
-        
-  <a *ngIf="activeStep$&& activeStep$ > 1 && activeStep$ < 5"
-     (click)="goBack()">Go Back</a>
+  <a *ngIf="activeStep$ && activeStep$ > 1 && activeStep$ < 7" (click)="goBack()">رجوع</a>
   <button class="btn btn-next"
-          *ngIf="activeStep$&&activeStep$ < 4" [disabled]="stepForm.controls['personalDetails'].valid === false"
-          (click)="nextStep()">Next Step</button>
+          *ngIf="activeStep$ && activeStep$ < 6"
+          [disabled]="activeStep$ === 1 && stepForm.controls['personalDetails'].valid === false"
+          (click)="nextStep()">التالي</button>
   <button class="btn btn-confirm"
-          *ngIf="activeStep$ === 4"[disabled]="!stepForm.valid"
-          (click)="confirmAndSubmitForm()"type="button"
-           >Confirm</button>
-
+          *ngIf="activeStep$ === 6"
+          [disabled]="!stepForm.valid"
+          (click)="confirmAndSubmitForm()" type="button">تأكيد</button>
 </div>
-
-

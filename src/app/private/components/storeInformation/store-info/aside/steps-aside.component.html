@@ -1,0 +1,13 @@
+<aside class="steps-aside">
+  <div class="brand-box">
+    <div class="brand-mark"></div>
+    <div class="brand-text">سلة</div>
+  </div>
+  <ol class="steps-list">
+    <li class="step-item" [class.active]="isActive('identity')"><span class="step-index">1</span><span class="step-label">معلومات المتجر</span></li>
+    <li class="step-item" [class.active]="isActive('address')"><span class="step-index">2</span><span class="step-label">عنوان الشحن</span></li>
+    <li class="step-item" [class.active]="isActive('payments')"><span class="step-index">3</span><span class="step-label">المدفوعات الإلكترونية</span></li>
+    <li class="step-item" [class.active]="isActive('theme')"><span class="step-index">4</span><span class="step-label">تصميم المتجر</span></li>
+    <li class="step-item" [class.active]="isActive('plan')"><span class="step-index">5</span><span class="step-label">الباقات</span></li>
+  </ol>
+</aside>

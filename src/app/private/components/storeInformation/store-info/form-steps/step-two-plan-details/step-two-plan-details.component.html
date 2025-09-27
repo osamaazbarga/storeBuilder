@@ -12,21 +12,16 @@
     <mat-card-content>
 
       <mat-button-toggle-group name="options"
-                               #group="matButtonToggleGroup"
-                               aria-label="planOptions"
-                               [value]="group.value"
-                               (change)="onPlanChange(group.value)">
+                               [(ngModel)]="planType"
+                               (ngModelChange)="onPlanChange($event)"
+                               aria-label="planOptions">
         <mat-button-toggle *ngFor="let plan of planOptions"
                            [value]="plan.plan"
                            [checked]="plan.plan === planType"
-                           (click)="updatePlanType(plan.plan, plan?.duration)"
-                           >
-                           <!-- in mat-button-toggle -->
-                           
-
+                           (click)="updatePlanType(plan.plan, plan?.duration)">
           <div class="plan">
             <img mat-card-image
-                 src="{{ plan.icon }}"
+                 [src]="plan.icon"
                  alt="plan-icon" />
             <div class="details">
               <span class="plan_title">{{plan.plan | titlecase}}</span>

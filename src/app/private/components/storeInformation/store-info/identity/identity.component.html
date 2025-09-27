@@ -1,0 +1,38 @@
+<section class="content-area" dir="rtl">
+    <header class="page-header">
+      <h1 class="title">أضف معلومات متجرك</h1>
+      <p class="subtitle">ابدأ بإضافة معلومات بسيطة ليسهل علينا تجهيز متجرك. يمكنك تعديل كل هذه المعلومات لاحقًا.</p>
+    </header>
+
+    <div class="form-grid">
+      <div class="field">
+        <label class="field-label">شعار المتجر التجاري</label>
+        <div class="upload-drop">
+          اسحب الشعار هنا أو اختره من الجهاز
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">اسم المتجر</label>
+        <input class="text-input" type="text" placeholder="اكتب اسم المتجر" />
+      </div>
+
+      <div class="field">
+        <label class="field-label">اسم النطاق الفرعي</label>
+        <input class="text-input" type="text" placeholder="example.salla.sa" />
+      </div>
+
+      <div class="field">
+        <label class="field-label">نوع المتجر</label>
+        <div class="store-type">
+          <button type="button" class="toggle-btn selected">فردي</button>
+          <button type="button" class="toggle-btn">مؤسسة</button>
+          <button type="button" class="toggle-btn">مؤسسة خيرية</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-next" (click)="next()">التالي</button>
+    </div>
+  </section>

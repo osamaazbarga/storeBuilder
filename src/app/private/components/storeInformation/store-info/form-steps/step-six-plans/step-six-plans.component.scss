@@ -1,0 +1,6 @@
+@use "../../../../../../variables" as variables;
+
+.plans { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); }
+.plan { padding: 1rem; border: 1px solid rgba(0,0,0,.06); border-radius: .5rem; background: variables.$bright-white; text-align: center; }
+.plan-head { font-weight: 600; margin-bottom: .25rem; }
+.plan-price { color: variables.$bright-manatee; margin-bottom: .5rem; }

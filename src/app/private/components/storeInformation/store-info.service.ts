@@ -68,7 +68,7 @@ export class StoreInfoService {
   }
   submit() {
     //TO-DO => validate form
-    this.goToNextStep(4);
+    this.goToNextStep(6);
     console.log(this.stepForm.value.personalDetails);
     this.storeAddEdit=new StoreAddEdit()
     this.storeAddEdit!.name=this.stepForm.value.personalDetails.storeName

@@ -1,0 +1,13 @@
+@use "../../../../../../variables" as variables;
+
+.step-card {
+  background: variables.$bright-white;
+}
+
+.product-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.field-row label { margin-bottom: .25rem; display:block; }
+.field-row input[matInput] { width: 100%; }

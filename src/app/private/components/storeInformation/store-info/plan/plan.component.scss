@@ -1,0 +1,26 @@
+@use '../../../../../variables' as variables;
+
+.wizard-layout { @include variables.flexSpaceBetween(row); background: variables.$wash-me; min-height: calc(100vh - 3rem); }
+.steps-aside { width: 18rem; background: variables.$bright-white; border-left: 1px solid variables.$border-light; padding: 1.5rem; position: sticky; top: 0; height: 100vh; }
+.steps-list { list-style: none; margin: 0; padding: 0; }
+.step-item { @include variables.flexSpaceBetween(row); justify-content: flex-start; gap: .75rem; padding: .5rem 0; color: variables.$text-secondary; }
+.step-item.active { color: variables.$text-primary; font-weight: 700; }
+.step-index { width: 1.75rem; height: 1.75rem; border-radius: 50%; background: variables.$cotton-ball; @include variables.flexCenter(row); font-size: .875rem; }
+
+.content-area { flex: 1; padding: 2rem 3rem; }
+.page-header .title { @include variables.heading-m; margin-bottom: .25rem; }
+.page-header .subtitle { @include variables.body-primary-m; margin-bottom: 1.5rem; text-align: start; }
+
+.plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.plan-card { @include variables.card-base; padding: 1.25rem; text-align: center; }
+.plan-card .plan-header { @include variables.body-primary-s; margin-bottom: .5rem; }
+.plan-card .plan-price { @include variables.heading-m; margin-bottom: .75rem; }
+.plan-features { list-style: none; padding: 0; margin: 0 0 1rem 0; display: grid; gap: .25rem; }
+.featured { border-color: variables.$primary-brand; box-shadow: 0 8px 30px variables.$shadow-primary; }
+
+.btn-primary { @include variables.btn-primary; }
+.btn-secondary { @include variables.btn-secondary; }
+.actions { margin-top: 1.5rem; }
+
+@media (max-width: 1024px) { .plans-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .steps-aside { display: none; } .content-area { padding: 1rem; } .plans-grid { grid-template-columns: 1fr; } }

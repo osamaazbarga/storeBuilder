@@ -1,0 +1,31 @@
+@use '../../../../../variables' as variables;
+
+.wizard-layout { @include variables.flexSpaceBetween(row); background: variables.$wash-me; min-height: calc(100vh - 3rem); }
+
+.steps-aside { width: 18rem; background: variables.$bright-white; border-left: 1px solid variables.$border-light; padding: 1.5rem; position: sticky; top: 0; height: 100vh; }
+.brand-box { @include variables.flexStart(row); gap: .5rem; margin-bottom: 1.5rem; }
+.brand-mark { width: 2.25rem; height: 2.25rem; border-radius: .5rem; background: variables.$primary-brand; opacity: .15; }
+.brand-text { @include variables.body-primary-s(); }
+
+.steps-list { list-style: none; margin: 0; padding: 0; }
+.step-item { @include variables.flexSpaceBetween(row); justify-content: flex-start; gap: .75rem; padding: .5rem 0; color: variables.$text-secondary; }
+.step-item.active { color: variables.$text-primary; font-weight: 700; }
+.step-index { width: 1.75rem; height: 1.75rem; border-radius: 50%; background: variables.$cotton-ball; @include variables.flexCenter(row); font-size: .875rem; }
+
+.content-area { flex: 1; padding: 2rem 3rem; }
+.page-header .title { @include variables.heading-m; margin-bottom: .25rem; }
+.page-header .subtitle { @include variables.body-primary-m; margin-bottom: 1.5rem; text-align: start; }
+
+.form-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.field-label { @include variables.body-primary-s; display:block; margin-bottom: .25rem; }
+.text-input { @include variables.input-base; width: 100%; }
+.upload-drop { @include variables.card-base; border: 1px dashed variables.$border-medium; padding: 1.5rem; text-align: center; color: variables.$text-secondary; background: variables.$wash-me; }
+
+.store-type { display: flex; gap: .5rem; }
+.toggle-btn { @include variables.btn-secondary; padding: .5rem 1rem; }
+.toggle-btn.selected { @include variables.btn-primary; }
+
+.actions { margin-top: 1.5rem; }
+.btn-next { @include variables.btn-primary; }
+
+@media (max-width: 768px) { .steps-aside { display: none; } .content-area { padding: 1rem; } }

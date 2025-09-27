@@ -9,7 +9,6 @@ import { ViewComponent as publicComponents } from './public/components/view/view
 import { AuthorizationGuard } from './shared/guards/authorization.guard';
 import { AdminGuard } from './shared/guards/admin.guard';
 import { AdminViewComponent } from './private/components/admin/admin-view/admin-view.component';
-import { StoreInfoComponent } from './private/components/storeInformation/store-info/store-info.component';
 
 
 
@@ -38,7 +37,6 @@ const routes: Routes = [
     path:'store-info',
     runGuardsAndResolvers:'always',
     // canActivate:[AuthorizationGuard],
-    component:StoreInfoComponent,
     loadChildren:()=>import('./private/components/storeInformation/store-info.module').then(m=>m.StoreInfoModule)
   },
   {

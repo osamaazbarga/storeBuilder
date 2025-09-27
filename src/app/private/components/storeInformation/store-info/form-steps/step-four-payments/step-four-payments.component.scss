@@ -1,0 +1,4 @@
+@use "../../../../../../variables" as variables;
+
+.payments { display: grid; gap: 1rem; }
+.method { display: flex; justify-content: space-between; align-items: center; padding: .75rem 1rem; background: variables.$bright-white; border: 1px solid rgba(0,0,0,.06); border-radius: .5rem; }

@@ -32,25 +32,15 @@ import { AuthInterceptorProvider } from './core/auth/auth.interceptor';
 export function HttpLoaderFactory(http: HttpBackend) {
   
   return new MultiTranslateHttpLoader(http, [
-     { prefix: './assets/i18n/', suffix: '/nav.json' },
     { prefix: './assets/i18n/', suffix: '/auth.json' },
     { prefix: './assets/i18n/', suffix: '/dashboard.json' },
+    { prefix: './assets/i18n/', suffix: '/features.json' },
+    { prefix: './assets/i18n/', suffix: '/footer.json' },
+    { prefix: './assets/i18n/', suffix: '/hero.json' },
+    { prefix: './assets/i18n/', suffix: '/nav.json' },
     { prefix: './assets/i18n/', suffix: '/product.json' },
     { prefix: './assets/i18n/', suffix: '/stats.json' },
-    { prefix: './assets/i18n/', suffix: '/store.json' },
-    { prefix: './assets/i18n/', suffix: '/storeInformation.json' },
-    { prefix: './assets/i18n/', suffix: '/cta.json' },
-    { prefix: './assets/i18n/', suffix: '/footer.json' },
-    { prefix: './assets/i18n/', suffix: '/home.json' },
-    { prefix: './assets/i18n/', suffix: '/navbar.json' },
-    { prefix: './assets/i18n/', suffix: '/sidebar.json' },
-    { prefix: './assets/i18n/', suffix: '/view.json' },
-    { prefix: './assets/i18n/', suffix: '/hero.json' },
-    { prefix: './assets/i18n/', suffix: '/features.json' },
-
-
-
-
+    { prefix: './assets/i18n/', suffix: '/cta.json' }
   ]);
   
 }

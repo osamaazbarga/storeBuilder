@@ -1,0 +1,6 @@
+@use "../../../../../../variables" as variables;
+
+.themes-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill,minmax(180px,1fr)); }
+.theme-card { display: grid; gap: .5rem; padding: .75rem; border: 1px solid rgba(0,0,0,.06); border-radius: .5rem; background: variables.$bright-white; }
+.theme-card .thumb { height: 120px; background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.02)); border-radius: .375rem; }
+.theme-card.active { outline: 2px solid var(--mdc-theme-primary, #3f51b5); }
