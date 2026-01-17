@@ -45,6 +45,9 @@
           },
           "configurations": {
             "production": {
+              "outputPath": {
+                "base": "dist/super-ecommere"
+              },
               "budgets": [
                 {
                   "type": "initial",
