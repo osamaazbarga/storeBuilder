@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StoreAddEdit } from '../models/store/StoreAddEdit';
+import { DomainService } from './domain.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
+  private domainService = inject(DomainService);
 
   private url="Store";
   private storeDataSubject = new BehaviorSubject<any>(null);
@@ -148,10 +150,28 @@ export class StoreService {
     );
   }
 
+  /**
+   * Get subdomain using DomainService
+   * الحصول على الـ subdomain باستخدام DomainService
+   */
   getSubdomain(): string {
-    const host = window.location.hostname; // e.g., test12.localtest.me
-    const parts = host.split('.');
-    return parts.length > 2 ? parts[0] : ''; // returns 'test12'
+    return this.domainService.getSubdomain() || '';
+  }
+
+  /**
+   * Check if current view is a store
+   * التحقق من أن العرض الحالي هو متجر
+   */
+  isStoreView(): boolean {
+    return this.domainService.isStoreView();
+  }
+
+  /**
+   * Get domain information
+   * الحصول على معلومات النطاق
+   */
+  getDomainInfo() {
+    return this.domainService.getDomainInfo();
   }
 
 

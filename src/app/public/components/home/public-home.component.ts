@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TblUser } from 'src/app/models/TblUser';
 import { StoreService } from 'src/app/services/store.service';
 import { UsersService } from 'src/app/services/users.service';
+import { DomainService } from 'src/app/services/domain.service';
 
 @Component({
     selector: 'app-public-home',
@@ -10,6 +11,8 @@ import { UsersService } from 'src/app/services/users.service';
     standalone: false
 })
 export class PublicHomeComponent {
+  private domainService = inject(DomainService);
+  
   title = 'SuperEcommere';
 
   users:TblUser[]=[]
@@ -19,15 +22,24 @@ export class PublicHomeComponent {
   constructor(private userServies:UsersService,private storeService:StoreService){
   }
   ngOnInit():void{
+    // Use DomainService to detect if this is a store view
+    this.isStoreView = this.domainService.isStoreView();
+    
+    const domainInfo = this.domainService.getDomainInfo();
+    console.log('🏪 Domain Info:', domainInfo);
 
-    const hostname = window.location.hostname; // test12.dokan.local
-    const parts = hostname.split('.');
-    const platformDomain = 'dokan.local';
-
-    // If subdomain is present and not "www" or main domain
-    if (hostname !== platformDomain && hostname !== `www.${platformDomain}` &&
-        parts.length > 2 && parts[0] !== 'www' && parts[0] !== 'localhost') {
-      this.isStoreView = true;
+    // If this is a store view, load store data
+    if (this.isStoreView && domainInfo.storeIdentifier) {
+      this.storeService.loadStoreBySubdomain(domainInfo.storeIdentifier).subscribe({
+        next: (store) => {
+          console.log('✅ Store loaded:', store);
+        },
+        error: (err) => {
+          console.error('❌ Store not found:', err);
+          // Redirect to main platform if store not found
+          this.domainService.navigateToMainPlatform();
+        }
+      });
     }
     // تحميل المستخدمين فقط إذا كان المستخدم مسجل دخول
     // Loading users only if user is authenticated

@@ -1,79 +1,149 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-/**
- * Domain Service - خدمة إدارة النطاقات
- */
+export interface DomainInfo {
+  isMainPlatform: boolean;
+  isSubdomain: boolean;
+  isCustomDomain: boolean;
+  storeIdentifier: string | null;
+  fullDomain: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class DomainService {
+  private platformDomain = environment.platformDomain;
 
-  constructor(private http: HttpClient) { }
-
-  /**
-   * Get all domains for a store
-   * الحصول على جميع نطاقات المتجر
-   */
-  getStoreDomains(storeId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.appUrl}/stores/${storeId}/domains`);
-  }
+  constructor() {}
 
   /**
-   * Add a custom domain
-   * إضافة نطاق مخصص
+   * Analyzes current domain and returns detailed information
+   * يحلل النطاق الحالي ويرجع معلومات مفصلة
    */
-  addCustomDomain(storeId: number, domain: string, type: 'subdomain' | 'custom'): Observable<any> {
-    return this.http.post<any>(`${environment.appUrl}/stores/${storeId}/domains`, {
-      domain,
-      type
+  getDomainInfo(): DomainInfo {
+    const hostname = window.location.hostname.toLowerCase();
+    const parts = hostname.split('.');
+
+    console.log('🌐 Domain Analysis:', {
+      hostname,
+      parts,
+      platformDomain: this.platformDomain
     });
+
+    // Case 1: Main platform (e.g., store-builder-git-dev-osamaazbargas-projects.vercel.app)
+    if (hostname === this.platformDomain || hostname === `www.${this.platformDomain}`) {
+      return {
+        isMainPlatform: true,
+        isSubdomain: false,
+        isCustomDomain: false,
+        storeIdentifier: null,
+        fullDomain: hostname
+      };
+    }
+
+    // Case 2: Vercel preview deployment (e.g., store-builder-8nypwa05r-osamaazbargas-projects.vercel.app)
+    // Treat these as main platform too
+    if (hostname.includes('vercel.app') && hostname.includes('-osamaazbargas-projects')) {
+      return {
+        isMainPlatform: true,
+        isSubdomain: false,
+        isCustomDomain: false,
+        storeIdentifier: null,
+        fullDomain: hostname
+      };
+    }
+
+    // Case 3: Subdomain of platform (e.g., store1.store-builder-git-dev-osamaazbargas-projects.vercel.app)
+    if (hostname.endsWith(`.${this.platformDomain}`) && parts.length > this.getPlatformPartsCount()) {
+      const storeIdentifier = parts[0];
+      return {
+        isMainPlatform: false,
+        isSubdomain: true,
+        isCustomDomain: false,
+        storeIdentifier,
+        fullDomain: hostname
+      };
+    }
+
+    // Case 4: Custom domain (e.g., mystore.com, shop.example.com)
+    // Any domain that doesn't match above cases is treated as custom domain
+    if (!hostname.includes('vercel.app') && !hostname.includes(this.platformDomain)) {
+      return {
+        isMainPlatform: false,
+        isSubdomain: false,
+        isCustomDomain: true,
+        storeIdentifier: hostname, // Use full domain as identifier
+        fullDomain: hostname
+      };
+    }
+
+    // Default: treat as main platform
+    return {
+      isMainPlatform: true,
+      isSubdomain: false,
+      isCustomDomain: false,
+      storeIdentifier: null,
+      fullDomain: hostname
+    };
   }
 
   /**
-   * Verify a domain
-   * التحقق من نطاق
+   * Gets the number of parts in platform domain
+   * للتعامل مع Vercel domains المعقدة
    */
-  verifyDomain(domainId: string, method: 'txt' | 'cname'): Observable<{
-    verified: boolean;
-    message: string;
-    expected?: string;
-    found?: string;
-  }> {
-    return this.http.post<any>(`${environment.appUrl}/stores/0/domains/${domainId}/verify`, {
-      method
-    });
+  private getPlatformPartsCount(): number {
+    return this.platformDomain.split('.').length;
   }
 
   /**
-   * Set primary domain
-   * تعيين النطاق الأساسي
+   * Extracts subdomain from hostname
+   * استخراج الـ subdomain من الـ hostname
    */
-  setPrimaryDomain(storeId: number, domainId: string): Observable<any> {
-    return this.http.patch<any>(`${environment.appUrl}/stores/${storeId}/domains/${domainId}/set-primary`, {});
+  getSubdomain(): string | null {
+    const domainInfo = this.getDomainInfo();
+    return domainInfo.storeIdentifier;
   }
 
   /**
-   * Remove a domain
-   * حذف نطاق
+   * Check if current domain is a store (subdomain or custom domain)
+   * التحقق من أن النطاق الحالي هو متجر
    */
-  removeDomain(storeId: number, domainId: string): Observable<any> {
-    return this.http.delete<any>(`${environment.appUrl}/stores/${storeId}/domains/${domainId}`);
+  isStoreView(): boolean {
+    const domainInfo = this.getDomainInfo();
+    return domainInfo.isSubdomain || domainInfo.isCustomDomain;
   }
 
   /**
-   * Get verification instructions
-   * الحصول على تعليمات التحقق
+   * Get store identifier for API calls
+   * الحصول على معرف المتجر لاستدعاءات API
    */
-  getVerificationInstructions(domainId: string): Observable<{
-    domain: string;
-    status: string;
-    txtRecord: any;
-    cnameRecord: any;
-    aRecord: any;
-  }> {
-    return this.http.get<any>(`${environment.appUrl}/stores/0/domains/${domainId}/verification-instructions`);
+  getStoreIdentifier(): string | null {
+    const domainInfo = this.getDomainInfo();
+    return domainInfo.storeIdentifier;
+  }
+
+  /**
+   * Build subdomain URL for a store
+   * بناء رابط subdomain للمتجر
+   */
+  buildStoreUrl(storeSlug: string): string {
+    if (environment.production) {
+      return `https://${storeSlug}.${this.platformDomain}`;
+    } else {
+      // For local development
+      return `http://${storeSlug}.${this.platformDomain}:4200`;
+    }
+  }
+
+  /**
+   * Navigate to main platform
+   * الانتقال إلى المنصة الرئيسية
+   */
+  navigateToMainPlatform(): void {
+    const url = environment.production
+      ? `https://${this.platformDomain}`
+      : `http://${this.platformDomain}:4200`;
+    window.location.href = url;
   }
 }
