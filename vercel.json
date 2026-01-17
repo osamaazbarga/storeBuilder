@@ -3,7 +3,7 @@
   "name": "dokan-frontend",
   "framework": "angular",
   "buildCommand": "npm run build -- --configuration=production",
-  "outputDirectory": "dist/super-ecommere",
+  "outputDirectory": "dist/super-ecommere/browser",
   "rewrites": [
     {
       "source": "/(.*)",
