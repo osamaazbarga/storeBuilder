@@ -5,6 +5,7 @@ import { User } from 'src/app/models/account/user';
 import { StoreService } from 'src/app/services/store.service';
 import { UsersService } from 'src/app/services/users.service';
 import { LanguageService } from 'src/app/services/language.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-sidebar-dashboard',
@@ -179,8 +180,10 @@ export class SidebarDashboardComponent implements OnInit, OnDestroy {
   }
 
   routerLink(){
-    // this.router.navigateByUrl(`http://${this.storeData.link}.dokan.local:4200/`)
-    window.location.href = `http://${this.storeData.link}.dokan.local:4200/`
+    // Navigate to store subdomain using platform domain from environment
+    const protocol = environment.production ? 'https' : 'http';
+    const port = environment.production ? '' : ':4200';
+    window.location.href = `${protocol}://${this.storeData.link}.${environment.platformDomain}${port}/`;
    }
 
   itemList = [
