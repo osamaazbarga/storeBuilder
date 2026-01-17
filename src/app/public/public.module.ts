@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { PublicRoutingModule } from './public-routing.module';
-import { HomeComponent } from './components/home/home.component';
+import { PublicHomeComponent } from './components/home/public-home.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -13,7 +13,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SharedModule } from '../shared/shared.module';
 import { ViewComponent } from './components/view/view.component';
 
-import {  TranslateModule } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { StoreComponent } from '../private/components/store/store/store.component';
 import { FooterNavComponent } from './components/home-parts/footer-nav/footer-nav.component';
@@ -33,8 +33,7 @@ import { SendEmailComponent } from './components/users/send-email/send-email.com
 
 @NgModule({
   declarations: [
-    
-    HomeComponent,
+    PublicHomeComponent,
     NavbarComponent,
     FooterComponent,
     ViewComponent,
@@ -55,13 +54,14 @@ import { SendEmailComponent } from './components/users/send-email/send-email.com
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     PublicRoutingModule,
     MatCardModule,
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
     SharedModule,
-    TranslateModule
+    TranslateModule.forChild()
 ],
 })
 export class PublicModule { }

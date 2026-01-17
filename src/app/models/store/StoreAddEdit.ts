@@ -11,4 +11,5 @@ export class StoreAddEdit{
    userId? :string;
    user? :User;
    subdomain?:string;
+   businessCategory?:string;
 }

@@ -202,4 +202,54 @@ export class StoreService {
       return this.http.put<void>(`${environment.appUrl}/${this.url}/${storeId}/deactivate`, {});
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // NEW METHODS - Multi-tenant Support
+    // ═══════════════════════════════════════════════════════════════
+
+    /**
+     * Check if slug/subdomain is available
+     * التحقق من توفر الـ slug
+     */
+    checkSlugAvailability(slug: string): Observable<{
+      available: boolean;
+      reason?: string;
+      category?: string;
+      slug?: string;
+      preview?: string;
+    }> {
+      return this.http.get<any>(`${environment.appUrl}/${this.url}/check-slug/${slug}`);
+    }
+
+    /**
+     * Get pending stores (Admin only)
+     * الحصول على المتاجر المعلقة
+     */
+    getPendingStores(page: number = 1, limit: number = 10): Observable<any> {
+      return this.http.get<any>(`${environment.appUrl}/${this.url}/pending?page=${page}&limit=${limit}`);
+    }
+
+    /**
+     * Approve store (Admin only)
+     * الموافقة على المتجر
+     */
+    approveStore(storeId: number): Observable<any> {
+      return this.http.patch<any>(`${environment.appUrl}/${this.url}/${storeId}/approve`, {});
+    }
+
+    /**
+     * Reject store (Admin only)
+     * رفض المتجر
+     */
+    rejectStore(storeId: number, reason: string): Observable<any> {
+      return this.http.patch<any>(`${environment.appUrl}/${this.url}/${storeId}/reject`, { reason });
+    }
+
+    /**
+     * Get store review logs
+     * الحصول على سجل مراجعة المتجر
+     */
+    getReviewLogs(storeId: number): Observable<any[]> {
+      return this.http.get<any[]>(`${environment.appUrl}/${this.url}/${storeId}/review-logs`);
+    }
+
 }

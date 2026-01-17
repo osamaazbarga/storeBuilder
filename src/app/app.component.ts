@@ -42,21 +42,22 @@ export class AppComponent implements OnInit{
   //   });
   // }
 
-  const hostname = window.location.hostname; // ex: test.localtest.me
+  const hostname = window.location.hostname; // ex: test.dokan.local
   this.storeName = hostname.split('.')[0];   // يرجع "test"
   console.log('🛍️ Current store:', this.storeName);
   }
 
   getSubdomain(): string | null {
-    const host = window.location.hostname; // e.g. test12.localtest.me
+    const host = window.location.hostname; // e.g. test12.dokan.local
     const parts = host.split('.');
+    const platformDomain = 'dokan.local';
   
-    // Remove localtest and top-level domain (e.g., me)
-    if (parts.length >= 3) {
+    // Remove platform domain
+    if (parts.length >= 3 && host.endsWith(`.${platformDomain}`)) {
       return parts[0]; // "test12"
     }
   
-    return null; // Default domain (e.g., localtest.me)
+    return null; // Default domain (e.g., dokan.local)
   }
 
 }

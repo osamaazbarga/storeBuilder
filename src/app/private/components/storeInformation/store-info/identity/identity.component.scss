@@ -17,8 +17,28 @@
 .page-header .subtitle { @include variables.body-primary-m; margin-bottom: 1.5rem; text-align: start; }
 
 .form-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-.field-label { @include variables.body-primary-s; display:block; margin-bottom: .25rem; }
-.text-input { @include variables.input-base; width: 100%; }
+.field-label { 
+  @include variables.body-primary-s; 
+  display:block; 
+  margin-bottom: .25rem; 
+  
+  .required {
+    color: variables.$danger-color;
+  }
+}
+.text-input { 
+  @include variables.input-base; 
+  width: 100%; 
+  
+  &.ng-invalid.ng-touched {
+    border-color: variables.$danger-color;
+  }
+}
+.error-message {
+  color: variables.$danger-color;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
 .upload-drop { @include variables.card-base; border: 1px dashed variables.$border-medium; padding: 1.5rem; text-align: center; color: variables.$text-secondary; background: variables.$wash-me; }
 
 .store-type { display: flex; gap: .5rem; }

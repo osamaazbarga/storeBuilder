@@ -6,13 +6,13 @@ import { ConfirmEmailComponent } from './components/users/confirm-email/confirm-
 import { SendEmailComponent } from './components/users/send-email/send-email.component';
 import { ResetPasswordComponent } from './components/users/reset-password/reset-password.component';
 import { RegisterWithThirdPartyComponent } from './components/users/register-with-third-party/register-with-third-party.component';
-import { HomeComponent } from './components/home/home.component';
+import { PublicHomeComponent } from './components/home/public-home.component';
 import { StoreComponent } from '../private/components/store/store/store.component';
 
 const routes: Routes = [
   {
     path:'',
-    component:HomeComponent
+    component:PublicHomeComponent
   },
   {
     path:'login',

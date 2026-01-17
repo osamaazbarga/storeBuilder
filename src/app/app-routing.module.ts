@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 //import { authGuard } from './guards/auth.guard';
 import { NotFoundComponent } from './shared/components/errors/not-found/not-found.component';
-import { HomeComponent as dashboardPrivateComponents } from './private/components/dashboard/home/home.component';
-import { AdminHomeComponent as dashboardAdminComponents} from './private/components/admin/dashboard/home/home.component';
+import { DashboardHomeComponent as dashboardPrivateComponents } from './private/components/dashboard/home/dashboard-home.component';
+import { AdminDashboardHomeComponent as dashboardAdminComponents} from './private/components/admin/dashboard/home/admin-dashboard-home.component';
 
 import { ViewComponent as publicComponents } from './public/components/view/view.component';
 import { AuthorizationGuard } from './shared/guards/authorization.guard';

@@ -4,12 +4,12 @@ import { LanguageService } from 'src/app/services/language.service';
 import { SidebarDashboardComponent } from '../../sidebar-dashboard/sidebar-dashboard.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: 'app-dashboard-home',
+  templateUrl: './dashboard-home.component.html',
+  styleUrls: ['./dashboard-home.component.css'],
   standalone: false
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class DashboardHomeComponent implements OnInit, OnDestroy {
   @ViewChild('sidebar') sidebar!: SidebarDashboardComponent;
 
   // Language and RTL support

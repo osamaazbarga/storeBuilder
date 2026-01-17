@@ -5,7 +5,7 @@
     </header>
 
     <div class="plans-grid">
-      <div class="plan-card featured">
+      <div class="plan-card" [class.featured]="selectedPlan === 'basic'">
         <div class="plan-header">سلة بيسك</div>
         <div class="plan-price">مجانا</div>
         <ul class="plan-features">
@@ -13,10 +13,16 @@
           <li>دعم أساسي</li>
           <li>طرق دفع متعددة</li>
         </ul>
-        <button class="btn-primary">اختر الباقة</button>
+        <button 
+          class="btn-primary" 
+          [class.btn-secondary]="selectedPlan !== 'free'"
+          [class.btn-primary]="selectedPlan === 'free'"
+          (click)="selectPlan('free', 'سلة بيسك', 'مجانا')">
+          {{ selectedPlan === 'free' ? '✓ مختارة' : 'اختر الباقة' }}
+        </button>
       </div>
 
-      <div class="plan-card">
+      <div class="plan-card" [class.featured]="selectedPlan === 'basic'">
         <div class="plan-header">سلة بلس</div>
         <div class="plan-price">990 ر.س / سنوياً</div>
         <ul class="plan-features">
@@ -24,10 +30,16 @@
           <li>تقارير متقدمة</li>
           <li>دعم أسرع</li>
         </ul>
-        <button class="btn-secondary">اختر الباقة</button>
+        <button 
+          class="btn-secondary" 
+          [class.btn-primary]="selectedPlan === 'basic'"
+          [class.btn-secondary]="selectedPlan !== 'basic'"
+          (click)="selectPlan('basic', 'سلة بلس', '990 ر.س / سنوياً')">
+          {{ selectedPlan === 'basic' ? '✓ مختارة' : 'اختر الباقة' }}
+        </button>
       </div>
 
-      <div class="plan-card">
+      <div class="plan-card" [class.featured]="selectedPlan === 'pro'">
         <div class="plan-header">سلة برو</div>
         <div class="plan-price">2990 ر.س / سنوياً</div>
         <ul class="plan-features">
@@ -35,11 +47,23 @@
           <li>دعم أولوية</li>
           <li>تكاملات متقدمة</li>
         </ul>
-        <button class="btn-secondary">اختر الباقة</button>
+        <button 
+          class="btn-secondary" 
+          [class.btn-primary]="selectedPlan === 'pro'"
+          [class.btn-secondary]="selectedPlan !== 'pro'"
+          (click)="selectPlan('pro', 'سلة برو', '2990 ر.س / سنوياً')">
+          {{ selectedPlan === 'pro' ? '✓ مختارة' : 'اختر الباقة' }}
+        </button>
       </div>
     </div>
 
     <div class="actions">
       <button class="btn-secondary" (click)="back()">السابق</button>
+      <button 
+        class="btn-primary" 
+        [disabled]="!selectedPlan"
+        (click)="createStore()">
+        إضافة متجر
+      </button>
     </div>
   </section>

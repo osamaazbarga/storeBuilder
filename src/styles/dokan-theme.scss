@@ -1,0 +1,705 @@
+/* ═══════════════════════════════════════════════════════════════
+ * 🏪 Dokan Multi-Tenant Theme
+ * Custom theme for Dokan E-commerce Platform
+ * ═══════════════════════════════════════════════════════════════ */
+
+@use 'sass:color';
+
+/* Dokan Brand Colors */
+:root {
+  /* Primary Brand - Dokan Orange/Red */
+  --dokan-primary: #FF6B35;
+  --dokan-primary-light: #FF8C61;
+  --dokan-primary-dark: #E5552E;
+  --dokan-primary-darker: #CC3D1F;
+  
+  /* Secondary Brand - Deep Blue */
+  --dokan-secondary: #2C3E50;
+  --dokan-secondary-light: #34495E;
+  --dokan-secondary-dark: #1A252F;
+  
+  /* Accent Colors */
+  --dokan-accent-green: #27AE60;
+  --dokan-accent-blue: #3498DB;
+  --dokan-accent-purple: #9B59B6;
+  --dokan-accent-yellow: #F39C12;
+  
+  /* Status Colors */
+  --dokan-success: #27AE60;
+  --dokan-warning: #F39C12;
+  --dokan-danger: #E74C3C;
+  --dokan-info: #3498DB;
+  
+  /* Store Status Colors */
+  --store-pending: #F39C12;
+  --store-active: #27AE60;
+  --store-suspended: #E74C3C;
+  --store-expired: #95A5A6;
+  
+  /* Domain Status Colors */
+  --domain-pending: #F39C12;
+  --domain-verifying: #3498DB;
+  --domain-active: #27AE60;
+  --domain-failed: #E74C3C;
+  
+  /* Background Gradient */
+  --dokan-gradient: linear-gradient(135deg, #FF6B35 0%, #E5552E 100%);
+  --dokan-gradient-soft: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(229, 85, 46, 0.05) 100%);
+  
+  /* Shadows */
+  --dokan-shadow-sm: 0 2px 4px rgba(255, 107, 53, 0.1);
+  --dokan-shadow-md: 0 4px 12px rgba(255, 107, 53, 0.15);
+  --dokan-shadow-lg: 0 8px 24px rgba(255, 107, 53, 0.2);
+  --dokan-shadow-xl: 0 12px 40px rgba(255, 107, 53, 0.25);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+ * Dokan Components
+ * ═══════════════════════════════════════════════════════════════ */
+
+/* Store Card */
+.dokan-store-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--dokan-shadow-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--dokan-shadow-lg);
+    border-color: var(--dokan-primary);
+  }
+  
+  .store-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    
+    .store-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid var(--dokan-primary-light);
+    }
+    
+    .store-info {
+      flex: 1;
+      
+      h3 {
+        margin: 0 0 4px 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--dokan-secondary);
+      }
+      
+      .store-subdomain {
+        font-size: 0.875rem;
+        color: var(--dokan-primary);
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .store-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    &.status-pending {
+      background: rgba(243, 156, 18, 0.1);
+      color: var(--store-pending);
+    }
+    
+    &.status-active {
+      background: rgba(39, 174, 96, 0.1);
+      color: var(--store-active);
+    }
+    
+    &.status-suspended {
+      background: rgba(231, 76, 60, 0.1);
+      color: var(--store-suspended);
+    }
+    
+    &.status-expired {
+      background: rgba(149, 165, 166, 0.1);
+      color: var(--store-expired);
+    }
+    
+    &::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: currentColor;
+    }
+  }
+  
+  .store-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Domain Card */
+.dokan-domain-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  
+  &.domain-primary {
+    border-color: var(--dokan-primary);
+    background: var(--dokan-gradient-soft);
+    
+    .domain-badge-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--dokan-gradient);
+      color: white;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      
+      &::before {
+        content: '⭐';
+      }
+    }
+  }
+  
+  .domain-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    
+    .domain-url {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--dokan-secondary);
+      word-break: break-all;
+    }
+  }
+  
+  .domain-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    
+    &.status-pending {
+      background: rgba(243, 156, 18, 0.1);
+      color: var(--domain-pending);
+    }
+    
+    &.status-verifying {
+      background: rgba(52, 152, 219, 0.1);
+      color: var(--domain-verifying);
+    }
+    
+    &.status-active {
+      background: rgba(39, 174, 96, 0.1);
+      color: var(--domain-active);
+    }
+    
+    &.status-failed {
+      background: rgba(231, 76, 60, 0.1);
+      color: var(--domain-failed);
+    }
+    
+    &::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: currentColor;
+    }
+  }
+  
+  .domain-type {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(52, 152, 219, 0.1);
+    color: var(--dokan-accent-blue);
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .domain-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Verification Instructions Card */
+.dokan-verification-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--dokan-shadow-lg);
+  
+  .verification-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    
+    &::before {
+      content: '🔐';
+      margin-right: 8px;
+    }
+  }
+  
+  .verification-step {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    backdrop-filter: blur(10px);
+    
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      .step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        background: white;
+        color: #667eea;
+        border-radius: 50%;
+        font-weight: 700;
+        font-size: 0.875rem;
+      }
+    }
+    
+    .dns-record {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      
+      .record-label {
+        opacity: 0.8;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      
+      .record-value {
+        word-break: break-all;
+        user-select: all;
+      }
+    }
+  }
+}
+
+/* Reserved Word Badge */
+.dokan-reserved-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  
+  &.category-system {
+    background: rgba(231, 76, 60, 0.1);
+    color: #E74C3C;
+    
+    &::before {
+      content: '⚙️';
+    }
+  }
+  
+  &.category-trademark {
+    background: rgba(155, 89, 182, 0.1);
+    color: #9B59B6;
+    
+    &::before {
+      content: '™️';
+    }
+  }
+  
+  &.category-offensive {
+    background: rgba(231, 76, 60, 0.1);
+    color: #E74C3C;
+    
+    &::before {
+      content: '🚫';
+    }
+  }
+  
+  &.category-premium {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    
+    &::before {
+      content: '💎';
+    }
+  }
+  
+  &.category-custom {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498DB;
+    
+    &::before {
+      content: '📝';
+    }
+  }
+}
+
+/* Approval Panel */
+.dokan-approval-panel {
+  .approval-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    
+    .btn-approve {
+      background: var(--dokan-success);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: color.adjust(#27AE60, $lightness: -10%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+      }
+      
+      &::before {
+        content: '✓';
+        margin-right: 6px;
+      }
+    }
+    
+    .btn-reject {
+      background: white;
+      color: var(--dokan-danger);
+      border: 2px solid var(--dokan-danger);
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: var(--dokan-danger);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+      }
+      
+      &::before {
+        content: '✕';
+        margin-right: 6px;
+      }
+    }
+  }
+}
+
+/* Slug Validation Feedback */
+.dokan-slug-validation {
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: slideDown 0.3s ease;
+  
+  &.validation-success {
+    background: rgba(39, 174, 96, 0.1);
+    color: var(--dokan-success);
+    border: 1px solid rgba(39, 174, 96, 0.3);
+    
+    &::before {
+      content: '✓';
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    
+    .slug-preview {
+      background: white;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: monospace;
+      color: var(--dokan-success);
+      font-weight: 600;
+    }
+  }
+  
+  &.validation-error {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--dokan-danger);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    
+    &::before {
+      content: '✕';
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+  }
+  
+  &.validation-loading {
+    background: rgba(52, 152, 219, 0.1);
+    color: var(--dokan-info);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    
+    &::before {
+      content: '⏳';
+      font-size: 1.25rem;
+      animation: pulse 1.5s infinite;
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Empty State */
+.dokan-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+  
+  .empty-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--dokan-secondary);
+    margin-bottom: 8px;
+  }
+  
+  .empty-description {
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+}
+
+/* Dokan Button Styles */
+.btn-dokan-primary {
+  background: var(--dokan-gradient);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--dokan-shadow-sm);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--dokan-shadow-md);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+}
+
+.btn-dokan-secondary {
+  background: white;
+  color: var(--dokan-primary);
+  border: 2px solid var(--dokan-primary);
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: var(--dokan-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--dokan-shadow-md);
+  }
+}
+
+/* Dokan Dashboard Grid */
+.dokan-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 24px 0;
+}
+
+/* Dokan Stats Card */
+.dokan-stats-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--dokan-shadow-sm);
+  border-left: 4px solid var(--dokan-primary);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: var(--dokan-shadow-md);
+    transform: translateX(4px);
+  }
+  
+  .stats-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    background: var(--dokan-gradient-soft);
+  }
+  
+  .stats-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dokan-secondary);
+    margin-bottom: 4px;
+  }
+  
+  .stats-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .stats-change {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 8px;
+    
+    &.change-positive {
+      color: var(--dokan-success);
+      
+      &::before {
+        content: '↗️';
+      }
+    }
+    
+    &.change-negative {
+      color: var(--dokan-danger);
+      
+      &::before {
+        content: '↘️';
+      }
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dokan-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dokan-store-card {
+    .store-header {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .store-actions {
+      flex-direction: column;
+    }
+  }
+  
+  .dokan-domain-card {
+    .domain-actions {
+      flex-direction: column;
+    }
+  }
+  
+  .dokan-approval-panel {
+    .approval-actions {
+      flex-direction: column;
+    }
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .dokan-store-card,
+  .dokan-domain-card,
+  .dokan-stats-card {
+    background: #1e293b;
+    color: #e2e8f0;
+    
+    .store-info h3,
+    .domain-url,
+    .stats-value {
+      color: #e2e8f0;
+    }
+  }
+  
+  .dokan-slug-validation.validation-success {
+    background: rgba(39, 174, 96, 0.2);
+  }
+  
+  .dokan-slug-validation.validation-error {
+    background: rgba(231, 76, 60, 0.2);
+  }
+}

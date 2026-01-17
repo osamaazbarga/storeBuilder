@@ -20,7 +20,17 @@
 
 .btn-primary { @include variables.btn-primary; }
 .btn-secondary { @include variables.btn-secondary; }
-.actions { margin-top: 1.5rem; }
+.actions { 
+  margin-top: 1.5rem; 
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
 
 @media (max-width: 1024px) { .plans-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 768px) { .steps-aside { display: none; } .content-area { padding: 1rem; } .plans-grid { grid-template-columns: 1fr; } }

@@ -25,15 +25,41 @@ export class ViewComponent {
         this.isLoginPage = url === '/login';
       }
     });
-    const hostname = window.location.hostname; // test12.localtest.me
+    const hostname = window.location.hostname; // test12.dokan.local or shop1.local
     const parts = hostname.split('.');
+    const platformDomain = 'dokan.local';
 
-    // If subdomain is present and not "www" or "localhost"
-    if (hostname!="localtest.me"&&parts.length > 2 && parts[0] !== 'www' && parts[0] !== 'localhost') {
-      if (hostname) {
-        this.storeService.loadStoreBySubdomain(parts[0]).subscribe({
-          next: (store) => this.isStoreView = true,
-          error: (err) => window.location.href='https://localtest.me:4200'
+    // Check if this is NOT the main platform domain
+    const isMainPlatform = hostname === platformDomain || hostname === `www.${platformDomain}`;
+    
+    if (!isMainPlatform && parts[0] !== 'localhost') {
+      let storeIdentifier = '';
+      
+      // Case 1: Subdomain of platform (e.g., store1.dokan.local)
+      if (hostname.endsWith(`.${platformDomain}`) && parts.length > 2) {
+        storeIdentifier = parts[0]; // "store1"
+        console.log('🔍 Detected subdomain:', storeIdentifier);
+      }
+      // Case 2: Custom domain (e.g., shop1.local, mystore.com)
+      else if (!hostname.endsWith(`.${platformDomain}`) && hostname !== platformDomain) {
+        storeIdentifier = hostname; // Full domain "shop1.local"
+        console.log('🔍 Detected custom domain:', storeIdentifier);
+      }
+      
+      if (storeIdentifier) {
+        this.storeService.loadStoreBySubdomain(storeIdentifier).subscribe({
+          next: (store) => {
+            this.isStoreView = true;
+            console.log('✅ Store loaded:', store);
+          },
+          error: (err) => {
+            console.error('❌ Store not found for:', storeIdentifier);
+            console.error('Error:', err);
+            // Don't redirect for custom domains, just show error
+            if (hostname.endsWith(`.${platformDomain}`)) {
+              window.location.href = `http://${platformDomain}:4200`;
+            }
+          }
         });
       }
     }
@@ -41,29 +67,23 @@ export class ViewComponent {
   ngOnInit():void{
     
 
-    // this.superEcommereServies.getSuperEcommeres().subscribe((result:SuperEcommere[])=>{
-    //   this.heroes=result
-    // });
-    // this.users=this.userServies.getUsers()
-    // console.log(this.users);
-    
-    this.userServies.getUsers().subscribe(
-      // {
-      //   next(userss?:any) {
-      //     this.users=userss
-      //   },
-      //   error(response){
-
-      //   }
-      // }
-
-      (result:TblUser[])=>{
-      
-      
-      this.users=result
-      console.log(this.users);
+    // تحميل المستخدمين فقط إذا كان المستخدم مسجل دخول
+    // Loading users only if user is authenticated
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.userServies.getUsers().subscribe({
+        next: (result: TblUser[]) => {
+          this.users = result;
+          console.log('✅ Users loaded:', this.users);
+        },
+        error: (error) => {
+          console.warn('⚠️ Could not load users (requires authentication):', error.status);
+          // لا مشكلة - الصفحة العامة لا تحتاج المستخدمين
+        }
+      });
+    } else {
+      console.log('ℹ️ No token found - skipping users load (public page)');
     }
-    );
   }
 
   updateEcommList(ecommeres:TblUser[]){

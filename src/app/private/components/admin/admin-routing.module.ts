@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminHomeComponent } from './dashboard/home/home.component';
+import { AdminDashboardHomeComponent } from './dashboard/home/admin-dashboard-home.component';
 import { AdminGuard } from 'src/app/shared/guards/admin.guard';
 import { AddEditMemberComponent } from './add-edit-member/add-edit-member.component';
 
@@ -9,7 +9,7 @@ const routes:Routes=[
     path:'',
     runGuardsAndResolvers:'always',
     canActivate:[AdminGuard],
-    component:AdminHomeComponent
+    component:AdminDashboardHomeComponent
 
   },
   {

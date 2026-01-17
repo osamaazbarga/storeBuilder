@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { NavbarDashboardComponent } from './components/navbar-dashboard/navbar-dashboard.component';
 import { FooterDashboardComponent } from './components/footer-dashboard/footer-dashboard.component';
-import { HomeComponent } from './components/dashboard/home/home.component';
+import { DashboardHomeComponent } from './components/dashboard/home/dashboard-home.component';
 import { SharedModule } from '../shared/shared.module';
 import { SidebarDashboardComponent } from './components/sidebar-dashboard/sidebar-dashboard.component';
 import { StoreInfoComponent } from './components/storeInformation/store-info/store-info.component';
@@ -29,7 +29,7 @@ import { SharedModule as DashboardSharedModule } from './components/dashboard/sh
   declarations: [
     NavbarDashboardComponent,
     FooterDashboardComponent,
-    HomeComponent,
+    DashboardHomeComponent,
     SidebarDashboardComponent,
     MainComponent,
     ProductsComponent,
@@ -50,7 +50,7 @@ import { SharedModule as DashboardSharedModule } from './components/dashboard/sh
     AngularPinturaModule
   ],
   exports: [
-    HomeComponent,
+    DashboardHomeComponent,
     MainComponent,
     ProductsComponent,
     CategoriesComponent

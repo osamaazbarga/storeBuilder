@@ -5,12 +5,12 @@ import { MemberView } from 'src/app/models/admin/memberView';
 // import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
-    selector: 'app-admin-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css'],
+    selector: 'app-admin-dashboard-home',
+    templateUrl: './admin-dashboard-home.component.html',
+    styleUrls: ['./admin-dashboard-home.component.css'],
     standalone: false
 })
-export class AdminHomeComponent implements OnInit{
+export class AdminDashboardHomeComponent implements OnInit{
   members:MemberView[]=[];
   memberToDelete:MemberView|undefined;
   // modalRef?:BsModalRef;

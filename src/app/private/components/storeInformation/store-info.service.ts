@@ -20,6 +20,8 @@ export class StoreInfoService {
   errorMessages:string[]=[];
   storeAddEdit:StoreAddEdit | undefined
   
+  // Track completed steps
+  private completedSteps: Set<number> = new Set();
 
 
   multiStepForm: FormGroup = this.fb.group({
@@ -53,18 +55,84 @@ export class StoreInfoService {
     private http:HttpClient,
     private userServies:UsersService,
     private sharedService:SharedService,
-    private router:Router) { }
+    private router:Router) {
+    // Sync active step with current route on initialization
+    this.syncActiveStepFromRoute();
+  }
+
+  private syncActiveStepFromRoute(): void {
+    const url = this.router.url;
+    const routes = ['identity', 'address', 'payments', 'theme', 'plan'];
+    routes.forEach((route, index) => {
+      if (url.includes(`/store-info/${route}`) || url.endsWith(`/store-info/${route}`)) {
+        this.activeStepSubject.next(index + 1);
+      }
+    });
+  }
+
+  setActiveStepFromRoute(route: string, stepNumber: number): void {
+    this.activeStepSubject.next(stepNumber);
+  }
 
   goToNextStep(number: number|undefined) {
     if(number!=null){
-      this.activeStepSubject.next(number + 1);
+      // Mark current step as completed
+      this.completedSteps.add(number);
+      const nextStep = number + 1;
+      this.activeStepSubject.next(nextStep);
+      // Navigate to next step route
+      const routes = ['identity', 'address', 'payments', 'theme', 'plan'];
+      if (nextStep <= routes.length) {
+        this.router.navigate(['/store-info', routes[nextStep - 1]]);
+      }
     }
   }
 
   goBackToPreviousStep(number: number|undefined) {
-    if(number!=null){
-      this.activeStepSubject.next(number - 1);
+    if(number!=null && number > 1){
+      const prevStep = number - 1;
+      this.activeStepSubject.next(prevStep);
+      // Navigate to previous step route
+      const routes = ['identity', 'address', 'payments', 'theme', 'plan'];
+      if (prevStep >= 1) {
+        this.router.navigate(['/store-info', routes[prevStep - 1]]);
+      }
     }
+  }
+
+  navigateToStep(stepNumber: number): boolean {
+    // Check if previous steps are completed
+    for (let i = 1; i < stepNumber; i++) {
+      if (!this.completedSteps.has(i)) {
+        return false; // Cannot navigate to step, previous step not completed
+      }
+    }
+    
+    // Navigate to step if allowed
+    const routes = ['identity', 'address', 'payments', 'theme', 'plan'];
+    if (stepNumber >= 1 && stepNumber <= routes.length) {
+      this.activeStepSubject.next(stepNumber);
+      this.router.navigate(['/store-info', routes[stepNumber - 1]]);
+      return true;
+    }
+    return false;
+  }
+
+  isStepCompleted(stepNumber: number): boolean {
+    return this.completedSteps.has(stepNumber);
+  }
+
+  canNavigateToStep(stepNumber: number): boolean {
+    // First step is always accessible
+    if (stepNumber === 1) return true;
+    
+    // Check if all previous steps are completed
+    for (let i = 1; i < stepNumber; i++) {
+      if (!this.completedSteps.has(i)) {
+        return false;
+      }
+    }
+    return true;
   }
   submit() {
     //TO-DO => validate form
@@ -74,6 +142,7 @@ export class StoreInfoService {
     this.storeAddEdit!.name=this.stepForm.value.personalDetails.storeName
     this.storeAddEdit!.link=this.stepForm.value.personalDetails.storeLink
     this.storeAddEdit!.category=this.stepForm.value.personalDetails.storeLink
+    this.storeAddEdit!.businessCategory=this.stepForm.value.planDetails.plan
     this.storeAddEdit!.kind=this.stepForm.value.personalDetails.storeLink
     this.storeAddEdit!.description=this.stepForm.value.personalDetails.storeLink
     this.storeAddEdit!.logo=this.stepForm.value.personalDetails.storeLink

@@ -1,10 +1,10 @@
-<section class="content-area" dir="rtl">
+<section class="content-area" dir="rtl" [formGroup]="stepForm">
     <header class="page-header">
       <h1 class="title">أضف معلومات متجرك</h1>
       <p class="subtitle">ابدأ بإضافة معلومات بسيطة ليسهل علينا تجهيز متجرك. يمكنك تعديل كل هذه المعلومات لاحقًا.</p>
     </header>
 
-    <div class="form-grid">
+    <div class="form-grid" formGroupName="personalDetails">
       <div class="field">
         <label class="field-label">شعار المتجر التجاري</label>
         <div class="upload-drop">
@@ -13,26 +13,58 @@
       </div>
 
       <div class="field">
-        <label class="field-label">اسم المتجر</label>
-        <input class="text-input" type="text" placeholder="اكتب اسم المتجر" />
+        <label class="field-label">اسم المتجر <span class="required">*</span></label>
+        <input 
+          class="text-input" 
+          type="text" 
+          placeholder="اكتب اسم المتجر" 
+          formControlName="storeName" />
+        <div class="error-message" *ngIf="personalDetailsForm.get('storeName')?.touched && personalDetailsForm.get('storeName')?.hasError('required')">
+          اسم المتجر مطلوب
+        </div>
+        <div class="error-message" *ngIf="personalDetailsForm.get('storeName')?.touched && personalDetailsForm.get('storeName')?.hasError('minlength')">
+          يجب أن يكون اسم المتجر على الأقل 4 أحرف
+        </div>
       </div>
 
       <div class="field">
-        <label class="field-label">اسم النطاق الفرعي</label>
-        <input class="text-input" type="text" placeholder="example.salla.sa" />
+        <label class="field-label">اسم النطاق الفرعي <span class="required">*</span></label>
+        <input 
+          class="text-input" 
+          type="text" 
+          placeholder="example.salla.sa" 
+          formControlName="storeLink" />
+        <div class="error-message" *ngIf="personalDetailsForm.get('storeLink')?.touched && personalDetailsForm.get('storeLink')?.hasError('required')">
+          اسم النطاق الفرعي مطلوب
+        </div>
       </div>
 
       <div class="field">
         <label class="field-label">نوع المتجر</label>
         <div class="store-type">
-          <button type="button" class="toggle-btn selected">فردي</button>
-          <button type="button" class="toggle-btn">مؤسسة</button>
-          <button type="button" class="toggle-btn">مؤسسة خيرية</button>
+          <button 
+            type="button" 
+            class="toggle-btn" 
+            [class.selected]="selectedStoreType === 'individual'"
+            (click)="selectStoreType('individual')">فردي</button>
+          <button 
+            type="button" 
+            class="toggle-btn" 
+            [class.selected]="selectedStoreType === 'company'"
+            (click)="selectStoreType('company')">مؤسسة</button>
+          <button 
+            type="button" 
+            class="toggle-btn" 
+            [class.selected]="selectedStoreType === 'charity'"
+            (click)="selectStoreType('charity')">مؤسسة خيرية</button>
         </div>
       </div>
     </div>
 
     <div class="actions">
-      <button class="btn-next" (click)="next()">التالي</button>
+      <button 
+        class="btn-next" 
+        (click)="next()"
+        [disabled]="!personalDetailsForm.valid">التالي</button>
     </div>
   </section>

@@ -2,7 +2,17 @@
 
 ::host { display: block; background: variables.$wash-me; min-height: 100vh; }
 
-.wizard-layout { display: flex; background: variables.$wash-me; min-height: calc(100vh - 3rem); }
+.wizard-layout { display: flex; background: variables.$wash-me; min-height: calc(100vh - 3rem); padding-top: 1rem; box-sizing: border-box; }
+
+@media (min-width: #{variables.$breakpoint-xs}) {
+  .wizard-layout { padding-top: 1.25rem; }
+}
+@media (min-width: #{variables.$breakpoint-md}) {
+  .wizard-layout { padding-top: 2rem; }
+}
+@media (min-width: #{variables.$breakpoint-lg}) {
+  .wizard-layout { padding-top: 5rem; }
+}
 
 :host { width: 100%; }
 .wizard-layout { width: 100%; }

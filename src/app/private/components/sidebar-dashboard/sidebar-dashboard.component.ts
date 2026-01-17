@@ -179,8 +179,8 @@ export class SidebarDashboardComponent implements OnInit, OnDestroy {
   }
 
   routerLink(){
-    // this.router.navigateByUrl(`https://${this.storeData.link}.localtest.me:4200/`)
-    window.location.href = `https://${this.storeData.link}.localtest.me:4200/`
+    // this.router.navigateByUrl(`http://${this.storeData.link}.dokan.local:4200/`)
+    window.location.href = `http://${this.storeData.link}.dokan.local:4200/`
    }
 
   itemList = [

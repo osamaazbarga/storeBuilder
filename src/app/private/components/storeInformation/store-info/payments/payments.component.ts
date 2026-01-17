@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { CommonModule } from '@angular/common';
+import { StoreInfoService } from '../../store-info.service';
+
 @Component({
   selector: 'app-store-payments',
   templateUrl: './payments.component.html',
@@ -18,8 +19,20 @@ export class PaymentsComponent {
     { key: 'tamara', label: 'تمارا' }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private storeInfoService: StoreInfoService
+  ) {
+    // Sync active step with current route
+    this.storeInfoService.setActiveStepFromRoute('payments', 3);
+  }
 
-  back() { this.router.navigate(['../store-info/address']); }
-  next() { this.router.navigate(['../store-info/theme']); }
+  back() { 
+    this.storeInfoService.goBackToPreviousStep(3);
+  }
+
+  next() { 
+    // Mark step 3 as completed
+    this.storeInfoService.goToNextStep(3);
+  }
 }
