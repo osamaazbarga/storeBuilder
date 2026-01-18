@@ -178,14 +178,34 @@ export class StoreService {
 
  
 
-    /**
-   * Loads store details based on subdomain
+  /**
+   * Loads store details based on subdomain or custom domain
    */
-    loadStoreBySubdomain(subdomain: string): Observable<StoreAddEdit> {
-      console.log(subdomain);
-      
-      return this.http.get<StoreAddEdit>(`${environment.appUrl}/${this.url}/by-subdomain/${subdomain}`);
+  loadStoreBySubdomain(identifier: string): Observable<StoreAddEdit> {
+    console.log('🔍 Loading store by identifier:', identifier);
+    
+    // تحديد ما إذا كان subdomain أم custom domain
+    const platformDomain = environment.platformDomain;
+    const isSubdomain = identifier.includes('.') ? identifier.endsWith(`.${platformDomain}`) : !identifier.includes('.');
+    
+    if (isSubdomain && identifier.includes('.')) {
+      // استخراج الـ subdomain فقط (مثال: test.dokn.net -> test)
+      identifier = identifier.split('.')[0];
     }
+    
+    console.log('📡 API Call - Identifier:', identifier, 'IsSubdomain:', isSubdomain);
+    
+    // استخدام endpoint واحد - الباك إند يجب أن يفحص كلا الحقلين
+    return this.http.get<StoreAddEdit>(`${environment.appUrl}/${this.url}/by-identifier/${identifier}`);
+  }
+  
+  /**
+   * Loads store details by custom domain
+   */
+  loadStoreByCustomDomain(domain: string): Observable<StoreAddEdit> {
+    console.log('🔍 Loading store by custom domain:', domain);
+    return this.http.get<StoreAddEdit>(`${environment.appUrl}/${this.url}/by-custom-domain/${domain}`);
+  }
   
     /**
      * Get all stores for the current user (example)

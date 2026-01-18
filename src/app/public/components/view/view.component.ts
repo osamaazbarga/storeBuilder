@@ -37,20 +37,28 @@ export class ViewComponent {
     
     if (!isMainPlatform && parts[0] !== 'localhost') {
       let storeIdentifier = '';
+      let isCustomDomain = false;
       
       // Case 1: Subdomain of platform (e.g., store1.dokan.local)
       if (hostname.endsWith(`.${platformDomain}`) && parts.length > 2) {
         storeIdentifier = parts[0]; // "store1"
+        isCustomDomain = false;
         console.log('🔍 Detected subdomain:', storeIdentifier);
       }
-      // Case 2: Custom domain (e.g., shop1.local, mystore.com)
+      // Case 2: Custom domain (e.g., shop1.local, mystore.com, www.dokn.shop)
       else if (!hostname.endsWith(`.${platformDomain}`) && hostname !== platformDomain) {
-        storeIdentifier = hostname; // Full domain "shop1.local"
+        storeIdentifier = hostname; // Full domain "www.dokn.shop"
+        isCustomDomain = true;
         console.log('🔍 Detected custom domain:', storeIdentifier);
       }
       
       if (storeIdentifier) {
-        this.storeService.loadStoreBySubdomain(storeIdentifier).subscribe({
+        // استخدام الـ method المناسب حسب نوع الدومين
+        const loadObservable = isCustomDomain 
+          ? this.storeService.loadStoreByCustomDomain(storeIdentifier)
+          : this.storeService.loadStoreBySubdomain(storeIdentifier);
+        
+        loadObservable.subscribe({
           next: (store) => {
             this.isStoreView = true;
             console.log('✅ Store loaded:', store);
@@ -59,7 +67,7 @@ export class ViewComponent {
             console.error('❌ Store not found for:', storeIdentifier);
             console.error('Error:', err);
             // Don't redirect for custom domains, just show error
-            if (hostname.endsWith(`.${platformDomain}`)) {
+            if (!isCustomDomain && hostname.endsWith(`.${platformDomain}`)) {
               window.location.href = `http://${platformDomain}:4200`;
             }
           }
