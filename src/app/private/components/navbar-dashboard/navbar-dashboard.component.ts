@@ -17,7 +17,7 @@ interface Notification {
 @Component({
   selector: 'app-navbar-dashboard',
   templateUrl: './navbar-dashboard.component.html',
-  styleUrls: ['./navbar-dashboard.component.css'],
+  styleUrls: ['./navbar-dashboard.component.scss'],
   standalone: false
 })
 export class NavbarDashboardComponent implements OnInit, OnDestroy {
@@ -26,17 +26,28 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   currentUser: User | null = null;
   notifications: Notification[] = [];
   notificationCount = 0;
+  currentPageTitle = 'DASHBOARD.MAIN';
+  breadcrumb = '';
+  defaultAvatar = 'assets/images/default-avatar.png';
+  isNotificationsOpen = false;
+  isUserMenuOpen = false;
   
   private subscriptions: Subscription[] = [];
 
   constructor(
     private router: Router,
     private usersService: UsersService
-  ) {}
+  ) {
+    // Listen to route changes for breadcrumb
+    this.router.events.subscribe(() => {
+      this.updateBreadcrumb();
+    });
+  }
 
   ngOnInit() {
     this.initializeComponent();
     this.loadNotifications();
+    this.updateBreadcrumb();
   }
 
   ngOnDestroy() {
@@ -49,6 +60,55 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
     });
     
     this.subscriptions.push(userSub);
+  }
+
+  /**
+   * Update breadcrumb based on current route
+   */
+  private updateBreadcrumb() {
+    const url = this.router.url;
+    const segments = url.split('/').filter(s => s);
+    
+    // Set page title based on route
+    if (url.includes('/dashboard/products')) {
+      this.currentPageTitle = 'MERCHANT.PRODUCTS';
+      this.breadcrumb = 'DASHBOARD.HOME / MERCHANT.PRODUCTS';
+    } else if (url.includes('/dashboard/orders')) {
+      this.currentPageTitle = 'MERCHANT.ORDERS';
+      this.breadcrumb = 'DASHBOARD.HOME / MERCHANT.ORDERS';
+    } else if (url.includes('/dashboard/customers')) {
+      this.currentPageTitle = 'MERCHANT.CUSTOMERS';
+      this.breadcrumb = 'DASHBOARD.HOME / MERCHANT.CUSTOMERS';
+    } else if (url.includes('/dashboard/custom-domains')) {
+      this.currentPageTitle = 'MERCHANT.CUSTOM_DOMAINS';
+      this.breadcrumb = 'DASHBOARD.HOME / MERCHANT.CUSTOM_DOMAINS';
+    } else if (url === '/dashboard' || url === '/dashboard/') {
+      this.currentPageTitle = 'DASHBOARD.MAIN';
+      this.breadcrumb = 'DASHBOARD.HOME';
+    } else {
+      this.currentPageTitle = 'DASHBOARD.MAIN';
+      this.breadcrumb = 'DASHBOARD.HOME';
+    }
+  }
+
+  /**
+   * Toggle notifications dropdown
+   */
+  toggleNotifications() {
+    this.isNotificationsOpen = !this.isNotificationsOpen;
+    if (this.isNotificationsOpen) {
+      this.isUserMenuOpen = false;
+    }
+  }
+
+  /**
+   * Toggle user menu dropdown
+   */
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+    if (this.isUserMenuOpen) {
+      this.isNotificationsOpen = false;
+    }
   }
 
   private loadNotifications() {

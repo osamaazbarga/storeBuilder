@@ -4,9 +4,39 @@
     <app-navbar-dashboard (sidebarToggle)="onSidebarToggle()"></app-navbar-dashboard>
 
     <!-- Main Dashboard Content -->
-    <div class="container-fluid">
-      
+    <main class="dashboard-main">
+      <!-- User Stores Section -->
+      <div class="stores-section" *ngIf="loading || userStores.length > 0 || userStores.length === 0">
+        <div *ngIf="loading" class="loading-message">
+          <p>{{ currentLang === 'ar' ? 'جاري تحميل متاجرك...' : 'Loading your stores...' }}</p>
+        </div>
+
+        <div *ngIf="!loading && userStores.length > 0" class="stores-container">
+          <h2>{{ currentLang === 'ar' ? 'متاجري' : 'My Stores' }}</h2>
+          <div class="stores-grid">
+            <div *ngFor="let store of userStores" class="store-card">
+              <h3>{{ store.name }}</h3>
+              <p class="store-subdomain">{{ store.subdomain }}.{{ platformDomain }}</p>
+              <p class="store-status" [class.active]="store.status === 'active'">
+                {{ currentLang === 'ar' ? 'الحالة:' : 'Status:' }} 
+                {{ store.status === 'active' ? (currentLang === 'ar' ? 'نشط' : 'Active') : (currentLang === 'ar' ? 'غير نشط' : 'Inactive') }}
+              </p>
+              <a [href]="'https://' + store.subdomain + '.' + platformDomain" target="_blank" class="visit-store-btn">
+                {{ currentLang === 'ar' ? 'زيارة المتجر' : 'Visit Store' }}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!loading && userStores.length === 0" class="no-stores">
+          <p>{{ currentLang === 'ar' ? 'ليس لديك أي متاجر حتى الآن.' : "You don't have any stores yet." }}</p>
+          <button routerLink="/store-info" class="create-store-btn">
+            {{ currentLang === 'ar' ? 'إنشاء متجرك الأول' : 'Create Your First Store' }}
+          </button>
+        </div>
+      </div>
+
       <router-outlet></router-outlet>
-    </div>
+    </main>
   </div>
 </div>

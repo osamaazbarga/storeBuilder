@@ -1,0 +1,435 @@
+@use 'sass:color';
+@use '../../../../styles/helpers/variables' as *;
+@use '../../../../styles/helpers/mixins' as *;
+
+// Custom Domains Container
+.custom-domains-container {
+  padding: $spacing-lg;
+  min-height: calc(100vh - #{$navbar-height});
+  background: $gray-50;
+
+  @include mobile-only {
+    padding: $spacing-md;
+  }
+}
+
+// Page Header
+.page-header {
+  margin-bottom: $spacing-xl;
+  padding: $spacing-lg;
+  background: $white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
+
+  h1 {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $dark;
+    margin: 0 0 $spacing-sm 0;
+
+    @include mobile-only {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  p {
+    font-size: $font-size-base;
+    color: $gray-600;
+    margin: 0;
+  }
+}
+
+// Alerts
+.alert {
+  @include flex-start;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $border-radius-lg;
+  margin-bottom: $spacing-lg;
+  animation: slideInDown 0.3s ease-out;
+
+  &-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  &-text {
+    flex: 1;
+    font-size: $font-size-sm;
+  }
+
+  &-close {
+    @include button-base;
+    background: transparent;
+    padding: $spacing-xs;
+    min-width: auto;
+
+    &:hover {
+      background: rgba($black, 0.05);
+    }
+  }
+
+  &.alert-success {
+    background: color.adjust($success, $lightness: 48%);
+    color: $success;
+    border: 1px solid color.adjust($success, $lightness: 40%);
+  }
+
+  &.alert-error {
+    background: color.adjust($danger, $lightness: 48%);
+    color: $danger;
+    border: 1px solid color.adjust($danger, $lightness: 40%);
+  }
+}
+
+// Add Domain Card
+.add-domain-card {
+  @include card;
+  margin-bottom: $spacing-xl;
+
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $dark;
+    margin: 0 0 $spacing-lg 0;
+  }
+
+  .add-domain-form {
+    @include flex-start;
+    gap: $spacing-md;
+
+    @include mobile-only {
+      flex-direction: column;
+    }
+
+    .domain-input {
+      @include input-base;
+      flex: 1;
+      min-width: 300px;
+
+      @include mobile-only {
+        width: 100%;
+        min-width: auto;
+      }
+    }
+
+    .add-btn {
+      @include button-primary;
+      @include flex-center;
+      gap: $spacing-sm;
+      white-space: nowrap;
+
+      i {
+        font-size: 20px;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .domain-hint {
+    margin-top: $spacing-md;
+    font-size: $font-size-sm;
+    color: $gray-600;
+  }
+}
+
+// Domains List
+.domains-list {
+  @include flex-column;
+  gap: $spacing-md;
+}
+
+.domain-card {
+  @include card;
+  transition: all $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+
+  .domain-header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+
+    @include mobile-only {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-md;
+    }
+
+    .domain-info {
+      flex: 1;
+
+      .domain-name {
+        @include flex-start;
+        gap: $spacing-sm;
+        margin-bottom: $spacing-xs;
+
+        h3 {
+          font-size: $font-size-lg;
+          font-weight: $font-weight-semibold;
+          color: $dark;
+          margin: 0;
+          word-break: break-all;
+        }
+
+        .verified-badge {
+          @include flex-center;
+          gap: $spacing-xs;
+          padding: $spacing-xs $spacing-sm;
+          background: color.adjust($success, $lightness: 48%);
+          color: $success;
+          border-radius: $border-radius-sm;
+          font-size: $font-size-xs;
+          font-weight: $font-weight-semibold;
+          white-space: nowrap;
+
+          i {
+            font-size: 16px;
+          }
+        }
+
+        .pending-badge {
+          @include flex-center;
+          gap: $spacing-xs;
+          padding: $spacing-xs $spacing-sm;
+          background: color.adjust($warning, $lightness: 48%);
+          color: $warning;
+          border-radius: $border-radius-sm;
+          font-size: $font-size-xs;
+          font-weight: $font-weight-semibold;
+          white-space: nowrap;
+
+          i {
+            font-size: 16px;
+          }
+        }
+      }
+
+      .domain-meta {
+        @include flex-start;
+        gap: $spacing-lg;
+        font-size: $font-size-sm;
+        color: $gray-600;
+
+        @include mobile-only {
+          flex-direction: column;
+          gap: $spacing-xs;
+        }
+
+        .meta-item {
+          @include flex-center;
+          gap: $spacing-xs;
+
+          i {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+
+    .domain-actions {
+      @include flex-end;
+      gap: $spacing-sm;
+
+      @include mobile-only {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .action-btn {
+        @include button-base;
+        @include flex-center;
+        gap: $spacing-xs;
+        padding: $spacing-sm $spacing-md;
+        font-size: $font-size-sm;
+
+        i {
+          font-size: 18px;
+        }
+
+        &.verify-btn {
+          @include button-primary;
+        }
+
+        &.delete-btn {
+          background: transparent;
+          color: $danger;
+          border: 1px solid $danger;
+
+          &:hover {
+            background: $danger;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+
+  .dns-instructions {
+    margin-top: $spacing-lg;
+    padding: $spacing-lg;
+    background: $gray-50;
+    border-radius: $border-radius-md;
+    border: 1px solid $gray-200;
+
+    h4 {
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      color: $dark;
+      margin: 0 0 $spacing-md 0;
+    }
+
+    .instruction-steps {
+      @include flex-column;
+      gap: $spacing-md;
+
+      .step {
+        @include flex-start;
+        gap: $spacing-md;
+
+        .step-number {
+          @include flex-center;
+          width: 28px;
+          height: 28px;
+          background: $primary;
+          color: $white;
+          border-radius: $border-radius-full;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-bold;
+          flex-shrink: 0;
+        }
+
+        .step-content {
+          flex: 1;
+          font-size: $font-size-sm;
+          color: $gray-700;
+        }
+      }
+    }
+
+    .dns-record {
+      margin-top: $spacing-md;
+      padding: $spacing-md;
+      background: $white;
+      border-radius: $border-radius-sm;
+      border: 1px solid $gray-300;
+
+      .record-row {
+        @include flex-between;
+        padding: $spacing-sm 0;
+        border-bottom: 1px solid $gray-200;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .record-label {
+          font-size: $font-size-sm;
+          font-weight: $font-weight-semibold;
+          color: $gray-700;
+        }
+
+        .record-value {
+          font-size: $font-size-sm;
+          color: $dark;
+          font-family: $font-family-mono;
+          word-break: break-all;
+        }
+      }
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  @include flex-center;
+  @include flex-column;
+  gap: $spacing-lg;
+  padding: $spacing-3xl;
+  text-align: center;
+  background: $white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
+
+  i {
+    font-size: 80px;
+    color: $gray-400;
+  }
+
+  h3 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $dark;
+    margin: 0;
+  }
+
+  p {
+    font-size: $font-size-base;
+    color: $gray-600;
+    margin: 0;
+    max-width: 500px;
+  }
+}
+
+// Loading State
+.loading-state {
+  @include flex-center;
+  padding: $spacing-3xl;
+
+  .spinner {
+    @include spinner(40px, 4px, $primary);
+  }
+}
+
+// RTL Support
+[dir='rtl'] {
+  .custom-domains-container {
+    direction: rtl;
+  }
+
+  .add-domain-form,
+  .domain-header,
+  .domain-actions {
+    flex-direction: row-reverse;
+  }
+
+  .dns-record .record-row {
+    flex-direction: row-reverse;
+  }
+}
+
+// Animations
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.domain-card {
+  animation: fadeIn 0.3s ease-out;
+  animation-fill-mode: both;
+
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
+}
+
+// Print Styles
+@media print {
+  .domain-actions,
+  .add-domain-card {
+    display: none;
+  }
+}

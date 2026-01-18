@@ -1,0 +1,287 @@
+<div class="custom-domains-container">
+  
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-header-content">
+      <div class="header-icon">
+        <i class="material-symbols-rounded">language</i>
+      </div>
+      <div class="header-text">
+        <h1>{{ 'CUSTOM_DOMAINS.TITLE' | translate }}</h1>
+        <p>{{ 'CUSTOM_DOMAINS.SUBTITLE' | translate }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div class="alert alert-error" *ngIf="errorMessage" (click)="clearMessages()">
+    <span class="alert-icon">❌</span>
+    <span class="alert-text">{{ errorMessage }}</span>
+    <button class="alert-close" (click)="clearMessages()">×</button>
+  </div>
+
+  <div class="alert alert-success" *ngIf="successMessage" (click)="clearMessages()">
+    <span class="alert-icon">✅</span>
+    <span class="alert-text">{{ successMessage }}</span>
+    <button class="alert-close" (click)="clearMessages()">×</button>
+  </div>
+
+  <!-- Add Domain Card -->
+  <div class="card add-domain-card">
+    <h2>إضافة دومين جديد</h2>
+    <p class="card-subtitle">أضف دومينك الخاص (مثل: www.mystore.com)</p>
+    
+    <div class="add-domain-form">
+      <div class="input-group">
+        <span class="input-icon">🌐</span>
+        <input 
+          type="text" 
+          [(ngModel)]="newDomain" 
+          placeholder="www.example.com"
+          [disabled]="isAdding"
+          (keyup.enter)="addDomain()"
+          class="domain-input"
+        />
+      </div>
+      
+      <button 
+        (click)="addDomain()" 
+        [disabled]="isAdding || !newDomain.trim()"
+        class="btn btn-primary"
+      >
+        <span *ngIf="!isAdding">➕ إضافة الدومين</span>
+        <span *ngIf="isAdding">
+          <span class="spinner"></span>
+          جاري الإضافة...
+        </span>
+      </button>
+    </div>
+
+    <div class="domain-examples">
+      <span class="example-label">أمثلة:</span>
+      <span class="example-item">www.mystore.com</span>
+      <span class="example-item">shop.mybrand.net</span>
+      <span class="example-item">store.example.sa</span>
+    </div>
+  </div>
+
+  <!-- Instructions Modal -->
+  <div class="instructions-modal" *ngIf="showInstructions && instructions" (click)="closeInstructions()">
+    <div class="instructions-content" (click)="$event.stopPropagation()">
+      <div class="instructions-header">
+        <h2>📝 تعليمات الربط</h2>
+        <button class="close-btn" (click)="closeInstructions()">×</button>
+      </div>
+
+      <div class="instructions-body">
+        <p class="instructions-message">{{ instructions.message }}</p>
+
+        <div class="dns-records">
+          <h3>إعدادات DNS المطلوبة:</h3>
+          <div class="dns-table-container">
+            <table class="dns-table">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Name</th>
+                  <th>Value</th>
+                  <th>TTL</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let record of instructions.records">
+                  <td><code>{{ record.type }}</code></td>
+                  <td><code>{{ record.name }}</code></td>
+                  <td><code>{{ record.value }}</code></td>
+                  <td><code>{{ record.ttl }}</code></td>
+                  <td>
+                    <button 
+                      class="btn-icon" 
+                      (click)="copyToClipboard(record.value)"
+                      title="نسخ"
+                    >
+                      📋
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="verification-token" *ngIf="instructions.verificationToken">
+          <h3>رمز التحقق:</h3>
+          <div class="token-box">
+            <code>{{ instructions.verificationToken }}</code>
+            <button 
+              class="btn-icon" 
+              (click)="copyToClipboard(instructions.verificationToken)"
+            >
+              📋
+            </button>
+          </div>
+        </div>
+
+        <div class="next-step">
+          <strong>الخطوة التالية:</strong>
+          <p>{{ instructions.nextStep }}</p>
+        </div>
+
+        <div class="important-note">
+          <span class="note-icon">💡</span>
+          <div class="note-content">
+            <strong>ملاحظة مهمة:</strong>
+            <p>قد يستغرق تفعيل DNS من 5 دقائق إلى 24 ساعة حسب مزود الدومين. بعد إضافة السجلات، اضغط "تحقق الآن" للتأكد من الإعدادات.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="instructions-footer">
+        <button class="btn btn-primary" (click)="closeInstructions()">
+          فهمت، شكراً
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Domains List Card -->
+  <div class="card domains-list-card">
+    <div class="card-header-with-action">
+      <div>
+        <h2>الدومينات المضافة</h2>
+        <p class="card-subtitle">إدارة جميع دومينات المتجر</p>
+      </div>
+      <button class="btn btn-secondary" (click)="loadDomains()" [disabled]="isLoading">
+        <span *ngIf="!isLoading">🔄 تحديث</span>
+        <span *ngIf="isLoading">
+          <span class="spinner"></span>
+          جاري التحميل...
+        </span>
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="isLoading">
+      <div class="spinner-large"></div>
+      <p>جاري تحميل الدومينات...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!isLoading && domains.length === 0">
+      <div class="empty-icon">🌐</div>
+      <h3>لا يوجد دومينات مضافة بعد</h3>
+      <p>أضف دومينك الأول لتبدأ في استخدام نطاق مخصص لمتجرك</p>
+    </div>
+
+    <!-- Domains List -->
+    <div class="domains-list" *ngIf="!isLoading && domains.length > 0">
+      <div class="domain-card" *ngFor="let domain of domains" [class.primary]="domain.isPrimary">
+        
+        <!-- Domain Header -->
+        <div class="domain-header">
+          <div class="domain-info">
+            <h3 class="domain-name">
+              {{ domain.domain }}
+              <span class="badge badge-primary" *ngIf="domain.isPrimary">رئيسي</span>
+              <span class="badge badge-subdomain" *ngIf="domain.type === 'subdomain'">نطاق فرعي</span>
+            </h3>
+            <p class="domain-date">أُضيف في: {{ domain.createdAt | date:'medium' }}</p>
+          </div>
+        </div>
+
+        <!-- Domain Status -->
+        <div class="domain-status-section">
+          <div class="status-item">
+            <span class="status-label">حالة الدومين:</span>
+            <span 
+              class="status-badge" 
+              [style.background-color]="getStatusLabel(domain.status).color"
+            >
+              {{ getStatusLabel(domain.status).icon }} {{ getStatusLabel(domain.status).text }}
+            </span>
+          </div>
+
+          <div class="status-item">
+            <span class="status-label">SSL:</span>
+            <span 
+              class="status-badge" 
+              [style.background-color]="getSslStatusLabel(domain.sslStatus).color"
+            >
+              {{ getSslStatusLabel(domain.sslStatus).text }}
+            </span>
+          </div>
+
+          <div class="status-item">
+            <span class="status-label">DNS:</span>
+            <span 
+              class="status-badge" 
+              [style.background-color]="domain.dnsConfigured ? '#28a745' : '#ffc107'"
+            >
+              {{ domain.dnsConfigured ? '✅ مُعد' : '⏳ غير مُعد' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Domain Actions -->
+        <div class="domain-actions">
+          <button 
+            *ngIf="domain.status !== 'active' && domain.type === 'custom'"
+            (click)="verifyDomain(domain)"
+            [disabled]="isVerifying(domain.id)"
+            class="btn btn-success"
+          >
+            <span *ngIf="!isVerifying(domain.id)">🔍 تحقق الآن</span>
+            <span *ngIf="isVerifying(domain.id)">
+              <span class="spinner"></span>
+              جاري التحقق...
+            </span>
+          </button>
+
+          <button 
+            *ngIf="domain.status === 'active' && !domain.isPrimary"
+            (click)="setPrimaryDomain(domain)"
+            class="btn btn-secondary"
+          >
+            ⭐ تعيين كرئيسي
+          </button>
+
+          <button 
+            *ngIf="domain.type === 'custom'"
+            (click)="removeDomain(domain)"
+            class="btn btn-danger"
+          >
+            🗑️ حذف
+          </button>
+        </div>
+
+        <!-- Warning Message -->
+        <div class="warning-message" *ngIf="!domain.dnsConfigured && domain.type === 'custom'">
+          <span class="warning-icon">⚠️</span>
+          <span>لم يتم إعداد DNS بعد. أضف سجل CNAME في إعدادات دومينك ثم اضغط "تحقق الآن"</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Section -->
+  <div class="card help-card">
+    <h2>❓ هل تحتاج مساعدة؟</h2>
+    <div class="help-content">
+      <div class="help-item">
+        <h3>📚 كيفية إضافة سجل CNAME</h3>
+        <p>اذهب إلى لوحة تحكم مزود الدومين (GoDaddy، Namecheap، إلخ) وابحث عن "DNS Management" أو "DNS Settings"</p>
+      </div>
+      <div class="help-item">
+        <h3>⏰ كم يستغرق التفعيل؟</h3>
+        <p>عادةً من 5-30 دقيقة، لكن قد يستغرق حتى 24 ساعة في بعض الحالات</p>
+      </div>
+      <div class="help-item">
+        <h3>🔒 هل SSL تلقائي؟</h3>
+        <p>نعم! سيتم إصدار شهادة SSL تلقائياً بعد التحقق من DNS</p>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -41,6 +41,7 @@
         "BULK_ACTIONS":"פעולות קבוצתיות",
         "IMPORT_EXPORT":"יבוא ויצוא",
         "API_INTEGRATIONS":"אינטגרציות API",
+        "CUSTOM_DOMAINS":"דומיינים מותאמים אישית",
         "PAYMENT_SETTINGS":"הגדרות תשלום",
         "SHIPPING_SETTINGS":"הגדרות משלוח",
         "TAX_SETTINGS":"הגדרות מס",
@@ -56,8 +57,15 @@
         "BILLING_INVOICES":"חיוב וחשבוניות",
         "ACCOUNT_SETTINGS":"הגדרות חשבון"
     },
+
+    "CUSTOM_DOMAINS": {
+        "TITLE": "דומיינים מותאמים אישית",
+        "SUBTITLE": "קשר את הדומיין שלך לחנות שלך במקום להשתמש בתת-דומיין"
+    },
     
     "DASHBOARD": {
+        "HOME": "בית",
+        "MAIN": "לוח מחוונים",
         "WELCOME_BACK": "ברוך שובך",
         "STORE_OVERVIEW": "סקירה של חנות {{storeName}}",
         "GETTING_STARTED": "התחל את המסע העסקי שלך איתנו",
@@ -110,7 +118,39 @@
         "UPDATED_RECENTLY": "עודכן לאחרונה",
         "VIEW_REPORT": "צפה בדוח",
         "EXPORT_DATA": "ייצא נתונים",
-        "REFRESH": "רענן"
+        "REFRESH": "רענן",
+        "PAGES": "עמודים",
+        "SEARCH_PLACEHOLDER": "חיפוש...",
+        "ADD_CUSTOMER": "הוסף לקוח",
+        "CREATE_CAMPAIGN": "צור קמפיין",
+        "NOTIFICATIONS": "התראות",
+        "YOU_HAVE": "יש לך",
+        "NEW_NOTIFICATIONS": "התראות חדשות",
+        "NO_NOTIFICATIONS": "אין התראות",
+        "MARK_ALL_READ": "סמן הכל כנקרא",
+        "VIEW_ALL_NOTIFICATIONS": "צפה בכל ההתראות",
+        "MY_PROFILE": "הפרופיל שלי",
+        "ACCOUNT_SETTINGS": "הגדרות חשבון",
+        "BILLING": "חיוב",
+        "LOGOUT": "התנתק",
+        "NEW_ORDER_RECEIVED": "הזמנה חדשה",
+        "LOW_STOCK_ALERT": "התראת מלאי נמוך",
+        "PAYMENT_RECEIVED": "תשלום התקבל",
+        "NEW_ACTIVITY": "פעילות חדשה",
+        "VISIT_STORE": "בקר בחנות"
+    },
+
+    "NAVBAR": {
+        "SEARCH": "חיפוש...",
+        "MENU": "תפריט",
+        "CLOSE_MENU": "סגור תפריט"
+    },
+
+    "SIDEBAR": {
+        "VISIT_STORE": "בקר בחנות",
+        "COLLAPSE": "כווץ",
+        "EXPAND": "הרחב",
+        "MENU": "תפריט"
     },
     
     "ORDER_STATUS": {

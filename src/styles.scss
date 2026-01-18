@@ -1,6 +1,13 @@
 /* Global Styles */
 @use './variables' as vars;
 
+/* New Helper Files */
+@use './styles/helpers/variables' as helpers;
+@use './styles/helpers/mixins' as mix;
+@use './styles/helpers/animations';
+@use './styles/helpers/utilities';
+@use './styles/helpers/responsive';
+
 /* Dokan Theme */
 @use './styles/dokan-theme';
 

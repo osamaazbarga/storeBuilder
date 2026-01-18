@@ -1,0 +1,302 @@
+@use 'sass:color';
+@use '../../../../../../styles/helpers/variables' as *;
+@use '../../../../../../styles/helpers/mixins' as *;
+
+.stat-card {
+  background: $white;
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-lg;
+  min-height: 140px;
+  position: relative;
+  overflow: hidden;
+  transition: all $transition-base;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+    border-color: transparent;
+  }
+
+  // Background decoration
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    opacity: 0.05;
+    border-radius: $border-radius-full;
+    transition: all $transition-base;
+  }
+
+  &:hover::before {
+    transform: scale(1.2);
+    opacity: 0.08;
+  }
+
+  &.stat-card-primary::before {
+    background: $primary;
+  }
+
+  &.stat-card-success::before {
+    background: $success;
+  }
+
+  &.stat-card-warning::before {
+    background: $warning;
+  }
+
+  &.stat-card-info::before {
+    background: $secondary;
+  }
+
+  &.stat-card-danger::before {
+    background: $danger;
+  }
+
+  // Icon styles
+  .stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: $border-radius-lg;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: all $transition-base;
+
+    i {
+      font-size: 36px;
+      font-weight: 300;
+    }
+  }
+
+  &:hover .stat-icon {
+    transform: scale(1.05) rotate(-5deg);
+  }
+
+  &.stat-card-primary .stat-icon {
+    background: color.adjust($primary, $lightness: 47%);
+    color: $primary;
+  }
+
+  &.stat-card-success .stat-icon {
+    background: color.adjust($success, $lightness: 47%);
+    color: $success;
+  }
+
+  &.stat-card-warning .stat-icon {
+    background: color.adjust($warning, $lightness: 45%);
+    color: $warning;
+  }
+
+  &.stat-card-info .stat-icon {
+    background: color.adjust($secondary, $lightness: 47%);
+    color: $secondary;
+  }
+
+  &.stat-card-danger .stat-icon {
+    background: color.adjust($danger, $lightness: 47%);
+    color: $danger;
+  }
+
+  // Content styles
+  .stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+
+    .stat-label {
+      font-size: $font-size-sm;
+      color: $gray-600;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: $font-weight-bold;
+      color: $dark;
+      margin: 0;
+      line-height: 1;
+      display: flex;
+      align-items: baseline;
+      gap: $spacing-xs;
+
+      @include mobile-only {
+        font-size: 1.75rem;
+      }
+    }
+
+    .stat-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $spacing-sm;
+      margin-top: $spacing-xs;
+      flex-wrap: wrap;
+
+      .stat-change {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-bold;
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $border-radius-md;
+        transition: all $transition-fast;
+
+        i {
+          font-size: 18px;
+        }
+
+        &.positive {
+          color: $success;
+          background: color.adjust($success, $lightness: 48%);
+        }
+
+        &.negative {
+          color: $danger;
+          background: color.adjust($danger, $lightness: 48%);
+        }
+      }
+
+      .stat-period {
+        font-size: $font-size-xs;
+        color: $gray-500;
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
+
+  // Responsive
+  @include tablet {
+    min-height: 120px;
+    gap: $spacing-md;
+
+    .stat-icon {
+      width: 64px;
+      height: 64px;
+
+      i {
+        font-size: 32px;
+      }
+    }
+
+    .stat-content .stat-value {
+      font-size: 1.75rem;
+    }
+  }
+
+  @include mobile-only {
+    min-height: 100px;
+    padding: $spacing-md;
+    gap: $spacing-sm;
+
+    .stat-icon {
+      width: 56px;
+      height: 56px;
+
+      i {
+        font-size: 28px;
+      }
+    }
+
+    .stat-content {
+      gap: $spacing-xs;
+
+      .stat-label {
+        font-size: $font-size-xs;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+      }
+
+      .stat-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $spacing-xs;
+
+        .stat-change {
+          font-size: $font-size-xs;
+          padding: 2px $spacing-xs;
+
+          i {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// RTL Support
+[dir='rtl'] {
+  .stat-card {
+    flex-direction: row-reverse;
+
+    &::before {
+      right: auto;
+      left: -20px;
+    }
+
+    .stat-content {
+      .stat-footer {
+        flex-direction: row-reverse;
+      }
+
+      .stat-value {
+        flex-direction: row-reverse;
+      }
+    }
+  }
+}
+
+// Animation
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.stat-card {
+  animation: scaleIn 0.4s ease-out;
+}
+
+// Print styles
+@media print {
+  .stat-card {
+    box-shadow: none;
+    border: 1px solid $gray-300;
+    page-break-inside: avoid;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    &::before {
+      display: none;
+    }
+  }
+}

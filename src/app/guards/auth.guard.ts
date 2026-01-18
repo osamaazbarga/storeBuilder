@@ -16,19 +16,25 @@ import { User } from '../models/account/user';
 // };
 
 export class AuthorizationGuard{
-  constructor(private userService:UsersService,private sharedService:SharedService,private router:Router){}
-  canActive(route:ActivatedRouteSnapshot,state:RouterStateSnapshot):Observable<boolean>{
+  constructor(
+    private userService: UsersService,
+    private sharedService: SharedService,
+    private router: Router
+  ) {}
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     const token = this.userService.getJWT();
+    
     if (token) {
+      // Simply check if token exists - refreshUser will be called by app.component
       return of(true);
     } else {
-      this.sharedService.showNotification(false,'Restricted Area','Leave immediately!');
-      this.router.navigate(['/login'],{queryParams:{returnUrl:state.url}})
+      // No token found
+      this.sharedService.showNotification(false, 'Authentication Required', 'Please login to continue');
+      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return of(false);
     }
   }
-
-  
 }
 
 

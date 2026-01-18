@@ -1,0 +1,31 @@
+{
+  "CUSTOM_DOMAINS": {
+    "TITLE": "דומיינים מותאמים אישית",
+    "SUBTITLE": "קשר את הדומיין שלך לחנות שלך במקום להשתמש בתת-דומיין",
+    "ADD_DOMAIN": "הוסף דומיין חדש",
+    "ADD_DOMAIN_SUBTITLE": "הוסף את הדומיין שלך (דוגמה: www.mystore.com)",
+    "DOMAIN_PLACEHOLDER": "www.example.com",
+    "ADD_BUTTON": "הוסף דומיין",
+    "ADDING": "מוסיף...",
+    "ADDED_DOMAINS": "דומיינים שנוספו",
+    "MANAGE_DOMAINS": "נהל את כל דומייני החנות",
+    "NO_DOMAINS": "עדיין לא נוספו דומיינים",
+    "ADD_FIRST_DOMAIN": "הוסף את הדומיין הראשון שלך כדי להתחיל להשתמש בדומיין מותאם אישית לחנות שלך",
+    "DOMAIN": "דומיין",
+    "STATUS": "סטטוס",
+    "ACTIONS": "פעולות",
+    "ACTIVE": "פעיל",
+    "PENDING": "ממתין",
+    "FAILED": "נכשל",
+    "VERIFY": "אמת",
+    "DELETE": "מחק",
+    "REFRESH": "רענן",
+    "HELP_TITLE": "צריך עזרה?",
+    "HELP_CNAME": "כיצד להוסיף רשומת CNAME",
+    "HELP_CNAME_DESC": "עבור ללוח הבקרה של הדומיין שלך (GoDaddy, Namecheap) והוסף רשומת CNAME",
+    "HELP_TIME": "כמה זמן לוקח ההפעלה?",
+    "HELP_TIME_DESC": "בדרך כלל 5-30 דקות. במקרים מסוימים, זה עשוי לקחת עד 24 שעות",
+    "HELP_SSL": "האם SSL אוטומטי?",
+    "HELP_SSL_DESC": "כן! תעודת SSL תונפק אוטומטית לאחר אימות DNS"
+  }
+}

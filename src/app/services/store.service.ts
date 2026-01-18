@@ -44,7 +44,7 @@ export class StoreService {
   }
 
   // استرجاع البيانات من localStorage
-  private loadStoreDataFromStorage() {
+  public loadStoreDataFromStorage() {
     try {
       const storedData = localStorage.getItem(this.STORE_DATA_KEY);
       if (storedData) {

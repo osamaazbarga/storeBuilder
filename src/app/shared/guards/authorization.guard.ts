@@ -19,7 +19,7 @@ export class AuthorizationGuard {
     if (token) {
       return of(true);
     } else {
-      this.sharedService.showNotification(false,"restricted Area","Leave immediately!");
+      this.sharedService.showNotification(false,"Authentication Required","Please login to access dashboard");
       this.router.navigate(['/login'],{queryParams:{returnUrl:state.url}})
       return of(false);
     }

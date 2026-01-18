@@ -2,211 +2,103 @@
 <div class="sidebar-overlay"
      [class.show]="isMobileSidebarOpen"
      (click)="onOverlayClick()"
-     (keydown)="onEscapeKey($event)"></div>
+     (keydown)="onEscapeKey($event)"
+     tabindex="-1"></div>
 
 <!-- Main Sidebar -->
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg"
-       [class.sidebar-ltr]="!isRTL"
-       [class.sidebar-rtl]="isRTL"
+<aside class="dashboard-sidebar"
+       [class.rtl]="isRTL"
+       [class.ltr]="!isRTL"
        [class.show]="isMobileSidebarOpen"
        [class.collapsed]="isCollapsed"
-       [class.ms-2]="!isRTL"
-       [class.me-2]="isRTL"
        id="sidenav-main"
        (keydown)="onEscapeKey($event)"
        tabindex="-1">
-  <div class="sidenav-header">
+  
+  <!-- Sidebar Header -->
+  <div class="sidebar-header">
     <!-- Collapse Button (Desktop) -->
     <button class="collapse-btn d-none d-lg-block"
             (click)="toggleCollapse()"
-            [attr.aria-label]="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+            [attr.aria-label]="isCollapsed ? ('SIDEBAR.EXPAND' | translate) : ('SIDEBAR.COLLAPSE' | translate)"
             type="button">
-      <i class="material-symbols-rounded">{{ isCollapsed ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</i>
+      <i class="material-symbols-rounded">
+        {{ isCollapsed ? (isRTL ? 'keyboard_arrow_left' : 'keyboard_arrow_right') : (isRTL ? 'keyboard_arrow_right' : 'keyboard_arrow_left') }}
+      </i>
     </button>
 
     <!-- Close Button (Mobile) -->
     <button class="close-btn d-lg-none"
             (click)="closeMobileSidebar()"
-            aria-label="Close sidebar"
+            [attr.aria-label]="'NAVBAR.CLOSE_MENU' | translate"
             type="button">
       <i class="material-symbols-rounded">close</i>
     </button>
 
-    <img src="./assets/images/redLogoHovered.png"
-         class="logo-img"
-         [class.d-none]="isCollapsed"
-         height="30"
-         alt="Logo">
-    <a class="navbar-brand px-4 py-3 m-0" target="_blank">
-      <img src="./assets/images/defult-img-store.jpg" class="navbar-brand-img mb-2 p-1" height="85" alt="main_logo">
-      <span class="text-dark mb-2" [style.text-align]="currentLang === 'ar' || currentLang === 'he' ? 'right' : 'left'">{{storeData?.name}}</span>
-      <a class="btn-store-link" (click)="routerLink()">
-        <span class="store-name">{{ 'DASHBOARD.VISIT_STORE' | translate }}</span>
-        <i class="material-symbols-rounded">Link</i>
-      </a>
-    </a>
+    <!-- Logo -->
+    <div class="logo-container" *ngIf="!isCollapsed">
+      <img src="./assets/images/redLogoHovered.png"
+           class="logo-img"
+           height="32"
+           alt="Dokan Logo">
+    </div>
+
+    <!-- Store Info -->
+    <div class="store-info" *ngIf="storeData && !isCollapsed">
+      <div class="store-avatar">
+        <img [src]="storeData?.logo || defaultLogo"
+             [alt]="storeData?.name"
+             class="store-img">
+      </div>
+      <div class="store-details">
+        <h3 class="store-name">{{ storeData?.name }}</h3>
+        <a class="visit-store-link" (click)="routerLink()" type="button">
+          <span>{{ 'SIDEBAR.VISIT_STORE' | translate }}</span>
+          <i class="material-symbols-rounded">open_in_new</i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Store Info Collapsed -->
+    <div class="store-info-collapsed" *ngIf="storeData && isCollapsed">
+      <img [src]="storeData?.logo || defaultLogo"
+           [alt]="storeData?.name"
+           class="store-img-small">
+    </div>
   </div>
-  <hr class="horizontal dark mt-0 mb-2">
-  <div class="navbar-collapse w-auto " id="sidenav-collapse-main">
-    <ul class="navbar-nav">
-      <!-- <ng-container *ngFor="let item of itemList">
-        <li class="nav-item">
-          <a class="nav-link active bg-gradient-dark text-white" href="/dashboard">
-            <i class="material-symbols-rounded opacity-5">dashboard</i>
-            <span class="nav-link-text ms-1">Dashboard</span>
-          </a>
-        </li>
-      </ng-container> -->
-      <app-sidebar-item *ngFor="let item of itemList" [item]="item"></app-sidebar-item>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Navigation Items -->
+  <nav class="sidebar-nav">
+    <ul class="nav-list">
+      <li *ngFor="let item of itemList" class="nav-item">
+        <!-- Section Header -->
+        <div *ngIf="item.kind === 'main'" class="nav-section-header">
+          <span *ngIf="!isCollapsed">{{ item.labelKey | translate }}</span>
+          <span *ngIf="isCollapsed" class="section-dot"></span>
+        </div>
+
+        <!-- Navigation Link -->
+        <a *ngIf="!item.kind && item.route"
+           [routerLink]="item.route"
+           class="nav-link"
+           [class.active]="isRouteActive(item.route)"
+           (click)="navigateTo(item.route)">
+          <i class="material-symbols-rounded nav-icon">{{ item.icon }}</i>
+          <span *ngIf="!isCollapsed" class="nav-text">{{ item.labelKey | translate }}</span>
+          <div *ngIf="isRouteActive(item.route)" class="active-indicator"></div>
+        </a>
+      </li>
     </ul>
-  </div>
-  <div class="sidenav-footer position-sticky w-100 bottom-0 bg-white">
-    <div class="mx-3">
-      <a class="btn btn-outline-dark mt-4 w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard?ref=sidebarfree" type="button">Documentation</a>
-      <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
+  </nav>
+
+  <!-- Sidebar Footer -->
+  <div class="sidebar-footer" *ngIf="!isCollapsed">
+    <div class="footer-content">
+      <p class="footer-text">{{ 'DASHBOARD.HOME' | translate }}</p>
+      <span class="footer-version">v1.0.0</span>
     </div>
   </div>
 </aside>
-<!-- <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-        <span class="fs-4">Sidebar</span>
-      </a>
-      <hr>
-    
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">
-            <span data-feather="home"></span>
-            الرئيسيه
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="dashboard/products">
-            <span data-feather="file"></span>
-            المنتجات
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="shopping-cart"></span>
-            الطلبات
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="users"></span>
-            العملاء
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="bar-chart-2"></span>
-            التقارير
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="layers"></span>
-            الاسئله والتقييمات
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="layers"></span>
-            الصفحات التعريفيه
-          </a>
-        </li>
-      </ul>
-
-      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-        <span>التقارير المحفوظة</span>
-        <a class="link-secondary" href="#" aria-label="إضافة تقرير جديد">
-          <span data-feather="plus-circle"></span>
-        </a>
-      </h6>
-      <ul class="nav flex-column mb-2">
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="file-text"></span>
-            الشهر الحالي
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="file-text"></span>
-            الربع الأخير
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="file-text"></span>
-            التفاعل الإجتماعي
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <span data-feather="file-text"></span>
-            مبيعات نهاية العام
-          </a>
-        </li>
-      </ul>
-    
-  </nav> -->
-
-
-
-  <!-- <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-      <span class="fs-4">Sidebar</span>
-    </a>
-    <hr>
-    <div class="position-sticky pt-3"></div>
-    <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item">
-        <a href="#" class="nav-link active" aria-current="page">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
-          Home
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link link-dark">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-          Dashboard
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link link-dark">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-          Orders
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link link-dark">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
-          Products
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link link-dark">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          Customers
-        </a>
-      </li>
-    </ul>
-    <hr>
-    <div class="dropdown">
-      <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>mdo</strong>
-      </a>
-      <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-        <li><a class="dropdown-item" href="#">New project...</a></li>
-        <li><a class="dropdown-item" href="#">Settings</a></li>
-        <li><a class="dropdown-item" href="#">Profile</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Sign out</a></li>
-      </ul>
-    </div>
-  </div> -->

@@ -1,0 +1,248 @@
+@use 'sass:color';
+@use '../../../../../../styles/helpers/variables' as *;
+@use '../../../../../../styles/helpers/mixins' as *;
+
+.recent-orders-card {
+  .card-header {
+    @include flex-between;
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $gray-200;
+
+    .card-title {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $dark;
+      margin: 0;
+    }
+
+    .view-all-btn {
+      @include flex-center;
+      gap: $spacing-xs;
+      background: transparent;
+      border: none;
+      color: $primary;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      cursor: pointer;
+      transition: all $transition-fast;
+
+      i {
+        font-size: 18px;
+        transition: transform $transition-fast;
+      }
+
+      &:hover {
+        color: color.adjust($primary, $lightness: -10%);
+
+        i {
+          transform: translateX(4px);
+        }
+      }
+    }
+  }
+
+  .orders-table {
+    .table-responsive {
+      overflow-x: auto;
+      @include custom-scrollbar(6px, $gray-400, $gray-100);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      thead {
+        tr {
+          border-bottom: 2px solid $gray-200;
+
+          th {
+            padding: $spacing-sm $spacing-md;
+            text-align: left;
+            font-size: $font-size-sm;
+            font-weight: $font-weight-semibold;
+            color: $gray-700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+          }
+        }
+      }
+
+      tbody {
+        .order-row {
+          border-bottom: 1px solid $gray-100;
+          transition: background $transition-fast;
+
+          &:hover {
+            background: $gray-50;
+          }
+
+          td {
+            padding: $spacing-md;
+            vertical-align: middle;
+
+            .order-info {
+              @include flex-column;
+              gap: $spacing-xs;
+
+              .order-id {
+                font-size: $font-size-sm;
+                font-weight: $font-weight-semibold;
+                color: $dark;
+              }
+
+              .order-date {
+                font-size: $font-size-xs;
+                color: $gray-600;
+              }
+            }
+
+            .customer-info {
+              .customer-name {
+                font-size: $font-size-sm;
+                color: $dark;
+                font-weight: $font-weight-medium;
+              }
+            }
+
+            .status-badge {
+              display: inline-block;
+              padding: $spacing-xs $spacing-sm;
+              border-radius: $border-radius-sm;
+              font-size: $font-size-xs;
+              font-weight: $font-weight-semibold;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              white-space: nowrap;
+
+              &.status-pending {
+                background: color.adjust($warning, $lightness: 45%);
+                color: $warning;
+              }
+
+              &.status-processing {
+                background: color.adjust($secondary, $lightness: 45%);
+                color: $secondary;
+              }
+
+              &.status-shipped {
+                background: color.adjust($primary, $lightness: 45%);
+                color: $primary;
+              }
+
+              &.status-delivered {
+                background: color.adjust($success, $lightness: 45%);
+                color: $success;
+              }
+
+              &.status-cancelled {
+                background: color.adjust($danger, $lightness: 45%);
+                color: $danger;
+              }
+            }
+
+            .order-total {
+              font-size: $font-size-base;
+              font-weight: $font-weight-semibold;
+              color: $dark;
+            }
+
+            .action-btn {
+              @include flex-center;
+              width: 32px;
+              height: 32px;
+              padding: 0;
+              background: transparent;
+              border: 1px solid $gray-300;
+              border-radius: $border-radius-sm;
+              cursor: pointer;
+              transition: all $transition-fast;
+              color: $gray-600;
+
+              i {
+                font-size: 18px;
+              }
+
+              &:hover {
+                background: $primary;
+                border-color: $primary;
+                color: $white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .empty-state {
+    @include flex-center;
+    @include flex-column;
+    gap: $spacing-md;
+    padding: $spacing-3xl;
+    text-align: center;
+    color: $gray-500;
+
+    i {
+      font-size: 64px;
+      color: $gray-400;
+    }
+
+    p {
+      font-size: $font-size-base;
+      font-weight: $font-weight-medium;
+      color: $gray-600;
+      margin: 0;
+    }
+
+    .empty-subtitle {
+      font-size: $font-size-sm;
+      color: $gray-500;
+    }
+  }
+
+  @include mobile-only {
+    .orders-table table {
+      thead th,
+      tbody td {
+        padding: $spacing-sm;
+        font-size: $font-size-xs;
+      }
+
+      tbody td {
+        &:nth-child(2),
+        &:nth-child(4) {
+          display: none;
+        }
+      }
+
+      thead th {
+        &:nth-child(2),
+        &:nth-child(4) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+// RTL Support
+[dir='rtl'] {
+  .recent-orders-card {
+    .card-header .view-all-btn {
+      flex-direction: row-reverse;
+
+      &:hover i {
+        transform: translateX(-4px);
+      }
+    }
+
+    table {
+      thead th,
+      tbody td {
+        text-align: right;
+      }
+    }
+  }
+}

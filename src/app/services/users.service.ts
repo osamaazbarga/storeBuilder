@@ -96,11 +96,10 @@ export class UsersService {
       })
     )
   }
-  logout(){
-    this.removeToken();
-    this.userSource.next(null);
-    // مسح بيانات المتجر من localStorage
-    this.storeService.clearStoreData();
+  logout() {
+    // Clear all user data using the new method
+    this.clearUser();
+    // Navigate to home/login
     this.router.navigateByUrl('/');
   }
 
@@ -141,25 +140,55 @@ export class UsersService {
 
 
   getJWT(){
-    return sessionStorage.getItem('auth_token');
+    return localStorage.getItem('auth_token');
   }
 
   setToken(token: string){
-    sessionStorage.setItem('auth_token', token);
+    localStorage.setItem('auth_token', token);
   }
 
   removeToken(){
-    sessionStorage.removeItem('auth_token');
+    localStorage.removeItem('auth_token');
   }
-  private setUser(user:User){
-    if(user && user.token){
-      // Store only the token in sessionStorage
+  private setUser(user: User) {
+    if (user && user.token) {
+      // Store token in localStorage
       this.setToken(user.token);
+      // Store user data in localStorage for persistence
+      localStorage.setItem('user', JSON.stringify(user));
       // Emit user data for components that need it
       this.userSource.next(user);
     } else {
       console.error('Invalid user data or missing token');
     }
+  }
+
+  /**
+   * Get stored user data from localStorage
+   */
+  public getStoredUser(): User | null {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        return JSON.parse(userData);
+      } catch (error) {
+        console.error('Error parsing stored user data:', error);
+        localStorage.removeItem('user');
+        return null;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Clear all user data and logout
+   */
+  public clearUser(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('auth_token');
+    this.userSource.next(null);
+    // Clear store data as well
+    this.storeService.clearStoreData();
   }
 
 

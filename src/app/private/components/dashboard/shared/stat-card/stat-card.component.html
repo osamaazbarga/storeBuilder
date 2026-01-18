@@ -1,24 +1,20 @@
-<div class="card h-100">
-  <div class="card-header mx-4 p-3 text-center">
-    <div class="icon icon-shape icon-lg border-radius-lg text-center {{ getColorClass() }}">
-      <i class="material-symbols-rounded opacity-10">{{ data.icon }}</i>
-    </div>
+<div class="stat-card" [ngClass]="'stat-card-' + data.type">
+  <div class="stat-icon">
+    <i class="material-symbols-rounded">{{ data.icon }}</i>
   </div>
-  <div class="card-body pt-0 p-3 text-center">
-    <h6 class="text-center mb-0 card-title">{{ data.title | translate }}</h6>
-    <span class="text-xs">{{ data.description}}</span>
-    <hr class="horizontal dark my-3">
-    <h5 class="mb-0 stat-value">{{ formatValue() }}</h5>
-    
-    <!-- Trend Indicator -->
-    <div class="trend-indicator mt-2" *ngIf="data.percentage || data.trend">
-      <span [class]="getTrendClass()" *ngIf="data.trend">
-        <i class="material-symbols-rounded text-sm me-1">{{ getTrendIcon() }}</i>
+  <div class="stat-content">
+    <span class="stat-label">{{ data.label | translate }}</span>
+    <h3 class="stat-value">
+      <span *ngIf="data.prefix">{{ data.prefix }}</span>
+      {{ formatValue() }}
+      <span *ngIf="data.suffix">{{ data.suffix }}</span>
+    </h3>
+    <div class="stat-footer" *ngIf="data.change || data.period">
+      <span class="stat-change" *ngIf="data.change" [ngClass]="data.changeType === 'increase' ? 'positive' : 'negative'">
+        <i class="material-symbols-rounded">{{ data.changeType === 'increase' ? 'trending_up' : 'trending_down' }}</i>
+        {{ data.change }}
       </span>
-      <span class="text-sm" *ngIf="data.percentage">
-        <span [class]="getTrendClass()" *ngIf="data.trend">{{ data.percentage }}%</span>
-        <span class="text-secondary ms-1">{{ 'DASHBOARD.SINCE_LAST_MONTH' | translate }}</span>
-      </span>
+      <span class="stat-period" *ngIf="data.period">{{ data.period | translate }}</span>
     </div>
   </div>
 </div>

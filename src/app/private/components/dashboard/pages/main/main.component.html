@@ -1,148 +1,123 @@
-<!-- Main Dashboard Content -->
-<div class="container-fluid py-4">
+<!-- Main Dashboard Container -->
+<div class="dashboard-container">
+  
+  <!-- Welcome Header -->
+  <div class="dashboard-header">
+    <div class="welcome-content">
+      <h1 class="welcome-title">
+        {{ 'DASHBOARD.WELCOME_BACK' | translate }}<span *ngIf="currentUser">, {{ currentUser.firstName }}!</span>
+      </h1>
+      <p class="welcome-subtitle" *ngIf="storeData">
+        {{ 'DASHBOARD.STORE_OVERVIEW' | translate: {storeName: storeData?.name} }}
+      </p>
+      <p class="welcome-subtitle" *ngIf="!storeData">
+        {{ 'DASHBOARD.GETTING_STARTED' | translate }}
+      </p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-primary" (click)="onQuickAction('add-product')">
+        <i class="material-symbols-rounded">add</i>
+        <span>{{ 'DASHBOARD.ADD_PRODUCT' | translate }}</span>
+      </button>
+    </div>
+  </div>
 
-  <!-- Welcome Section -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="welcome-section">
-        <h2 class="dashboard-title">{{ 'DASHBOARD.WELCOME_BACK' | translate }}</h2>
-        <p class="dashboard-subtitle" *ngIf="storeData">
-          {{ 'DASHBOARD.STORE_OVERVIEW' | translate: {storeName: storeData?.name} }}
-        </p>
-        <p class="dashboard-subtitle" *ngIf="!storeData && mode">
-          {{ 'DASHBOARD.GETTING_STARTED' | translate }}
-        </p>
+  <!-- Statistics Grid -->
+  <div class="stats-grid">
+    <app-stat-card 
+      *ngFor="let stat of statisticsData; trackBy: trackByStatId" 
+      [data]="stat">
+    </app-stat-card>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="content-grid">
+    
+    <!-- Left Column: Charts -->
+    <div class="charts-section">
+      <!-- Sales Chart -->
+      <div class="chart-card">
+        <app-sales-chart
+          [chartData]="salesChartData"
+          [chartType]="'line'"
+          [title]="'DASHBOARD.SALES_OVERVIEW'"
+          [height]="320">
+        </app-sales-chart>
+      </div>
+
+      <!-- Recent Orders -->
+      <div class="orders-card">
+        <app-recent-orders
+          [orders]="recentOrdersData"
+          [title]="'DASHBOARD.RECENT_ORDERS'"
+          [maxItems]="5">
+        </app-recent-orders>
       </div>
     </div>
-  </div>
 
-  <!-- Statistics Cards Row -->
-  <div class="row mb-4">
-    <div class="col-xl-3 col-sm-6 mb-4" *ngFor="let stat of statisticsData; trackBy: trackByStatId">
-      <app-stat-card [data]="stat"></app-stat-card>
-    </div>
-  </div>
-
-  <!-- Charts and Recent Orders Row -->
-  <div class="row mb-4">
-    <!-- Sales Chart -->
-    <div class="col-lg-8 col-md-12 mb-4">
-      <app-sales-chart
-        [chartData]="salesChartData"
-        [chartType]="'line'"
-        [title]="'DASHBOARD.SALES_OVERVIEW'"
-        [height]="400">
-      </app-sales-chart>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="col-lg-4 col-md-12 mb-4">
-      <div class="card h-100">
-        <div class="card-header pb-0">
-          <h6 class="quick-actions-title">{{ 'DASHBOARD.QUICK_ACTIONS' | translate }}</h6>
-        </div>
-        <div class="card-body">
-          <div class="quick-actions-grid">
-            <button class="quick-action-btn" (click)="onQuickAction('add-product')">
-              <i class="material-symbols-rounded">add_shopping_cart</i>
-              <span>{{ 'DASHBOARD.ADD_PRODUCT' | translate }}</span>
-            </button>
-            <button class="quick-action-btn" (click)="onQuickAction('view-orders')">
-              <i class="material-symbols-rounded">receipt_long</i>
-              <span>{{ 'DASHBOARD.VIEW_ORDERS' | translate }}</span>
-            </button>
-            <button class="quick-action-btn" (click)="onQuickAction('customer-support')">
-              <i class="material-symbols-rounded">support_agent</i>
-              <span>{{ 'DASHBOARD.CUSTOMER_SUPPORT' | translate }}</span>
-            </button>
-            <button class="quick-action-btn" (click)="onQuickAction('marketing')">
-              <i class="material-symbols-rounded">campaign</i>
-              <span>{{ 'DASHBOARD.MARKETING' | translate }}</span>
-            </button>
-            <button class="quick-action-btn" (click)="onQuickAction('analytics')">
-              <i class="material-symbols-rounded">analytics</i>
-              <span>{{ 'DASHBOARD.ANALYTICS' | translate }}</span>
-            </button>
-            <button class="quick-action-btn" (click)="onQuickAction('settings')">
-              <i class="material-symbols-rounded">settings</i>
-              <span>{{ 'DASHBOARD.SETTINGS' | translate }}</span>
-            </button>
-          </div>
+    <!-- Right Column: Quick Actions & Metrics -->
+    <div class="sidebar-section">
+      
+      <!-- Quick Actions Card -->
+      <div class="quick-actions-card">
+        <h3 class="card-title">{{ 'DASHBOARD.QUICK_ACTIONS' | translate }}</h3>
+        <div class="quick-actions-grid">
+          <button class="action-btn" (click)="onQuickAction('add-product')">
+            <i class="material-symbols-rounded">add_shopping_cart</i>
+            <span>{{ 'DASHBOARD.ADD_PRODUCT' | translate }}</span>
+          </button>
+          <button class="action-btn" (click)="onQuickAction('view-orders')">
+            <i class="material-symbols-rounded">receipt_long</i>
+            <span>{{ 'DASHBOARD.VIEW_ORDERS' | translate }}</span>
+          </button>
+          <button class="action-btn" (click)="onQuickAction('add-customer')">
+            <i class="material-symbols-rounded">person_add</i>
+            <span>{{ 'DASHBOARD.ADD_CUSTOMER' | translate }}</span>
+          </button>
+          <button class="action-btn" (click)="onQuickAction('marketing')">
+            <i class="material-symbols-rounded">campaign</i>
+            <span>{{ 'DASHBOARD.MARKETING' | translate }}</span>
+          </button>
+          <button class="action-btn" (click)="onQuickAction('analytics')">
+            <i class="material-symbols-rounded">analytics</i>
+            <span>{{ 'DASHBOARD.ANALYTICS' | translate }}</span>
+          </button>
+          <button class="action-btn" (click)="onQuickAction('settings')">
+            <i class="material-symbols-rounded">settings</i>
+            <span>{{ 'DASHBOARD.SETTINGS' | translate }}</span>
+          </button>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Recent Orders and Performance -->
-  <div class="row mb-4">
-    <!-- Recent Orders -->
-    <div class="col-lg-8 col-md-12 mb-4">
-      <app-recent-orders
-        [orders]="recentOrdersData"
-        [title]="'DASHBOARD.RECENT_ORDERS'"
-        [maxItems]="5">
-      </app-recent-orders>
-    </div>
-
-    <!-- Performance Metrics -->
-    <div class="col-lg-4 col-md-12 mb-4">
-      <div class="card h-100">
-        <div class="card-header pb-0">
-          <h6 class="performance-title">{{ 'DASHBOARD.PERFORMANCE_METRICS' | translate }}</h6>
-        </div>
-        <div class="card-body">
-          <div class="performance-metrics">
-            <div class="metric-item" *ngFor="let metric of performanceMetrics">
-              <div class="metric-info">
-                <span class="metric-label">{{ metric.label | translate }}</span>
-                <span class="metric-value" [class]="metric.trendClass">{{ metric.value }}</span>
-              </div>
-              <div class="metric-chart">
-                <i class="material-symbols-rounded" [class]="metric.iconClass">{{ metric.icon }}</i>
-              </div>
+      <!-- Performance Metrics Card -->
+      <div class="performance-card">
+        <h3 class="card-title">{{ 'DASHBOARD.PERFORMANCE_METRICS' | translate }}</h3>
+        <div class="metrics-list">
+          <div class="metric-item" *ngFor="let metric of performanceMetrics">
+            <div class="metric-icon" [ngClass]="metric.iconClass">
+              <i class="material-symbols-rounded">{{ metric.icon }}</i>
+            </div>
+            <div class="metric-content">
+              <span class="metric-label">{{ metric.label | translate }}</span>
+              <span class="metric-value" [ngClass]="metric.trendClass">{{ metric.value }}</span>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
-  <!-- Secondary Charts Row -->
-  <div class="row mb-4">
-    <!-- Revenue Chart -->
-    <div class="col-lg-6 col-md-12 mb-4">
-      <app-sales-chart
-        [chartData]="revenueChartData"
-        [chartType]="'bar'"
-        [title]="'DASHBOARD.MONTHLY_REVENUE'"
-        [height]="300">
-      </app-sales-chart>
-    </div>
-
-    <!-- Categories Chart -->
-    <div class="col-lg-6 col-md-12 mb-4">
-      <app-sales-chart
-        [chartData]="categoriesChartData"
-        [chartType]="'doughnut'"
-        [title]="'DASHBOARD.TOP_CATEGORIES'"
-        [height]="300">
-      </app-sales-chart>
-    </div>
-  </div>
-
-  <!-- No Store Message for New Users -->
-  <div class="row" *ngIf="!storeData && errorMessages.length > 0">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body text-center py-5">
-          <i class="material-symbols-rounded text-secondary mb-3" style="font-size: 4rem;">store</i>
-          <h4 class="text-secondary mb-3">{{ 'DASHBOARD.NO_STORE_YET' | translate }}</h4>
-          <p class="text-muted mb-4">{{ 'DASHBOARD.CREATE_STORE_MESSAGE' | translate }}</p>
-          <button class="btn btn-primary btn-lg" (click)="onCreateStore()">
-            {{ 'DASHBOARD.CREATE_STORE' | translate }}
-          </button>
-        </div>
-      </div>
+  <!-- Empty State (when no store) -->
+  <div class="empty-state" *ngIf="!storeData && !mode">
+    <div class="empty-state-content">
+      <i class="material-symbols-rounded">storefront</i>
+      <h2>{{ 'DASHBOARD.NO_STORE_YET' | translate }}</h2>
+      <p>{{ 'DASHBOARD.CREATE_STORE_MESSAGE' | translate }}</p>
+      <button class="btn btn-primary" [routerLink]="['/store-info']">
+        <i class="material-symbols-rounded">add</i>
+        <span>{{ 'DASHBOARD.CREATE_STORE' | translate }}</span>
+      </button>
     </div>
   </div>
 

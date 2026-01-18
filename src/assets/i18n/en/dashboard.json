@@ -41,6 +41,7 @@
         "BULK_ACTIONS":"Bulk Actions",
         "IMPORT_EXPORT":"Import & Export",
         "API_INTEGRATIONS":"API Integrations",
+        "CUSTOM_DOMAINS":"Custom Domains",
         "PAYMENT_SETTINGS":"Payment Settings",
         "SHIPPING_SETTINGS":"Shipping Settings",
         "TAX_SETTINGS":"Tax Settings",
@@ -57,7 +58,14 @@
         "ACCOUNT_SETTINGS":"Account Settings"
     },
 
+    "CUSTOM_DOMAINS": {
+        "TITLE": "Custom Domains",
+        "SUBTITLE": "Link your own domain to your store instead of using a subdomain"
+    },
+
     "DASHBOARD": {
+        "HOME": "Home",
+        "MAIN": "Dashboard",
         "WELCOME_BACK": "Welcome back",
         "STORE_OVERVIEW": "Overview of {{storeName}} store",
         "GETTING_STARTED": "Start your business journey with us",
@@ -119,6 +127,7 @@
         "YOU_HAVE": "You have",
         "NEW_NOTIFICATIONS": "new notifications",
         "NO_NOTIFICATIONS": "No notifications",
+        "MARK_ALL_READ": "Mark all as read",
         "VIEW_ALL_NOTIFICATIONS": "View All Notifications",
         "MY_PROFILE": "My Profile",
         "ACCOUNT_SETTINGS": "Account Settings",
@@ -129,6 +138,19 @@
         "PAYMENT_RECEIVED": "Payment Received",
         "NEW_ACTIVITY": "New Activity",
         "VISIT_STORE": "Visit Store"
+    },
+
+    "NAVBAR": {
+        "SEARCH": "Search...",
+        "MENU": "Menu",
+        "CLOSE_MENU": "Close Menu"
+    },
+
+    "SIDEBAR": {
+        "VISIT_STORE": "Visit Store",
+        "COLLAPSE": "Collapse",
+        "EXPAND": "Expand",
+        "MENU": "Menu"
     },
 
     "ORDER_STATUS": {

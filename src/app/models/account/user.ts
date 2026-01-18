@@ -2,6 +2,8 @@ export interface User{
     id?:string
     firstName?: string;
     lastName?: string;
+    email?: string;
+    avatarUrl?: string;
     joinDate?:Date;
     isDeleted?:boolean;
     phone?:string;

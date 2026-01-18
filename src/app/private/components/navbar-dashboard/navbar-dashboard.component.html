@@ -1,178 +1,162 @@
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
-  <div class="container-fluid py-1 px-3">
-    
-    <!-- Breadcrumb Navigation -->
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0">
-        <li class="breadcrumb-item text-sm">
-          <a class="opacity-5 text-dark" href="javascript:;">{{ 'DASHBOARD.PAGES' | translate }}</a>
-        </li>
-        <li class="text-sm text-dark active" aria-current="page">/</li>
-        <li class="text-sm text-dark active" aria-current="page">{{ 'DASHBOARD.DASHBOARD' | translate }}</li>
-      </ol>
-    </nav>
-    
-    <!-- Navbar Content -->
-    <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-      
-      <!-- Search Bar -->
-      <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-        <div class="input-group input-group-outline">
-          <label class="form-label">{{ 'DASHBOARD.SEARCH_PLACEHOLDER' | translate }}</label>
-          <input type="text" class="form-control" #searchInput (input)="onSearch($event)">
+<nav class="dashboard-navbar">
+  <!-- Left Section: Mobile Menu + Page Info -->
+  <div class="navbar-left">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle d-lg-none"
+            (click)="toggleSidebar()"
+            [attr.aria-label]="'NAVBAR.MENU' | translate">
+      <i class="material-symbols-rounded">menu</i>
+    </button>
+
+    <!-- Page Title & Breadcrumb -->
+    <div class="page-info">
+      <h1 class="page-title">{{ currentPageTitle | translate }}</h1>
+      <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/dashboard']">
+              <i class="material-symbols-rounded">home</i>
+              <span class="d-none d-md-inline">{{ 'DASHBOARD.PAGES' | translate }}</span>
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            {{ currentPageTitle | translate }}
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Right Section: Search + Actions + User -->
+  <div class="navbar-right">
+    <!-- Search Bar -->
+    <div class="search-bar d-none d-md-flex">
+      <i class="material-symbols-rounded search-icon">search</i>
+      <input type="search"
+             class="search-input"
+             [placeholder]="'NAVBAR.SEARCH' | translate"
+             (input)="onSearch($event)">
+    </div>
+
+    <!-- Language Selector -->
+    <div class="nav-item">
+      <app-language-selector></app-language-selector>
+    </div>
+
+    <!-- Notifications -->
+    <div class="nav-item notifications-dropdown">
+      <button class="nav-button"
+              (click)="toggleNotifications()"
+              [class.active]="isNotificationsOpen"
+              [attr.aria-label]="'DASHBOARD.NOTIFICATIONS' | translate">
+        <i class="material-symbols-rounded">notifications</i>
+        <span *ngIf="notificationCount > 0" class="badge">{{ notificationCount }}</span>
+      </button>
+
+      <!-- Notifications Dropdown -->
+      <div class="dropdown-menu" [class.show]="isNotificationsOpen">
+        <div class="dropdown-header">
+          <h6>{{ 'DASHBOARD.NOTIFICATIONS' | translate }}</h6>
+          <button *ngIf="notificationCount > 0"
+                  class="mark-read-btn"
+                  (click)="markAllNotificationsAsRead()">
+            {{ 'DASHBOARD.MARK_ALL_READ' | translate }}
+          </button>
+        </div>
+
+        <div class="dropdown-body">
+          <div *ngIf="notifications.length === 0" class="empty-state">
+            <i class="material-symbols-rounded">notifications_none</i>
+            <p>{{ 'DASHBOARD.NO_NOTIFICATIONS' | translate }}</p>
+          </div>
+
+          <div *ngFor="let notification of notifications"
+               class="notification-item"
+               [class.unread]="!notification.read"
+               (click)="onNotificationClick(notification)">
+            <div class="notification-icon" [class]="'icon-' + notification.type">
+              <i class="material-symbols-rounded">{{ notification.icon }}</i>
+            </div>
+            <div class="notification-content">
+              <h6>{{ notification.title | translate }}</h6>
+              <p>{{ notification.message }}</p>
+              <span class="notification-time">{{ formatNotificationTime(notification.time) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dropdown-footer">
+          <button class="view-all-btn" (click)="onViewAllNotifications()">
+            {{ 'DASHBOARD.VIEW_ALL_NOTIFICATIONS' | translate }}
+          </button>
         </div>
       </div>
-      
-      <!-- Navigation Items -->
-      <ul class="navbar-nav d-flex align-items-center justify-content-end">
-        
-        <!-- Language Selector -->
-        <li class="nav-item px-2 d-flex align-items-center">
-          <app-language-selector></app-language-selector>
-        </li>
-        
-        <!-- Quick Actions Dropdown -->
-        <li class="nav-item dropdown px-2 d-flex align-items-center">
-          <a class="nav-link text-body p-0" href="javascript:;" id="quickActionsDropdown" 
-             data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="material-symbols-rounded">add_circle</i>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end px-2 py-3 ms-sm-n4 ms-n5" 
-              aria-labelledby="quickActionsDropdown">
-            <li>
-              <a class="dropdown-item border-radius-md" (click)="onQuickAction('add-product')" href="javascript:;">
-                <i class="material-symbols-rounded text-sm me-2">add_shopping_cart</i>
-                {{ 'DASHBOARD.ADD_PRODUCT' | translate }}
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item border-radius-md" (click)="onQuickAction('add-customer')" href="javascript:;">
-                <i class="material-symbols-rounded text-sm me-2">person_add</i>
-                {{ 'DASHBOARD.ADD_CUSTOMER' | translate }}
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item border-radius-md" (click)="onQuickAction('create-campaign')" href="javascript:;">
-                <i class="material-symbols-rounded text-sm me-2">campaign</i>
-                {{ 'DASHBOARD.CREATE_CAMPAIGN' | translate }}
-              </a>
-            </li>
-          </ul>
-        </li>
-        
-        <!-- Notifications -->
-        <li class="nav-item dropdown px-2 d-flex align-items-center">
-          <a class="nav-link text-body p-0" href="javascript:;" id="dropdownMenuButton" 
-             data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="material-symbols-rounded">notifications</i>
-            <span class="notification-badge" *ngIf="notificationCount > 0">{{ notificationCount }}</span>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-            <li class="dropdown-header">
-              <h6 class="mb-0">{{ 'DASHBOARD.NOTIFICATIONS' | translate }}</h6>
-              <p class="text-xs mb-0">{{ 'DASHBOARD.YOU_HAVE' | translate }} {{ notificationCount }} {{ 'DASHBOARD.NEW_NOTIFICATIONS' | translate }}</p>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            
-            <li class="mb-2" *ngFor="let notification of notifications; let i = index">
-              <a class="dropdown-item border-radius-md" href="javascript:;" (click)="onNotificationClick(notification)">
-                <div class="d-flex py-1">
-                  <div class="my-auto">
-                    <div class="avatar avatar-sm me-3 bg-gradient-{{ notification.type }}">
-                      <i class="material-symbols-rounded text-white">{{ notification.icon }}</i>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-column justify-content-center">
-                    <h6 class="text-sm font-weight-normal mb-1">
-                      <span class="font-weight-bold">{{ notification.title | translate }}</span>
-                    </h6>
-                    <p class="text-xs text-secondary mb-0">
-                      <i class="fa fa-clock me-1"></i>
-                      {{ formatNotificationTime(notification.time) }}
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </li>
-            
-            <li *ngIf="notifications.length === 0" class="text-center py-3">
-              <i class="material-symbols-rounded text-secondary mb-2" style="font-size: 2rem;">notifications_none</i>
-              <p class="text-sm text-secondary mb-0">{{ 'DASHBOARD.NO_NOTIFICATIONS' | translate }}</p>
-            </li>
-            
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <a class="dropdown-item text-center border-radius-md" (click)="onViewAllNotifications()" href="javascript:;">
-                {{ 'DASHBOARD.VIEW_ALL_NOTIFICATIONS' | translate }}
-              </a>
-            </li>
-          </ul>
-        </li>
-        
-        <!-- Settings -->
-        <li class="nav-item px-2 d-flex align-items-center">
-          <a href="javascript:;" class="nav-link text-body p-0" (click)="onOpenSettings()">
-            <i class="material-symbols-rounded fixed-plugin-button-nav">settings</i>
-          </a>
-        </li>
-        
-        <!-- User Profile -->
-        <li class="nav-item dropdown px-2 d-flex align-items-center">
-          <a class="nav-link text-body font-weight-bold px-0" href="javascript:;" id="userDropdown" 
-             data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="d-flex align-items-center">
-              <div class="avatar avatar-sm me-2" *ngIf="true; else userInitials">
-                <!-- <img [src]="currentUser.avatar" class="border-radius-lg" [alt]="currentUser.name"> -->
-              </div>
-              <ng-template #userInitials>
-                <div class="avatar avatar-sm me-2 bg-gradient-primary">
-                  <span class="text-white text-xs font-weight-bold">{{ getUserInitials() }}</span>
-                </div>
-              </ng-template>
-              <span class="d-none d-sm-inline">{{ currentUser?.firstName || 'User' }}</span>
+    </div>
+
+    <!-- User Menu -->
+    <div class="nav-item user-dropdown">
+      <button class="user-button"
+              (click)="toggleUserMenu()"
+              [class.active]="isUserMenuOpen">
+        <img *ngIf="currentUser?.avatarUrl"
+             [src]="currentUser?.avatarUrl"
+             [alt]="currentUser?.firstName"
+             class="user-avatar">
+        <div *ngIf="!currentUser?.avatarUrl" class="user-avatar-placeholder">
+          {{ getUserInitials() }}
+        </div>
+        <span class="user-name d-none d-md-inline">{{ currentUser?.firstName || 'User' }}</span>
+        <i class="material-symbols-rounded chevron">expand_more</i>
+      </button>
+
+      <!-- User Dropdown -->
+      <div class="dropdown-menu user-menu" [class.show]="isUserMenuOpen">
+        <!-- User Info -->
+        <div class="user-info">
+          <div class="user-avatar-large">
+            <img *ngIf="currentUser?.avatarUrl"
+                 [src]="currentUser?.avatarUrl"
+                 [alt]="currentUser?.firstName">
+            <div *ngIf="!currentUser?.avatarUrl" class="avatar-placeholder-large">
+              {{ getUserInitials() }}
             </div>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end px-2 py-3 ms-sm-n4" aria-labelledby="userDropdown">
-            <li>
-              <a class="dropdown-item border-radius-md" (click)="onViewProfile()" href="javascript:;">
-                <i class="material-symbols-rounded text-sm me-2">account_circle</i>
-                {{ 'DASHBOARD.MY_PROFILE' | translate }}
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item border-radius-md" (click)="onAccountSettings()" href="javascript:;">
-                <i class="material-symbols-rounded text-sm me-2">settings</i>
-                {{ 'DASHBOARD.ACCOUNT_SETTINGS' | translate }}
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item border-radius-md" (click)="onBilling()" href="javascript:;">
-                <i class="material-symbols-rounded text-sm me-2">receipt</i>
-                {{ 'DASHBOARD.BILLING' | translate }}
-              </a>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <a class="dropdown-item border-radius-md text-danger" (click)="onLogout()" href="javascript:;">
-                <i class="material-symbols-rounded text-sm me-2">logout</i>
-                {{ 'DASHBOARD.LOGOUT' | translate }}
-              </a>
-            </li>
-          </ul>
-        </li>
-        
-        <!-- Mobile Sidebar Toggle -->
-        <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-          <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav" (click)="toggleSidebar()">
-            <div class="sidenav-toggler-inner">
-              <i class="sidenav-toggler-line"></i>
-              <i class="sidenav-toggler-line"></i>
-              <i class="sidenav-toggler-line"></i>
-            </div>
-          </a>
-        </li>
-        
-      </ul>
+          </div>
+          <div class="user-details">
+            <h6>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</h6>
+            <p>{{ currentUser?.email }}</p>
+          </div>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <!-- Menu Items -->
+        <a class="dropdown-item" (click)="onViewProfile()">
+          <i class="material-symbols-rounded">person</i>
+          <span>{{ 'DASHBOARD.MY_PROFILE' | translate }}</span>
+        </a>
+
+        <a class="dropdown-item" (click)="onAccountSettings()">
+          <i class="material-symbols-rounded">settings</i>
+          <span>{{ 'DASHBOARD.ACCOUNT_SETTINGS' | translate }}</span>
+        </a>
+
+        <a class="dropdown-item" (click)="onBilling()">
+          <i class="material-symbols-rounded">receipt_long</i>
+          <span>{{ 'DASHBOARD.BILLING' | translate }}</span>
+        </a>
+
+        <div class="dropdown-divider"></div>
+
+        <a class="dropdown-item logout" (click)="onLogout()">
+          <i class="material-symbols-rounded">logout</i>
+          <span>{{ 'DASHBOARD.LOGOUT' | translate }}</span>
+        </a>
+      </div>
     </div>
   </div>
 </nav>
+
+<!-- Overlay for dropdowns (mobile) -->
+<div class="dropdown-overlay"
+     [class.show]="isNotificationsOpen || isUserMenuOpen"
+     (click)="isNotificationsOpen = false; isUserMenuOpen = false"></div>

@@ -41,6 +41,7 @@
         "BULK_ACTIONS":"العمليات المجمعة",
         "IMPORT_EXPORT":"الاستيراد والتصدير",
         "API_INTEGRATIONS":"تكامل الواجهات البرمجية",
+        "CUSTOM_DOMAINS":"الدومينات المخصصة",
         "PAYMENT_SETTINGS":"إعدادات الدفع",
         "SHIPPING_SETTINGS":"إعدادات الشحن",
         "TAX_SETTINGS":"إعدادات الضرائب",
@@ -57,8 +58,14 @@
         "ACCOUNT_SETTINGS":"إعدادات الحساب"
     },
 
-    "DASHBOARD": {
-        "WELCOME_BACK": "مرحباً بك مرة أ��رى",
+    "CUSTOM_DOMAINS": {
+    "TITLE": "الدومينات المخصصة",
+    "SUBTITLE": "اربط دومينك الخاص بمتجرك بدلاً من استخدام النطاق الفرعي"
+  },
+  "DASHBOARD": {
+        "HOME": "الرئيسية",
+        "MAIN": "الرئيسية",
+        "WELCOME_BACK": "مرحباً بك مرة أخرى",
         "STORE_OVERVIEW": "نظرة عامة على متجر {{storeName}}",
         "GETTING_STARTED": "ابدأ رحلتك التجارية معنا",
         "TOTAL_SALES": "إجمالي المبيعات",
@@ -119,6 +126,7 @@
         "YOU_HAVE": "لديك",
         "NEW_NOTIFICATIONS": "إشعارات جديدة",
         "NO_NOTIFICATIONS": "لا توجد إشعارات",
+        "MARK_ALL_READ": "وضع علامة مقروء على الكل",
         "VIEW_ALL_NOTIFICATIONS": "عرض جميع الإشعارات",
         "MY_PROFILE": "ملفي الشخصي",
         "ACCOUNT_SETTINGS": "إعدادات الحساب",
@@ -129,6 +137,19 @@
         "PAYMENT_RECEIVED": "دفعة مستلمة",
         "NEW_ACTIVITY": "نشاط جديد",
         "VISIT_STORE": "زيارة المتجر"
+    },
+
+    "NAVBAR": {
+        "SEARCH": "البحث...",
+        "MENU": "القائمة",
+        "CLOSE_MENU": "إغلاق القائمة"
+    },
+
+    "SIDEBAR": {
+        "VISIT_STORE": "زيارة المتجر",
+        "COLLAPSE": "طي",
+        "EXPAND": "توسيع",
+        "MENU": "القائمة"
     },
 
     "ORDER_STATUS": {

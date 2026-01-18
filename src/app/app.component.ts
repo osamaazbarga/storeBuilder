@@ -23,6 +23,9 @@ export class AppComponent implements OnInit{
     
   }
   ngOnInit():void{
+    // Check for existing JWT and refresh user
+    this.refreshUserOnInit();
+    
     this.socketService.onNewMessage().subscribe(msg => {
       console.log('📥 Received from WS:', msg);
     });
@@ -46,6 +49,18 @@ export class AppComponent implements OnInit{
   const hostname = window.location.hostname; // ex: test.dokan.local
   this.storeName = hostname.split('.')[0];   // يرجع "test"
   console.log('🛍️ Current store:', this.storeName);
+  }
+
+  private refreshUserOnInit(): void {
+    const jwt = this.userServies.getJWT();
+    
+    if (jwt) {
+      console.log('🔐 JWT found, loading stored data...');
+      // Simply load stored data from localStorage
+      this.storeService.loadStoreDataFromStorage();
+    } else {
+      console.log('ℹ️ No JWT found');
+    }
   }
 
   getSubdomain(): string | null {

@@ -20,13 +20,14 @@ interface PerformanceMetric {
 @Component({
     selector: 'app-main',
     templateUrl: './main.component.html',
-    styleUrls: ['./main.component.css'],
+    styleUrls: ['./main.component.scss'],
     standalone: false
 })
 export class MainComponent implements OnInit, OnDestroy {
   errorMessages: string[] = [];
   mode: string | undefined;
   storeData: any = null;
+  currentUser: User | null = null;
 
   // Statistics Data
   statisticsData: StatCardData[] = [];
@@ -74,7 +75,19 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
     private initializeComponent() {
-   
+    // Subscribe to user changes
+    this.userService.user$.pipe(takeUntil(this.destroy$)).subscribe(user => {
+      this.currentUser = user;
+    });
+
+    // Subscribe to store data changes
+    this.storeService.storeData$.pipe(takeUntil(this.destroy$)).subscribe(data => {
+      if (data) {
+        this.storeData = data;
+        this.initializeStoreData();
+      }
+    });
+
     // Check if token exists
     const token = this.userService.getJWT();
     if (token) {
@@ -158,40 +171,48 @@ export class MainComponent implements OnInit, OnDestroy {
     this.statisticsData = [
       {
         title: 'DASHBOARD.TOTAL_SALES',
+        label: 'DASHBOARD.TOTAL_SALES',
         value: 125643,
         icon: 'trending_up',
+        type: 'success',
         color: 'success',
-        percentage: 12.5,
-        trend: 'up',
-        description: 'DASHBOARD.THIS_MONTH',
+        change: '+12.5%',
+        changeType: 'increase',
+        period: 'DASHBOARD.THIS_MONTH',
         prefix: '$'
       },
       {
         title: 'DASHBOARD.TOTAL_ORDERS',
+        label: 'DASHBOARD.TOTAL_ORDERS',
         value: 1846,
         icon: 'shopping_cart',
+        type: 'primary',
         color: 'primary',
-        percentage: 8.2,
-        trend: 'up',
-        description: 'DASHBOARD.THIS_MONTH'
+        change: '+8.2%',
+        changeType: 'increase',
+        period: 'DASHBOARD.THIS_MONTH'
       },
       {
         title: 'DASHBOARD.TOTAL_CUSTOMERS',
+        label: 'DASHBOARD.TOTAL_CUSTOMERS',
         value: 2957,
         icon: 'people',
+        type: 'info',
         color: 'info',
-        percentage: 15.3,
-        trend: 'up',
-        description: 'DASHBOARD.ACTIVE_CUSTOMERS'
+        change: '+15.3%',
+        changeType: 'increase',
+        period: 'DASHBOARD.ACTIVE_CUSTOMERS'
       },
       {
         title: 'DASHBOARD.CONVERSION_RATE',
+        label: 'DASHBOARD.CONVERSION_RATE',
         value: 3.47,
         icon: 'percent',
+        type: 'warning',
         color: 'warning',
-        percentage: -2.1,
-        trend: 'down',
-        description: 'DASHBOARD.THIS_MONTH',
+        change: '-2.1%',
+        changeType: 'decrease',
+        period: 'DASHBOARD.THIS_MONTH',
         suffix: '%'
       }
     ];
@@ -206,32 +227,40 @@ export class MainComponent implements OnInit, OnDestroy {
     this.statisticsData = [
       {
         title: 'DASHBOARD.TOTAL_SALES',
+        label: 'DASHBOARD.TOTAL_SALES',
         value: 0,
         icon: 'trending_up',
+        type: 'success',
         color: 'success',
-        description: 'DASHBOARD.START_SELLING',
+        period: 'DASHBOARD.START_SELLING',
         prefix: '$'
       },
       {
         title: 'DASHBOARD.TOTAL_ORDERS',
+        label: 'DASHBOARD.TOTAL_ORDERS',
         value: 0,
         icon: 'shopping_cart',
+        type: 'primary',
         color: 'primary',
-        description: 'DASHBOARD.AWAITING_ORDERS'
+        period: 'DASHBOARD.AWAITING_ORDERS'
       },
       {
         title: 'DASHBOARD.TOTAL_CUSTOMERS',
+        label: 'DASHBOARD.TOTAL_CUSTOMERS',
         value: 0,
         icon: 'people',
+        type: 'info',
         color: 'info',
-        description: 'DASHBOARD.BUILD_CUSTOMER_BASE'
+        period: 'DASHBOARD.BUILD_CUSTOMER_BASE'
       },
       {
         title: 'DASHBOARD.PRODUCTS',
+        label: 'DASHBOARD.PRODUCTS',
         value: 0,
         icon: 'inventory_2',
+        type: 'warning',
         color: 'warning',
-        description: 'DASHBOARD.ADD_FIRST_PRODUCT'
+        period: 'DASHBOARD.ADD_FIRST_PRODUCT'
       }
     ];
 

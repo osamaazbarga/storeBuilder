@@ -8,64 +8,72 @@ import { LanguageService } from 'src/app/services/language.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-    selector: 'app-sidebar-dashboard',
-    templateUrl: './sidebar-dashboard.component.html',
-    styleUrls: ['./sidebar-dashboard.component.css'],
-    standalone: false
+  selector: 'app-sidebar-dashboard',
+  templateUrl: './sidebar-dashboard.component.html',
+  styleUrls: ['./sidebar-dashboard.component.scss'],
+  standalone: false
 })
 export class SidebarDashboardComponent implements OnInit, OnDestroy {
-  errorMessages:string[]=[]
-  mode:string|undefined;
-  storeData:any;
+  errorMessages: string[] = [];
+  mode: string | undefined;
+  storeData: any;
   currentLang: string = 'ar';
   isRTL: boolean = true;
   isMobileSidebarOpen: boolean = false;
   isCollapsed: boolean = false;
+  activeRoute: string = '';
+  defaultLogo: string = './assets/images/defult-img-store.jpg';
   private destroy$ = new Subject<void>();
 
   constructor(
-    private storeService:StoreService,
-    private userService:UsersService,
-    private activatedRoute:ActivatedRoute,
-    private router:Router,
-    public languageService:LanguageService
-  ){
+    private storeService: StoreService,
+    private userService: UsersService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    public languageService: LanguageService
+  ) {
+    // Track route changes for active state
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.activeRoute = this.router.url;
+    });
   }
 
   ngOnInit() {
+    // Set initial active route
+    this.activeRoute = this.router.url;
+
     // Subscribe to language changes
     this.languageService.lang$.pipe(takeUntil(this.destroy$)).subscribe(lang => {
       this.currentLang = lang;
       this.isRTL = lang === 'ar' || lang === 'he';
-      console.log('Sidebar: Language changed to:', lang);
-      console.log('Sidebar: Current itemList:', this.itemList);
+    });
+
+    // Subscribe to store data changes
+    this.storeService.storeData$.pipe(takeUntil(this.destroy$)).subscribe(data => {
+      if (data) {
+        this.storeData = data;
+      }
     });
 
     // Listen for window resize to handle responsive behavior
     this.handleWindowResize();
 
-    // Check if token exists
+    // Check if token exists and load store data
     const token = this.userService.getJWT();
     if (token) {
-      console.log('Token found, checking store data...');
-      
-      // التحقق من وجود بيانات محفوظة أولاً
+      // Check for stored data first
       if (this.storeService.hasStoredStoreData()) {
-        console.log('Found stored store data, using cached data...');
         const storedData = this.storeService.getStoredStoreData();
         this.storeData = storedData;
-        // تحديث BehaviorSubject بالبيانات المحفوظة
         this.storeService.setStoreData(storedData);
       } else {
-        console.log('No stored data found, fetching from server...');
+        // Fetch from server
         this.getMyStores();
       }
     } else {
-      console.log('No token found');
       const mode = this.activatedRoute.snapshot.paramMap.get('mode');
       if (mode) {
         this.mode = mode;
-        console.log(this.mode);
       }
     }
   }
@@ -179,12 +187,34 @@ export class SidebarDashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  routerLink(){
+  routerLink() {
+    if (!this.storeData?.link) {
+      console.warn('No store link available');
+      return;
+    }
     // Navigate to store subdomain using platform domain from environment
     const protocol = environment.production ? 'https' : 'http';
     const port = environment.production ? '' : ':4200';
     window.location.href = `${protocol}://${this.storeData.link}.${environment.platformDomain}${port}/`;
-   }
+  }
+
+  /**
+   * Check if a route is currently active
+   */
+  isRouteActive(route: string): boolean {
+    return this.activeRoute === route || this.activeRoute.startsWith(route + '/');
+  }
+
+  /**
+   * Navigate to a specific route
+   */
+  navigateTo(route: string) {
+    this.router.navigate([route]);
+    // Close mobile sidebar after navigation
+    if (this.isMobileSidebarOpen) {
+      this.closeMobileSidebar();
+    }
+  }
 
   itemList = [
     // الصفحة الرئيسية
@@ -225,6 +255,7 @@ export class SidebarDashboardComponent implements OnInit, OnDestroy {
     // الإعدادات
     { labelKey: 'MERCHANT.SETTINGS', kind: "main" },
     { labelKey: 'MERCHANT.STORE_SETTINGS', icon: 'settings', route: '/dashboard/store-settings' },
+    { labelKey: 'MERCHANT.CUSTOM_DOMAINS', icon: 'language', route: '/dashboard/custom-domains' },
     { labelKey: 'MERCHANT.PAYMENT_SETTINGS', icon: 'payment', route: '/dashboard/payment-settings' },
     { labelKey: 'MERCHANT.SHIPPING_SETTINGS', icon: 'local_shipping', route: '/dashboard/shipping' },
     { labelKey: 'MERCHANT.TAX_SETTINGS', icon: 'receipt', route: '/dashboard/tax-settings' },

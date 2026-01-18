@@ -15,7 +15,7 @@ export interface Order {
 @Component({
   selector: 'app-recent-orders',
   templateUrl: './recent-orders.component.html',
-  styleUrls: ['./recent-orders.component.css'],
+  styleUrls: ['./recent-orders.component.scss'],
   standalone: false
 })
 export class RecentOrdersComponent implements OnInit {

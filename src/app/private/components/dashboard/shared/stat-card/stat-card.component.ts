@@ -2,21 +2,25 @@ import { Component, Input } from '@angular/core';
 
 export interface StatCardData {
   title: string;
+  label: string;
   value: string | number;
   icon: string;
-  color: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'dark';
+  type: 'primary' | 'success' | 'warning' | 'danger' | 'info';
+  color?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'dark';
+  change?: string;
+  changeType?: 'increase' | 'decrease';
+  period?: string;
   percentage?: number;
   trend?: 'up' | 'down';
   description?: string;
   prefix?: string;
   suffix?: string;
-  
 }
 
 @Component({
   selector: 'app-stat-card',
   templateUrl: './stat-card.component.html',
-  styleUrls: ['./stat-card.component.css'],
+  styleUrls: ['./stat-card.component.scss'],
   standalone: false
 })
 export class StatCardComponent {

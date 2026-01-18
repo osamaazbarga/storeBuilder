@@ -1,0 +1,31 @@
+{
+  "CUSTOM_DOMAINS": {
+    "TITLE": "الدومينات المخصصة",
+    "SUBTITLE": "اربط دومينك الخاص بمتجرك بدلاً من استخدام النطاق الفرعي",
+    "ADD_DOMAIN": "إضافة دومين جديد",
+    "ADD_DOMAIN_SUBTITLE": "أضف دومينك الخاص (مثال: www.mystore.com)",
+    "DOMAIN_PLACEHOLDER": "www.example.com",
+    "ADD_BUTTON": "إضافة الدومين",
+    "ADDING": "جاري الإضافة...",
+    "ADDED_DOMAINS": "الدومينات المضافة",
+    "MANAGE_DOMAINS": "إدارة جميع دومينات المتجر",
+    "NO_DOMAINS": "لا يوجد دومينات مضافة بعد",
+    "ADD_FIRST_DOMAIN": "أضف دومينك الأول لبدء استخدام نطاق مخصص لمتجرك",
+    "DOMAIN": "الدومين",
+    "STATUS": "الحالة",
+    "ACTIONS": "الإجراءات",
+    "ACTIVE": "نشط",
+    "PENDING": "قيد المراجعة",
+    "FAILED": "فشل",
+    "VERIFY": "تحقق",
+    "DELETE": "حذف",
+    "REFRESH": "تحديث",
+    "HELP_TITLE": "هل تحتاج مساعدة؟",
+    "HELP_CNAME": "كيفية إضافة سجل CNAME",
+    "HELP_CNAME_DESC": "اذهب إلى لوحة تحكم الدومين (GoDaddy, Namecheap) وأضف سجل CNAME",
+    "HELP_TIME": "كم يستغرق التفعيل؟",
+    "HELP_TIME_DESC": "عادة 30-5 دقائق. الأقل قد يستغرق حتى 24 ساعة في بعض الحالات",
+    "HELP_SSL": "هل SSL تلقائي؟",
+    "HELP_SSL_DESC": "نعم! سيتم إصدار شهادة SSL تلقائياً بعد التحقق من DNS"
+  }
+}

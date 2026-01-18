@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CredentialResponse } from 'google-one-tap';
 import { jwtDecode } from 'jwt-decode';
@@ -39,8 +39,12 @@ export class LoginComponent implements OnInit{
   currentLang: string = 'ar';
   isRTL: boolean = true;
 
+  // Return URL for redirect after login
+  returnUrl: string = '/dashboard';
+
   constructor(private usersService:UsersService,
     private router:Router,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private sharedService:SharedService,
     private translateService: TranslateService,
@@ -57,6 +61,9 @@ export class LoginComponent implements OnInit{
     this.initializeForm();
     this.initializeGoogleButton();
     this.initializeLanguage();
+    
+    // Get returnUrl from query params
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
   ngAfterViewInit(){
     const script1=this.renderer2.createElement('script');
@@ -78,7 +85,8 @@ export class LoginComponent implements OnInit{
       next: (response: any) => {
         this.loading = false;
         if (response && response.token) {
-          this.router.navigateByUrl('/');
+          // Redirect to returnUrl or dashboard
+          this.router.navigateByUrl(this.returnUrl);
           this.sharedService.showNotification(true, 'نجح تسجيل الدخول', 'مرحباً بك في منصتنا!');
         } else {
           this.sharedService.showNotification(false, 'خطأ في تسجيل الدخول', 'لم يتم استلام التوكين من الخادم');
@@ -124,7 +132,7 @@ export class LoginComponent implements OnInit{
         this.usersService.loginWithThirdParty(new LoginWithExternal(accessToken, userId, "facebook")).subscribe({
           next: () => {
             this.loading = false;
-            this.router.navigateByUrl('/');
+            this.router.navigateByUrl(this.returnUrl);
             this.sharedService.showNotification(true, 'نجح تسجيل الدخول', 'مرحباً بك في منصتنا!');
           },
           error: error => {
@@ -167,18 +175,14 @@ export class LoginComponent implements OnInit{
     this.usersService.loginWithThirdParty(new LoginWithExternal(response.credential,decodeToken.sub,"google"))
     .subscribe({
       next:_=>{
-        //if(this.returnUrl){//need fix to return to last page the customer was
-          //   this.router.navigateByUrl(this.returnUrl)
-          // }
-          // else
-          this.router.navigateByUrl('/')
+        // Redirect to returnUrl or dashboard
+        this.router.navigateByUrl(this.returnUrl)
       },
       error:error=>{
         this.sharedService.showNotification(false,"Failed",error.error);
       }
 
     })
-    //this.router.navigateByUrl(`/register/thirdParty/google?access_token=${response.credential}&userId=${decodeToken.sub}`)
   }
 
   /**
@@ -249,7 +253,7 @@ export class LoginComponent implements OnInit{
     this.usersService.login(loginData).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl(this.returnUrl);
         this.sharedService.showNotification(true, 'نجح تسجيل الدخول', 'مرحباً بك في منصتنا!');
       },
       error: error => {
@@ -284,7 +288,7 @@ export class LoginComponent implements OnInit{
         this.usersService.loginWithThirdParty(new LoginWithExternal(accessToken, userId, "facebook")).subscribe({
           next: () => {
             this.loading = false;
-            this.router.navigateByUrl('/');
+            this.router.navigateByUrl(this.returnUrl);
             this.sharedService.showNotification(true, 'نجح تسجيل الدخول', 'مرحباً بك في منصتنا!');
           },
           error: error => {

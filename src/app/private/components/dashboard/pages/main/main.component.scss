@@ -1,0 +1,730 @@
+@use 'sass:color';
+@use '../../../../../../styles/helpers/variables' as *;
+@use '../../../../../../styles/helpers/mixins' as *;
+
+// Dashboard Container
+.dashboard-container {
+  padding: $spacing-xl $spacing-lg;
+  min-height: calc(100vh - #{$navbar-height});
+  background: $gray-50;
+  animation: fadeIn 0.3s ease-out;
+
+  @include tablet {
+    padding: $spacing-lg $spacing-md;
+  }
+
+  @include mobile-only {
+    padding: $spacing-md;
+  }
+}
+
+// Dashboard Header
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+  padding: $spacing-xl;
+  background: linear-gradient(135deg, $white 0%, color.adjust($primary, $lightness: 49%) 100%);
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-md;
+  border: 1px solid color.adjust($primary, $lightness: 45%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, color.adjust($primary, $lightness: 48%) 0%, transparent 70%);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  @include tablet {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: $spacing-lg;
+    margin-bottom: $spacing-xl;
+  }
+
+  @include mobile-only {
+    padding: $spacing-md;
+    margin-bottom: $spacing-lg;
+  }
+
+  .welcome-content {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+
+    .welcome-title {
+      font-size: 2rem;
+      font-weight: $font-weight-bold;
+      color: $dark;
+      margin: 0 0 $spacing-sm 0;
+      line-height: 1.2;
+
+      @include tablet {
+        font-size: 1.75rem;
+      }
+
+      @include mobile-only {
+        font-size: 1.5rem;
+      }
+
+      span {
+        color: $primary;
+        display: inline-block;
+        animation: wave 2s ease-in-out infinite;
+      }
+    }
+
+    .welcome-subtitle {
+      font-size: $font-size-base;
+      color: $gray-700;
+      margin: 0;
+      font-weight: $font-weight-medium;
+
+      @include mobile-only {
+        font-size: $font-size-sm;
+      }
+    }
+  }
+
+  .header-actions {
+    position: relative;
+    z-index: 1;
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      padding: $spacing-md $spacing-lg;
+      background: $primary;
+      color: $white;
+      border: none;
+      border-radius: $border-radius-lg;
+      font-weight: $font-weight-semibold;
+      font-size: $font-size-base;
+      cursor: pointer;
+      transition: all $transition-base;
+      box-shadow: 0 4px 12px color.adjust($primary, $lightness: -10%, $alpha: -0.6);
+
+      i {
+        font-size: 20px;
+      }
+
+      &:hover {
+        background: color.adjust($primary, $lightness: -5%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px color.adjust($primary, $lightness: -10%, $alpha: -0.4);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      @include mobile-only {
+        padding: $spacing-sm $spacing-md;
+        font-size: $font-size-sm;
+
+        i {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
+// Statistics Grid
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+  }
+
+  @include mobile-only {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+// Main Content Grid
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+
+  @include mobile-only {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+// Charts Section
+.charts-section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  @include mobile-only {
+    gap: $spacing-md;
+  }
+
+  .chart-card,
+  .orders-card {
+    background: $white;
+    border-radius: $border-radius-xl;
+    box-shadow: $shadow-sm;
+    padding: $spacing-xl;
+    transition: all $transition-base;
+    border: 1px solid $gray-200;
+
+    &:hover {
+      box-shadow: $shadow-lg;
+      border-color: color.adjust($primary, $lightness: 45%);
+      transform: translateY(-2px);
+    }
+
+    @include mobile-only {
+      padding: $spacing-md;
+    }
+  }
+}
+
+// Sidebar Section
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  @include mobile-only {
+    gap: $spacing-md;
+  }
+}
+
+// Quick Actions Card
+.quick-actions-card {
+  background: $white;
+  border-radius: $border-radius-xl;
+  padding: $spacing-xl;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+  transition: all $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+
+  @include mobile-only {
+    padding: $spacing-md;
+  }
+  
+  .card-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $dark;
+    margin: 0 0 $spacing-lg 0;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    &::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: $primary;
+      border-radius: $border-radius-full;
+    }
+
+    @include mobile-only {
+      font-size: $font-size-base;
+      margin-bottom: $spacing-md;
+    }
+  }
+
+  .quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+
+    @include mobile-only {
+      gap: $spacing-sm;
+    }
+
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-sm;
+      padding: $spacing-lg;
+      background: $gray-50;
+      border: 2px solid $gray-200;
+      border-radius: $border-radius-lg;
+      cursor: pointer;
+      transition: all $transition-fast;
+      text-align: center;
+      min-height: 100px;
+
+      i {
+        font-size: 32px;
+        color: $primary;
+        transition: all $transition-fast;
+      }
+
+      span {
+        font-size: $font-size-sm;
+        font-weight: $font-weight-semibold;
+        color: $dark;
+        transition: color $transition-fast;
+      }
+
+      &:hover {
+        background: $white;
+        border-color: $primary;
+        transform: translateY(-4px);
+        box-shadow: $shadow-md;
+
+        i {
+          transform: scale(1.15);
+          color: color.adjust($primary, $lightness: -10%);
+        }
+
+        span {
+          color: $primary;
+        }
+      }
+
+      &:active {
+        transform: translateY(-2px);
+      }
+
+      @include mobile-only {
+        padding: $spacing-md;
+        min-height: 80px;
+        gap: $spacing-xs;
+
+        i {
+          font-size: 24px;
+        }
+
+        span {
+          font-size: $font-size-xs;
+        }
+      }
+    }
+  }
+}
+
+// Performance Card
+.performance-card {
+  background: $white;
+  border-radius: $border-radius-xl;
+  padding: $spacing-xl;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+  transition: all $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+
+  @include mobile-only {
+    padding: $spacing-md;
+  }
+
+  .card-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $dark;
+    margin: 0 0 $spacing-lg 0;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    &::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: $success;
+      border-radius: $border-radius-full;
+    }
+
+    @include mobile-only {
+      font-size: $font-size-base;
+      margin-bottom: $spacing-md;
+    }
+  }
+
+  .metrics-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+
+    @include mobile-only {
+      gap: $spacing-sm;
+    }
+
+    .metric-item {
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
+      padding: $spacing-md;
+      background: $gray-50;
+      border-radius: $border-radius-lg;
+      transition: all $transition-fast;
+      border: 1px solid $gray-100;
+
+      &:hover {
+        background: $white;
+        box-shadow: $shadow-sm;
+        border-color: $gray-300;
+        transform: translateX(-4px);
+      }
+
+      .metric-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        border-radius: $border-radius-md;
+        flex-shrink: 0;
+
+        i {
+          font-size: 26px;
+        }
+
+        &.icon-primary {
+          background: color.adjust($primary, $lightness: 47%);
+          color: $primary;
+        }
+
+        &.icon-success {
+          background: color.adjust($success, $lightness: 47%);
+          color: $success;
+        }
+
+        &.icon-warning {
+          background: color.adjust($warning, $lightness: 45%);
+          color: $warning;
+        }
+
+        &.icon-info {
+          background: color.adjust($secondary, $lightness: 47%);
+          color: $secondary;
+        }
+      }
+
+      .metric-content {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-xs;
+        flex: 1;
+        min-width: 0;
+
+        .metric-label {
+          font-size: $font-size-sm;
+          color: $gray-600;
+          font-weight: $font-weight-medium;
+        }
+
+        .metric-value {
+          font-size: $font-size-lg;
+          font-weight: $font-weight-bold;
+          color: $dark;
+
+          &.trend-up {
+            color: $success;
+          }
+
+          &.trend-down {
+            color: $danger;
+          }
+        }
+      }
+
+      @include mobile-only {
+        padding: $spacing-sm;
+        gap: $spacing-sm;
+
+        .metric-icon {
+          width: 44px;
+          height: 44px;
+
+          i {
+            font-size: 22px;
+          }
+        }
+
+        .metric-content {
+          .metric-label {
+            font-size: $font-size-xs;
+          }
+
+          .metric-value {
+            font-size: $font-size-base;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+  padding: $spacing-3xl;
+
+  @include mobile-only {
+    min-height: 400px;
+    padding: $spacing-xl;
+  }
+
+  .empty-state-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-xl;
+    text-align: center;
+    max-width: 500px;
+    padding: $spacing-3xl;
+    background: $white;
+    border-radius: $border-radius-xl;
+    box-shadow: $shadow-lg;
+
+    @include mobile-only {
+      padding: $spacing-xl;
+      gap: $spacing-lg;
+    }
+
+    i {
+      font-size: 96px;
+      color: $gray-400;
+      animation: pulse 2s ease-in-out infinite;
+
+      @include mobile-only {
+        font-size: 72px;
+      }
+    }
+
+    h2 {
+      font-size: $font-size-2xl;
+      font-weight: $font-weight-bold;
+      color: $dark;
+      margin: 0;
+
+      @include mobile-only {
+        font-size: $font-size-xl;
+      }
+    }
+
+    p {
+      font-size: $font-size-base;
+      color: $gray-600;
+      margin: 0;
+      line-height: 1.6;
+
+      @include mobile-only {
+        font-size: $font-size-sm;
+      }
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      margin-top: $spacing-md;
+      padding: $spacing-md $spacing-xl;
+      background: $primary;
+      color: $white;
+      border: none;
+      border-radius: $border-radius-lg;
+      font-weight: $font-weight-semibold;
+      cursor: pointer;
+      transition: all $transition-base;
+      box-shadow: 0 4px 12px color.adjust($primary, $lightness: -10%, $alpha: -0.6);
+
+      i {
+        font-size: 20px;
+        color: $white;
+        animation: none;
+      }
+
+      &:hover {
+        background: color.adjust($primary, $lightness: -5%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px color.adjust($primary, $lightness: -10%, $alpha: -0.4);
+      }
+
+      @include mobile-only {
+        padding: $spacing-sm $spacing-lg;
+        font-size: $font-size-sm;
+      }
+    }
+  }
+}
+
+// RTL Support
+[dir='rtl'] {
+  .dashboard-header {
+    &::before {
+      right: auto;
+      left: -100px;
+    }
+  }
+
+  .card-title::before {
+    margin-right: 0;
+    margin-left: $spacing-sm;
+  }
+
+  .metric-item:hover {
+    transform: translateX(4px);
+  }
+
+  .welcome-content .welcome-title span {
+    animation: waveRTL 2s ease-in-out infinite;
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes waveRTL {
+  0%, 100% {
+    transform: rotate(0deg) scaleX(-1);
+  }
+  25% {
+    transform: rotate(5deg) scaleX(-1);
+  }
+  75% {
+    transform: rotate(-5deg) scaleX(-1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.6;
+  }
+}
+
+// Stats Grid Animation
+.stats-grid > * {
+  animation: slideUp 0.5s ease-out;
+  animation-fill-mode: both;
+
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Content Grid Animation
+.content-grid {
+  animation: fadeIn 0.6s ease-out 0.4s;
+  animation-fill-mode: both;
+}
+
+// Print Styles
+@media print {
+  .dashboard-header {
+    background: $white;
+    box-shadow: none;
+    border: 1px solid $gray-300;
+
+    &::before {
+      display: none;
+    }
+
+    .header-actions {
+      display: none;
+    }
+  }
+
+  .quick-actions-card,
+  .empty-state {
+    display: none;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid,
+  .charts-section,
+  .sidebar-section {
+    page-break-inside: avoid;
+  }
+}
+
+// Reduced Motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
