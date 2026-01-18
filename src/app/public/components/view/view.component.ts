@@ -67,9 +67,9 @@ export class ViewComponent {
             console.error('❌ Store not found for:', storeIdentifier);
             console.error('Error:', err);
             // Don't redirect for custom domains, just show error
-            if (!isCustomDomain && hostname.endsWith(`.${platformDomain}`)) {
-              window.location.href = `http://${platformDomain}:4200`;
-            }
+            // if (!isCustomDomain && hostname.endsWith(`.${platformDomain}`)) {
+            //   window.location.href = `http://${platformDomain}:4200`;
+            // }
           }
         });
       }
