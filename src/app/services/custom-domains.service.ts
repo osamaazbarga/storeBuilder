@@ -76,7 +76,7 @@ export class CustomDomainsService {
    */
   getStoreDomains(storeId: number): Observable<CustomDomain[]> {
     return this.http
-      .get<CustomDomain[]>(`${this.apiUrl}/api/custom-domains/store/${storeId}`)
+      .get<CustomDomain[]>(`${this.apiUrl}/custom-domains/store/${storeId}`)
       .pipe(
         tap((domains) => {
           this.domainsSubject.next(domains);
@@ -88,7 +88,7 @@ export class CustomDomainsService {
    * إضافة دومين جديد
    */
   addDomain(storeId: number, domain: string): Observable<AddDomainResponse> {
-    return this.http.post<AddDomainResponse>(`${this.apiUrl}/api/custom-domains`, {
+    return this.http.post<AddDomainResponse>(`${this.apiUrl}/custom-domains`, {
       storeId,
       domain,
     });
@@ -98,7 +98,7 @@ export class CustomDomainsService {
    * حذف دومين
    */
   removeDomain(domainId: number, storeId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/api/custom-domains/${domainId}`, {
+    return this.http.delete(`${this.apiUrl}/custom-domains/${domainId}`, {
       body: { storeId },
     });
   }
@@ -108,7 +108,7 @@ export class CustomDomainsService {
    */
   verifyDomain(domainId: number, storeId: number): Observable<VerifyDomainResponse> {
     return this.http.post<VerifyDomainResponse>(
-      `${this.apiUrl}/api/custom-domains/${domainId}/verify`,
+      `${this.apiUrl}/custom-domains/${domainId}/verify`,
       { storeId }
     );
   }
@@ -117,7 +117,7 @@ export class CustomDomainsService {
    * البحث عن متجر بالدومين (للـ Public View)
    */
   lookupStoreByDomain(domain: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/api/custom-domains/lookup/${domain}`);
+    return this.http.get(`${this.apiUrl}/custom-domains/lookup/${domain}`);
   }
 
   /**
