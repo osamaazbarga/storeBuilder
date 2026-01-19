@@ -78,6 +78,55 @@
 
 // Add Domain Section
 .add-domain-card {
+  // Store Selector Styles
+  .store-selector {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: $gray-50;
+    border-radius: 8px;
+
+    .selector-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: $text-primary;
+      margin-bottom: 0.75rem;
+
+      .material-icons {
+        font-size: 1.25rem;
+        color: $primary-color;
+      }
+    }
+
+    .store-select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid $gray-300;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #fff;
+      color: $text-primary;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: $primary-color;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+
+      option {
+        padding: 0.5rem;
+      }
+    }
+  }
+
   .input-group {
     display: flex;
     gap: 1rem;

@@ -25,9 +25,12 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
 
   // State
   domains: CustomDomain[] = [];
+  userStores: any[] = []; // قائمة متاجر المستخدم
+  selectedStoreId: number | null = null; // المتجر المختار
   newDomain = '';
   currentStoreId: number | null = null;
   loading = false;
+  loadingStores = false;
   verifying: number | null = null;
   error = '';
 
@@ -43,13 +46,20 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // جلب قائمة متاجر المستخدم
+    this.loadUserStores();
+    
     // جلب Store ID من الـ StoreService
     this.storeService.storeData$
       .pipe(takeUntil(this.destroy$))
       .subscribe((store) => {
         if (store?.id) {
           this.currentStoreId = store.id;
-          this.loadDomains();
+          // إذا لم يتم تحديد متجر، استخدم المتجر الحالي
+          if (!this.selectedStoreId) {
+            this.selectedStoreId = store.id;
+            this.loadDomains();
+          }
         }
       });
 
@@ -67,13 +77,42 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * جلب قائمة متاجر المستخدم
+   */
+  loadUserStores(): void {
+    this.loadingStores = true;
+    this.storeService.getMyStores()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (stores) => {
+          this.userStores = stores as any[];
+          this.loadingStores = false;
+          console.log('📦 User stores loaded:', stores);
+        },
+        error: (err) => {
+          console.error('Failed to load user stores:', err);
+          this.loadingStores = false;
+        },
+      });
+  }
+
+  /**
+   * تغيير المتجر المحدد
+   */
+  onStoreChange(storeId: number): void {
+    this.selectedStoreId = storeId;
+    this.loadDomains();
+  }
+
+  /**
    * جلب جميع الدومينات
    */
   loadDomains(): void {
-    if (!this.currentStoreId) return;
+    const storeId = this.selectedStoreId || this.currentStoreId;
+    if (!storeId) return;
 
     this.customDomainsService
-      .getStoreDomains(this.currentStoreId)
+      .getStoreDomains(storeId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (domains) => {
@@ -90,7 +129,8 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
    * إضافة دومين جديد
    */
   addDomain(): void {
-    if (!this.newDomain.trim() || !this.currentStoreId) return;
+    const storeId = this.selectedStoreId || this.currentStoreId;
+    if (!this.newDomain.trim() || !storeId) return;
 
     // التحقق من صحة الدومين
     const normalizedDomain = this.customDomainsService.normalizeDomain(this.newDomain);
@@ -105,7 +145,7 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
     this.instructions = null;
 
     this.customDomainsService
-      .addDomain(this.currentStoreId, normalizedDomain)
+      .addDomain(storeId, normalizedDomain)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -135,12 +175,13 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
    * التحقق من حالة الدومين
    */
   verifyDomain(domain: CustomDomain): void {
-    if (!this.currentStoreId) return;
+    const storeId = this.selectedStoreId || this.currentStoreId;
+    if (!storeId) return;
 
     this.verifying = domain.id;
 
     this.customDomainsService
-      .verifyDomain(domain.id, this.currentStoreId)
+      .verifyDomain(domain.id, storeId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -169,13 +210,14 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
    * حذف دومين
    */
   removeDomain(domain: CustomDomain): void {
-    if (!this.currentStoreId) return;
+    const storeId = this.selectedStoreId || this.currentStoreId;
+    if (!storeId) return;
 
     const confirmed = confirm(`هل أنت متأكد من حذف الدومين: ${domain.domain}؟`);
     if (!confirmed) return;
 
     this.customDomainsService
-      .removeDomain(domain.id, this.currentStoreId)
+      .removeDomain(domain.id, storeId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {

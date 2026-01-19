@@ -20,6 +20,24 @@
     </div>
 
     <div class="card-body">
+      <!-- Store Selector -->
+      <div class="store-selector" *ngIf="userStores.length > 1">
+        <label class="selector-label">
+          <span class="material-icons">store</span>
+          اختر المتجر:
+        </label>
+        <select 
+          [(ngModel)]="selectedStoreId" 
+          (change)="onStoreChange($any($event.target).value)"
+          class="store-select"
+        >
+          <option [value]="null" disabled>اختر المتجر...</option>
+          <option *ngFor="let store of userStores" [value]="store.id">
+            {{ store.name }} ({{ store.subdomain }}.dokn.net)
+          </option>
+        </select>
+      </div>
+
       <div class="input-group">
         <div class="input-wrapper">
           <span class="material-icons input-icon">public</span>
@@ -27,7 +45,7 @@
             type="text"
             [(ngModel)]="newDomain"
             [placeholder]="'CUSTOM_DOMAINS.DOMAIN_PLACEHOLDER' | translate"
-            [disabled]="loading"
+            [disabled]="loading || !selectedStoreId"
             (keyup.enter)="addDomain()"
             class="domain-input"
           />
@@ -36,7 +54,7 @@
         <button 
           class="btn btn-primary" 
           (click)="addDomain()" 
-          [disabled]="loading || !newDomain.trim()"
+          [disabled]="loading || !newDomain.trim() || !selectedStoreId"
         >
           <span class="material-icons" *ngIf="loading">autorenew</span>
           <span *ngIf="!loading">{{ 'CUSTOM_DOMAINS.ADD_BUTTON' | translate }}</span>
