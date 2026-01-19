@@ -10,24 +10,27 @@ import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface CustomDomain {
-  id: number;
+  id: string;  // UUID
   domain: string;
   storeId: number;
-  cfHostnameId: string | null;
-  sslStatus: string;
-  verificationStatus: string;
-  dnsRecords?: {
-    type: string;
-    name: string;
-    value: string;
-    ttl: string;
-  };
+  type: 'custom' | 'subdomain';
+  isPrimary: boolean;
+  status: 'pending' | 'active' | 'failed' | 'deleted';
+  sslStatus: 'pending' | 'active' | 'failed';
+  verificationToken?: string | null;
+  verificationMethod?: string | null;
+  verifiedAt?: string | null;
+  dnsConfigured: boolean;
+  dnsCheckedAt?: string | null;
+  sslIssuedAt?: string | null;
+  lastError?: string | null;
   createdAt: string;
   updatedAt: string;
+  deletedAt?: string | null;
   store?: {
     id: number;
     name: string;
-    slug: string;
+    subdomain: string;
   };
 }
 
@@ -97,7 +100,7 @@ export class CustomDomainsService {
   /**
    * حذف دومين
    */
-  removeDomain(domainId: number, storeId: number): Observable<any> {
+  removeDomain(domainId: string, storeId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/custom-domains/${domainId}`, {
       body: { storeId },
     });
@@ -106,7 +109,7 @@ export class CustomDomainsService {
   /**
    * التحقق من حالة الدومين
    */
-  verifyDomain(domainId: number, storeId: number): Observable<VerifyDomainResponse> {
+  verifyDomain(domainId: string, storeId: number): Observable<VerifyDomainResponse> {
     return this.http.post<VerifyDomainResponse>(
       `${this.apiUrl}/custom-domains/${domainId}/verify`,
       { storeId }

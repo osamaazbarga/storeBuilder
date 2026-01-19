@@ -31,7 +31,7 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
   currentStoreId: number | null = null;
   loading = false;
   loadingStores = false;
-  verifying: number | null = null;
+  verifying: string | null = null; // Domain ID (UUID)
   error = '';
 
   // Instructions Modal
@@ -85,7 +85,7 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (stores) => {
-          this.userStores = stores as any[];
+          this.userStores = stores  as any[];
           this.loadingStores = false;
           console.log('📦 User stores loaded:', stores);
         },
@@ -303,7 +303,7 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
    */
   isFullyActive(domain: CustomDomain): boolean {
     return (
-      domain.verificationStatus === 'active' &&
+      domain.status === 'active' &&
       domain.sslStatus === 'active'
     );
   }

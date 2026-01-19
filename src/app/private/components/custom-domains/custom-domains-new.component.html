@@ -104,15 +104,15 @@
               <!-- Verification Status -->
               <span 
                 class="status-badge" 
-                [ngClass]="getStatusClass(domain.verificationStatus)"
+                [ngClass]="getStatusClass(domain.status)"
               >
-                {{ getStatusText(domain.verificationStatus) }}
+                {{ getStatusText(domain.status) }}
               </span>
 
               <!-- SSL Status (if active) -->
               <span 
                 class="status-badge ssl-badge" 
-                *ngIf="domain.verificationStatus === 'active'"
+                *ngIf="domain.status === 'active'"
                 [ngClass]="getStatusClass(domain.sslStatus)"
               >
                 <span class="material-icons">lock</span>
