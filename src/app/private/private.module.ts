@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { NavbarDashboardComponent } from './components/navbar-dashboard/navbar-dashboard.component';
 import { FooterDashboardComponent } from './components/footer-dashboard/footer-dashboard.component';
@@ -22,7 +23,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { AngularPinturaModule } from '@pqina/angular-pintura';
 import { CategoriesComponent } from './components/dashboard/pages/products/categories/categories.component';
-import { CustomDomainsComponent } from './components/custom-domains/custom-domains.component';
+import { CustomDomainsNewComponent } from './components/custom-domains/custom-domains-new.component';
 
 // Dashboard Shared Components
 import { SharedModule as DashboardSharedModule } from './components/dashboard/shared.module';
@@ -38,27 +39,27 @@ import { SharedModule as DashboardSharedModule } from './components/dashboard/sh
     DropDargComponent,
     DragDropDirective,
     SidebarItemComponent,
-    CategoriesComponent,
-    CustomDomainsComponent
+    CategoriesComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     SharedModule,
     DashboardSharedModule,
     PrivateRoutingModule,
     PrimeNgCompnentsModule,
     MatGridListModule,
     MaterialModule,
-    TranslateModule,
-    AngularPinturaModule
+    TranslateModule.forChild(),
+    AngularPinturaModule,
+    CustomDomainsNewComponent
   ],
   exports: [
     DashboardHomeComponent,
     MainComponent,
     ProductsComponent,
-    CategoriesComponent,
-    CustomDomainsComponent
+    CategoriesComponent
   ]
 })
 export class PrivateModule { }

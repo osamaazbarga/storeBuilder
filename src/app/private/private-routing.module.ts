@@ -5,7 +5,7 @@ import { MainComponent } from './components/dashboard/pages/main/main.component'
 import { ProductsComponent } from './components/dashboard/pages/products/products.component';
 import { AddProductComponent } from './components/dashboard/pages/products/add-product/add-product.component';
 import { CategoriesComponent } from './components/dashboard/pages/products/categories/categories.component';
-import { CustomDomainsComponent } from './components/custom-domains/custom-domains.component';
+import { CustomDomainsNewComponent } from './components/custom-domains/custom-domains-new.component';
 
 const routes: Routes = [
   {
@@ -31,7 +31,7 @@ const routes: Routes = [
   {
     path:'custom-domains',
     runGuardsAndResolvers:'always',
-    component:CustomDomainsComponent
+    component:CustomDomainsNewComponent
   }
 ];
 

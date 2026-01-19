@@ -3,11 +3,14 @@
 
 ## المشكلة (Problem)
 
-عندما يستخدم المستخدم Custom Domain مثل `www.dokn.shop`، الفرونت إند يحاول البحث عن المتجر باستخدام:
-- `/api/Store/by-custom-domain/www.dokn.shop`
+عندما يستخدم المستخدم Custom Domain مثل `www.dokn.shop`:
 
-لكن الباك إند الحالي يدعم فقط:
-- `/api/Store/by-subdomain/{subdomain}` - يبحث في حقل `Slug` فقط
+1. **المستخدم يدخل**: `www.dokn.shop` في المتصفح
+2. **الفرونت إند يرسل**: `/api/Store/by-custom-domain/dokn.shop` (بعد إزالة www.)
+3. **الباك إند يبحث عن**: `customDomain = 'dokn.shop'` في قاعدة البيانات
+4. **المشكلة**: الباك إند الحالي يدعم فقط:
+   - `/api/Store/by-subdomain/{subdomain}` - يبحث في حقل `Slug` فقط
+   - لا يوجد endpoint للبحث في `CustomDomain`
 
 ## الحل المطلوب (Solution)
 

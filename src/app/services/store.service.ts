@@ -195,16 +195,23 @@ export class StoreService {
     
     console.log('📡 API Call - Identifier:', identifier, 'IsSubdomain:', isSubdomain);
     
-    // استخدام endpoint واحد - الباك إند يجب أن يفحص كلا الحقلين
-    return this.http.get<StoreAddEdit>(`${environment.appUrl}/${this.url}/by-identifier/${identifier}`);
+    // استخدام الـ endpoint القديم للتوافق
+    return this.http.get<StoreAddEdit>(`${environment.appUrl}/${this.url}/by-subdomain/${identifier}`);
   }
   
   /**
    * Loads store details by custom domain
+   * يزيل www. تلقائياً للبحث في قاعدة البيانات
    */
   loadStoreByCustomDomain(domain: string): Observable<StoreAddEdit> {
-    console.log('🔍 Loading store by custom domain:', domain);
-    return this.http.get<StoreAddEdit>(`${environment.appUrl}/${this.url}/by-custom-domain/${domain}`);
+    // إزالة www. إذا كان موجوداً
+    let normalizedDomain = domain.toLowerCase().trim();
+    if (normalizedDomain.startsWith('www.')) {
+      normalizedDomain = normalizedDomain.substring(4);
+    }
+    
+    console.log('🔍 Loading store by custom domain:', domain, '→ Normalized:', normalizedDomain);
+    return this.http.get<StoreAddEdit>(`${environment.appUrl}/${this.url}/by-custom-domain/${normalizedDomain}`);
   }
   
     /**

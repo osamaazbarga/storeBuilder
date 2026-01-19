@@ -1,9 +1,16 @@
 // Design Tokens - Color Palette
 $primary: #E74C3C;
+$primary-color: #E74C3C; // Alias
 $secondary: #3498DB;
+$secondary-color: #3498DB; // Alias
 $success: #27AE60;
+$success-color: #27AE60; // Alias
 $warning: #F39C12;
+$warning-color: #F39C12; // Alias
 $danger: #E74C3C;
+$danger-color: #E74C3C; // Alias
+$info: #3498DB;
+$info-color: #3498DB; // Alias
 $dark: #2C3E50;
 $light: #ECF0F1;
 $white: #FFFFFF;
@@ -20,6 +27,22 @@ $gray-600: #6C757D;
 $gray-700: #495057;
 $gray-800: #343A40;
 $gray-900: #212529;
+
+// Text Colors
+$text-primary: $gray-900;
+$text-secondary: $gray-600;
+$text-muted: $gray-500;
+$text-light: $gray-400;
+
+// Background Colors
+$bg-primary: $white;
+$bg-secondary: $gray-50;
+$bg-hover: $gray-100;
+
+// Border Colors
+$border-color: $gray-200;
+$border-color-light: $gray-100;
+$border-color-dark: $gray-300;
 
 // Spacing Scale
 $spacing-xs: 4px;
