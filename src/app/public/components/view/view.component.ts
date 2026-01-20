@@ -3,7 +3,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { TblUser } from 'src/app/models/TblUser';
 import { StoreService } from 'src/app/services/store.service';
 import { UsersService } from 'src/app/services/users.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-view',
@@ -14,66 +13,45 @@ import { environment } from 'src/environments/environment';
 export class ViewComponent {
   title = 'SuperEcommere';
 
-  users:TblUser[]=[]
-  userToEdit?:TblUser
+  users: TblUser[] = [];
+  userToEdit?: TblUser;
   isStoreView = false;
   isLoginPage = false;
   
-  constructor(private userServies:UsersService,private storeService:StoreService,private router:Router){
+  constructor(
+    private userServies: UsersService,
+    private storeService: StoreService,
+    private router: Router
+  ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const url = event.urlAfterRedirects;
         this.isLoginPage = url === '/login';
       }
     });
-    const hostname = window.location.hostname; // test12.dokan.local or shop1.local
-    const parts = hostname.split('.');
-    const platformDomain = environment.platformDomain; // ديناميكي من environment
 
-    // Check if this is NOT the main platform domain
-    const isMainPlatform = hostname === platformDomain || hostname === `www.${platformDomain}`;
-    
-    console.log('🌐 Domain Analysis:', { hostname, parts, platformDomain, isMainPlatform });
-    
-    if (!isMainPlatform && parts[0] !== 'localhost') {
-      let storeIdentifier = '';
-      let isCustomDomain = false;
-      
-      // Case 1: Subdomain of platform (e.g., store1.dokan.local)
-      if (hostname.endsWith(`.${platformDomain}`) && parts.length > 2) {
-        storeIdentifier = parts[0]; // "store1"
-        isCustomDomain = false;
-        console.log('🔍 Detected subdomain:', storeIdentifier);
-      }
-      // Case 2: Custom domain (e.g., shop1.local, mystore.com, www.dokn.shop)
-      else if (!hostname.endsWith(`.${platformDomain}`) && hostname !== platformDomain) {
-        storeIdentifier = hostname; // Full domain "www.dokn.shop"
-        isCustomDomain = true;
-        console.log('🔍 Detected custom domain:', storeIdentifier);
-      }
-      
-      if (storeIdentifier) {
-        // استخدام الـ method المناسب حسب نوع الدومين
-        const loadObservable = isCustomDomain 
-          ? this.storeService.loadStoreByCustomDomain(storeIdentifier)
-          : this.storeService.loadStoreBySubdomain(storeIdentifier);
+    // 🚀 استخدام API واحد فقط - الباك إند يحدد المتجر من الدومين
+    // Using single API - Backend determines store from domain
+    this.storeService.getCurrentStore().subscribe({
+      next: (response) => {
+        console.log('🏪 Store resolution:', response);
         
-        loadObservable.subscribe({
-          next: (store) => {
-            this.isStoreView = true;
-            console.log('✅ Store loaded:', store);
-          },
-          error: (err) => {
-            console.error('❌ Store not found for:', storeIdentifier);
-            console.error('Error:', err);
-            // Don't redirect for custom domains, just show error
-            // if (!isCustomDomain && hostname.endsWith(`.${platformDomain}`)) {
-            //   window.location.href = `http://${platformDomain}:4200`;
-            // }
-          }
-        });
+        if (response.isStoreView && response.store) {
+          // متجر موجود - Store found
+          this.isStoreView = true;
+          this.storeService.setCurrentStore(response.store);
+          console.log('✅ Store loaded:', response.store.name);
+        } else if (response.isMainPlatform) {
+          // الموقع الرئيسي - Main platform
+          this.isStoreView = false;
+          console.log('📍 Main platform');
+        }
+      },
+      error: (err) => {
+        console.error('❌ Store resolution error:', err);
+        this.isStoreView = false;
       }
-    }
+    });
   }
   ngOnInit():void{
     

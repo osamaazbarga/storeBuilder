@@ -299,4 +299,31 @@ export class StoreService {
       return this.http.get<any[]>(`${environment.appUrl}/${this.url}/${storeId}/review-logs`);
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // DOMAIN-BASED STORE RESOLUTION
+    // ═══════════════════════════════════════════════════════════════
+
+    /**
+     * Get current store from backend (uses middleware resolution)
+     * الحصول على المتجر الحالي من الباك إند (يستخدم Middleware)
+     * 
+     * This method calls the backend which automatically detects the store
+     * from the domain (subdomain or custom domain) via StoreResolverMiddleware
+     */
+    getCurrentStore(): Observable<{
+      isMainPlatform: boolean;
+      isStoreView: boolean;
+      store: StoreAddEdit | null;
+    }> {
+      return this.http.get<any>(`${environment.appUrl}/${this.url}/current`);
+    }
+
+    /**
+     * Set current store and save to storage
+     * تعيين المتجر الحالي وحفظه
+     */
+    setCurrentStore(store: StoreAddEdit): void {
+      this.setStoreData(store);
+    }
+
 }
