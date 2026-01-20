@@ -91,6 +91,7 @@ export class CustomDomainsService {
    * إضافة دومين جديد
    */
   addDomain(storeId: number, domain: string): Observable<AddDomainResponse> {
+
     return this.http.post<AddDomainResponse>(`${this.apiUrl}/custom-domains`, {
       storeId,
       domain,
