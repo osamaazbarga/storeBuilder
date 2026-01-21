@@ -315,7 +315,10 @@ export class StoreService {
       isStoreView: boolean;
       store: StoreAddEdit | null;
     }> {
-      return this.http.get<any>(`${environment.appUrl}/${this.url}/current`);
+      const headers = {
+        'X-Original-Host': window.location.hostname
+      };
+      return this.http.get<any>(`${environment.appUrl}/${this.url}/current`, { headers });
     }
 
     /**
