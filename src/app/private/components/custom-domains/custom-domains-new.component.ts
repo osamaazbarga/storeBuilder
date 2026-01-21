@@ -32,6 +32,7 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
   loading = false;
   loadingStores = false;
   verifying: string | null = null; // Domain ID (UUID)
+  creatingSSL: string | null = null; // Domain ID for SSL creation
   error = '';
 
   // Instructions Modal
@@ -314,5 +315,77 @@ export class CustomDomainsNewComponent implements OnInit, OnDestroy {
   visitDomain(domain: CustomDomain): void {
     const url = `https://${domain.domain}`;
     window.open(url, '_blank');
+  }
+
+  /**
+   * إنشاء شهادة SSL للدومين
+   */
+  createSSL(domain: CustomDomain): void {
+    const storeId = this.selectedStoreId || this.currentStoreId;
+    if (!storeId) return;
+
+    // تحقق من أن الدومين active و DNS configured
+    if (domain.status !== 'active') {
+      this.sharedService.showNotification(
+        false, 
+        'تنبيه', 
+        'يجب أن يكون الدومين مفعل أولاً. اضغط "تحقق" للتأكد من إعدادات DNS'
+      );
+      return;
+    }
+
+    const confirmed = confirm(
+      `هل تريد إنشاء شهادة SSL لـ: ${domain.domain}?\n\n` +
+      `سيتم إصدار شهادة SSL من Let's Encrypt.\n` +
+      `قد تستغرق العملية بضع دقائق.`
+    );
+    
+    if (!confirmed) return;
+
+    this.creatingSSL = domain.id;
+
+    this.storeService
+      .createSSLForDomain(storeId, domain.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          console.log('SSL Response:', response);
+          
+          // تحديث الدومين في القائمة
+          const index = this.domains.findIndex((d) => d.id === domain.id);
+          if (index !== -1) {
+            this.domains[index] = {
+              ...this.domains[index],
+              sslStatus: response.status || 'pending'
+            };
+          }
+
+          const isSuccess = response.success;
+          const title = isSuccess ? 'نجح' : 'معلومة';
+          this.sharedService.showNotification(isSuccess, title, response.message);
+
+          this.creatingSSL = null;
+
+          // إعادة تحميل الدومينات بعد 2 ثانية للحصول على آخر حالة
+          setTimeout(() => {
+            this.loadDomains();
+          }, 2000);
+        },
+        error: (err) => {
+          const errorMessage = err.error?.message || 'فشل في إنشاء شهادة SSL';
+          this.sharedService.showNotification(false, 'خطأ', errorMessage);
+          this.creatingSSL = null;
+        },
+      });
+  }
+
+  /**
+   * هل يمكن إنشاء SSL للدومين؟
+   */
+  canCreateSSL(domain: CustomDomain): boolean {
+    return (
+      domain.status === 'active' &&
+      (domain.sslStatus === 'pending' || domain.sslStatus === 'failed')
+    );
   }
 }

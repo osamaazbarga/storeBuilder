@@ -329,4 +329,30 @@ export class StoreService {
       this.setStoreData(store);
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // SSL CERTIFICATE AUTOMATION
+    // ═══════════════════════════════════════════════════════════════
+
+    /**
+     * Create SSL certificate for a single domain
+     * إنشاء شهادة SSL لدومين واحد
+     */
+    createSSLForDomain(storeId: number, domainId: string): Observable<any> {
+      return this.http.post<any>(
+        `${environment.appUrl}/${this.url}/${storeId}/create-ssl-single/${domainId}`,
+        {}
+      );
+    }
+
+    /**
+     * Create SSL certificates for all store domains
+     * إنشاء شهادات SSL لجميع دومينات المتجر
+     */
+    createSSLForAllDomains(storeId: number): Observable<any> {
+      return this.http.post<any>(
+        `${environment.appUrl}/${this.url}/${storeId}/create-ssl`,
+        {}
+      );
+    }
+
 }

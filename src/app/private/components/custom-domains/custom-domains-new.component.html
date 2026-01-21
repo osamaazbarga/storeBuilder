@@ -157,6 +157,20 @@
               {{ 'CUSTOM_DOMAINS.INSTRUCTIONS' | translate }}
             </button>
 
+            <!-- Create SSL (if domain is active but SSL is not) -->
+            <button 
+              class="btn btn-success btn-sm" 
+              (click)="createSSL(domain)" 
+              [disabled]="creatingSSL === domain.id || !canCreateSSL(domain)"
+              *ngIf="domain.status === 'active' && domain.sslStatus !== 'active'"
+              title="إنشاء شهادة SSL"
+            >
+              <span class="material-icons" *ngIf="creatingSSL !== domain.id">lock</span>
+              <span class="material-icons rotating" *ngIf="creatingSSL === domain.id">autorenew</span>
+              <span *ngIf="creatingSSL === domain.id">جاري إنشاء SSL...</span>
+              <span *ngIf="creatingSSL !== domain.id">إنشاء SSL</span>
+            </button>
+
             <!-- Verify -->
             <button 
               class="btn btn-primary btn-sm" 
