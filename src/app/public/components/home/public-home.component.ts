@@ -22,25 +22,28 @@ export class PublicHomeComponent {
   constructor(private userServies:UsersService,private storeService:StoreService){
   }
   ngOnInit():void{
-    // Use DomainService to detect if this is a store view
-    this.isStoreView = this.domainService.isStoreView();
-    
-    const domainInfo = this.domainService.getDomainInfo();
-    console.log('🏪 Domain Info:', domainInfo);
-
-    // If this is a store view, load store data
-    if (this.isStoreView && domainInfo.storeIdentifier) {
-      this.storeService.loadStoreBySubdomain(domainInfo.storeIdentifier).subscribe({
-        next: (store) => {
-          console.log('✅ Store loaded:', store);
-        },
-        error: (err) => {
-          console.error('❌ Store not found:', err);
-          // Redirect to main platform if store not found
-          this.domainService.navigateToMainPlatform();
+    // 🚀 استخدام API الجديد - الباك إند يحدد المتجر من الدومين
+    // Using new API - Backend determines store from domain
+    this.storeService.getCurrentStore().subscribe({
+      next: (response) => {
+        console.log('🏪 Store resolution:', response);
+        
+        if (response.isStoreView && response.store) {
+          // متجر موجود - Store found
+          this.isStoreView = true;
+          this.storeService.setCurrentStore(response.store);
+          console.log('✅ Store loaded:', response.store.name);
+        } else if (response.isMainPlatform) {
+          // الموقع الرئيسي - Main platform
+          this.isStoreView = false;
+          console.log('📍 Main platform');
         }
-      });
-    }
+      },
+      error: (err) => {
+        console.error('❌ Store resolution error:', err);
+        this.isStoreView = false;
+      }
+    });
     // تحميل المستخدمين فقط إذا كان المستخدم مسجل دخول
     // Loading users only if user is authenticated
     const token = localStorage.getItem('token');

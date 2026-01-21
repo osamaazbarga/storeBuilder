@@ -30,15 +30,20 @@ export class StoreComponent implements OnInit{
       //this.initializeForm(undefined);
     }
 
-    const subdomain = this.storeService.getSubdomain();
-    console.log(subdomain);
-
-    if (subdomain) {
-      this.storeService.loadStoreBySubdomain(subdomain).subscribe({
-        next: (store) => this.store = store,
-        error: (err) => console.error('Store not found', err)
-      });
-    }
+    // 🚀 استخدام API الجديد - الباك إند يحدد المتجر من الدومين
+    // Using new API - Backend determines store from domain
+    this.storeService.getCurrentStore().subscribe({
+      next: (response) => {
+        if (response.isStoreView && response.store) {
+          this.store = response.store;
+          this.storeService.setCurrentStore(response.store);
+          console.log('✅ Store loaded:', response.store.name);
+        }
+      },
+      error: (err) => {
+        console.error('❌ Store resolution error:', err);
+      }
+    });
 
     //this.getRoles();
 
