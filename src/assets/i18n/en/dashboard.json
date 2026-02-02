@@ -58,11 +58,6 @@
         "ACCOUNT_SETTINGS":"Account Settings"
     },
 
-    "CUSTOM_DOMAINS": {
-        "TITLE": "Custom Domains",
-        "SUBTITLE": "Link your own domain to your store instead of using a subdomain"
-    },
-
     "DASHBOARD": {
         "HOME": "Home",
         "MAIN": "Dashboard",

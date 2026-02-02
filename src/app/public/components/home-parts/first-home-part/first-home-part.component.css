@@ -1,5 +1,9 @@
-/* Hero Section Styles */
-:root {
+/* Hero Section Styles - Component Encapsulated */
+:host {
+  display: block;
+  width: 100%;
+  
+  /* Component-scoped CSS Variables */
   --primary-color: #e74c3c;
   --primary-gradient: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   --secondary-color: #3498db;

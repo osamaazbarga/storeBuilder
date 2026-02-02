@@ -1,6 +1,5 @@
 <!-- ======================================== -->
 <!-- Custom Domains Component Template -->
-<!-- Path: src/app/private/components/custom-domains/custom-domains-new.component.html -->
 <!-- ======================================== -->
 
 <div class="custom-domains-page">
@@ -10,72 +9,176 @@
       <span class="material-icons">language</span>
       {{ 'CUSTOM_DOMAINS.TITLE' | translate }}
     </h1>
-    <p class="page-subtitle">{{ 'CUSTOM_DOMAINS.SUBTITLE' | translate }}</p>
+    <p class="page-subtitle">{{ 'CUSTOM_DOMAINS.SUBTITLE_NEW' | translate }}</p>
   </div>
 
-  <!-- Add New Domain Card -->
-  <div class="add-domain-card card">
-    <div class="card-header">
-      <h3>{{ 'CUSTOM_DOMAINS.ADD_NEW' | translate }}</h3>
-    </div>
-
+  <!-- Store Selector -->
+  <div class="store-selector-card card" *ngIf="userStores.length > 1">
     <div class="card-body">
-      <!-- Store Selector -->
-      <div class="store-selector" *ngIf="userStores.length > 1">
-        <label class="selector-label">
-          <span class="material-icons">store</span>
-          اختر المتجر:
-        </label>
-        <select 
-          [(ngModel)]="selectedStoreId" 
-          (change)="onStoreChange($any($event.target).value)"
-          class="store-select"
-        >
-          <option [value]="null" disabled>اختر المتجر...</option>
-          <option *ngFor="let store of userStores" [value]="store.id">
-            {{ store.name }} ({{ store.subdomain }}.dokn.net)
-          </option>
-        </select>
-      </div>
+      <label class="selector-label">
+        <span class="material-icons">store</span>
+        {{ 'CUSTOM_DOMAINS.SELECT_STORE' | translate }}:
+      </label>
+      <select 
+        [(ngModel)]="selectedStoreId" 
+        (change)="onStoreChange($any($event.target).value)"
+        class="store-select"
+      >
+        <option [value]="null" disabled>{{ 'CUSTOM_DOMAINS.SELECT_STORE_PLACEHOLDER' | translate }}</option>
+        <option *ngFor="let store of userStores" [value]="store.id">
+          {{ store.name }} ({{ store.subdomain }}.dokn.net)
+        </option>
+      </select>
+    </div>
+  </div>
 
-      <div class="input-group">
-        <div class="input-wrapper">
-          <span class="material-icons input-icon">public</span>
-          <input
-            type="text"
-            [(ngModel)]="newDomain"
-            [placeholder]="'CUSTOM_DOMAINS.DOMAIN_PLACEHOLDER' | translate"
-            [disabled]="loading || !selectedStoreId"
-            (keyup.enter)="addDomain()"
-            class="domain-input"
-          />
+  <!-- Tabs -->
+  <div class="tabs-container">
+    <div 
+      class="tab-btn" 
+      [class.active]="activeTab === 'link'"
+      (click)="switchTab('link')"
+      role="button"
+      tabindex="0"
+    >
+      <span class="material-icons">link</span>
+      <span class="tab-text">{{ 'CUSTOM_DOMAINS.TAB_LINK' | translate }}</span>
+    </div>
+    <div 
+      class="tab-btn" 
+      [class.active]="activeTab === 'buy'"
+      (click)="switchTab('buy')"
+      *ngIf="purchaseServiceAvailable"
+      role="button"
+      tabindex="0"
+    >
+      <span class="material-icons">shopping_cart</span>
+      <span class="tab-text">{{ 'CUSTOM_DOMAINS.TAB_BUY' | translate }}</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- Tab 1: Link Existing Domain -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="tab-content" *ngIf="activeTab === 'link'">
+    <div class="add-domain-card card">
+      <div class="card-header">
+        <h3>{{ 'CUSTOM_DOMAINS.LINK_EXTERNAL' | translate }}</h3>
+      </div>
+      <div class="card-body">
+        <div class="input-group">
+          <div class="input-wrapper">
+            <span class="material-icons input-icon">public</span>
+            <input
+              type="text"
+              [(ngModel)]="newDomain"
+              [placeholder]="'CUSTOM_DOMAINS.DOMAIN_PLACEHOLDER' | translate"
+              [disabled]="loading || !selectedStoreId"
+              (keyup.enter)="addDomain()"
+              class="domain-input"
+            />
+          </div>
+          <button 
+            class="btn btn-primary" 
+            (click)="addDomain()" 
+            [disabled]="loading || !newDomain.trim() || !selectedStoreId"
+          >
+            <span class="material-icons" *ngIf="loading">autorenew</span>
+            <span *ngIf="!loading">{{ 'CUSTOM_DOMAINS.ADD_BUTTON' | translate }}</span>
+            <span *ngIf="loading">{{ 'CUSTOM_DOMAINS.ADDING' | translate }}</span>
+          </button>
+        </div>
+        <p class="hint">
+          <span class="material-icons">info</span>
+          {{ 'CUSTOM_DOMAINS.DOMAIN_HINT' | translate }}
+        </p>
+        <div class="alert alert-error" *ngIf="error && activeTab === 'link'">
+          <span class="material-icons">error</span>
+          <span>{{ error }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- Tab 2: Buy New Domain -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="tab-content" *ngIf="activeTab === 'buy'">
+    <div class="buy-domain-card card">
+      <div class="card-header">
+        <h3>
+          <span class="material-icons">search</span>
+          {{ 'CUSTOM_DOMAINS.SEARCH_DOMAIN' | translate }}
+        </h3>
+      </div>
+      <div class="card-body">
+        <div class="search-box">
+          <div class="input-wrapper">
+            <span class="material-icons input-icon">search</span>
+            <input
+              type="text"
+              [(ngModel)]="searchQuery"
+              [placeholder]="'CUSTOM_DOMAINS.SEARCH_PLACEHOLDER' | translate"
+              [disabled]="isSearching || !selectedStoreId"
+              (keyup.enter)="searchDomain()"
+              class="domain-input"
+            />
+          </div>
+          <button 
+            class="btn btn-primary" 
+            (click)="searchDomain()" 
+            [disabled]="isSearching || !searchQuery.trim() || !selectedStoreId"
+          >
+            <span class="material-icons rotating" *ngIf="isSearching">autorenew</span>
+            <span *ngIf="!isSearching">{{ 'CUSTOM_DOMAINS.SEARCH_BUTTON' | translate }}</span>
+            <span *ngIf="isSearching">{{ 'CUSTOM_DOMAINS.SEARCHING' | translate }}</span>
+          </button>
         </div>
         
-        <button 
-          class="btn btn-primary" 
-          (click)="addDomain()" 
-          [disabled]="loading || !newDomain.trim() || !selectedStoreId"
-        >
-          <span class="material-icons" *ngIf="loading">autorenew</span>
-          <span *ngIf="!loading">{{ 'CUSTOM_DOMAINS.ADD_BUTTON' | translate }}</span>
-          <span *ngIf="loading">{{ 'CUSTOM_DOMAINS.ADDING' | translate }}</span>
-        </button>
-      </div>
+        <div class="alert alert-error" *ngIf="error && activeTab === 'buy'">
+          <span class="material-icons">error</span>
+          <span>{{ error }}</span>
+        </div>
 
-      <p class="hint">
-        <span class="material-icons">info</span>
-        {{ 'CUSTOM_DOMAINS.DOMAIN_HINT' | translate }}
-      </p>
-
-      <!-- Error Message -->
-      <div class="alert alert-error" *ngIf="error">
-        <span class="material-icons">error</span>
-        <span>{{ error }}</span>
+        <!-- Search Results -->
+        <div class="search-results" *ngIf="availableDomains.length > 0">
+          <h4>{{ 'CUSTOM_DOMAINS.SEARCH_RESULTS' | translate }}</h4>
+          <div class="domains-grid">
+            <div 
+              *ngFor="let domain of availableDomains" 
+              class="domain-result-card"
+              [class.available]="domain.available"
+              [class.unavailable]="!domain.available"
+              [class.premium]="domain.premium"
+            >
+              <div class="domain-name">{{ domain.domain }}</div>
+              <div class="domain-badges">
+                <span *ngIf="domain.available" class="badge badge-success">{{ 'CUSTOM_DOMAINS.AVAILABLE' | translate }}</span>
+                <span *ngIf="!domain.available" class="badge badge-error">{{ 'CUSTOM_DOMAINS.UNAVAILABLE' | translate }}</span>
+                <span *ngIf="domain.premium" class="badge badge-warning">{{ 'CUSTOM_DOMAINS.PREMIUM' | translate }}</span>
+              </div>
+              <div class="domain-price" *ngIf="domain.available">
+                <span class="price">${{ domain.price }}</span>
+                <span class="period">{{ 'CUSTOM_DOMAINS.PER_YEAR' | translate }}</span>
+              </div>
+              <button 
+                *ngIf="domain.available"
+                class="btn btn-success btn-buy"
+                (click)="openPurchaseModal(domain)"
+              >
+                <span class="material-icons">shopping_cart</span>
+                {{ 'CUSTOM_DOMAINS.BUY' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════════════════ -->
   <!-- Domains List -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
   <div class="domains-list card">
     <div class="card-header">
       <h3>
@@ -83,52 +186,33 @@
         <span class="badge">{{ domains.length }}</span>
       </h3>
     </div>
-
     <div class="card-body">
-      <!-- Empty State -->
       <div class="empty-state" *ngIf="domains.length === 0">
         <span class="material-icons">language_off</span>
         <p>{{ 'CUSTOM_DOMAINS.NO_DOMAINS' | translate }}</p>
       </div>
 
-      <!-- Domains Table -->
       <div class="domains-table" *ngIf="domains.length > 0">
         <div class="domain-row" *ngFor="let domain of domains">
           <div class="domain-info">
             <div class="domain-name">
               <span class="material-icons">language</span>
               <span class="name-text">{{ domain.domain }}</span>
+              <span class="type-badge" [class]="domain.type">{{ getDomainTypeText(domain.type) }}</span>
             </div>
-
             <div class="domain-status">
-              <!-- Verification Status -->
-              <span 
-                class="status-badge" 
-                [ngClass]="getStatusClass(domain.status)"
-              >
+              <span class="status-badge" [ngClass]="getStatusClass(domain.status)">
                 {{ getStatusText(domain.status) }}
               </span>
-
-              <!-- SSL Status (if active) -->
-              <span 
-                class="status-badge ssl-badge" 
-                *ngIf="domain.status === 'active'"
-                [ngClass]="getStatusClass(domain.sslStatus)"
-              >
+              <span class="status-badge ssl-badge" *ngIf="domain.status === 'active'" [ngClass]="getStatusClass(domain.sslStatus)">
                 <span class="material-icons">lock</span>
                 SSL: {{ domain.sslStatus }}
               </span>
-
-              <!-- Fully Active Badge -->
-              <span 
-                class="status-badge badge-success" 
-                *ngIf="isFullyActive(domain)"
-              >
+              <span class="status-badge badge-success" *ngIf="isFullyActive(domain)">
                 <span class="material-icons">check_circle</span>
                 {{ 'CUSTOM_DOMAINS.FULLY_ACTIVE' | translate }}
               </span>
             </div>
-
             <div class="domain-date">
               <span class="material-icons">schedule</span>
               {{ 'CUSTOM_DOMAINS.ADDED_ON' | translate }}: {{ domain.createdAt | date: 'short' }}
@@ -136,65 +220,92 @@
           </div>
 
           <div class="domain-actions">
-            <!-- Visit Domain (if active) -->
-            <button 
-              class="btn btn-outline btn-sm"
-              (click)="visitDomain(domain)"
-              *ngIf="isFullyActive(domain)"
-              [title]="'CUSTOM_DOMAINS.VISIT' | translate"
-            >
+            <button class="btn btn-outline btn-sm" (click)="visitDomain(domain)" *ngIf="isFullyActive(domain)" [title]="'CUSTOM_DOMAINS.VISIT' | translate">
               <span class="material-icons">open_in_new</span>
-              {{ 'CUSTOM_DOMAINS.VISIT' | translate }}
             </button>
-
-            <!-- Show Instructions -->
-            <button 
-              class="btn btn-outline btn-sm"
-              (click)="showDomainInstructions(domain)"
-              [title]="'CUSTOM_DOMAINS.SHOW_INSTRUCTIONS' | translate"
-            >
+            <button class="btn btn-outline btn-sm" (click)="showDomainInstructions(domain)" [title]="'CUSTOM_DOMAINS.SHOW_INSTRUCTIONS' | translate">
               <span class="material-icons">info</span>
-              {{ 'CUSTOM_DOMAINS.INSTRUCTIONS' | translate }}
             </button>
-
-            <!-- Create SSL (if domain is active but SSL is not) -->
-            <button 
-              class="btn btn-success btn-sm" 
-              (click)="createSSL(domain)" 
-              [disabled]="creatingSSL === domain.id || !canCreateSSL(domain)"
-              *ngIf="domain.status === 'active' && domain.sslStatus !== 'active'"
-              title="إنشاء شهادة SSL"
-            >
+            <button class="btn btn-success btn-sm" (click)="createSSL(domain)" [disabled]="creatingSSL === domain.id || !canCreateSSL(domain)" *ngIf="domain.status === 'active' && domain.sslStatus !== 'active'" [title]="'CUSTOM_DOMAINS.CREATE_SSL' | translate">
               <span class="material-icons" *ngIf="creatingSSL !== domain.id">lock</span>
               <span class="material-icons rotating" *ngIf="creatingSSL === domain.id">autorenew</span>
-              <span *ngIf="creatingSSL === domain.id">جاري إنشاء SSL...</span>
-              <span *ngIf="creatingSSL !== domain.id">إنشاء SSL</span>
             </button>
-
-            <!-- Verify -->
-            <button 
-              class="btn btn-primary btn-sm" 
-              (click)="verifyDomain(domain)" 
-              [disabled]="verifying === domain.id"
-              [title]="'CUSTOM_DOMAINS.VERIFY' | translate"
-            >
+            <button class="btn btn-primary btn-sm" (click)="verifyDomain(domain)" [disabled]="verifying === domain.id" [title]="'CUSTOM_DOMAINS.VERIFY' | translate">
               <span class="material-icons" *ngIf="verifying !== domain.id">refresh</span>
               <span class="material-icons rotating" *ngIf="verifying === domain.id">autorenew</span>
-              <span *ngIf="verifying === domain.id">{{ 'CUSTOM_DOMAINS.VERIFYING' | translate }}</span>
-              <span *ngIf="verifying !== domain.id">{{ 'CUSTOM_DOMAINS.VERIFY' | translate }}</span>
             </button>
-
-            <!-- Delete -->
-            <button 
-              class="btn btn-danger btn-sm" 
-              (click)="removeDomain(domain)"
-              [title]="'CUSTOM_DOMAINS.DELETE' | translate"
-            >
+            <button class="btn btn-danger btn-sm" (click)="removeDomain(domain)" [title]="'CUSTOM_DOMAINS.DELETE' | translate">
               <span class="material-icons">delete</span>
             </button>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- Purchase Modal -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" *ngIf="showPurchaseModal" (click)="closePurchaseModal()">
+  <div class="modal-dialog purchase-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>
+        <span class="material-icons">shopping_cart</span>
+        {{ 'CUSTOM_DOMAINS.PURCHASE_DOMAIN' | translate }}
+      </h2>
+      <button class="modal-close" (click)="closePurchaseModal()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+    <div class="modal-body" *ngIf="selectedDomainToBuy">
+      <div class="selected-domain-box">
+        <span class="domain-label">{{ 'CUSTOM_DOMAINS.DOMAIN_LABEL' | translate }}</span>
+        <span class="domain-value">{{ selectedDomainToBuy.domain }}</span>
+      </div>
+      
+      <div class="form-group">
+        <label>{{ 'CUSTOM_DOMAINS.REGISTRATION_PERIOD' | translate }}</label>
+        <select [(ngModel)]="purchaseYears" class="years-select">
+          <option [value]="1">{{ 'CUSTOM_DOMAINS.YEAR_1' | translate }}</option>
+          <option [value]="2">{{ 'CUSTOM_DOMAINS.YEARS_2' | translate }}</option>
+          <option [value]="3">{{ 'CUSTOM_DOMAINS.YEARS_3' | translate }}</option>
+          <option [value]="5">{{ 'CUSTOM_DOMAINS.YEARS_5' | translate }}</option>
+          <option [value]="10">{{ 'CUSTOM_DOMAINS.YEARS_10' | translate }}</option>
+        </select>
+      </div>
+
+      <div class="price-summary">
+        <div class="price-row">
+          <span>{{ 'CUSTOM_DOMAINS.ANNUAL_PRICE' | translate }}:</span>
+          <span>${{ selectedDomainToBuy.price }}{{ 'CUSTOM_DOMAINS.PER_YEAR' | translate }}</span>
+        </div>
+        <div class="price-row">
+          <span>{{ 'CUSTOM_DOMAINS.PERIOD' | translate }}:</span>
+          <span>{{ purchaseYears }} {{ purchaseYears === 1 ? ('CUSTOM_DOMAINS.YEAR_1' | translate) : ('CUSTOM_DOMAINS.YEARS_' + purchaseYears | translate) }}</span>
+        </div>
+        <div class="price-row total">
+          <span>{{ 'CUSTOM_DOMAINS.TOTAL' | translate }}:</span>
+          <span>${{ getTotalPrice() }}</span>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <span class="material-icons">info</span>
+        <p>{{ 'CUSTOM_DOMAINS.PURCHASE_INFO' | translate }}</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" (click)="closePurchaseModal()">{{ 'CUSTOM_DOMAINS.CANCEL' | translate }}</button>
+      <button 
+        class="btn btn-success" 
+        (click)="purchaseDomain()" 
+        [disabled]="isPurchasing"
+      >
+        <span class="material-icons rotating" *ngIf="isPurchasing">autorenew</span>
+        <span *ngIf="!isPurchasing">{{ 'CUSTOM_DOMAINS.PURCHASE' | translate }} - ${{ getTotalPrice() }}</span>
+        <span *ngIf="isPurchasing">{{ 'CUSTOM_DOMAINS.PURCHASING' | translate }}</span>
+      </button>
     </div>
   </div>
 </div>
@@ -211,24 +322,17 @@
         <span class="material-icons">close</span>
       </button>
     </div>
-
     <div class="modal-body" *ngIf="instructions">
-      <!-- Domain Name -->
       <div class="domain-highlight">
         <span class="material-icons">language</span>
         <strong>{{ currentDomain?.domain }}</strong>
       </div>
-
-      <!-- Message -->
       <p class="instructions-message">
         <span class="material-icons">info</span>
         {{ instructions.message }}
       </p>
-
-      <!-- DNS Record -->
       <div class="dns-record-box">
         <h4>{{ 'CUSTOM_DOMAINS.DNS_RECORD' | translate }}</h4>
-
         <div class="record-row">
           <div class="record-label">Type</div>
           <div class="record-value">
@@ -238,9 +342,8 @@
             </button>
           </div>
         </div>
-
         <div class="record-row">
-          <div class="record-label">Name / Host</div>
+          <div class="record-label">Name</div>
           <div class="record-value">
             <code>{{ instructions.record.name }}</code>
             <button class="copy-btn" (click)="copyToClipboard(instructions.record.name)">
@@ -248,9 +351,8 @@
             </button>
           </div>
         </div>
-
         <div class="record-row">
-          <div class="record-label">Value / Target</div>
+          <div class="record-label">Value</div>
           <div class="record-value">
             <code>{{ instructions.record.value }}</code>
             <button class="copy-btn" (click)="copyToClipboard(instructions.record.value)">
@@ -258,42 +360,16 @@
             </button>
           </div>
         </div>
-
-        <div class="record-row">
-          <div class="record-label">TTL</div>
-          <div class="record-value">
-            <code>{{ instructions.record.ttl }}</code>
-          </div>
-        </div>
       </div>
-
-      <!-- Steps -->
       <div class="steps-box">
-        <h4>
-          <span class="material-icons">list</span>
-          {{ 'CUSTOM_DOMAINS.STEPS_TITLE' | translate }}
-        </h4>
+        <h4>{{ 'CUSTOM_DOMAINS.STEPS_TITLE' | translate }}</h4>
         <ol class="steps-list">
           <li *ngFor="let step of instructions.steps">{{ step }}</li>
         </ol>
       </div>
-
-      <!-- Notes -->
-      <div class="notes-box" *ngIf="instructions.notes && instructions.notes.length > 0">
-        <h4>
-          <span class="material-icons">lightbulb</span>
-          {{ 'CUSTOM_DOMAINS.NOTES' | translate }}
-        </h4>
-        <ul class="notes-list">
-          <li *ngFor="let note of instructions.notes">{{ note }}</li>
-        </ul>
-      </div>
     </div>
-
     <div class="modal-footer">
-      <button class="btn btn-outline" (click)="closeInstructions()">
-        {{ 'CUSTOM_DOMAINS.CLOSE' | translate }}
-      </button>
+      <button class="btn btn-outline" (click)="closeInstructions()">{{ 'CUSTOM_DOMAINS.CLOSE' | translate }}</button>
       <button class="btn btn-primary" (click)="verifyDomain(currentDomain!); closeInstructions()">
         <span class="material-icons">refresh</span>
         {{ 'CUSTOM_DOMAINS.VERIFY_NOW' | translate }}
