@@ -146,25 +146,78 @@ export class RegisterComponent implements OnInit {
   }
 
   createUser(registerData: any) {
-    this.usersService.register(registerData).subscribe({
+    // Prepare data for registration
+    const registrationData = {
+      email: registerData.email,
+      password: registerData.password,
+      phone: registerData.phone,
+      phoneNumber: this.formatPhoneNumber(registerData.phone),
+      firstName: registerData.fullName?.split(' ')[0] || '',
+      lastName: registerData.fullName?.split(' ').slice(1).join(' ') || ''
+    };
+
+    this.usersService.register(registrationData).subscribe({
       next: (res: any) => {
         this.loading = false;
-        this.sharedService.showNotification(true, res.title, res.message);
-        this.router.navigateByUrl('/login');
+        
+        // Check if verification is required
+        if (res.requiresVerification) {
+          this.sharedService.showNotification(
+            true, 
+            this.currentLang === 'ar' ? 'تم التسجيل' : 'Registered',
+            this.currentLang === 'ar' ? 'يرجى إدخال رمز التحقق المرسل إلى هاتفك' : 'Please enter the verification code sent to your phone'
+          );
+          // Navigate to OTP verification page
+          this.router.navigate(['/verify-otp'], { 
+            queryParams: { 
+              phone: res.phoneNumber || this.formatPhoneNumber(registerData.phone),
+              userId: res.userId,
+              mode: 'register'
+            } 
+          });
+        } else {
+          // If no verification required (shouldn't happen in new flow)
+          this.sharedService.showNotification(true, 'تم التسجيل', 'مرحباً بك!');
+          this.router.navigateByUrl('/dashboard');
+        }
       },
       error: error => {
         this.loading = false;
         this.submitted = true;
 
-        if (error.error.errors) {
+        if (error.error?.message) {
+          this.errorMessages.push(error.error.message);
+        } else if (error.error?.errors) {
           this.errorMessages = error.error.errors;
         } else {
-          this.errorMessages.push(error.error);
+          this.errorMessages.push(this.currentLang === 'ar' ? 'حدث خطأ أثناء التسجيل' : 'Registration error occurred');
         }
 
         this.sharedService.showNotification(false, 'خطأ في التسجيل', 'يرجى التحقق من بياناتك والمحاولة مرة أخرى');
       }
     });
+  }
+
+  /**
+   * Format phone number to international format
+   */
+  private formatPhoneNumber(phone: string): string {
+    if (!phone) return '';
+    
+    // Remove spaces and special characters
+    let cleaned = phone.replace(/[\s\-\(\)]/g, '');
+    
+    // If starts with 0, assume Saudi Arabia (+966)
+    if (cleaned.startsWith('0')) {
+      cleaned = '+972' + cleaned.substring(1);
+    }
+    
+    // If doesn't start with +, add it
+    if (!cleaned.startsWith('+')) {
+      cleaned = '+' + cleaned;
+    }
+    
+    return cleaned;
   }
 
   onSubmit() {

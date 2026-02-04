@@ -28,6 +28,7 @@ import { EditUserComponent } from './components/users/edit-user/edit-user.compon
 import { RegisterWithThirdPartyComponent } from './components/users/register-with-third-party/register-with-third-party.component';
 import { ResetPasswordComponent } from './components/users/reset-password/reset-password.component';
 import { SendEmailComponent } from './components/users/send-email/send-email.component';
+import { VerifyOtpComponent } from './components/users/verify-otp/verify-otp.component';
 
 
 
@@ -50,6 +51,7 @@ import { SendEmailComponent } from './components/users/send-email/send-email.com
     SendEmailComponent,
     ResetPasswordComponent,
     RegisterWithThirdPartyComponent,
+    VerifyOtpComponent,
   ],
   imports: [
     CommonModule,

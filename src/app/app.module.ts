@@ -2,29 +2,32 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient, HttpBackend, provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './shared/material.module';
 import { ButtonModule } from 'primeng/button';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from './services/language.service';
-import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
-// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
 
 import { ApplicationConfig } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { AuthInterceptorProvider } from './core/auth/auth.interceptor';
+
+// Firebase imports
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
 
 
 
@@ -56,14 +59,11 @@ export function HttpLoaderFactory(http: HttpBackend) {
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    FormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
     SharedModule,
     MaterialModule,
-    // NgMultiSelectDropDownModule.forRoot(),
     MatGridListModule,
-    // HttpClientModule,
     
     TranslateModule.forRoot({
       defaultLanguage: 'en',
@@ -73,17 +73,20 @@ export function HttpLoaderFactory(http: HttpBackend) {
         deps: [HttpBackend]
       }
     }),
-
-  
   ],
-  providers: [LanguageService,
+  providers: [
+    LanguageService,
+    provideHttpClient(withInterceptorsFromDi()),
     provideAnimationsAsync(),
-        providePrimeNG({
-            theme: {
-                preset: Aura
-            }
-        }),
-    AuthInterceptorProvider
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    }),
+    AuthInterceptorProvider,
+    // Firebase initialization
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
   ],
   bootstrap: [AppComponent]
 })

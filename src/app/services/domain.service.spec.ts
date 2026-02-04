@@ -18,7 +18,7 @@ describe('DomainService', () => {
       // Mock window.location.hostname
       Object.defineProperty(window, 'location', {
         value: {
-          hostname: 'store-builder-git-dev-osamaazbargas-projects.vercel.app'
+          hostname: 'dokn.net'
         },
         writable: true
       });
@@ -34,7 +34,7 @@ describe('DomainService', () => {
     it('should detect subdomain', () => {
       Object.defineProperty(window, 'location', {
         value: {
-          hostname: 'store1.store-builder-git-dev-osamaazbargas-projects.vercel.app'
+          hostname: 'store1.dokn.net'
         },
         writable: true
       });
@@ -63,10 +63,10 @@ describe('DomainService', () => {
       expect(info.storeIdentifier).toBe('mystore.com');
     });
 
-    it('should detect Vercel preview deployments as main platform', () => {
+    it('should detect www subdomain as main platform', () => {
       Object.defineProperty(window, 'location', {
         value: {
-          hostname: 'store-builder-8nypwa05r-osamaazbargas-projects.vercel.app'
+          hostname: 'www.dokn.net'
         },
         writable: true
       });
@@ -82,7 +82,7 @@ describe('DomainService', () => {
     it('should return subdomain if exists', () => {
       Object.defineProperty(window, 'location', {
         value: {
-          hostname: 'store1.store-builder-git-dev-osamaazbargas-projects.vercel.app'
+          hostname: 'store1.dokn.net'
         },
         writable: true
       });
@@ -94,7 +94,7 @@ describe('DomainService', () => {
     it('should return null for main platform', () => {
       Object.defineProperty(window, 'location', {
         value: {
-          hostname: 'store-builder-git-dev-osamaazbargas-projects.vercel.app'
+          hostname: 'dokn.net'
         },
         writable: true
       });
@@ -108,7 +108,7 @@ describe('DomainService', () => {
     it('should return true for subdomain', () => {
       Object.defineProperty(window, 'location', {
         value: {
-          hostname: 'store1.store-builder-git-dev-osamaazbargas-projects.vercel.app'
+          hostname: 'store1.dokn.net'
         },
         writable: true
       });
@@ -130,7 +130,7 @@ describe('DomainService', () => {
     it('should return false for main platform', () => {
       Object.defineProperty(window, 'location', {
         value: {
-          hostname: 'store-builder-git-dev-osamaazbargas-projects.vercel.app'
+          hostname: 'dokn.net'
         },
         writable: true
       });

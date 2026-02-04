@@ -1,8 +1,8 @@
-export interface Register{
-    email:string;
-    password:string;
-    firstname:string;
-    lastname:string;
-
-
+export interface Register {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  phoneNumber?: string;
 }

@@ -2,6 +2,13 @@
 @use '../../../../styles/helpers/variables' as *;
 @use '../../../../styles/helpers/mixins' as *;
 
+// Dashboard Sidebar Variables (scoped to dashboard only)
+$sidebar-gradient-start: #ffffff;
+$sidebar-gradient-end: #f8fafc;
+$sidebar-accent-gradient: linear-gradient(135deg, $primary 0%, color.adjust($primary, $lightness: -8%) 100%);
+$nav-item-hover-bg: rgba($primary, 0.06);
+$nav-item-active-bg: rgba($primary, 0.12);
+
 // Sidebar Overlay for Mobile
 .sidebar-overlay {
   @include backdrop;
@@ -20,33 +27,35 @@
   }
 }
 
-// Main Sidebar
+// Main Sidebar - Professional Design
 .dashboard-sidebar {
   position: fixed;
   top: 0;
   height: 100vh;
   width: $sidebar-width;
-  background: $sidebar-bg;
-  border-right: 1px solid $sidebar-border-color;
-  box-shadow: $shadow-md;
-  z-index: $z-index-fixed;
-  transition: all $transition-base;
+  background: linear-gradient(180deg, $sidebar-gradient-start 0%, $sidebar-gradient-end 100%);
+  border-right: 1px solid rgba($gray-300, 0.5);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.04), 1px 0 8px rgba(0, 0, 0, 0.02);
+  z-index: $z-index-modal; // Fixed: z-index higher than overlay (1050 > 1040)
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  backdrop-filter: blur(10px);
 
   // LTR: Left side
   &.ltr {
     left: 0;
-    border-right: 1px solid $sidebar-border-color;
+    border-right: 1px solid rgba($gray-300, 0.5);
     border-left: none;
   }
 
   // RTL: Right side
   &.rtl {
     right: 0;
-    border-left: 1px solid $sidebar-border-color;
+    border-left: 1px solid rgba($gray-300, 0.5);
     border-right: none;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.04), -1px 0 8px rgba(0, 0, 0, 0.02);
   }
 
   // Collapsed state (Desktop)
@@ -62,15 +71,28 @@
 
     .nav-link {
       justify-content: center;
+      padding: $spacing-sm;
+      margin: $spacing-xs auto;
+      width: calc(100% - #{$spacing-md});
+
+      .nav-icon {
+        margin: 0;
+      }
     }
 
     .store-details,
     .logo-img {
       display: none;
     }
+
+    .sidebar-footer .footer-content {
+      .footer-text {
+        display: none;
+      }
+    }
   }
 
-  // Mobile: Hidden by default
+  // Mobile: Hidden by default with smooth animation
   @include mobile-only {
     transform: translateX(-100%);
     box-shadow: none;
@@ -81,40 +103,53 @@
 
     &.show {
       transform: translateX(0);
-      box-shadow: $shadow-2xl;
+      box-shadow: 8px 0 32px rgba(0, 0, 0, 0.15);
     }
   }
 }
 
-// Sidebar Header
+// Sidebar Header - Enhanced
 .sidebar-header {
-  padding: $spacing-lg;
+  padding: $spacing-lg $spacing-lg $spacing-md;
   position: relative;
   @include flex-column;
   gap: $spacing-md;
+  background: linear-gradient(180deg, rgba($white, 1) 0%, rgba($gray-50, 0.5) 100%);
 
   .collapse-btn,
   .close-btn {
     position: absolute;
     top: $spacing-md;
     padding: $spacing-xs;
-    background: transparent;
-    border: none;
+    background: $white;
+    border: 1px solid $gray-200;
     cursor: pointer;
     color: $gray-600;
-    transition: all $transition-fast;
-    border-radius: $border-radius-sm;
+    transition: all 0.25s ease;
+    border-radius: $border-radius-md;
     @include flex-center;
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 
     &:hover {
       background: $gray-100;
-      color: $dark;
+      color: $primary;
+      border-color: rgba($primary, 0.3);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
 
     i {
       font-size: 20px;
+      transition: transform 0.25s ease;
+    }
+
+    &:hover i {
+      transform: rotate(180deg);
     }
   }
 
@@ -131,36 +166,70 @@
   .logo-container {
     @include flex-center;
     padding: $spacing-sm 0;
+    margin-top: $spacing-sm;
 
     .logo-img {
-      height: 32px;
+      height: 36px;
       width: auto;
+      transition: transform 0.3s ease, filter 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+      }
     }
   }
 
+  // Store Info Card - Enhanced
   .store-info {
     @include flex-start;
     gap: $spacing-md;
     padding: $spacing-md;
-    background: $gray-100;
+    background: linear-gradient(135deg, $white 0%, $gray-50 100%);
     border-radius: $border-radius-lg;
-    transition: all $transition-base;
+    border: 1px solid rgba($gray-200, 0.8);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    cursor: pointer;
 
     &:hover {
-      background: $gray-200;
+      background: linear-gradient(135deg, $white 0%, rgba($primary, 0.04) 100%);
+      border-color: rgba($primary, 0.2);
+      box-shadow: 0 4px 12px rgba($primary, 0.08);
+      transform: translateY(-2px);
     }
 
     .store-avatar {
       flex-shrink: 0;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        width: 12px;
+        height: 12px;
+        background: $success;
+        border-radius: $border-radius-full;
+        border: 2px solid $white;
+        box-shadow: 0 2px 4px rgba($success, 0.3);
+      }
 
       .store-img {
-        width: 48px;
-        height: 48px;
-        border-radius: $border-radius-md;
+        width: 52px;
+        height: 52px;
+        border-radius: $border-radius-lg;
         object-fit: cover;
-        border: 2px solid $white;
-        box-shadow: $shadow-sm;
+        border: 3px solid $white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
+    }
+
+    &:hover .store-avatar .store-img {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
     }
 
     .store-details {
@@ -169,10 +238,11 @@
 
       .store-name {
         font-size: $font-size-base;
-        font-weight: $font-weight-semibold;
+        font-weight: $font-weight-bold;
         color: $dark;
         margin: 0 0 $spacing-xs 0;
         @include text-truncate;
+        letter-spacing: -0.2px;
       }
 
       .visit-store-link {
@@ -180,18 +250,22 @@
         gap: $spacing-xs;
         color: $primary;
         font-size: $font-size-sm;
-        font-weight: $font-weight-medium;
+        font-weight: $font-weight-semibold;
         cursor: pointer;
-        transition: all $transition-fast;
+        transition: all 0.25s ease;
         text-decoration: none;
 
         &:hover {
           color: color.adjust($primary, $lightness: -10%);
-          gap: $spacing-sm;
+          
+          i {
+            transform: translateX(3px);
+          }
         }
 
         i {
           font-size: 16px;
+          transition: transform 0.25s ease;
         }
       }
     }
@@ -202,31 +276,37 @@
     padding: $spacing-sm;
 
     .store-img-small {
-      width: 40px;
-      height: 40px;
-      border-radius: $border-radius-md;
+      width: 44px;
+      height: 44px;
+      border-radius: $border-radius-lg;
       object-fit: cover;
       border: 2px solid $white;
-      box-shadow: $shadow-sm;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.08);
+      }
     }
   }
 }
 
-// Divider
+// Divider - Enhanced
 .sidebar-divider {
-  margin: 0;
+  margin: 0 $spacing-lg;
   border: none;
   height: 1px;
-  background: $sidebar-border-color;
+  background: linear-gradient(90deg, transparent 0%, $gray-200 50%, transparent 100%);
 }
 
-// Sidebar Navigation
+// Sidebar Navigation - Professional Design
 .sidebar-nav {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   padding: $spacing-md 0;
-  @include custom-scrollbar(6px, $gray-400, $gray-100);
+  @include custom-scrollbar(5px, rgba($gray-400, 0.5), transparent);
 
   .nav-list {
     list-style: none;
@@ -235,61 +315,94 @@
   }
 
   .nav-item {
-    margin-bottom: $spacing-xs;
+    margin-bottom: 2px;
   }
 
+  // Section Header - Enhanced
   .nav-section-header {
-    padding: $spacing-md $spacing-lg $spacing-sm;
-    font-size: $font-size-xs;
+    padding: $spacing-lg $spacing-lg $spacing-sm;
+    font-size: 11px;
     font-weight: $font-weight-bold;
-    color: $gray-600;
+    color: $gray-500;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     @include flex-start;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: $spacing-lg;
+      right: $spacing-lg;
+      bottom: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba($gray-200, 0.8) 0%, transparent 100%);
+    }
 
     .section-dot {
-      width: 4px;
-      height: 4px;
+      width: 6px;
+      height: 6px;
       border-radius: $border-radius-full;
-      background: $gray-400;
+      background: linear-gradient(135deg, $primary 0%, color.adjust($primary, $lightness: 10%) 100%);
+      box-shadow: 0 2px 4px rgba($primary, 0.3);
     }
   }
 
+  // Navigation Link - Professional Style
   .nav-link {
     @include flex-start;
     gap: $spacing-md;
-    padding: $spacing-sm $spacing-lg;
-    margin: 0 $spacing-sm;
+    padding: 12px $spacing-lg;
+    margin: 2px $spacing-sm;
     color: $gray-700;
     text-decoration: none;
-    border-radius: $border-radius-md;
-    transition: all $transition-fast;
+    border-radius: $border-radius-lg;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     cursor: pointer;
     font-weight: $font-weight-medium;
+    overflow: hidden;
+
+    // Hover background effect
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: $nav-item-hover-bg;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      border-radius: $border-radius-lg;
+    }
 
     .nav-icon {
       font-size: 22px;
-      color: $gray-600;
-      transition: color $transition-fast;
+      color: $gray-500;
+      transition: all 0.25s ease;
       flex-shrink: 0;
+      position: relative;
+      z-index: 1;
     }
 
     .nav-text {
       flex: 1;
       font-size: $font-size-sm;
-      transition: all $transition-fast;
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.1px;
     }
 
+    // Active Indicator - Enhanced
     .active-indicator {
       position: absolute;
       width: 4px;
-      height: 100%;
-      background: $primary;
+      height: calc(100% - 16px);
+      background: $sidebar-accent-gradient;
       border-radius: 0 $border-radius-sm $border-radius-sm 0;
-      top: 0;
+      top: 8px;
       opacity: 0;
-      transition: opacity $transition-fast;
+      transition: all 0.25s ease;
+      box-shadow: 2px 0 8px rgba($primary, 0.3);
     }
 
     .ltr & .active-indicator {
@@ -302,21 +415,36 @@
       border-radius: $border-radius-sm 0 0 $border-radius-sm;
     }
 
+    // Hover State
     &:hover {
-      background: $gray-100;
       color: $dark;
+
+      &::before {
+        opacity: 1;
+      }
 
       .nav-icon {
         color: $primary;
+        transform: scale(1.1);
       }
     }
 
+    // Active State
     &.active {
-      background: color.adjust($primary, $lightness: 45%);
       color: $primary;
+      background: $nav-item-active-bg;
+
+      &::before {
+        opacity: 0;
+      }
 
       .nav-icon {
         color: $primary;
+        transform: scale(1.05);
+      }
+
+      .nav-text {
+        font-weight: $font-weight-semibold;
       }
 
       .active-indicator {
@@ -326,25 +454,30 @@
   }
 }
 
-// Sidebar Footer
+// Sidebar Footer - Enhanced
 .sidebar-footer {
   padding: $spacing-lg;
-  border-top: 1px solid $sidebar-border-color;
-  background: $gray-50;
+  border-top: 1px solid rgba($gray-200, 0.6);
+  background: linear-gradient(180deg, rgba($gray-50, 0.5) 0%, rgba($gray-100, 0.3) 100%);
 
   .footer-content {
     text-align: center;
 
     .footer-text {
       font-size: $font-size-xs;
-      color: $gray-600;
+      color: $gray-500;
       margin: 0 0 $spacing-xs 0;
+      font-weight: $font-weight-medium;
     }
 
     .footer-version {
-      font-size: $font-size-xs;
-      color: $gray-500;
-      font-weight: $font-weight-light;
+      font-size: 10px;
+      color: $gray-400;
+      font-weight: $font-weight-normal;
+      padding: 4px 10px;
+      background: rgba($gray-200, 0.5);
+      border-radius: $border-radius-full;
+      display: inline-block;
     }
   }
 }
@@ -358,27 +491,46 @@
 
 @include mobile-only {
   .dashboard-sidebar {
-    width: 280px;
+    width: 300px;
     max-width: 85vw;
   }
-}
 
-// Animation for nav items
-.nav-item {
-  animation: slideInLeft 0.3s ease-out;
-  animation-fill-mode: both;
+  .sidebar-header {
+    padding: $spacing-md;
 
-  @for $i from 1 through 20 {
-    &:nth-child(#{$i}) {
-      animation-delay: #{$i * 0.02}s;
+    .store-info {
+      padding: $spacing-sm $spacing-md;
+
+      .store-avatar .store-img {
+        width: 44px;
+        height: 44px;
+      }
+    }
+  }
+
+  .sidebar-nav {
+    .nav-link {
+      padding: 10px $spacing-md;
     }
   }
 }
 
-@keyframes slideInLeft {
+// Animation for nav items - Enhanced
+.nav-item {
+  animation: slideInNav 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.03}s;
+    }
+  }
+}
+
+@keyframes slideInNav {
   from {
     opacity: 0;
-    transform: translateX(-10px);
+    transform: translateX(-12px);
   }
   to {
     opacity: 1;
@@ -391,11 +543,19 @@
   .sidebar-nav {
     .nav-section-header {
       text-align: right;
+
+      &::before {
+        background: linear-gradient(270deg, rgba($gray-200, 0.8) 0%, transparent 100%);
+      }
     }
 
     .nav-link {
       flex-direction: row-reverse;
     }
+  }
+
+  .sidebar-header .store-info .store-details .visit-store-link:hover i {
+    transform: translateX(-3px);
   }
 }
 
@@ -411,6 +571,7 @@
 
   .nav-link:focus-visible {
     @include focus-ring($primary);
+    outline-offset: -2px;
   }
 }
 
@@ -419,5 +580,18 @@
   .dashboard-sidebar,
   .sidebar-overlay {
     display: none !important;
+  }
+}
+
+// Reduced Motion Support
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-sidebar,
+  .nav-link,
+  .store-info,
+  .nav-icon,
+  .collapse-btn,
+  .close-btn {
+    transition: none !important;
+    animation: none !important;
   }
 }

@@ -31,7 +31,7 @@ export class DomainService {
       platformDomain: this.platformDomain
     });
 
-    // Case 1: Main platform (e.g., store-builder-git-dev-osamaazbargas-projects.vercel.app)
+    // Case 1: Main platform (e.g., dokn.net)
     if (hostname === this.platformDomain || hostname === `www.${this.platformDomain}`) {
       return {
         isMainPlatform: true,
@@ -42,19 +42,7 @@ export class DomainService {
       };
     }
 
-    // Case 2: Vercel preview deployment (e.g., store-builder-8nypwa05r-osamaazbargas-projects.vercel.app)
-    // Treat these as main platform too
-    if (hostname.includes('vercel.app') && hostname.includes('-osamaazbargas-projects')) {
-      return {
-        isMainPlatform: true,
-        isSubdomain: false,
-        isCustomDomain: false,
-        storeIdentifier: null,
-        fullDomain: hostname
-      };
-    }
-
-    // Case 3: Subdomain of platform (e.g., store1.store-builder-git-dev-osamaazbargas-projects.vercel.app)
+    // Case 2: Subdomain of platform (e.g., store1.dokn.net)
     if (hostname.endsWith(`.${this.platformDomain}`) && parts.length > this.getPlatformPartsCount()) {
       const storeIdentifier = parts[0];
       return {
@@ -66,9 +54,9 @@ export class DomainService {
       };
     }
 
-    // Case 4: Custom domain (e.g., mystore.com, shop.example.com)
+    // Case 3: Custom domain (e.g., mystore.com, shop.example.com)
     // Any domain that doesn't match above cases is treated as custom domain
-    if (!hostname.includes('vercel.app') && !hostname.includes(this.platformDomain)) {
+    if (!hostname.includes(this.platformDomain)) {
       return {
         isMainPlatform: false,
         isSubdomain: false,
@@ -90,7 +78,7 @@ export class DomainService {
 
   /**
    * Gets the number of parts in platform domain
-   * للتعامل مع Vercel domains المعقدة
+   * يحصل على عدد الأجزاء في نطاق المنصة
    */
   private getPlatformPartsCount(): number {
     return this.platformDomain.split('.').length;

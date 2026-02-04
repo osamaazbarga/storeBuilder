@@ -84,6 +84,25 @@ export class LoginComponent implements OnInit{
     this.usersService.login(loginData).subscribe({
       next: (response: any) => {
         this.loading = false;
+        
+        // Check if phone verification is required
+        if (response?.requiresVerification || response?.error === 'PHONE_NOT_VERIFIED') {
+          this.sharedService.showNotification(
+            false, 
+            'التحقق مطلوب', 
+            'يرجى التحقق من رقم هاتفك أولاً'
+          );
+          // Redirect to OTP verification page
+          this.router.navigate(['/verify-otp'], {
+            queryParams: {
+              phone: response.phoneNumber || '',
+              userId: response.userId || '',
+              mode: 'login'
+            }
+          });
+          return;
+        }
+        
         if (response && response.token) {
           // Redirect to returnUrl or dashboard
           this.router.navigateByUrl(this.returnUrl);
@@ -96,10 +115,13 @@ export class LoginComponent implements OnInit{
         this.loading = false;
         this.submitted = true;
 
-        if (error.error.errors) {
+        // Handle other errors
+        if (error.error?.errors) {
           this.errorMessages = error.error.errors;
+        } else if (error.error?.message) {
+          this.errorMessages.push(error.error.message);
         } else {
-          this.errorMessages.push(error.error);
+          this.errorMessages.push('بيانات الدخول غير صحيحة');
         }
 
         this.sharedService.showNotification(false, 'خطأ في تسجيل الدخول', 'يرجى التحقق من بياناتك والمحاولة مرة أخرى');

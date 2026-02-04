@@ -71,7 +71,7 @@ export class UsersService {
     );
   }
   public login(model:Login){
-    return this.http.post<{token: string, user: User}>(`${environment.appUrl}/${this.url}/login`,model).pipe(
+    return this.http.post<{token: string, user: User}>(`${environment.appUrl}/auth/login`,model).pipe(
       map((response)=>{
         if(response && response.token){
           // Store only the token
@@ -103,8 +103,19 @@ export class UsersService {
     this.router.navigateByUrl('/');
   }
 
-  public register(model:Register){
-    return this.http.post(`${environment.appUrl}/${this.url}/register`,model);
+  /**
+   * Register new user - returns requiresVerification flag
+   * User must verify phone before they can login
+   */
+  public register(model: any) {
+    return this.http.post<{
+      success: boolean;
+      message: string;
+      userId: string;
+      phoneNumber: string;
+      email: string;
+      requiresVerification: boolean;
+    }>(`${environment.appUrl}/auth/register`, model);
   }
 
   public registerWithThirdParty(model:RegisterWithExternal){
@@ -133,6 +144,102 @@ export class UsersService {
 
   public resetPassword(model:ResetPassword){
     return this.http.put(`${environment.appUrl}/${this.url}/resetPassword`,model)
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Phone Registration with OTP (Firebase)
+  // ═══════════════════════════════════════════════════════════════
+
+  /**
+   * Step 1: Register user with phone number (creates pending account)
+   */
+  public registerWithPhone(data: {
+    phoneNumber: string;
+    email?: string;
+    password?: string;
+    firstName?: string;
+    lastName?: string;
+  }) {
+    return this.http.post<{
+      success: boolean;
+      message: string;
+      userId: string;
+      phoneNumber: string;
+      requiresVerification: boolean;
+    }>(`${environment.appUrl}/auth/register-phone`, data);
+  }
+
+  /**
+   * Step 2: Verify phone registration with Firebase token
+   */
+  public verifyPhoneRegistration(firebaseToken: string, userId?: string) {
+    return this.http.post<{
+      success: boolean;
+      message: string;
+      user: User;
+      token: string;
+    }>(`${environment.appUrl}/auth/verify-phone-registration`, { 
+      token: firebaseToken,
+      userId: userId 
+    }).pipe(
+      map((response) => {
+        if (response.success && response.token) {
+          // Create user object with token
+          const user: User = {
+            ...response.user,
+            token: response.token
+          };
+          this.setUser(user);
+          return response;
+        }
+        return response;
+      })
+    );
+  }
+
+  /**
+   * Login with phone (Firebase token after OTP)
+   */
+  public loginWithPhone(firebaseToken: string) {
+    return this.http.post<{
+      message: string;
+      user: User;
+      token: string;
+    }>(`${environment.appUrl}/auth/login-phone`, { token: firebaseToken }).pipe(
+      map((response) => {
+        if (response.token) {
+          const user: User = {
+            ...response.user,
+            token: response.token
+          };
+          this.setUser(user);
+          return response;
+        }
+        return response;
+      })
+    );
+  }
+
+  /**
+   * Check if phone number exists
+   */
+  public checkPhoneExists(phoneNumber: string) {
+    return this.http.post<{
+      exists: boolean;
+      verified: boolean;
+    }>(`${environment.appUrl}/auth/check-phone`, { phoneNumber });
+  }
+
+  /**
+   * Verify Firebase token only (without login)
+   */
+  public verifyFirebaseToken(firebaseToken: string) {
+    return this.http.post<{
+      valid: boolean;
+      phoneNumber?: string;
+      uid?: string;
+      error?: string;
+    }>(`${environment.appUrl}/auth/verify-phone-token`, { token: firebaseToken });
   }
 
 

@@ -2,113 +2,203 @@
 @use '../../../../../../styles/helpers/variables' as *;
 @use '../../../../../../styles/helpers/mixins' as *;
 
+// Stat Card Variables (scoped to dashboard only)
+$stat-card-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+$stat-card-hover-shadow: 0 12px 28px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+
 .stat-card {
   background: $white;
-  border-radius: $border-radius-lg;
-  padding: $spacing-lg;
+  border-radius: $border-radius-2xl;
+  padding: $spacing-xl;
   display: flex;
   align-items: flex-start;
-  gap: $spacing-lg;
-  min-height: 140px;
+  gap: $spacing-xl;
+  min-height: 150px;
   position: relative;
   overflow: hidden;
-  transition: all $transition-base;
-  box-shadow: $shadow-sm;
-  border: 1px solid $gray-200;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: $stat-card-shadow;
+  border: 1px solid rgba($gray-200, 0.6);
+  cursor: pointer;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: $shadow-lg;
+    transform: translateY(-6px);
+    box-shadow: $stat-card-hover-shadow;
     border-color: transparent;
   }
 
-  // Background decoration
+  // Background decoration - Enhanced
   &::before {
     content: '';
     position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 120px;
-    height: 120px;
-    opacity: 0.05;
+    top: -30px;
+    right: -30px;
+    width: 160px;
+    height: 160px;
+    opacity: 0.06;
     border-radius: $border-radius-full;
-    transition: all $transition-base;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: radial-gradient(circle, currentColor 0%, transparent 70%);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 0 0 $border-radius-2xl $border-radius-2xl;
   }
 
   &:hover::before {
-    transform: scale(1.2);
-    opacity: 0.08;
+    transform: scale(1.4) rotate(15deg);
+    opacity: 0.1;
   }
 
-  &.stat-card-primary::before {
-    background: $primary;
+  &:hover::after {
+    opacity: 0.8;
   }
 
-  &.stat-card-success::before {
-    background: $success;
+  // Color Variants - Enhanced
+  &.stat-card-primary {
+    color: $primary;
+    
+    &::before {
+      background: radial-gradient(circle, $primary 0%, transparent 70%);
+    }
+
+    &::after {
+      background: linear-gradient(90deg, $primary 0%, color.adjust($primary, $lightness: 15%) 100%);
+    }
+
+    &:hover {
+      border-color: rgba($primary, 0.15);
+    }
   }
 
-  &.stat-card-warning::before {
-    background: $warning;
+  &.stat-card-success {
+    color: $success;
+    
+    &::before {
+      background: radial-gradient(circle, $success 0%, transparent 70%);
+    }
+
+    &::after {
+      background: linear-gradient(90deg, $success 0%, color.adjust($success, $lightness: 15%) 100%);
+    }
+
+    &:hover {
+      border-color: rgba($success, 0.15);
+    }
   }
 
-  &.stat-card-info::before {
-    background: $secondary;
+  &.stat-card-warning {
+    color: $warning;
+    
+    &::before {
+      background: radial-gradient(circle, $warning 0%, transparent 70%);
+    }
+
+    &::after {
+      background: linear-gradient(90deg, $warning 0%, color.adjust($warning, $lightness: 15%) 100%);
+    }
+
+    &:hover {
+      border-color: rgba($warning, 0.15);
+    }
   }
 
-  &.stat-card-danger::before {
-    background: $danger;
+  &.stat-card-info {
+    color: $secondary;
+    
+    &::before {
+      background: radial-gradient(circle, $secondary 0%, transparent 70%);
+    }
+
+    &::after {
+      background: linear-gradient(90deg, $secondary 0%, color.adjust($secondary, $lightness: 15%) 100%);
+    }
+
+    &:hover {
+      border-color: rgba($secondary, 0.15);
+    }
   }
 
-  // Icon styles
+  &.stat-card-danger {
+    color: $danger;
+    
+    &::before {
+      background: radial-gradient(circle, $danger 0%, transparent 70%);
+    }
+
+    &::after {
+      background: linear-gradient(90deg, $danger 0%, color.adjust($danger, $lightness: 15%) 100%);
+    }
+
+    &:hover {
+      border-color: rgba($danger, 0.15);
+    }
+  }
+
+  // Icon styles - Enhanced
   .stat-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 72px;
-    height: 72px;
-    border-radius: $border-radius-lg;
+    width: 76px;
+    height: 76px;
+    border-radius: $border-radius-xl;
     flex-shrink: 0;
     position: relative;
     z-index: 1;
-    transition: all $transition-base;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
     i {
-      font-size: 36px;
+      font-size: 38px;
       font-weight: 300;
+      transition: transform 0.3s ease;
     }
   }
 
   &:hover .stat-icon {
-    transform: scale(1.05) rotate(-5deg);
+    transform: scale(1.08) rotate(-8deg);
+
+    i {
+      transform: scale(1.05);
+    }
   }
 
+  // Icon color variants
   &.stat-card-primary .stat-icon {
-    background: color.adjust($primary, $lightness: 47%);
+    background: linear-gradient(135deg, rgba($primary, 0.12) 0%, rgba($primary, 0.06) 100%);
     color: $primary;
   }
 
   &.stat-card-success .stat-icon {
-    background: color.adjust($success, $lightness: 47%);
+    background: linear-gradient(135deg, rgba($success, 0.12) 0%, rgba($success, 0.06) 100%);
     color: $success;
   }
 
   &.stat-card-warning .stat-icon {
-    background: color.adjust($warning, $lightness: 45%);
+    background: linear-gradient(135deg, rgba($warning, 0.12) 0%, rgba($warning, 0.06) 100%);
     color: $warning;
   }
 
   &.stat-card-info .stat-icon {
-    background: color.adjust($secondary, $lightness: 47%);
+    background: linear-gradient(135deg, rgba($secondary, 0.12) 0%, rgba($secondary, 0.06) 100%);
     color: $secondary;
   }
 
   &.stat-card-danger .stat-icon {
-    background: color.adjust($danger, $lightness: 47%);
+    background: linear-gradient(135deg, rgba($danger, 0.12) 0%, rgba($danger, 0.06) 100%);
     color: $danger;
   }
 
-  // Content styles
+  // Content styles - Enhanced
   .stat-content {
     display: flex;
     flex-direction: column;
@@ -119,16 +209,16 @@
     min-width: 0;
 
     .stat-label {
-      font-size: $font-size-sm;
-      color: $gray-600;
+      font-size: 13px;
+      color: $gray-500;
       font-weight: $font-weight-semibold;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
       line-height: 1.2;
     }
 
     .stat-value {
-      font-size: 2rem;
+      font-size: 2.25rem;
       font-weight: $font-weight-bold;
       color: $dark;
       margin: 0;
@@ -136,6 +226,7 @@
       display: flex;
       align-items: baseline;
       gap: $spacing-xs;
+      letter-spacing: -0.5px;
 
       @include mobile-only {
         font-size: 1.75rem;
@@ -147,31 +238,40 @@
       align-items: center;
       justify-content: space-between;
       gap: $spacing-sm;
-      margin-top: $spacing-xs;
+      margin-top: $spacing-sm;
       flex-wrap: wrap;
 
       .stat-change {
         display: flex;
         align-items: center;
-        gap: $spacing-xs;
+        gap: 4px;
         font-size: $font-size-sm;
         font-weight: $font-weight-bold;
-        padding: $spacing-xs $spacing-sm;
-        border-radius: $border-radius-md;
-        transition: all $transition-fast;
+        padding: 6px 10px;
+        border-radius: $border-radius-lg;
+        transition: all 0.3s ease;
 
         i {
-          font-size: 18px;
+          font-size: 16px;
+          transition: transform 0.3s ease;
         }
 
         &.positive {
           color: $success;
-          background: color.adjust($success, $lightness: 48%);
+          background: linear-gradient(135deg, rgba($success, 0.12) 0%, rgba($success, 0.06) 100%);
+
+          i {
+            animation: bounceUp 2s ease-in-out infinite;
+          }
         }
 
         &.negative {
           color: $danger;
-          background: color.adjust($danger, $lightness: 48%);
+          background: linear-gradient(135deg, rgba($danger, 0.12) 0%, rgba($danger, 0.06) 100%);
+
+          i {
+            animation: bounceDown 2s ease-in-out infinite;
+          }
         }
       }
 
@@ -179,62 +279,69 @@
         font-size: $font-size-xs;
         color: $gray-500;
         font-weight: $font-weight-medium;
+        padding: 4px 8px;
+        background: rgba($gray-200, 0.5);
+        border-radius: $border-radius-md;
       }
     }
   }
 
-  // Responsive
+  // Responsive - Enhanced
   @include tablet {
-    min-height: 120px;
-    gap: $spacing-md;
+    min-height: 130px;
+    padding: $spacing-lg;
+    gap: $spacing-lg;
 
     .stat-icon {
-      width: 64px;
-      height: 64px;
+      width: 68px;
+      height: 68px;
 
       i {
-        font-size: 32px;
+        font-size: 34px;
       }
     }
 
     .stat-content .stat-value {
-      font-size: 1.75rem;
+      font-size: 1.875rem;
     }
   }
 
   @include mobile-only {
-    min-height: 100px;
-    padding: $spacing-md;
-    gap: $spacing-sm;
+    min-height: 110px;
+    padding: $spacing-lg;
+    gap: $spacing-md;
+    border-radius: $border-radius-xl;
 
     .stat-icon {
-      width: 56px;
-      height: 56px;
+      width: 60px;
+      height: 60px;
 
       i {
-        font-size: 28px;
+        font-size: 30px;
       }
     }
 
     .stat-content {
-      gap: $spacing-xs;
+      gap: 6px;
 
       .stat-label {
-        font-size: $font-size-xs;
+        font-size: 11px;
+        letter-spacing: 0.5px;
       }
 
       .stat-value {
-        font-size: 1.5rem;
+        font-size: 1.625rem;
       }
 
       .stat-footer {
         flex-direction: column;
         align-items: flex-start;
-        gap: $spacing-xs;
+        gap: 6px;
+        margin-top: $spacing-xs;
 
         .stat-change {
           font-size: $font-size-xs;
-          padding: 2px $spacing-xs;
+          padding: 4px 8px;
 
           i {
             font-size: 14px;
@@ -245,17 +352,19 @@
   }
 }
 
-// RTL Support
+// RTL Support - Enhanced
 [dir='rtl'] {
   .stat-card {
     flex-direction: row-reverse;
 
     &::before {
       right: auto;
-      left: -20px;
+      left: -30px;
     }
 
     .stat-content {
+      text-align: right;
+
       .stat-footer {
         flex-direction: row-reverse;
       }
@@ -267,20 +376,38 @@
   }
 }
 
-// Animation
-@keyframes scaleIn {
+// Animations
+@keyframes bounceUp {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes bounceDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(2px);
+  }
+}
+
+@keyframes cardEnter {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(20px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 
 .stat-card {
-  animation: scaleIn 0.4s ease-out;
+  animation: cardEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // Print styles
@@ -295,8 +422,21 @@
       box-shadow: none;
     }
 
-    &::before {
+    &::before,
+    &::after {
       display: none;
     }
+  }
+}
+
+// Reduced Motion Support
+@media (prefers-reduced-motion: reduce) {
+  .stat-card,
+  .stat-icon,
+  .stat-icon i,
+  .stat-change,
+  .stat-change i {
+    animation: none !important;
+    transition: none !important;
   }
 }

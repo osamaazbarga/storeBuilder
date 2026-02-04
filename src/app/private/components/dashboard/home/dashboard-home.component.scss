@@ -1,0 +1,506 @@
+@use 'sass:color';
+@use '../../../../../styles/helpers/variables' as *;
+@use '../../../../../styles/helpers/mixins' as *;
+
+// Dashboard Layout Variables (scoped to dashboard only)
+$dashboard-bg: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+
+// Dashboard Layout - Professional
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background: $dashboard-bg;
+  position: relative;
+  
+  &.rtl-layout {
+    direction: rtl;
+  }
+}
+
+// Main Content Area - Enhanced
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-left: $sidebar-width;
+  transition: margin 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: transparent;
+  position: relative;
+
+  &.rtl-content,
+  [dir="rtl"] & {
+    margin-left: 0;
+    margin-right: $sidebar-width;
+  }
+
+  @include mobile-only {
+    margin-left: 0;
+
+    &.rtl-content,
+    [dir="rtl"] & {
+      margin-right: 0;
+    }
+  }
+
+  @include tablet {
+    margin-left: 0;
+
+    &.rtl-content,
+    [dir="rtl"] & {
+      margin-right: 0;
+    }
+  }
+}
+
+// Dashboard Main Content - Enhanced
+.dashboard-main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  @include custom-scrollbar(6px, rgba($primary, 0.2), transparent);
+
+  // Smooth scrolling
+  scroll-behavior: smooth;
+
+  // Content animation
+  > * {
+    animation: contentFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+// Stores Section - Professional Design
+.stores-section {
+  padding: $spacing-xl $spacing-2xl;
+
+  @include tablet {
+    padding: $spacing-lg $spacing-xl;
+  }
+
+  @include mobile-only {
+    padding: $spacing-md;
+  }
+}
+
+// Loading Message - Enhanced
+.loading-message {
+  @include flex-center;
+  @include flex-column;
+  padding: $spacing-3xl;
+  color: $gray-600;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  gap: $spacing-lg;
+
+  &::before {
+    content: '';
+    width: 48px;
+    height: 48px;
+    border: 3px solid rgba($primary, 0.2);
+    border-top-color: $primary;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  p {
+    margin: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
+// Stores Container - Enhanced
+.stores-container {
+  margin-bottom: $spacing-lg;
+
+  h2 {
+    font-size: 1.5rem;
+    color: $dark;
+    margin-bottom: $spacing-lg;
+    font-weight: $font-weight-bold;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    &::before {
+      content: '';
+      width: 4px;
+      height: 28px;
+      background: linear-gradient(180deg, $primary 0%, color.adjust($primary, $lightness: 15%) 100%);
+      border-radius: $border-radius-full;
+    }
+
+    @include mobile-only {
+      font-size: 1.25rem;
+      margin-bottom: $spacing-md;
+    }
+  }
+}
+
+// Stores Grid - Enhanced
+.stores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $spacing-lg;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+  }
+
+  @include mobile-only {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+// Store Card - Premium Design
+.store-card {
+  background: $white;
+  border-radius: $border-radius-xl;
+  padding: $spacing-lg;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba($gray-200, 0.6);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $primary 0%, color.adjust($primary, $lightness: 15%) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-color: rgba($primary, 0.15);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  h3 {
+    font-size: 1.125rem;
+    color: $dark;
+    margin-bottom: $spacing-xs;
+    font-weight: $font-weight-bold;
+    letter-spacing: -0.3px;
+
+    @include mobile-only {
+      font-size: 1rem;
+    }
+  }
+
+  @include mobile-only {
+    padding: $spacing-md;
+    border-radius: $border-radius-lg;
+  }
+}
+
+// Store Subdomain - Enhanced
+.store-subdomain {
+  color: $gray-500;
+  font-size: $font-size-xs;
+  margin-bottom: $spacing-sm;
+  word-break: break-all;
+  font-weight: $font-weight-medium;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: $secondary;
+    border-radius: $border-radius-full;
+    opacity: 0.6;
+  }
+}
+
+// Store Status - Enhanced
+.store-status {
+  font-size: $font-size-xs;
+  padding: 4px 10px;
+  border-radius: $border-radius-md;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: $spacing-md;
+  background: linear-gradient(135deg, rgba($warning, 0.15) 0%, rgba($warning, 0.08) 100%);
+  color: color.adjust($warning, $lightness: -20%);
+  font-weight: $font-weight-semibold;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: $border-radius-full;
+    background: currentColor;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  &.active {
+    background: linear-gradient(135deg, rgba($success, 0.15) 0%, rgba($success, 0.08) 100%);
+    color: color.adjust($success, $lightness: -15%);
+  }
+}
+
+// Visit Store Button - Enhanced
+.visit-store-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: 10px $spacing-lg;
+  background: linear-gradient(135deg, $primary 0%, color.adjust($primary, $lightness: -8%) 100%);
+  color: $white;
+  text-decoration: none;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba($primary, 0.25);
+  width: 100%;
+
+  &::after {
+    content: '→';
+    transition: transform 0.3s ease;
+    font-size: 14px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba($primary, 0.35);
+
+    &::after {
+      transform: translateX(4px);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// No Stores - Enhanced
+.no-stores {
+  @include flex-center;
+  @include flex-column;
+  text-align: center;
+  padding: $spacing-3xl $spacing-2xl;
+  background: $white;
+  border-radius: $border-radius-2xl;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba($gray-200, 0.5);
+  max-width: 500px;
+  margin: 0 auto;
+
+  &::before {
+    content: '🏪';
+    font-size: 64px;
+    margin-bottom: $spacing-lg;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  p {
+    font-size: $font-size-lg;
+    color: $gray-600;
+    margin-bottom: $spacing-xl;
+    max-width: 400px;
+    line-height: 1.6;
+  }
+
+  @include mobile-only {
+    padding: $spacing-2xl $spacing-lg;
+    border-radius: $border-radius-xl;
+
+    &::before {
+      font-size: 48px;
+    }
+
+    p {
+      font-size: $font-size-base;
+    }
+  }
+}
+
+// Create Store Button - Enhanced
+.create-store-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: 14px $spacing-2xl;
+  background: linear-gradient(135deg, $primary 0%, color.adjust($primary, $lightness: -8%) 100%);
+  color: $white;
+  border: none;
+  border-radius: $border-radius-xl;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba($primary, 0.35);
+
+  &::before {
+    content: '+';
+    font-size: 20px;
+    font-weight: 300;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba($primary, 0.45);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+
+  @include mobile-only {
+    padding: 12px $spacing-xl;
+    font-size: $font-size-sm;
+    width: 100%;
+  }
+}
+
+// RTL Support
+[dir="rtl"] {
+  .stores-container h2 {
+    text-align: right;
+    flex-direction: row-reverse;
+  }
+
+  .store-subdomain {
+    flex-direction: row-reverse;
+  }
+
+  .visit-store-btn {
+    flex-direction: row-reverse;
+
+    &::after {
+      content: '←';
+    }
+
+    &:hover::after {
+      transform: translateX(-4px);
+    }
+  }
+}
+
+// Animations
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+// Store cards staggered animation
+.stores-grid .store-card {
+  animation: cardSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+
+  @for $i from 1 through 12 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.08}s;
+    }
+  }
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Print Styles
+@media print {
+  .dashboard {
+    background: $white;
+  }
+
+  .main-content {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .store-card {
+    box-shadow: none;
+    border: 1px solid $gray-300;
+    page-break-inside: avoid;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .create-store-btn,
+  .visit-store-btn {
+    display: none;
+  }
+}
+
+// Reduced Motion Support
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-main,
+  .main-content,
+  .store-card,
+  .visit-store-btn,
+  .create-store-btn,
+  .loading-message::before,
+  .store-status::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}

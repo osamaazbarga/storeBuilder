@@ -2,64 +2,99 @@
 @use '../../../../styles/helpers/variables' as *;
 @use '../../../../styles/helpers/mixins' as *;
 
-// Main Navbar
+// Dashboard Navbar Variables (scoped to dashboard only)
+$navbar-gradient: linear-gradient(180deg, rgba($white, 1) 0%, rgba($gray-50, 0.9) 100%);
+$search-gradient: linear-gradient(135deg, $gray-100 0%, rgba($gray-200, 0.5) 100%);
+
+// Main Navbar - Professional Design
 .dashboard-navbar {
   position: sticky;
   top: 0;
   height: $navbar-height;
-  background: $navbar-bg;
-  border-bottom: 1px solid $navbar-border-color;
-  box-shadow: $shadow-sm;
+  background: $navbar-gradient;
+  border-bottom: 1px solid rgba($gray-200, 0.7);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03), 0 1px 4px rgba(0, 0, 0, 0.02);
   z-index: $z-index-sticky;
   @include flex-between;
-  padding: 0 $spacing-lg;
-  gap: $spacing-md;
+  padding: 0 $spacing-xl;
+  gap: $spacing-lg;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+
+  @include tablet {
+    padding: 0 $spacing-lg;
+  }
 
   @include mobile-only {
     padding: 0 $spacing-md;
-    height: 60px;
+    height: 64px;
+    gap: $spacing-sm;
   }
 }
 
-// Left Section
+// Left Section - Enhanced
 .navbar-left {
   @include flex-start;
-  gap: $spacing-md;
+  gap: $spacing-lg;
   flex: 1;
   min-width: 0;
 
+  @include mobile-only {
+    gap: $spacing-md;
+  }
+
+  // Mobile Menu Toggle - Enhanced
   .mobile-menu-toggle {
     @include flex-center;
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     padding: 0;
-    background: transparent;
-    border: none;
+    background: $white;
+    border: 1px solid $gray-200;
     cursor: pointer;
-    color: $dark;
-    border-radius: $border-radius-md;
-    transition: all $transition-fast;
+    color: $gray-700;
+    border-radius: $border-radius-lg;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 
     &:hover {
-      background: $gray-100;
+      background: rgba($primary, 0.06);
+      border-color: rgba($primary, 0.2);
+      color: $primary;
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
 
     i {
       font-size: 24px;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover i {
+      transform: rotate(90deg);
     }
   }
 
+  // Page Info - Enhanced
   .page-info {
     @include flex-column;
-    gap: $spacing-xs;
+    gap: 2px;
     min-width: 0;
 
     .page-title {
-      font-size: $font-size-xl;
-      font-weight: $font-weight-semibold;
+      font-size: 1.35rem;
+      font-weight: $font-weight-bold;
       color: $dark;
       margin: 0;
       @include text-truncate;
+      letter-spacing: -0.3px;
+
+      @include tablet {
+        font-size: $font-size-xl;
+      }
 
       @include mobile-only {
         font-size: $font-size-lg;
@@ -75,7 +110,7 @@
         list-style: none;
         background: transparent;
         font-size: $font-size-sm;
-        gap: $spacing-xs;
+        gap: 6px;
 
         @include mobile-only {
           display: none;
@@ -83,18 +118,21 @@
 
         .breadcrumb-item {
           @include flex-center;
-          gap: $spacing-xs;
-          color: $gray-600;
+          gap: 6px;
+          color: $gray-500;
 
           a {
             @include flex-center;
-            gap: $spacing-xs;
-            color: $gray-600;
+            gap: 4px;
+            color: $gray-500;
             text-decoration: none;
-            transition: color $transition-fast;
+            transition: all 0.2s ease;
+            padding: 2px 6px;
+            border-radius: $border-radius-sm;
 
             &:hover {
               color: $primary;
+              background: rgba($primary, 0.06);
             }
 
             i {
@@ -104,13 +142,16 @@
 
           &.active {
             color: $dark;
-            font-weight: $font-weight-medium;
+            font-weight: $font-weight-semibold;
           }
 
           &:not(:last-child)::after {
-            content: '/';
-            margin-left: $spacing-xs;
-            color: $gray-400;
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: $gray-400;
+            border-radius: $border-radius-full;
+            margin-left: 6px;
           }
         }
       }
@@ -118,29 +159,57 @@
   }
 }
 
-// Right Section
+// Right Section - Enhanced
 .navbar-right {
   @include flex-end;
   gap: $spacing-sm;
 
+  @include mobile-only {
+    gap: 6px;
+  }
+
+  // Search Bar - Professional Design
   .search-bar {
     @include flex-start;
     position: relative;
-    width: 280px;
-    background: $gray-100;
-    border-radius: $border-radius-md;
-    padding: $spacing-xs $spacing-md;
-    transition: all $transition-fast;
+    width: 300px;
+    background: $search-gradient;
+    border: 1px solid transparent;
+    border-radius: $border-radius-lg;
+    padding: 8px $spacing-md;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: $border-radius-lg;
+      background: linear-gradient(135deg, $white 0%, rgba($primary, 0.02) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
     &:focus-within {
       background: $white;
-      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+      border-color: rgba($primary, 0.3);
+      box-shadow: 0 0 0 4px rgba($primary, 0.08), 0 4px 12px rgba($primary, 0.1);
+
+      &::before {
+        opacity: 1;
+      }
+
+      .search-icon {
+        color: $primary;
+      }
     }
 
     .search-icon {
       color: $gray-500;
       font-size: 20px;
       flex-shrink: 0;
+      transition: color 0.2s ease;
+      position: relative;
+      z-index: 1;
     }
 
     .search-input {
@@ -151,72 +220,105 @@
       padding: 0 $spacing-sm;
       font-size: $font-size-sm;
       color: $dark;
+      position: relative;
+      z-index: 1;
 
       &::placeholder {
         color: $gray-500;
+        font-weight: $font-weight-medium;
       }
     }
 
     @include tablet {
-      width: 220px;
+      width: 240px;
+    }
+
+    @include mobile-only {
+      display: none;
     }
   }
 
+  // Navigation Item - Enhanced
   .nav-item {
     position: relative;
 
+    // Nav Button - Professional Style
     .nav-button {
       @include flex-center;
       position: relative;
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       padding: 0;
       background: transparent;
-      border: none;
+      border: 1px solid transparent;
       cursor: pointer;
-      color: $gray-700;
-      border-radius: $border-radius-md;
-      transition: all $transition-fast;
+      color: $gray-600;
+      border-radius: $border-radius-lg;
+      transition: all 0.25s ease;
 
-      &:hover,
-      &.active {
-        background: $gray-100;
+      &:hover {
+        background: rgba($gray-200, 0.5);
         color: $dark;
+        border-color: rgba($gray-300, 0.5);
+      }
+
+      &.active {
+        background: rgba($primary, 0.08);
+        color: $primary;
+        border-color: rgba($primary, 0.2);
       }
 
       i {
         font-size: 22px;
+        transition: transform 0.3s ease;
       }
 
+      &:hover i {
+        transform: scale(1.1);
+      }
+
+      // Notification Badge - Enhanced with Animation
       .badge {
         position: absolute;
-        top: 6px;
-        right: 6px;
-        background: $danger;
+        top: 4px;
+        right: 4px;
+        background: linear-gradient(135deg, $danger 0%, color.adjust($danger, $lightness: -10%) 100%);
         color: $white;
-        font-size: $font-size-xs;
+        font-size: 10px;
         font-weight: $font-weight-bold;
         padding: 2px 6px;
         border-radius: $border-radius-full;
         min-width: 18px;
         @include flex-center;
+        box-shadow: 0 2px 6px rgba($danger, 0.4);
+        border: 2px solid $white;
+        animation: badgePulse 2s ease-in-out infinite;
       }
     }
 
+    // User Button - Enhanced
     .user-button {
       @include flex-start;
       gap: $spacing-sm;
-      padding: $spacing-xs $spacing-sm;
-      background: transparent;
-      border: none;
+      padding: 6px $spacing-sm 6px 6px;
+      background: $white;
+      border: 1px solid $gray-200;
       cursor: pointer;
-      border-radius: $border-radius-md;
-      transition: all $transition-fast;
-      height: 40px;
+      border-radius: $border-radius-xl;
+      transition: all 0.25s ease;
+      height: 44px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 
-      &:hover,
+      &:hover {
+        background: $gray-50;
+        border-color: $gray-300;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      }
+
       &.active {
-        background: $gray-100;
+        background: $white;
+        border-color: rgba($primary, 0.3);
+        box-shadow: 0 0 0 3px rgba($primary, 0.08);
       }
 
       .user-avatar,
@@ -226,60 +328,79 @@
         border-radius: $border-radius-full;
         object-fit: cover;
         flex-shrink: 0;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover .user-avatar,
+      &:hover .user-avatar-placeholder {
+        transform: scale(1.05);
       }
 
       .user-avatar-placeholder {
         @include flex-center;
-        background: $primary;
+        background: linear-gradient(135deg, $primary 0%, color.adjust($primary, $lightness: -10%) 100%);
         color: $white;
         font-size: $font-size-xs;
         font-weight: $font-weight-bold;
+        box-shadow: 0 2px 6px rgba($primary, 0.3);
       }
 
       .user-name {
         color: $dark;
         font-size: $font-size-sm;
-        font-weight: $font-weight-medium;
+        font-weight: $font-weight-semibold;
         @include text-truncate;
         max-width: 120px;
       }
 
       .chevron {
         font-size: 18px;
-        color: $gray-600;
-        transition: transform $transition-fast;
+        color: $gray-500;
+        transition: all 0.3s ease;
       }
 
       &.active .chevron {
         transform: rotate(180deg);
+        color: $primary;
       }
     }
   }
 }
 
-// Dropdown Menus
+// Badge Animation
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+// Dropdown Menus - Professional Design
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + $spacing-sm);
+  top: calc(100% + 8px);
   right: 0;
-  width: 360px;
-  max-height: 480px;
+  width: 380px;
+  max-height: 520px;
   background: $white;
-  border-radius: $border-radius-lg;
-  box-shadow: $shadow-xl;
-  border: 1px solid $gray-200;
+  border-radius: $border-radius-xl;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba($gray-200, 0.8);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
-  transition: all $transition-base;
+  transform: translateY(-12px) scale(0.98);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: $z-index-dropdown;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   &.show {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 
   @include mobile-only {
@@ -289,26 +410,29 @@
     left: 0;
     right: 0;
     width: 100%;
-    max-height: 70vh;
-    border-radius: $border-radius-xl $border-radius-xl 0 0;
+    max-height: 75vh;
+    border-radius: $border-radius-2xl $border-radius-2xl 0 0;
     transform: translateY(100%);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
 
     &.show {
       transform: translateY(0);
     }
   }
 
-  // Dropdown Header
+  // Dropdown Header - Enhanced
   .dropdown-header {
     @include flex-between;
-    padding: $spacing-md $spacing-lg;
+    padding: $spacing-lg $spacing-xl;
+    background: linear-gradient(180deg, $white 0%, $gray-50 100%);
     border-bottom: 1px solid $gray-200;
 
     h6 {
-      font-size: $font-size-base;
-      font-weight: $font-weight-semibold;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
       color: $dark;
       margin: 0;
+      letter-spacing: -0.3px;
     }
 
     .mark-read-btn {
@@ -316,96 +440,132 @@
       border: none;
       color: $primary;
       font-size: $font-size-sm;
-      font-weight: $font-weight-medium;
+      font-weight: $font-weight-semibold;
       cursor: pointer;
-      transition: color $transition-fast;
+      transition: all 0.2s ease;
+      padding: 6px 12px;
+      border-radius: $border-radius-md;
 
       &:hover {
+        background: rgba($primary, 0.08);
         color: color.adjust($primary, $lightness: -10%);
       }
     }
   }
 
-  // Dropdown Body
+  // Dropdown Body - Enhanced
   .dropdown-body {
     flex: 1;
     overflow-y: auto;
-    @include custom-scrollbar(6px, $gray-400, $gray-100);
+    @include custom-scrollbar(5px, rgba($gray-400, 0.5), transparent);
 
     .empty-state {
       @include flex-center;
       @include flex-column;
-      padding: $spacing-3xl;
+      padding: $spacing-3xl $spacing-xl;
       color: $gray-500;
       text-align: center;
 
       i {
-        font-size: 48px;
-        margin-bottom: $spacing-md;
-        color: $gray-400;
+        font-size: 56px;
+        margin-bottom: $spacing-lg;
+        color: $gray-300;
+        animation: float 3s ease-in-out infinite;
       }
 
       p {
         margin: 0;
-        font-size: $font-size-sm;
+        font-size: $font-size-base;
+        font-weight: $font-weight-medium;
       }
     }
 
+    // Notification Item - Enhanced
     .notification-item {
       @include flex-start;
       gap: $spacing-md;
-      padding: $spacing-md $spacing-lg;
-      border-bottom: 1px solid $gray-100;
+      padding: $spacing-md $spacing-xl;
+      border-bottom: 1px solid rgba($gray-100, 0.8);
       cursor: pointer;
-      transition: background $transition-fast;
+      transition: all 0.25s ease;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: $primary;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
 
       &:hover {
         background: $gray-50;
+
+        &::before {
+          opacity: 1;
+        }
+      }
+
+      &:last-child {
+        border-bottom: none;
       }
 
       &.unread {
-        background: color.adjust($primary, $lightness: 48%);
+        background: rgba($primary, 0.03);
+
+        &::before {
+          opacity: 1;
+        }
 
         &:hover {
-          background: color.adjust($primary, $lightness: 46%);
+          background: rgba($primary, 0.06);
         }
       }
 
       .notification-icon {
         @include flex-center;
-        width: 40px;
-        height: 40px;
-        border-radius: $border-radius-full;
+        width: 44px;
+        height: 44px;
+        border-radius: $border-radius-lg;
         flex-shrink: 0;
+        transition: transform 0.3s ease;
 
         i {
-          font-size: 20px;
+          font-size: 22px;
         }
 
         &.icon-primary {
-          background: color.adjust($primary, $lightness: 45%);
+          background: linear-gradient(135deg, rgba($primary, 0.15) 0%, rgba($primary, 0.08) 100%);
           color: $primary;
         }
 
         &.icon-success {
-          background: color.adjust($success, $lightness: 45%);
+          background: linear-gradient(135deg, rgba($success, 0.15) 0%, rgba($success, 0.08) 100%);
           color: $success;
         }
 
         &.icon-warning {
-          background: color.adjust($warning, $lightness: 45%);
+          background: linear-gradient(135deg, rgba($warning, 0.15) 0%, rgba($warning, 0.08) 100%);
           color: $warning;
         }
 
         &.icon-danger {
-          background: color.adjust($danger, $lightness: 45%);
+          background: linear-gradient(135deg, rgba($danger, 0.15) 0%, rgba($danger, 0.08) 100%);
           color: $danger;
         }
 
         &.icon-info {
-          background: color.adjust($secondary, $lightness: 45%);
+          background: linear-gradient(135deg, rgba($secondary, 0.15) 0%, rgba($secondary, 0.08) 100%);
           color: $secondary;
         }
+      }
+
+      &:hover .notification-icon {
+        transform: scale(1.05);
       }
 
       .notification-content {
@@ -416,61 +576,82 @@
           font-size: $font-size-sm;
           font-weight: $font-weight-semibold;
           color: $dark;
-          margin: 0 0 $spacing-xs 0;
+          margin: 0 0 4px 0;
           @include text-truncate;
         }
 
         p {
           font-size: $font-size-sm;
           color: $gray-600;
-          margin: 0 0 $spacing-xs 0;
+          margin: 0 0 4px 0;
           @include text-truncate-lines(2);
+          line-height: 1.4;
         }
 
         .notification-time {
           font-size: $font-size-xs;
           color: $gray-500;
+          font-weight: $font-weight-medium;
         }
       }
     }
   }
 
-  // Dropdown Footer
+  // Dropdown Footer - Enhanced
   .dropdown-footer {
-    padding: $spacing-md $spacing-lg;
+    padding: $spacing-md $spacing-xl;
+    background: $gray-50;
     border-top: 1px solid $gray-200;
 
     .view-all-btn {
       @include button-base;
       width: 100%;
-      background: transparent;
+      background: $white;
       color: $primary;
-      border: 1px solid $primary;
+      border: 1px solid rgba($primary, 0.3);
+      font-weight: $font-weight-semibold;
+      padding: 12px;
+      border-radius: $border-radius-lg;
 
       &:hover {
-        background: color.adjust($primary, $lightness: 48%);
+        background: rgba($primary, 0.06);
+        border-color: $primary;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba($primary, 0.15);
       }
     }
   }
 }
 
-// User Menu Specific Styles
+// Float Animation
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+// User Menu - Professional Design
 .user-menu {
-  width: 280px;
+  width: 300px;
 
   .user-info {
     @include flex-start;
     gap: $spacing-md;
-    padding: $spacing-lg;
+    padding: $spacing-xl;
+    background: linear-gradient(180deg, $white 0%, rgba($primary, 0.02) 100%);
     border-bottom: 1px solid $gray-200;
 
     .user-avatar-large,
     .avatar-placeholder-large {
-      width: 48px;
-      height: 48px;
+      width: 56px;
+      height: 56px;
       border-radius: $border-radius-full;
       object-fit: cover;
       flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
       img {
         width: 100%;
@@ -482,9 +663,9 @@
 
     .avatar-placeholder-large {
       @include flex-center;
-      background: $primary;
+      background: linear-gradient(135deg, $primary 0%, color.adjust($primary, $lightness: -15%) 100%);
       color: $white;
-      font-size: $font-size-base;
+      font-size: $font-size-lg;
       font-weight: $font-weight-bold;
     }
 
@@ -494,10 +675,11 @@
 
       h6 {
         font-size: $font-size-base;
-        font-weight: $font-weight-semibold;
+        font-weight: $font-weight-bold;
         color: $dark;
-        margin: 0 0 $spacing-xs 0;
+        margin: 0 0 4px 0;
         @include text-truncate;
+        letter-spacing: -0.2px;
       }
 
       p {
@@ -509,18 +691,21 @@
     }
   }
 
+  // Dropdown Items - Enhanced
   .dropdown-item {
     @include flex-start;
     gap: $spacing-md;
-    padding: $spacing-sm $spacing-lg;
+    padding: 12px $spacing-xl;
     color: $gray-700;
     text-decoration: none;
     cursor: pointer;
-    transition: all $transition-fast;
+    transition: all 0.25s ease;
+    position: relative;
 
     i {
       font-size: 20px;
-      color: $gray-600;
+      color: $gray-500;
+      transition: all 0.25s ease;
     }
 
     span {
@@ -531,45 +716,52 @@
     &:hover {
       background: $gray-50;
       color: $dark;
+      padding-left: calc(#{$spacing-xl} + 4px);
 
       i {
         color: $primary;
+        transform: scale(1.1);
       }
     }
 
     &.logout {
       color: $danger;
+      margin-top: $spacing-xs;
 
       i {
         color: $danger;
       }
 
       &:hover {
-        background: color.adjust($danger, $lightness: 48%);
+        background: rgba($danger, 0.06);
+
+        i {
+          transform: translateX(-2px);
+        }
       }
     }
   }
 
   .dropdown-divider {
     height: 1px;
-    background: $gray-200;
-    margin: $spacing-xs 0;
+    background: linear-gradient(90deg, transparent 0%, $gray-200 50%, transparent 100%);
+    margin: $spacing-xs $spacing-xl;
   }
 }
 
-// Dropdown Overlay
+// Dropdown Overlay - Enhanced
 .dropdown-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba($black, 0.3);
+  background: rgba($black, 0.4);
   z-index: $z-index-modal-backdrop;
   opacity: 0;
   visibility: hidden;
-  transition: all $transition-base;
-  backdrop-filter: blur(2px);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
 
   &.show {
     opacity: 1;
@@ -588,6 +780,10 @@
     .navbar-right {
       flex-direction: row-reverse;
     }
+
+    .navbar-left .mobile-menu-toggle:hover i {
+      transform: rotate(-90deg);
+    }
   }
 
   .dropdown-menu {
@@ -595,9 +791,27 @@
     left: 0;
   }
 
-  .user-menu .user-info,
   .notification-item {
-    flex-direction: row-reverse;
+    &::before {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  .user-menu {
+    .user-info,
+    .dropdown-item {
+      flex-direction: row-reverse;
+    }
+
+    .dropdown-item:hover {
+      padding-left: $spacing-xl;
+      padding-right: calc(#{$spacing-xl} + 4px);
+    }
+
+    .dropdown-item.logout:hover i {
+      transform: translateX(2px);
+    }
   }
 }
 
@@ -606,5 +820,21 @@
   .dashboard-navbar,
   .dropdown-overlay {
     display: none !important;
+  }
+}
+
+// Reduced Motion Support
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-navbar,
+  .mobile-menu-toggle,
+  .search-bar,
+  .nav-button,
+  .user-button,
+  .dropdown-menu,
+  .notification-item,
+  .dropdown-item,
+  .badge {
+    transition: none !important;
+    animation: none !important;
   }
 }

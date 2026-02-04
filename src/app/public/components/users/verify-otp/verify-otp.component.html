@@ -1,0 +1,147 @@
+<div class="otp-container" [class.rtl]="isRTL">
+  <div class="otp-card">
+    <!-- Header -->
+    <div class="otp-header">
+      <div class="otp-icon">
+        <i class="material-symbols-rounded">verified_user</i>
+      </div>
+      <h1 class="otp-title">
+        {{ currentLang === 'ar' ? 'تأكيد رقم الهاتف' : 'Verify Your Phone' }}
+      </h1>
+      <p class="otp-subtitle" *ngIf="!otpSent">
+        {{ currentLang === 'ar' 
+          ? 'سيتم إرسال رمز التحقق إلى رقم هاتفك' 
+          : 'A verification code will be sent to your phone' }}
+        <span class="user-phone">{{ maskedPhone }}</span>
+      </p>
+      <p class="otp-subtitle" *ngIf="otpSent">
+        {{ currentLang === 'ar' 
+          ? 'أدخل رمز التحقق المكون من 6 أرقام المرسل إلى' 
+          : 'Enter the 6-digit code sent to' }}
+        <span class="user-phone">{{ maskedPhone }}</span>
+      </p>
+    </div>
+
+    <!-- Send OTP Button (Before sending) -->
+    <div class="send-otp-section" *ngIf="!otpSent">
+      <button 
+        class="send-otp-btn"
+        [class.loading]="sendingOtp"
+        [disabled]="sendingOtp"
+        (click)="sendOtp()">
+        <span *ngIf="!sendingOtp">
+          <i class="material-symbols-rounded">send</i>
+          {{ currentLang === 'ar' ? 'إرسال رمز التحقق' : 'Send Verification Code' }}
+        </span>
+        <span *ngIf="sendingOtp" class="loading-spinner">
+          <i class="material-symbols-rounded spin">progress_activity</i>
+          {{ currentLang === 'ar' ? 'جاري الإرسال...' : 'Sending...' }}
+        </span>
+      </button>
+      
+      <!-- Phone number display -->
+      <div class="phone-info">
+        <i class="material-symbols-rounded">phone_iphone</i>
+        <span>{{ phoneNumber }}</span>
+      </div>
+    </div>
+
+    <!-- OTP Input Section (After sending) -->
+    <div class="otp-input-section" *ngIf="otpSent">
+      <div class="otp-input-container">
+        <div class="otp-inputs" [class.rtl-inputs]="isRTL">
+          <input
+            *ngFor="let digit of otpDigits; let i = index; trackBy: trackByIndex"
+            #otpInput
+            type="text"
+            maxlength="1"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            class="otp-input"
+            [class.filled]="otpDigits[i]"
+            [class.error]="errorMessage && submitted"
+            (input)="onOtpInput($event, i)"
+            (keydown)="onKeyDown($event, i)"
+            (paste)="onPaste($event)"
+            [attr.aria-label]="'Digit ' + (i + 1)"
+            autocomplete="one-time-code"
+          />
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="errorMessage">
+          <i class="material-symbols-rounded">error</i>
+          <span>{{ errorMessage }}</span>
+        </div>
+      </div>
+
+      <!-- Verify Button -->
+      <button 
+        class="verify-btn"
+        [class.loading]="loading"
+        [disabled]="loading || !isOtpComplete"
+        (click)="verifyOtp()">
+        <span *ngIf="!loading">
+          <i class="material-symbols-rounded">check_circle</i>
+          {{ currentLang === 'ar' ? 'تأكيد الرمز' : 'Verify Code' }}
+        </span>
+        <span *ngIf="loading" class="loading-spinner">
+          <i class="material-symbols-rounded spin">progress_activity</i>
+          {{ currentLang === 'ar' ? 'جاري التحقق...' : 'Verifying...' }}
+        </span>
+      </button>
+
+      <!-- Resend Section -->
+      <div class="resend-section">
+        <p class="resend-text">
+          {{ currentLang === 'ar' ? 'لم تستلم الرمز؟' : "Didn't receive the code?" }}
+        </p>
+        
+        <button 
+          *ngIf="canResend"
+          class="resend-btn"
+          [class.loading]="resending"
+          [disabled]="resending"
+          (click)="resendOtp()">
+          <i class="material-symbols-rounded">refresh</i>
+          <span *ngIf="!resending">
+            {{ currentLang === 'ar' ? 'إعادة الإرسال' : 'Resend Code' }}
+          </span>
+          <span *ngIf="resending">
+            {{ currentLang === 'ar' ? 'جاري الإرسال...' : 'Sending...' }}
+          </span>
+        </button>
+
+        <div *ngIf="!canResend" class="timer-container">
+          <i class="material-symbols-rounded">timer</i>
+          <span>
+            {{ currentLang === 'ar' ? 'إعادة الإرسال بعد' : 'Resend in' }} 
+            <strong>{{ formattedTimer }}</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- reCAPTCHA container (invisible) -->
+    <div id="recaptcha-container"></div>
+
+    <!-- Back Section -->
+    <div class="back-section">
+      <button class="back-btn" (click)="goBack()">
+        <i class="material-symbols-rounded">arrow_back</i>
+        {{ currentLang === 'ar' ? 'العودة للتسجيل' : 'Back to Register' }}
+      </button>
+      
+      <span class="separator">|</span>
+      
+      <button class="login-btn" (click)="goToLogin()">
+        {{ currentLang === 'ar' ? 'تسجيل الدخول' : 'Login' }}
+        <i class="material-symbols-rounded">login</i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Decorative Elements -->
+  <div class="decoration decoration-1"></div>
+  <div class="decoration decoration-2"></div>
+</div>
