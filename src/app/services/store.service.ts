@@ -315,10 +315,27 @@ export class StoreService {
       isStoreView: boolean;
       store: StoreAddEdit | null;
     }> {
-      const headers = {
-        'X-Original-Host': window.location.hostname
+      const domainInfo = this.domainService.getDomainInfo();
+      const hostname = window.location.hostname;
+
+      const headers: Record<string, string> = {
+        'X-Original-Host': hostname,
       };
-      return this.http.get<any>(`${environment.appUrl}/${this.url}/current`, { headers });
+
+      let url = `${environment.appUrl}/${this.url}/current`;
+
+      // Pass subdomain/domain as query param so backend can use it regardless of which header it reads
+      if (domainInfo.isSubdomain && domainInfo.storeIdentifier) {
+        headers['X-Store-Subdomain'] = domainInfo.storeIdentifier;
+        url += `?subdomain=${encodeURIComponent(domainInfo.storeIdentifier)}`;
+      } else if (domainInfo.isCustomDomain && domainInfo.storeIdentifier) {
+        headers['X-Store-Domain'] = domainInfo.fullDomain;
+        url += `?domain=${encodeURIComponent(domainInfo.fullDomain)}`;
+      }
+
+      console.log('🌐 getCurrentStore - domainInfo:', domainInfo, '| url:', url);
+
+      return this.http.get<any>(url, { headers });
     }
 
     /**
