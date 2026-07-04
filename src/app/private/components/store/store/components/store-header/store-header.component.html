@@ -1,0 +1,58 @@
+<header class="store-header" [class.scrolled]="isScrolled">
+  <div class="header-container">
+    <!-- Logo -->
+    <a class="store-logo" routerLink=".">
+      <img *ngIf="store?.logo" [src]="store.logo" [alt]="store?.name" class="logo-img" />
+      <span *ngIf="!store?.logo" class="logo-text">{{ store?.name || 'المتجر' }}</span>
+    </a>
+
+    <!-- Desktop Nav: Categories -->
+    <nav class="header-nav desktop-only">
+      <a class="nav-link" [class.active]="!selectedCategory" (click)="selectCategory(null)">الكل</a>
+      <a
+        *ngFor="let cat of categories"
+        class="nav-link"
+        [class.active]="selectedCategory?.id === cat.id"
+        (click)="selectCategory(cat)"
+      >{{ cat.name }}</a>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="header-search">
+      <div class="search-wrap">
+        <i class="pi pi-search search-icon-rtl"></i>
+        <input
+          pInputText
+          type="text"
+          placeholder="ابحث عن منتج..."
+          [(ngModel)]="searchQuery"
+          (input)="onSearch()"
+          class="search-input"
+        />
+      </div>
+    </div>
+
+    <!-- Cart Icon -->
+    <button class="cart-btn" (click)="toggleCart()">
+      <p-overlayBadge [value]="cartCount > 0 ? cartCount.toString() : ''" severity="danger">
+        <i class="pi pi-shopping-cart cart-icon"></i>
+      </p-overlayBadge>
+    </button>
+
+    <!-- Mobile Hamburger -->
+    <button class="mobile-menu-btn desktop-hidden" (click)="toggleMobileMenu()">
+      <i class="pi pi-bars"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Menu Dropdown -->
+  <div class="mobile-menu" *ngIf="mobileMenuOpen">
+    <a class="mobile-nav-link" [class.active]="!selectedCategory" (click)="selectCategory(null); closeMobileMenu()">الكل</a>
+    <a
+      *ngFor="let cat of categories"
+      class="mobile-nav-link"
+      [class.active]="selectedCategory?.id === cat.id"
+      (click)="selectCategory(cat); closeMobileMenu()"
+    >{{ cat.name }}</a>
+  </div>
+</header>

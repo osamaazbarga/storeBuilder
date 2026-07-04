@@ -372,4 +372,30 @@ export class StoreService {
       );
     }
 
+    // ── USER STORES ──────────────────────────────────────────────
+
+    getUserStores(): Observable<any[]> {
+      return this.http.get<any[]>(`${environment.apiUrl}/${this.url}/my-stores`);
+    }
+
+    getProductById(productId: number): Observable<any> {
+      return this.http.get<any>(`${environment.apiUrl}/Products/${productId}`);
+    }
+
+    // ── THEME & LOGO ─────────────────────────────────────────────
+
+    getStoreTheme(storeId: number): Observable<any> {
+      return this.http.get<any>(`${environment.apiUrl}/${this.url}/${storeId}/theme`);
+    }
+
+    updateTheme(storeId: number, theme: any): Observable<any> {
+      return this.http.patch<any>(`${environment.apiUrl}/${this.url}/${storeId}/theme`, theme);
+    }
+
+    uploadLogo(storeId: number, file: File): Observable<any> {
+      const form = new FormData();
+      form.append('file', file);
+      return this.http.post<any>(`${environment.apiUrl}/${this.url}/${storeId}/logo`, form);
+    }
+
 }

@@ -6,32 +6,44 @@ import { ProductsComponent } from './components/dashboard/pages/products/product
 import { AddProductComponent } from './components/dashboard/pages/products/add-product/add-product.component';
 import { CategoriesComponent } from './components/dashboard/pages/products/categories/categories.component';
 import { CustomDomainsNewComponent } from './components/custom-domains/custom-domains-new.component';
+import { StoreDesignComponent } from './components/dashboard/pages/store-design/store-design.component';
+import { OrdersComponent } from './components/dashboard/pages/orders/orders.component';
 
 const routes: Routes = [
   {
-    path:'',
-    runGuardsAndResolvers:'always',
-    component:MainComponent
+    path: '',
+    runGuardsAndResolvers: 'always',
+    component: MainComponent
   },
   {
-    path:'products',
-    runGuardsAndResolvers:'always',
-    component:ProductsComponent
+    path: 'products',
+    runGuardsAndResolvers: 'always',
+    component: ProductsComponent
   },
   {
-    path:'products/addproduct',
-    runGuardsAndResolvers:'always',
-    component:AddProductComponent
+    path: 'products/addproduct',
+    runGuardsAndResolvers: 'always',
+    component: AddProductComponent
   },
   {
-    path:'categories',
-    runGuardsAndResolvers:'always',
-    component:CategoriesComponent
+    path: 'categories',
+    runGuardsAndResolvers: 'always',
+    component: CategoriesComponent
   },
   {
-    path:'custom-domains',
-    runGuardsAndResolvers:'always',
-    component:CustomDomainsNewComponent
+    path: 'custom-domains',
+    runGuardsAndResolvers: 'always',
+    component: CustomDomainsNewComponent
+  },
+  {
+    path: 'store-design',
+    runGuardsAndResolvers: 'always',
+    component: StoreDesignComponent
+  },
+  {
+    path: 'orders',
+    runGuardsAndResolvers: 'always',
+    component: OrdersComponent
   }
 ];
 

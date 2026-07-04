@@ -15,7 +15,6 @@ import { ViewComponent } from './components/view/view.component';
 
 import { TranslateModule } from '@ngx-translate/core';
 
-import { StoreComponent } from '../private/components/store/store/store.component';
 import { FooterNavComponent } from './components/home-parts/footer-nav/footer-nav.component';
 import { StartNowComponent } from './components/home-parts/start-now/start-now.component';
 import { FirstHomePartComponent } from './components/home-parts/first-home-part/first-home-part.component';
@@ -29,8 +28,7 @@ import { RegisterWithThirdPartyComponent } from './components/users/register-wit
 import { ResetPasswordComponent } from './components/users/reset-password/reset-password.component';
 import { SendEmailComponent } from './components/users/send-email/send-email.component';
 import { VerifyOtpComponent } from './components/users/verify-otp/verify-otp.component';
-
-
+import { StoreModule } from '../private/components/store/store.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +36,6 @@ import { VerifyOtpComponent } from './components/users/verify-otp/verify-otp.com
     NavbarComponent,
     FooterComponent,
     ViewComponent,
-    StoreComponent,
     FooterNavComponent,
     StartNowComponent,
     FirstHomePartComponent,
@@ -63,6 +60,7 @@ import { VerifyOtpComponent } from './components/users/verify-otp/verify-otp.com
     MatButtonModule,
     MatInputModule,
     SharedModule,
+    StoreModule,
     TranslateModule.forChild()
 ],
 })

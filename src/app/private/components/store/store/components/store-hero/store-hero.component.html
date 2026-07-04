@@ -1,0 +1,11 @@
+<section class="store-hero" [style.backgroundImage]="heroBg">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">{{ theme?.heroBannerTitle || 'مرحباً بكم في متجرنا' }}</h1>
+    <p class="hero-subtitle">{{ theme?.heroBannerSubtitle || 'اكتشف أفضل المنتجات بأسعار مميزة' }}</p>
+    <button class="hero-cta" (click)="scrollToProducts()">
+      <span>{{ theme?.heroBannerCta || 'تسوق الآن' }}</span>
+      <i class="pi pi-arrow-left"></i>
+    </button>
+  </div>
+</section>

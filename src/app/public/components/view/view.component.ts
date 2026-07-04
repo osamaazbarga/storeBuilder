@@ -15,8 +15,10 @@ export class ViewComponent {
 
   users: TblUser[] = [];
   userToEdit?: TblUser;
+  isLoading = true;
   isStoreView = false;
   isLoginPage = false;
+  currentUrlPath = '/';
   
   constructor(
     private userServies: UsersService,
@@ -27,6 +29,7 @@ export class ViewComponent {
       if (event instanceof NavigationEnd) {
         const url = event.urlAfterRedirects;
         this.isLoginPage = url === '/login';
+        this.currentUrlPath = url.split('?')[0];
       }
     });
 
@@ -46,10 +49,12 @@ export class ViewComponent {
           this.isStoreView = false;
           console.log('📍 Main platform');
         }
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('❌ Store resolution error:', err);
         this.isStoreView = false;
+        this.isLoading = false;
       }
     });
   }

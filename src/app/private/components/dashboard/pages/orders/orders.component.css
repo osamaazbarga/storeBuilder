@@ -1,0 +1,118 @@
+.orders-page {
+  padding: 1.5rem;
+  direction: rtl;
+  max-width: 1400px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-title { font-size: 1.75rem; font-weight: 700; margin: 0; }
+.page-subtitle { color: #6b7280; font-size: .9rem; margin: .25rem 0 0; }
+
+.orders-stats { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+.stat-badge {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  background: #f3f4f6;
+  padding: .5rem 1rem;
+  border-radius: 50px;
+  font-size: .85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.stat-badge.pending { background: #fef3c7; color: #92400e; }
+.stat-badge.revenue { background: #d1fae5; color: #065f46; }
+
+.filters-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+
+.btn-refresh {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: .55rem .9rem;
+  cursor: pointer;
+  color: #374151;
+}
+
+.btn-refresh:hover { background: #e5e7eb; }
+
+.table-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+::ng-deep .orders-table .p-datatable-thead th {
+  background: #f9fafb !important;
+  font-weight: 600;
+  font-size: .85rem;
+  color: #374151 !important;
+}
+
+.order-number { font-family: monospace; font-size: .85rem; font-weight: 600; }
+
+.customer-cell { display: flex; flex-direction: column; gap: .15rem; }
+.customer-name { font-size: .875rem; font-weight: 500; }
+.customer-email { font-size: .78rem; color: #9ca3af; }
+
+.date-cell { font-size: .85rem; color: #6b7280; }
+.price-cell { font-weight: 600; color: #1F2937; }
+
+.actions-cell { display: flex; align-items: center; gap: .5rem; }
+
+::ng-deep .status-dropdown .p-dropdown { font-size: .82rem !important; }
+
+.expand-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: .25rem;
+}
+
+/* Expanded Row */
+.order-items-expanded {
+  padding: 1rem 1.5rem;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.order-items-expanded h4 { font-size: .9rem; font-weight: 600; margin: 0 0 .75rem; }
+
+.items-grid { display: flex; flex-direction: column; gap: .5rem; margin-bottom: .75rem; }
+
+.item-card {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: #fff;
+  padding: .6rem;
+  border-radius: 8px;
+}
+
+.item-img { width: 42px; height: 42px; object-fit: cover; border-radius: 6px; }
+.item-info { flex: 1; }
+.item-title { font-size: .85rem; font-weight: 500; display: block; }
+.item-details { font-size: .78rem; color: #9ca3af; }
+.item-total { font-weight: 600; font-size: .875rem; }
+
+.order-meta { display: flex; flex-wrap: wrap; gap: 1rem; font-size: .82rem; color: #6b7280; }
+.order-meta span { display: flex; align-items: center; gap: .35rem; }
+
+.empty-msg { text-align: center; padding: 3rem; color: #9ca3af; }

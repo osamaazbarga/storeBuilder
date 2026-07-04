@@ -1,0 +1,35 @@
+<section class="products-section" id="products-section">
+  <!-- Section Header -->
+  <div class="section-header">
+    <h2 class="section-title">
+      {{ selectedCategory ? selectedCategory.name : 'جميع المنتجات' }}
+    </h2>
+    <span class="products-count" *ngIf="!loading">{{ filteredProducts.length }} منتج</span>
+  </div>
+
+  <!-- Skeleton Loading -->
+  <div *ngIf="loading" class="products-grid">
+    <div *ngFor="let s of skeletons" class="skeleton-card">
+      <p-skeleton height="220px" borderRadius="8px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="18px" width="70%" styleClass="mb-1"></p-skeleton>
+      <p-skeleton height="14px" width="50%"></p-skeleton>
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <div *ngIf="!loading && filteredProducts.length > 0" class="products-grid">
+    <app-store-product-card
+      *ngFor="let product of filteredProducts"
+      [product]="product"
+      [storeId]="storeId"
+      (cartUpdated)="onCartUpdated()"
+    ></app-store-product-card>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && filteredProducts.length === 0" class="empty-state">
+    <i class="pi pi-box empty-icon"></i>
+    <h3>لا توجد منتجات</h3>
+    <p>لم يتم إضافة أي منتجات في هذا التصنيف بعد</p>
+  </div>
+</section>

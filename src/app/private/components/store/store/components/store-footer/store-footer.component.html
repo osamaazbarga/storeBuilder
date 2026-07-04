@@ -1,0 +1,30 @@
+<footer class="store-footer">
+  <div class="footer-container">
+    <!-- Store Branding -->
+    <div class="footer-brand">
+      <img *ngIf="store?.logo" [src]="store.logo" [alt]="store?.name" class="footer-logo" />
+      <h3 class="footer-store-name">{{ store?.name }}</h3>
+      <p class="footer-description">{{ store?.description }}</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-links">
+      <h4>روابط سريعة</h4>
+      <a (click)="scrollTop()">الصفحة الرئيسية</a>
+      <a>المنتجات</a>
+      <a>تواصل معنا</a>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-contact">
+      <h4>تواصل معنا</h4>
+      <p *ngIf="store?.user?.email"><i class="pi pi-envelope"></i> {{ store?.user?.email }}</p>
+      <p *ngIf="store?.user?.phone"><i class="pi pi-phone"></i> {{ store?.user?.phone }}</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>جميع الحقوق محفوظة © {{ year }} {{ store?.name }}</span>
+    <span class="powered-by">مدعوم بـ <strong>SuperEcommerce</strong></span>
+  </div>
+</footer>

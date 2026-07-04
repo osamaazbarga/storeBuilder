@@ -24,6 +24,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AngularPinturaModule } from '@pqina/angular-pintura';
 import { CategoriesComponent } from './components/dashboard/pages/products/categories/categories.component';
 import { CustomDomainsNewComponent } from './components/custom-domains/custom-domains-new.component';
+import { StoreDesignComponent } from './components/dashboard/pages/store-design/store-design.component';
+import { OrdersComponent } from './components/dashboard/pages/orders/orders.component';
 
 // Dashboard Shared Components
 import { SharedModule as DashboardSharedModule } from './components/dashboard/shared.module';
@@ -39,7 +41,9 @@ import { SharedModule as DashboardSharedModule } from './components/dashboard/sh
     DropDargComponent,
     DragDropDirective,
     SidebarItemComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    StoreDesignComponent,
+    OrdersComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +63,9 @@ import { SharedModule as DashboardSharedModule } from './components/dashboard/sh
     DashboardHomeComponent,
     MainComponent,
     ProductsComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    StoreDesignComponent,
+    OrdersComponent
   ]
 })
 export class PrivateModule { }

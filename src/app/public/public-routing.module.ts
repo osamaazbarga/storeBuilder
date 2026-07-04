@@ -8,12 +8,26 @@ import { ResetPasswordComponent } from './components/users/reset-password/reset-
 import { RegisterWithThirdPartyComponent } from './components/users/register-with-third-party/register-with-third-party.component';
 import { VerifyOtpComponent } from './components/users/verify-otp/verify-otp.component';
 import { PublicHomeComponent } from './components/home/public-home.component';
-import { StoreComponent } from '../private/components/store/store/store.component';
+import { StoreCheckoutComponent } from '../private/components/store/store/pages/store-checkout/store-checkout.component';
+import { StoreOrderConfirmationComponent } from '../private/components/store/store/pages/store-order-confirmation/store-order-confirmation.component';
+import { StoreProductDetailComponent } from '../private/components/store/store/pages/store-product-detail/store-product-detail.component';
 
 const routes: Routes = [
   {
     path:'',
     component:PublicHomeComponent
+  },
+  {
+    path:'checkout',
+    component:StoreCheckoutComponent
+  },
+  {
+    path:'order-confirmation/:orderNumber',
+    component:StoreOrderConfirmationComponent
+  },
+  {
+    path:'product/:id',
+    component:StoreProductDetailComponent
   },
   {
     path:'login',
@@ -26,10 +40,6 @@ const routes: Routes = [
   {
     path:'verify-otp',
     component:VerifyOtpComponent
-  },
-  {
-    path:'store-view',
-    component:StoreComponent,
   },
   {
     path:'users/confirmEmail',

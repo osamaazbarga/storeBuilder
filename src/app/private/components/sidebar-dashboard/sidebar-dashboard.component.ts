@@ -262,7 +262,7 @@ export class SidebarDashboardComponent implements OnInit, OnDestroy {
 
     // المظهر والتصميم
     { labelKey: 'MERCHANT.DESIGN_APPEARANCE', kind: "main" },
-    { labelKey: 'MERCHANT.THEME_CUSTOMIZATION', icon: 'palette', route: '/dashboard/themes' },
+    { labelKey: 'MERCHANT.THEME_CUSTOMIZATION', icon: 'palette', route: '/dashboard/store-design' },
     { labelKey: 'MERCHANT.PAGE_BUILDER', icon: 'web', route: '/dashboard/page-builder' },
     { labelKey: 'MERCHANT.MOBILE_APP', icon: 'phone_android', route: '/dashboard/mobile-app' },
 

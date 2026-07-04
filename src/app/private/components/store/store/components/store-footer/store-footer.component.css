@@ -1,0 +1,60 @@
+.store-footer {
+  background: var(--store-footer-bg, #1F2937);
+  color: #e5e7eb;
+  direction: rtl;
+  margin-top: 3rem;
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 2.5rem;
+}
+
+.footer-brand {}
+.footer-logo { height: 50px; object-fit: contain; margin-bottom: .75rem; }
+.footer-store-name { font-size: 1.3rem; font-weight: 700; color: #fff; margin: 0 0 .5rem; }
+.footer-description { font-size: .875rem; color: #9ca3af; line-height: 1.6; }
+
+.footer-links h4, .footer-contact h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 1rem;
+}
+
+.footer-links a, .footer-contact p {
+  display: block;
+  font-size: .875rem;
+  color: #9ca3af;
+  margin-bottom: .6rem;
+  cursor: pointer;
+  transition: color .15s;
+  text-decoration: none;
+}
+
+.footer-links a:hover { color: var(--store-primary, #818cf8); }
+
+.footer-contact p { display: flex; align-items: center; gap: .5rem; }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 1.25rem 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .8rem;
+  color: #6b7280;
+}
+
+.powered-by strong { color: var(--store-primary, #818cf8); }
+
+@media (max-width: 768px) {
+  .footer-container { grid-template-columns: 1fr; gap: 1.5rem; }
+  .footer-bottom { flex-direction: column; gap: .5rem; text-align: center; }
+}

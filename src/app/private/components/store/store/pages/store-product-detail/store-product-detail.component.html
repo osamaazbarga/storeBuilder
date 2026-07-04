@@ -1,0 +1,99 @@
+<div class="detail-page" dir="rtl">
+
+  <!-- Loading Skeleton -->
+  <div *ngIf="loading" class="loading-wrap">
+    <div class="skeleton skeleton-img"></div>
+    <div class="skeleton-info">
+      <div class="skeleton skeleton-title"></div>
+      <div class="skeleton skeleton-desc"></div>
+      <div class="skeleton skeleton-desc short"></div>
+      <div class="skeleton skeleton-price"></div>
+    </div>
+  </div>
+
+  <!-- Product Content -->
+  <div *ngIf="!loading && product" class="detail-container">
+
+    <!-- Breadcrumb / Back -->
+    <div class="breadcrumb">
+      <button class="back-btn" (click)="goBack()">
+        <i class="pi pi-arrow-right"></i>
+        <span>العودة للمتجر</span>
+      </button>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current">{{ product.title }}</span>
+    </div>
+
+    <div class="detail-grid">
+      <!-- Image Panel -->
+      <div class="image-panel">
+        <div class="main-image-wrap">
+          <img
+            *ngIf="product.pictureUrl"
+            [src]="product.pictureUrl"
+            [alt]="product.title"
+            class="main-image"
+          />
+          <div *ngIf="!product.pictureUrl" class="no-image">
+            <i class="pi pi-image"></i>
+          </div>
+          <span *ngIf="product.quantity === 0" class="badge-out">نفذت الكمية</span>
+        </div>
+      </div>
+
+      <!-- Info Panel -->
+      <div class="info-panel">
+        <!-- Category tag -->
+        <span *ngIf="product.storeCategory?.name" class="category-tag">
+          <i class="pi pi-tag"></i> {{ product.storeCategory.name }}
+        </span>
+
+        <h1 class="product-title">{{ product.title }}</h1>
+
+        <div class="price-row">
+          <span class="price-main">{{ product.price | number:'1.2-2' }} ر.س</span>
+        </div>
+
+        <p *ngIf="product.description" class="product-desc">{{ product.description }}</p>
+
+        <div class="divider"></div>
+
+        <!-- Stock -->
+        <div class="stock-row" *ngIf="product.quantity > 0">
+          <i class="pi pi-check-circle stock-icon"></i>
+          <span class="stock-text">متوفر في المخزن (<strong>{{ product.quantity }}</strong> قطعة)</span>
+        </div>
+        <div class="stock-row out" *ngIf="product.quantity === 0">
+          <i class="pi pi-times-circle stock-icon"></i>
+          <span class="stock-text">نفذت الكمية</span>
+        </div>
+
+        <!-- Quantity + Add to Cart -->
+        <div class="actions-row" *ngIf="product.quantity > 0">
+          <div class="qty-control">
+            <button class="qty-btn" (click)="decrementQty()" [disabled]="quantity <= 1">
+              <i class="pi pi-minus"></i>
+            </button>
+            <span class="qty-display">{{ quantity }}</span>
+            <button class="qty-btn" (click)="incrementQty()" [disabled]="quantity >= maxQty">
+              <i class="pi pi-plus"></i>
+            </button>
+          </div>
+
+          <button class="add-cart-btn" (click)="addToCart()">
+            <i class="pi pi-shopping-cart"></i>
+            أضف للسلة
+          </button>
+        </div>
+
+        <!-- Store info -->
+        <div class="store-badge" *ngIf="store">
+          <img *ngIf="store.logo" [src]="store.logo" class="store-logo-sm" [alt]="store.name" />
+          <i *ngIf="!store.logo" class="pi pi-shop store-logo-sm-icon"></i>
+          <span>{{ store.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -23,6 +23,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { AuthInterceptorProvider } from './core/auth/auth.interceptor';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 // Firebase imports
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
@@ -73,9 +75,11 @@ export function HttpLoaderFactory(http: HttpBackend) {
         deps: [HttpBackend]
       }
     }),
+    ToastModule,
   ],
   providers: [
     LanguageService,
+    MessageService,
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimationsAsync(),
     providePrimeNG({

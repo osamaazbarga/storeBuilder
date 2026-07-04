@@ -1,0 +1,246 @@
+<div class="design-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">تصميم المتجر</h1>
+      <p class="page-subtitle">خصص ألوان وتصميم متجرك الإلكتروني</p>
+    </div>
+    <div class="header-actions">
+      <!-- Store Selector -->
+      <div class="store-selector-wrap">
+        <label class="selector-label"><i class="pi pi-shop"></i> المتجر:</label>
+        <p-select
+          [options]="stores"
+          [(ngModel)]="store"
+          optionLabel="name"
+          placeholder="اختر متجراً"
+          [loading]="storesLoading"
+          (onChange)="selectStore($event.value)"
+          styleClass="store-selector-dropdown"
+        >
+          <ng-template pTemplate="item" let-s>
+            <div class="store-option">
+              <img *ngIf="s.logo" [src]="s.logo" class="store-opt-logo" />
+              <i *ngIf="!s.logo" class="pi pi-shop store-opt-icon"></i>
+              <span>{{ s.name }}</span>
+              <span class="store-opt-sub">.{{ s.subdomain }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+      </div>
+
+      <button class="btn-preview" (click)="previewStore()" [disabled]="!store">
+        <i class="pi pi-eye"></i> معاينة
+      </button>
+      <button class="btn-save" (click)="saveTheme()" [disabled]="saving || !store">
+        <p-progressSpinner *ngIf="saving" strokeWidth="5" [style]="{ width: '18px', height: '18px' }"></p-progressSpinner>
+        <i *ngIf="!saving" class="pi pi-save"></i>
+        <span>{{ saving ? 'جاري الحفظ...' : 'حفظ التغييرات' }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="design-layout" *ngIf="store">
+    <!-- ─── Left Panel: Controls ──────────────────────────────── -->
+    <div class="controls-panel">
+
+      <!-- Logo Upload Section -->
+      <div class="section-card">
+        <h3 class="section-title"><i class="pi pi-image"></i> شعار المتجر</h3>
+        <div class="logo-upload-area">
+          <div class="logo-preview-wrap">
+            <div class="logo-preview" [style.height.px]="logoSize + 16" [style.padding.px]="8">
+              <img *ngIf="currentLogoSrc" [src]="currentLogoSrc" [style.height.px]="logoSize" class="logo-preview-img" />
+              <div *ngIf="!currentLogoSrc" class="logo-placeholder">
+                <i class="pi pi-image"></i>
+                <span>لا يوجد شعار</span>
+              </div>
+            </div>
+          </div>
+          <!-- Logo Size Slider -->
+          <div class="logo-size-row">
+            <label class="size-label"><i class="pi pi-arrows-h"></i> حجم الشعار: <strong>{{ logoSize }}px</strong></label>
+            <input
+              type="range"
+              class="logo-size-slider"
+              [(ngModel)]="logoSize"
+              min="24"
+              max="120"
+              step="2"
+            />
+            <div class="size-hints"><span>صغير</span><span>كبير</span></div>
+          </div>
+          <div class="logo-actions">
+            <p-fileUpload
+              mode="basic"
+              accept="image/*"
+              [maxFileSize]="2097152"
+              chooseLabel="رفع شعار"
+              (onSelect)="onLogoSelected($event)"
+              [auto]="false"
+              styleClass="logo-upload-btn"
+            ></p-fileUpload>
+            <button *ngIf="currentLogoSrc" class="btn-remove-logo" (click)="removeLogo()">
+              <i class="pi pi-trash"></i> حذف
+            </button>
+          </div>
+          <p class="logo-hint">PNG أو JPG • الحد الأقصى 2MB • يُنصح بـ 200×200</p>
+        </div>
+      </div>
+
+      <!-- Template Selector -->
+      <div class="section-card" *ngIf="templates.length > 0">
+        <h3 class="section-title"><i class="pi pi-th-large"></i> القالب</h3>
+        <div class="templates-grid">
+          <div
+            *ngFor="let tpl of templates"
+            class="template-card"
+            [class.selected]="selectedTemplateId === tpl.id"
+            (click)="selectTemplate(tpl)"
+          >
+            <img *ngIf="tpl.previewImage" [src]="tpl.previewImage" class="tpl-preview" />
+            <div *ngIf="!tpl.previewImage" class="tpl-no-preview"><i class="pi pi-desktop"></i></div>
+            <div class="tpl-info">
+              <span class="tpl-name">{{ tpl.nameAr || tpl.name }}</span>
+              <p-tag *ngIf="tpl.isFree" value="مجاني" severity="success" styleClass="tpl-tag"></p-tag>
+              <p-tag *ngIf="!tpl.isFree" [value]="tpl.price + ' ر.س'" severity="warn" styleClass="tpl-tag"></p-tag>
+            </div>
+            <i *ngIf="selectedTemplateId === tpl.id" class="pi pi-check-circle check-mark"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colors Section -->
+      <div class="section-card">
+        <h3 class="section-title"><i class="pi pi-palette"></i> الألوان</h3>
+        <div class="colors-grid">
+          <div class="color-field" *ngFor="let color of colorFields">
+            <label class="color-label">{{ color.label }}</label>
+            <div class="color-input-row">
+              <p-colorPicker [(ngModel)]="themeForm[color.key]" (onChange)="onColorChange()" format="hex"></p-colorPicker>
+              <input pInputText [(ngModel)]="themeForm[color.key]" (change)="onColorChange()" class="color-hex-input" maxlength="7" />
+              <div class="color-swatch" [style.background]="themeForm[color.key]"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Font Section -->
+      <div class="section-card">
+        <h3 class="section-title"><i class="pi pi-font"></i> الخط</h3>
+        <p-select
+          [options]="fontOptions"
+          [(ngModel)]="themeForm['fontFamily']"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="اختر خطاً"
+          class="w-full"
+          (onChange)="onFontChange()"
+        ></p-select>
+        <p class="font-preview" [style.fontFamily]="themeForm['fontFamily']">
+          مثال: أهلاً بكم في متجرنا الإلكتروني
+        </p>
+      </div>
+
+      <!-- Hero Section -->
+      <div class="section-card">
+        <h3 class="section-title"><i class="pi pi-images"></i> البانر الرئيسي</h3>
+        <div class="hero-fields">
+          <p-floatLabel class="mb-3">
+            <input pInputText id="heroTitle" [(ngModel)]="themeForm['heroBannerTitle']" class="w-full" />
+            <label for="heroTitle">العنوان الرئيسي</label>
+          </p-floatLabel>
+          <p-floatLabel class="mb-3">
+            <input pInputText id="heroSubtitle" [(ngModel)]="themeForm['heroBannerSubtitle']" class="w-full" />
+            <label for="heroSubtitle">العنوان الفرعي</label>
+          </p-floatLabel>
+          <p-floatLabel class="mb-3">
+            <input pInputText id="heroCta" [(ngModel)]="themeForm['heroBannerCta']" class="w-full" />
+            <label for="heroCta">نص الزر</label>
+          </p-floatLabel>
+          <div class="hero-image-upload">
+            <label class="field-label">صورة البانر</label>
+            <p-fileUpload
+              mode="basic"
+              accept="image/*"
+              [maxFileSize]="5242880"
+              chooseLabel="رفع صورة البانر"
+              (onSelect)="onHeroImageSelected($event)"
+              [auto]="false"
+            ></p-fileUpload>
+            <div *ngIf="themeForm['heroBannerImage']" class="hero-img-preview-wrap">
+              <img [src]="themeForm['heroBannerImage']" class="hero-img-preview" />
+              <button class="btn-remove-hero" (click)="themeForm['heroBannerImage'] = ''">
+                <i class="pi pi-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── Right Panel: Live Preview ───────────────────────────── -->
+    <div class="preview-panel">
+      <div class="preview-header">
+        <span>معاينة مباشرة — <strong>{{ store?.name }}</strong></span>
+        <div class="preview-devices">
+          <button [class.active]="previewDevice === 'desktop'" (click)="previewDevice = 'desktop'">
+            <i class="pi pi-desktop"></i>
+          </button>
+          <button [class.active]="previewDevice === 'mobile'" (click)="previewDevice = 'mobile'">
+            <i class="pi pi-mobile"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="preview-frame-wrap" [class.mobile]="previewDevice === 'mobile'">
+        <div class="preview-mock" [style.fontFamily]="themeForm['fontFamily']">
+          <!-- Mock Header -->
+          <div class="mock-header" [style.background]="themeForm['headerBg']">
+            <div class="mock-logo" [style.color]="themeForm['primaryColor']">
+              <img *ngIf="currentLogoSrc" [src]="currentLogoSrc" [style.height.px]="logoSize * 0.5" class="mock-logo-img" />
+              <span *ngIf="!currentLogoSrc">{{ store?.name | slice:0:12 }}</span>
+            </div>
+            <div class="mock-nav">
+              <span *ngFor="let n of [1,2,3]" class="mock-nav-item" [style.background]="themeForm['primaryColor'] + '33'" [style.color]="themeForm['primaryColor']">●</span>
+            </div>
+            <div class="mock-search-bar"></div>
+          </div>
+
+          <!-- Mock Hero -->
+          <div class="mock-hero" [style.backgroundImage]="heroImageStyle">
+            <div class="mock-hero-overlay"></div>
+            <div class="mock-hero-text">
+              <div class="mock-hero-title" [style.color]="'#fff'">{{ themeForm['heroBannerTitle'] | slice:0:22 }}</div>
+              <div class="mock-cta" [style.background]="themeForm['primaryColor']">{{ themeForm['heroBannerCta'] | slice:0:12 }}</div>
+            </div>
+          </div>
+
+          <!-- Mock Products -->
+          <div class="mock-products" [style.background]="themeForm['backgroundColor']">
+            <div *ngFor="let p of [1,2,3,4]" class="mock-product-card">
+              <div class="mock-product-img"></div>
+              <div class="mock-product-info">
+                <div class="mock-product-title" [style.background]="themeForm['textColor'] + '55'"></div>
+                <div class="mock-product-price" [style.background]="themeForm['primaryColor']"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mock Footer -->
+          <div class="mock-footer" [style.background]="themeForm['footerBg']"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!storesLoading && stores.length === 0" class="empty-stores">
+    <i class="pi pi-shop" style="font-size: 3rem; color: #9ca3af;"></i>
+    <p>لا يوجد متاجر بعد. قم بإنشاء متجر أولاً.</p>
+  </div>
+</div>
+
+<p-toast position="top-center"></p-toast>
+

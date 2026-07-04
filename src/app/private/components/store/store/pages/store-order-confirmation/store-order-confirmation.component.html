@@ -1,0 +1,67 @@
+<div class="confirmation-page">
+  <div *ngIf="loading" class="loading-state">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
+  <div *ngIf="!loading && order" class="confirmation-card">
+    <!-- Success Icon -->
+    <div class="success-icon">
+      <i class="pi pi-check-circle"></i>
+    </div>
+
+    <h1 class="success-title">تم استلام طلبك بنجاح!</h1>
+    <p class="success-subtitle">سيتم التواصل معك قريباً لتأكيد الطلب</p>
+
+    <!-- Order Number -->
+    <div class="order-number-badge">
+      <span>رقم الطلب</span>
+      <strong>{{ order.orderNumber }}</strong>
+    </div>
+
+    <!-- Order Details -->
+    <div class="order-details">
+      <div class="detail-row">
+        <span class="detail-label">الاسم</span>
+        <span>{{ order.customerName }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">البريد الإلكتروني</span>
+        <span>{{ order.customerEmail }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">طريقة الدفع</span>
+        <span>{{ order.paymentMethod || 'غير محدد' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">الإجمالي</span>
+        <strong class="total-price">{{ order.total | number:'1.2-2' }} ر.س</strong>
+      </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="order-items">
+      <h3>المنتجات المطلوبة</h3>
+      <div *ngFor="let item of order.items" class="item-row">
+        <img *ngIf="item.image" [src]="item.image" class="item-img" />
+        <div class="item-info">
+          <p class="item-title">{{ item.title }}</p>
+          <p class="item-qty">{{ item.quantity }} × {{ item.unitPrice | number:'1.2-2' }} ر.س</p>
+        </div>
+        <span class="item-total">{{ item.totalPrice | number:'1.2-2' }} ر.س</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="confirmation-actions">
+      <button class="continue-btn" (click)="continueShopping()">
+        <i class="pi pi-shopping-cart"></i>
+        مواصلة التسوق
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !order" class="not-found">
+    <i class="pi pi-exclamation-triangle"></i>
+    <p>لم يتم العثور على الطلب</p>
+  </div>
+</div>

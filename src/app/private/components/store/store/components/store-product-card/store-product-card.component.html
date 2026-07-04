@@ -1,0 +1,34 @@
+<div class="product-card" (click)="viewProduct()">
+  <!-- Product Image -->
+  <div class="card-image-wrap">
+    <img
+      *ngIf="product.pictureUrl"
+      [src]="product.pictureUrl"
+      [alt]="product.title"
+      class="card-image"
+      loading="lazy"
+    />
+    <div *ngIf="!product.pictureUrl" class="card-image-placeholder">
+      <i class="pi pi-image"></i>
+    </div>
+    <!-- Stock badge -->
+    <span *ngIf="product.quantity === 0" class="badge-out">نفذت الكمية</span>
+  </div>
+
+  <!-- Card Body -->
+  <div class="card-body">
+    <h3 class="card-title">{{ product.title }}</h3>
+    <p *ngIf="product.description" class="card-desc">{{ product.description | slice:0:60 }}{{ product.description?.length > 60 ? '...' : '' }}</p>
+    <div class="card-footer">
+      <span class="card-price">{{ product.price | number:'1.2-2' }} ر.س</span>
+      <button
+        class="add-to-cart-btn"
+        [disabled]="product.quantity === 0"
+        (click)="addToCart($event)"
+      >
+        <i class="pi pi-shopping-cart"></i>
+        <span class="btn-text">أضف للسلة</span>
+      </button>
+    </div>
+  </div>
+</div>

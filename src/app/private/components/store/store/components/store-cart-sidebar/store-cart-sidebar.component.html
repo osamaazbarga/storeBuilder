@@ -1,0 +1,59 @@
+<p-drawer
+  [(visible)]="visible"
+  position="right"
+  styleClass="store-cart-drawer"
+  [style]="{ width: '380px', maxWidth: '95vw' }"
+  (onHide)="onClose()"
+>
+  <ng-template pTemplate="header">
+    <div class="drawer-header">
+      <h3>سلة التسوق</h3>
+      <p-badge *ngIf="items.length > 0" [value]="totalCount.toString()" severity="danger"></p-badge>
+    </div>
+  </ng-template>
+
+  <!-- Empty Cart -->
+  <div *ngIf="items.length === 0" class="cart-empty">
+    <i class="pi pi-shopping-cart empty-icon"></i>
+    <p>السلة فارغة</p>
+    <button class="continue-btn" (click)="closeCart()">تصفح المنتجات</button>
+  </div>
+
+  <!-- Cart Items -->
+  <div *ngIf="items.length > 0" class="cart-content">
+    <div class="cart-items-list">
+      <div *ngFor="let item of items" class="cart-item">
+        <img *ngIf="item.image" [src]="item.image" [alt]="item.title" class="item-img" />
+        <div *ngIf="!item.image" class="item-img-placeholder"><i class="pi pi-image"></i></div>
+
+        <div class="item-details">
+          <p class="item-title">{{ item.title }}</p>
+          <p class="item-price">{{ item.price | number:'1.2-2' }} ر.س</p>
+        </div>
+
+        <div class="item-qty-controls">
+          <button (click)="decrement(item)"><i class="pi pi-minus"></i></button>
+          <span>{{ item.quantity }}</span>
+          <button (click)="increment(item)"><i class="pi pi-plus"></i></button>
+        </div>
+
+        <button class="remove-btn" (click)="removeItem(item)">
+          <i class="pi pi-trash"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Cart Footer -->
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>المجموع</span>
+        <span class="total-amount">{{ total | number:'1.2-2' }} ر.س</span>
+      </div>
+      <button class="checkout-btn" (click)="goToCheckout()">
+        <i class="pi pi-credit-card"></i>
+        <span>إتمام الشراء</span>
+      </button>
+      <button class="continue-shopping-btn" (click)="closeCart()">مواصلة التسوق</button>
+    </div>
+  </div>
+</p-drawer>

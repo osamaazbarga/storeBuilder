@@ -1,20 +1,21 @@
-<ng-container *ngIf="!isStoreView; else dynamicView">
+<ng-container *ngIf="!isLoading">
 
-        <div class="" style="min-height: 500px;">
-            <router-outlet></router-outlet>
+  <ng-container *ngIf="!isStoreView">
+    <div style="min-height: 500px;">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-container>
 
-        </div>
-
-</ng-container>
-
-<ng-template #dynamicView>
-    <ng-container *ngIf="isStoreView">
+  <ng-container *ngIf="isStoreView">
+    <!-- Store sub-routes: checkout, order confirmation, product detail -->
+    <ng-container *ngIf="currentUrlPath.includes('/checkout') || currentUrlPath.includes('/order-confirmation') || currentUrlPath.startsWith('/product/')">
+      <router-outlet></router-outlet>
+    </ng-container>
+    <!-- Store main page -->
+    <ng-container *ngIf="!currentUrlPath.includes('/checkout') && !currentUrlPath.includes('/order-confirmation') && !currentUrlPath.startsWith('/product/')">
       <app-store></app-store>
     </ng-container>
+  </ng-container>
 
-    <!-- <ng-template #loginPage>
-        <router-outlet></router-outlet>
-      </ng-template> -->
-    </ng-template>
-
+</ng-container>
 

@@ -1,0 +1,143 @@
+<div class="orders-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">إدارة الطلبات</h1>
+      <p class="page-subtitle">تتبع وإدارة طلبات متجرك</p>
+    </div>
+    <!-- Stats Row -->
+    <div class="orders-stats" *ngIf="stats">
+      <div class="stat-badge">
+        <i class="pi pi-shopping-bag"></i>
+        <span>{{ stats.totalOrders }} طلب</span>
+      </div>
+      <div class="stat-badge pending">
+        <i class="pi pi-clock"></i>
+        <span>{{ stats.pendingOrders }} معلق</span>
+      </div>
+      <div class="stat-badge revenue">
+        <i class="pi pi-dollar"></i>
+        <span>{{ stats.totalRevenue | number:'1.0-0' }} ر.س إيرادات</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-row">
+    <p-select
+      [options]="statusOptions"
+      [(ngModel)]="selectedStatus"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="كل الحالات"
+      (onChange)="loadOrders()"
+      [showClear]="true"
+    ></p-select>
+
+    <button class="btn-refresh" (click)="loadOrders()">
+      <i class="pi pi-refresh"></i>
+    </button>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="table-card">
+    <p-table
+      [value]="orders"
+      [loading]="loading"
+      [paginator]="true"
+      [rows]="20"
+      [totalRecords]="totalOrders"
+      [lazy]="true"
+      (onLazyLoad)="onLazyLoad($event)"
+      dataKey="id"
+      [expandedRowKeys]="expandedRows"
+      styleClass="orders-table"
+      [rowHover]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem"></th>
+          <th>رقم الطلب</th>
+          <th>العميل</th>
+          <th>التاريخ</th>
+          <th>الإجمالي</th>
+          <th>الحالة</th>
+          <th>الدفع</th>
+          <th>إجراءات</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-order let-expanded="expanded">
+        <tr>
+          <td>
+            <button class="expand-btn" (click)="toggleExpand(order)">
+              <i class="pi" [class.pi-chevron-down]="expanded" [class.pi-chevron-left]="!expanded"></i>
+            </button>
+          </td>
+          <td class="order-number">{{ order.orderNumber }}</td>
+          <td>
+            <div class="customer-cell">
+              <span class="customer-name">{{ order.customerName }}</span>
+              <span class="customer-email">{{ order.customerEmail }}</span>
+            </div>
+          </td>
+          <td class="date-cell">{{ order.createdAt | date:'dd/MM/yyyy' }}</td>
+          <td class="price-cell">{{ order.total | number:'1.2-2' }} ر.س</td>
+          <td>
+            <p-tag [value]="getStatusLabel(order.status)" [severity]="getStatusSeverity(order.status)"></p-tag>
+          </td>
+          <td>
+            <p-tag [value]="getPaymentLabel(order.paymentStatus)" [severity]="getPaymentSeverity(order.paymentStatus)"></p-tag>
+          </td>
+          <td>
+            <div class="actions-cell">
+              <p-select
+                [options]="statusOptions"
+                [ngModel]="order.status"
+                optionLabel="label"
+                optionValue="value"
+                (onChange)="updateStatus(order, $event.value)"
+                placeholder="تغيير الحالة"
+                styleClass="status-dropdown"
+              ></p-select>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <!-- Expanded Row: Order Items -->
+      <ng-template pTemplate="rowexpansion" let-order>
+        <tr>
+          <td colspan="8">
+            <div class="order-items-expanded">
+              <h4>المنتجات المطلوبة</h4>
+              <div class="items-grid">
+                <div *ngFor="let item of order.items" class="item-card">
+                  <img *ngIf="item.image" [src]="item.image" class="item-img" />
+                  <div class="item-info">
+                    <span class="item-title">{{ item.title }}</span>
+                    <span class="item-details">{{ item.quantity }} × {{ item.unitPrice | number:'1.2-2' }} ر.س</span>
+                  </div>
+                  <span class="item-total">{{ item.totalPrice | number:'1.2-2' }} ر.س</span>
+                </div>
+              </div>
+              <div class="order-meta">
+                <span *ngIf="order.customerPhone"><i class="pi pi-phone"></i> {{ order.customerPhone }}</span>
+                <span *ngIf="order.notes"><i class="pi pi-comment"></i> {{ order.notes }}</span>
+                <span *ngIf="order.shippingAddress?.city"><i class="pi pi-map-marker"></i> {{ order.shippingAddress?.city }}, {{ order.shippingAddress?.country }}</span>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" class="empty-msg">لا توجد طلبات</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-toast position="top-center"></p-toast>

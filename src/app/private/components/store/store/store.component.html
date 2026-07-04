@@ -1,2 +1,44 @@
-<p>store works!</p>
-osama
+<div class="store-wrapper" *ngIf="store; else loadingTpl">
+  <!-- Header -->
+  <app-store-header
+    [store]="store"
+    [categories]="categories"
+    [selectedCategory]="selectedCategory"
+    (categorySelected)="onCategorySelected($event)"
+    (searchChanged)="onSearchChanged($event)"
+    (cartToggled)="cartVisible = true"
+  ></app-store-header>
+
+  <!-- Hero Banner -->
+  <app-store-hero [theme]="theme"></app-store-hero>
+
+  <!-- Products Grid -->
+  <app-store-products-grid
+    [products]="products"
+    [selectedCategory]="selectedCategory"
+    [searchQuery]="searchQuery"
+    [storeId]="store.id"
+    [loading]="productsLoading"
+    (cartUpdated)="onCartUpdated()"
+  ></app-store-products-grid>
+
+  <!-- Footer -->
+  <app-store-footer [store]="store"></app-store-footer>
+
+  <!-- Cart Sidebar -->
+  <app-store-cart-sidebar
+    [storeId]="store.id"
+    [storeLink]="store.link"
+    [(visible)]="cartVisible"
+  ></app-store-cart-sidebar>
+</div>
+
+<!-- Loading State -->
+<ng-template #loadingTpl>
+  <div class="store-loading">
+    <p-progressSpinner strokeWidth="4" [style]="{ width: '56px', height: '56px' }"></p-progressSpinner>
+    <p>جاري تحميل المتجر...</p>
+  </div>
+</ng-template>
+
+<p-toast position="top-center"></p-toast>

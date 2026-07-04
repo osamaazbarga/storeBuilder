@@ -1,0 +1,144 @@
+<div class="checkout-page" *ngIf="store">
+  <!-- Back Link -->
+  <div class="checkout-back">
+    <button (click)="goBack()"><i class="pi pi-arrow-right"></i> العودة للمتجر</button>
+  </div>
+
+  <div class="checkout-layout">
+    <!-- ─── Left: Form ────────────────────────────────────────── -->
+    <div class="checkout-form-section">
+      <h2 class="checkout-title">إتمام الطلب</h2>
+
+      <form [formGroup]="checkoutForm" (ngSubmit)="placeOrder()">
+        <!-- Customer Info -->
+        <div class="form-section">
+          <h3 class="form-section-title"><i class="pi pi-user"></i> بيانات العميل</h3>
+          <div class="form-grid">
+            <p-floatLabel class="form-field">
+              <input pInputText id="customerName" formControlName="customerName" class="w-full" />
+              <label for="customerName">الاسم الكامل *</label>
+            </p-floatLabel>
+            <p-floatLabel class="form-field">
+              <input pInputText id="customerEmail" formControlName="customerEmail" class="w-full" />
+              <label for="customerEmail">البريد الإلكتروني *</label>
+            </p-floatLabel>
+            <p-floatLabel class="form-field">
+              <input pInputText id="customerPhone" formControlName="customerPhone" class="w-full" />
+              <label for="customerPhone">رقم الهاتف</label>
+            </p-floatLabel>
+          </div>
+        </div>
+
+        <!-- Shipping Address -->
+        <div class="form-section">
+          <h3 class="form-section-title"><i class="pi pi-map-marker"></i> عنوان الشحن</h3>
+          <div class="form-grid" formGroupName="shippingAddress">
+            <p-floatLabel class="form-field form-field--full">
+              <input pInputText id="street" formControlName="street" class="w-full" />
+              <label for="street">الشارع *</label>
+            </p-floatLabel>
+            <p-floatLabel class="form-field">
+              <input pInputText id="city" formControlName="city" class="w-full" />
+              <label for="city">المدينة *</label>
+            </p-floatLabel>
+            <p-floatLabel class="form-field">
+              <input pInputText id="district" formControlName="district" class="w-full" />
+              <label for="district">الحي</label>
+            </p-floatLabel>
+            <p-floatLabel class="form-field">
+              <input pInputText id="postalCode" formControlName="postalCode" class="w-full" />
+              <label for="postalCode">الرمز البريدي</label>
+            </p-floatLabel>
+            <p-floatLabel class="form-field">
+              <input pInputText id="country" formControlName="country" class="w-full" />
+              <label for="country">الدولة *</label>
+            </p-floatLabel>
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="form-section" *ngIf="paymentMethods.length > 0">
+          <h3 class="form-section-title"><i class="pi pi-credit-card"></i> طريقة الدفع</h3>
+          <div class="payment-methods">
+            <div
+              *ngFor="let method of paymentMethods"
+              class="payment-option"
+              [class.selected]="checkoutForm.get('paymentMethod')?.value === method.paymentMethod?.name"
+              (click)="selectPayment(method.paymentMethod?.name)"
+            >
+              <img *ngIf="method.paymentMethod?.icon" [src]="method.paymentMethod.icon" class="payment-icon" />
+              <i *ngIf="!method.paymentMethod?.icon" class="pi pi-wallet payment-icon-fallback"></i>
+              <span>{{ method.paymentMethod?.nameAr || method.paymentMethod?.name }}</span>
+              <i class="pi pi-check check-icon" *ngIf="checkoutForm.get('paymentMethod')?.value === method.paymentMethod?.name"></i>
+            </div>
+
+            <!-- Mock card payment for dev -->
+            <div
+              class="payment-option"
+              [class.selected]="checkoutForm.get('paymentMethod')?.value === 'mock_card'"
+              (click)="selectPayment('mock_card')"
+            >
+              <i class="pi pi-credit-card payment-icon-fallback"></i>
+              <span>بطاقة ائتمانية (تجريبي)</span>
+              <i class="pi pi-check check-icon" *ngIf="checkoutForm.get('paymentMethod')?.value === 'mock_card'"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="form-section">
+          <p-floatLabel>
+            <textarea pInputTextarea id="notes" formControlName="notes" [rows]="3" class="w-full"></textarea>
+            <label for="notes">ملاحظات إضافية (اختياري)</label>
+          </p-floatLabel>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="place-order-btn"
+          [disabled]="checkoutForm.invalid || submitting || cartItems.length === 0"
+        >
+          <p-progressSpinner *ngIf="submitting" strokeWidth="5" [style]="{ width: '22px', height: '22px' }"></p-progressSpinner>
+          <span *ngIf="!submitting">تأكيد الطلب</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- ─── Right: Order Summary ───────────────────────────────── -->
+    <div class="order-summary">
+      <h3 class="summary-title">ملخص الطلب</h3>
+
+      <div class="summary-items">
+        <div *ngFor="let item of cartItems" class="summary-item">
+          <img *ngIf="item.image" [src]="item.image" class="summary-item-img" />
+          <div class="summary-item-info">
+            <p class="summary-item-title">{{ item.title }}</p>
+            <p class="summary-item-qty">الكمية: {{ item.quantity }}</p>
+          </div>
+          <span class="summary-item-price">{{ (item.price * item.quantity) | number:'1.2-2' }} ر.س</span>
+        </div>
+      </div>
+
+      <div class="summary-divider"></div>
+
+      <div class="summary-row">
+        <span>المجموع الفرعي</span>
+        <span>{{ cartTotal | number:'1.2-2' }} ر.س</span>
+      </div>
+      <div class="summary-row">
+        <span>الشحن</span>
+        <span class="free-shipping">مجاني</span>
+      </div>
+
+      <div class="summary-divider"></div>
+
+      <div class="summary-row summary-total">
+        <span>الإجمالي</span>
+        <span>{{ cartTotal | number:'1.2-2' }} ر.س</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-toast position="top-center"></p-toast>
